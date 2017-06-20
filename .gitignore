@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+*.class
+
+=======
 # Compiled class file
 *.class
 
@@ -7,6 +11,7 @@
 # BlueJ files
 *.ctxt
 
+>>>>>>> 113e3a7c33bd9e233d15b358ac14022b2fa07148
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -14,9 +19,52 @@
 *.jar
 *.war
 *.ear
+<<<<<<< HEAD
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+/node_modules
+/dist
+/.tmp
+/.sass-cache
+/src/main/webapp/bower_components
+/target
+/.settings
+/.project
+/.classpath
+
+app.log
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+nbdist/
+.nb-gradle/
+=======
 *.zip
 *.tar.gz
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+>>>>>>> 113e3a7c33bd9e233d15b358ac14022b2fa07148

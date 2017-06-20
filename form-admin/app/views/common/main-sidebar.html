@@ -1,0 +1,37 @@
+<nav role="navigation">
+    <div class="sidebar">
+    	 <div class="user-panel">
+        <div class="pull-left image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>Alexander Pierce</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+
+      <ul class="sidebar-menu" data-widget="tree">
+          <li ng-repeat="menu in menus" ui-sref-active="active" >
+              <a ui-sref="{{menu.url}}"><i ng-class="menu.icon"></i> <span class="nav-label">{{menu.title}}</span> </a>
+          </li>
+          <li class="treeview" ng-class="{active: $state.includes('stock-report2')}">
+              <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">报表</span> <span class="fa fa-angle-left pull-right"></span></a>
+              <ul class="treeview-menu" ng-class="{in: $state.includes('stock-report2')}">
+                  <li ui-sref-active="active"><a ui-sref="stock-report.gold"><i class="fa fa-circle-o"></i>黄金股详情</a></li>
+                  <li ui-sref-active="active"><a ui-sref="stock-report.weak.list"><i class="fa fa-circle-o"></i>弱势股详情</a></li>
+              </ul>
+          </li>
+      </ul>
+
+    </div>
+</nav>

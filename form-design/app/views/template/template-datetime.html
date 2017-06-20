@@ -1,0 +1,18 @@
+<div class="nav-view form-group">{{component.title}}</div>
+<div class="view form-group" ng-class="{'fb-hidden': component.properties.visible=='hidden'}">
+	<label for="{{component.properties.overrideId}}" class="control-label" ng-class="{'required':component.properties.required}">{{component.properties.label}}</label>
+	<div>
+		<input type="hidden" fb-dynamic-model="component.properties.overrideId" fb-dynamic-model-pre="data" validator-required="{{component.properties.required}}" validator>
+		
+		<div class="input-group" ng-style="component.properties.style">
+			<input type="text" class="form-control" id="{{component.properties.overrideId}}"
+				fb-datetime="component.properties.dateOptions" ng-model="component.value"
+				ng-disabled="component.properties.visible=='disabled'" placeholder="{{component.properties.placeholder}}">
+			</input> 
+			<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+		</div>
+		<p class="help-block">{{component.properties.description}}</p>
+	</div>
+
+
+</div>

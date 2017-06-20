@@ -1,0 +1,38 @@
+spring:
+    datasource:
+        url : jdbc:log4jdbc:mysql://localhost:3306/form?useUnicode=true&characterEncoding=UTF-8
+        username : root
+        password : root
+        driverClassName : net.sf.log4jdbc.DriverSpy
+    jpa:
+        show-sql : true
+        hibernate:  
+            ddl-auto : update
+        properties:
+            hibernate:
+                dialect : org.hibernate.dialect.MySQL5InnoDBDialect
+    jackson:
+        time-zone : GMT+8
+        date-format : yyyy-MM-dd HH:mm:ss
+
+server:
+    port : 8081
+    
+notconten : jkhjkh   
+     
+swagger:
+    properties:
+        title : 表单模块相关后台接口
+        description : 表单相关的全部接口都显示并且调用
+        license : MIT
+        licenseUrl : MIT
+        version : 1.0
+    contact:
+        name : wengwh
+        url : 
+        email : 415554484@qq.com
+    error:
+        404 : 没有找到相对应对象
+        500 : 内部错误查看相关描述
+    
+           
