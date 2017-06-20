@@ -1,0 +1,22 @@
+spring:
+    datasource:
+        url : jdbc:mysql://localhost:3306/flowable?useUnicode=true&characterEncoding=UTF-8
+        username : root
+        password : root
+        driver-class-name : com.mysql.jdbc.Driver
+    jpa:
+        database : MYSQL
+        show-sql : true
+        hibernate:  
+            ddl-auto : update
+        properties:
+            hibernate:
+                dialect : org.hibernate.dialect.MySQL5InnoDBDialect
+    jackson:
+        time-zone : GMT+8
+        date-format : yyyy-MM-dd HH:mm:ss
+
+server:
+    port : 8082
+    
+           
