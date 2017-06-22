@@ -1,4 +1,4 @@
-package com.plumdo.flow.rest.model;
+package com.plumdo.flow.rest.definition;
 
 public class ProcessDefinitionResponse {
 

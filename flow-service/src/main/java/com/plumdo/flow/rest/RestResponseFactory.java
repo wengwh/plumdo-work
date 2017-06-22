@@ -8,7 +8,6 @@ import org.flowable.engine.repository.ProcessDefinition;
 import org.springframework.stereotype.Component;
 
 import com.plumdo.flow.rest.model.ModelResponse;
-import com.plumdo.flow.rest.model.ProcessDefinitionResponse;
 
 
 /**

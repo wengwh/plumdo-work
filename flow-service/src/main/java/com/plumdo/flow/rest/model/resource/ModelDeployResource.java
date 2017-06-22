@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.flow.cmd.DeployModelCmd;
-import com.plumdo.flow.rest.model.ProcessDefinitionResponse;
+import com.plumdo.flow.rest.definition.ProcessDefinitionResponse;
 
 
 @RestController
