@@ -27,6 +27,6 @@ public class TaskHelpResource extends BaseTaskResource {
 			taskService.setAssignee(taskId, Authentication.getAuthenticatedUserId());
 		}
     	taskService.delegateTask(task.getId(), helper);
-	    taskExtService.setStartTime(task.getId());
+//	    taskExtService.setStartTime(task.getId());
 	}
 }

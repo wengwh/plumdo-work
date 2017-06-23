@@ -34,47 +34,4 @@ public class FlowApplication {
 		SpringApplication.run(FlowApplication.class, args);
 	}
 
-	// 初始化模拟数据,把定义转换为模型提供修改
-	@Bean
-	public CommandLineRunner init() {
-		return new CommandLineRunner() {
-			public void run(String... strings) throws Exception {
-				if(repositoryService.createModelQuery().modelKey("OA").count()>0){
-					return;
-				}
-				ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionKey("OA").singleResult();
-				if(processDefinition==null){
-					return;
-				}
-				
-				try {
-					InputStream bpmnStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), processDefinition.getResourceName());
-					XMLInputFactory xif = XMLInputFactory.newInstance();
-					InputStreamReader in = new InputStreamReader(bpmnStream, "UTF-8");
-					XMLStreamReader xtr = xif.createXMLStreamReader(in);
-					BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
-
-					BpmnJsonConverter converter = new BpmnJsonConverter();
-					ObjectNode modelNode = converter.convertToJson(bpmnModel);
-					Model modelData = repositoryService.newModel();
-					modelData.setKey(processDefinition.getKey());
-					modelData.setName(processDefinition.getName());
-					modelData.setCategory(processDefinition.getCategory());
-
-					ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
-					modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME,processDefinition.getName());
-					modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, 1);
-					modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION,processDefinition.getDescription());
-					modelData.setMetaInfo(modelObjectNode.toString());
-
-					repositoryService.saveModel(modelData);
-
-					repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
-					repositoryService.addModelEditorSourceExtra(modelData.getId(),IOUtils.toByteArray(repositoryService.getProcessDiagram(processDefinition.getId())));
-				} catch (Exception e) {
-					throw new FlowableException("Error converting process-definition to model", e);
-				}
-			}
-		};
-	}
 }

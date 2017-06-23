@@ -60,13 +60,13 @@ public class BaseTaskResource {
 	}
 	
 	protected void checkTaskAuthorize(TaskInfo task,boolean isFinished){
-		if(!BasicAuthenticationProvider.Admin.equals(Authentication.getAuthenticatedUserId())){
+		/*if(!BasicAuthenticationProvider.Admin.equals(Authentication.getAuthenticatedUserId())){
 			if(task.getAssignee()!=null){
 				if(!task.getAssignee().equals(Authentication.getAuthenticatedUserId())){
 					throw new FlowableConflictException("task id " + task.getId() + " the assignee "+task.getAssignee()+" is not you.");
 				}
 			}else{
-				/*if(!isFinished){
+				if(!isFinished){
 					boolean candidateIsNull = true;
 					List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(task.getId());
 					for(IdentityLink identityLink : identityLinks){
@@ -80,8 +80,8 @@ public class BaseTaskResource {
 							throw new FlowableConflictException("task id " + task.getId() + " the candidate user is not include you.");
 						}
 					}
-				}*/
+				}
 			}
-		}
+		}*/
 	}
 }

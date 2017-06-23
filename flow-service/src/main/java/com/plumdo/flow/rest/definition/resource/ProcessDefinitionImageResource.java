@@ -2,8 +2,8 @@ package com.plumdo.flow.rest.definition.resource;
 
 import java.io.InputStream;
 
-import org.flowable.engine.FlowableException;
-import org.flowable.engine.FlowableIllegalArgumentException;
+import org.flowable.engine.common.api.FlowableException;
+import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;

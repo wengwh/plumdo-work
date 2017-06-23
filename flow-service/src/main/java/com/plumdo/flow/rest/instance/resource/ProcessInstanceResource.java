@@ -13,6 +13,7 @@ import org.flowable.engine.impl.HistoricProcessInstanceQueryProperty;
 import org.flowable.engine.impl.identity.Authentication;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.engine.runtime.ProcessInstanceQuery;
 import org.flowable.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plumdo.flow.exception.FlowableForbiddenException;
 import com.plumdo.flow.rest.DataResponse;
 import com.plumdo.flow.rest.RequestUtil;
-import com.plumdo.flow.rest.instance.HistoricProcessInstancePaginateList;
+import com.plumdo.flow.rest.instance.ProcessInstancePaginateList;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartRequest;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartResponse;
 import com.plumdo.flow.rest.task.TaskActor;
+import com.plumdo.flow.rest.variable.RestVariable;
 
 
 @RestController
@@ -56,7 +58,7 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 
 	@RequestMapping(value = "/process-instance", method = RequestMethod.GET, produces = "application/json", name = "流程实例查询")
 	public DataResponse getProcessInstances(@RequestParam Map<String, String> allRequestParams) {
-		HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery();
+		ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
 
 		if (allRequestParams.containsKey("processInstanceId")) {
 			query.processInstanceId(allRequestParams.get("processInstanceId"));
@@ -78,29 +80,12 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 			query.involvedUser(allRequestParams.get("involvedUser"));
 		}
 
-		if (allRequestParams.get("finished") != null) {
-			boolean isFinished = Boolean.valueOf(allRequestParams.get("finished"));
-			if (isFinished) {
-				query.finished();
-			} else {
-				query.unfinished();
-			}
-		}
-
 		if (allRequestParams.get("superProcessInstanceId") != null) {
 			query.superProcessInstanceId(allRequestParams.get("superProcessInstanceId"));
 		}
 
 		if (allRequestParams.get("excludeSubprocesses") != null) {
 			query.excludeSubprocesses(Boolean.valueOf(allRequestParams.get("excludeSubprocesses")));
-		}
-
-		if (allRequestParams.get("finishedAfter") != null) {
-			query.finishedAfter(RequestUtil.getDate(allRequestParams, "finishedAfter"));
-		}
-
-		if (allRequestParams.get("finishedBefore") != null) {
-			query.finishedBefore(RequestUtil.getDate(allRequestParams, "finishedBefore"));
 		}
 
 		if (allRequestParams.get("startedAfter") != null) {
@@ -129,7 +114,7 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 			if (Boolean.valueOf(allRequestParams.get("withoutTenantId")))
 				query.processInstanceWithoutTenantId();
 		}
-		return new HistoricProcessInstancePaginateList(restResponseFactory).paginateList(allRequestParams, query, "id", allowedSortProperties);
+		return new ProcessInstancePaginateList(restResponseFactory).paginateList(allRequestParams, query, "id", allowedSortProperties);
 	}
 
 	@RequestMapping(value = "/process-instance", method = RequestMethod.POST, produces = "application/json", name = "流程实例创建")
@@ -184,7 +169,7 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 				if (StringUtils.isEmpty(task.getAssignee())) {
 					taskService.setAssignee(task.getId(), Authentication.getAuthenticatedUserId());
 				}
-				taskExtService.saveTaskAssigneeVar(task.getId());
+//				taskExtService.saveTaskAssigneeVar(task.getId());
 				taskService.complete(task.getId());
 			}
 		}

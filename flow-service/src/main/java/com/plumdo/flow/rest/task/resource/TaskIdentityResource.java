@@ -2,8 +2,8 @@ package com.plumdo.flow.rest.task.resource;
 
 import java.util.List;
 
-import org.flowable.engine.FlowableIllegalArgumentException;
-import org.flowable.engine.FlowableObjectNotFoundException;
+import org.flowable.engine.common.api.FlowableIllegalArgumentException;
+import org.flowable.engine.common.api.FlowableObjectNotFoundException;
 import org.flowable.engine.task.IdentityLink;
 import org.flowable.engine.task.IdentityLinkType;
 import org.flowable.engine.task.Task;

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.impl.identity.Authentication;
 import org.flowable.engine.task.DelegationState;
 import org.flowable.engine.task.Task;
@@ -24,6 +25,7 @@ import com.plumdo.flow.rest.task.TaskActor;
 import com.plumdo.flow.rest.task.TaskCompleteRequest;
 import com.plumdo.flow.rest.task.TaskCompleteResponse;
 import com.plumdo.flow.rest.task.TaskDueDate;
+import com.plumdo.flow.rest.variable.RestVariable;
 
 
 @RestController
@@ -42,7 +44,7 @@ public class TaskCompleteResource extends BaseTaskResource {
 			taskService.setAssignee(taskId, Authentication.getAuthenticatedUserId());
 		}
 		//设置任务的完成人变量
-		taskExtService.saveTaskAssigneeVar(taskId);
+//		taskExtService.saveTaskAssigneeVar(taskId);
 		
    		Map<String, Object> completeVariables = new HashMap<String, Object>();
    		
@@ -67,7 +69,7 @@ public class TaskCompleteResource extends BaseTaskResource {
    		//判断是否是协办完成还是正常流转
    		if(task.getDelegationState() != null && task.getDelegationState().equals(DelegationState.PENDING)){
    			//协办的情况，把运行的任务表开始时间改成当前时间
-   			taskExtService.setStartTime(taskId);
+//   			taskExtService.setStartTime(taskId);
    			if(completeVariables.isEmpty()){
    				taskService.resolveTask(taskId);
    			}else{
@@ -81,7 +83,7 @@ public class TaskCompleteResource extends BaseTaskResource {
  			}
  		}
    		
-   	 	List<Task> nextTasks = taskExtService.getNextTasks(taskId);
+   	 /*	List<Task> nextTasks = taskExtService.getNextTasks(taskId);
 
    	 	for(Task nextTask : nextTasks){
    	   	 	//设置任务超时时间
@@ -95,7 +97,7 @@ public class TaskCompleteResource extends BaseTaskResource {
    	 		//设置了新的属性要重新获取
    	 		TaskExt taskExt = taskExtService.getTaskExtById(nextTask.getId());
    	 		responses.add(restResponseFactory.createTaskCompleteResponse(taskExt,taskService.getIdentityLinksForTask(taskExt.getId())));
-   	 	}
+   	 	}*/
    	 	
 		return responses;
 	}

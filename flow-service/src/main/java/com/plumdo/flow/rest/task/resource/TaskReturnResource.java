@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plumdo.flow.rest.task.TaskActionRequest;
 import com.plumdo.flow.rest.task.TaskResponse;
 
-import cn.starnet.flowable.engine.db.entity.TaskExt;
 
 
 @RestController
@@ -36,11 +35,11 @@ public class TaskReturnResource extends BaseTaskResource {
 			taskService.setAssignee(taskId, Authentication.getAuthenticatedUserId());
 		}
 	    
-	    List<Task> tasks = taskExtService.returnTask(task.getId());
+	   /* List<Task> tasks = taskExtService.returnTask(task.getId());
 	    for(Task nextTask : tasks){
 	    	TaskExt taskExt = taskExtService.getTaskExtById(nextTask.getId());
 	 		responses.add(restResponseFactory.createTaskResponse(taskExt));
-	    }
+	    }*/
 	    return responses;
 	}
 }

@@ -29,7 +29,7 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.flowable/flowable-rest -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.flowable</groupId>
 			<artifactId>flowable-rest</artifactId>
 			<version>${flowable.version}</version>
@@ -40,7 +40,7 @@
 			<artifactId>flowable-ui-task-conf</artifactId>
 			<version>${flowable.version}</version>
 		</dependency>
-
+ -->
 	</dependencies>
 
 	<build>

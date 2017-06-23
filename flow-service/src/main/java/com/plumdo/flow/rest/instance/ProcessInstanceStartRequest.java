@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.plumdo.flow.rest.task.TaskActor;
+import com.plumdo.flow.rest.variable.RestVariable;
 
 
 public class ProcessInstanceStartRequest extends ProcessInstanceActionRequest{
