@@ -1,7 +1,7 @@
 # form-modeler
 # 表单模型模块，包括：表单设计，表单查看，表单使用
 
-## Installation
+## 安装
 
 ```bash
 npm install 
