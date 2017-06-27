@@ -105,6 +105,7 @@ gulp.task('start:server:test', function() {
 });
 
 gulp.task('watch', function () {
+	
   $.watch(paths.styles)
     .pipe($.plumber())
     .pipe(styles())
@@ -114,22 +115,6 @@ gulp.task('watch', function () {
     .pipe($.plumber())
     .pipe($.connect.reload());
 
-  $.watch('plumdo-form/form-design/app/views/**/*.html')
-    .pipe($.plumber())
-    .pipe($.connect.reload());
-
-  $.watch('form-design/app/views/**/*.html')
-  .pipe($.plumber())
-  .pipe($.connect.reload());
-  
-  $.watch('./app/views/**/*.html')
-  .pipe($.plumber())
-  .pipe($.connect.reload());
-  
-  $.watch('./views/**/*.html')
-  .pipe($.plumber())
-  .pipe($.connect.reload());
-  
   $.watch(paths.scripts)
     .pipe($.plumber())
     .pipe(lintScripts())
@@ -138,7 +123,7 @@ gulp.task('watch', function () {
   $.watch(paths.test)
     .pipe($.plumber())
     .pipe(lintScripts());
-
+  
   gulp.watch('bower.json', ['bower']);
 });
 

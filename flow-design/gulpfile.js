@@ -22,6 +22,8 @@ var paths = {
     yeoman.app +'/bower_components/font-awesome/fonts/*',
     yeoman.app +'/bower_components/bootstrap/fonts/*'
   ],
+  i18n: [yeoman.app + '/i18n/**/*'],
+  stencilsets: [yeoman.app + '/stencilsets/**/*'],
   test: ['test/spec/**/*.js'],
   testRequire: [
     yeoman.app + '/bower_components/angular/angular.js',
@@ -75,7 +77,7 @@ gulp.task('clean:tmp', function (cb) {
 });
 
 gulp.task('start:client', ['start:server', 'styles'], function () {
-  openURL('http://localhost:9002');
+  openURL('http://localhost:9004');
 });
 
 gulp.task('start:server', function() {
@@ -83,10 +85,10 @@ gulp.task('start:server', function() {
     root: [yeoman.app, '.tmp'],
     livereload: {
     	enable:true,
-    	port:35727
+    	port:35729
   	},
     // Change this to '0.0.0.0' to access the server from outside.
-    port: 9002,
+    port: 9004,
     middleware: function (connect) {
       return [connect().use('/bower_components',connect.static('./bower_components'))];
     }
@@ -106,38 +108,22 @@ gulp.task('start:server:test', function() {
 
 gulp.task('watch', function () {
   $.watch(paths.styles)
-    .pipe($.plumber())
-    .pipe(styles())
-    .pipe($.connect.reload());
+	  .pipe($.plumber())
+	  .pipe(styles())
+	  .pipe($.connect.reload());
 
-  $.watch(paths.views.files)
-    .pipe($.plumber())
-    .pipe($.connect.reload());
-
-  $.watch('plumdo-form/form-design/app/views/**/*.html')
-    .pipe($.plumber())
-    .pipe($.connect.reload());
-
-  $.watch('form-design/app/views/**/*.html')
-  .pipe($.plumber())
-  .pipe($.connect.reload());
-  
-  $.watch('./app/views/**/*.html')
-  .pipe($.plumber())
-  .pipe($.connect.reload());
-  
-  $.watch('./views/**/*.html')
-  .pipe($.plumber())
-  .pipe($.connect.reload());
-  
-  $.watch(paths.scripts)
-    .pipe($.plumber())
-    .pipe(lintScripts())
-    .pipe($.connect.reload());
-
-  $.watch(paths.test)
-    .pipe($.plumber())
-    .pipe(lintScripts());
+	$.watch(paths.views.files)
+	  .pipe($.plumber())
+	  .pipe($.connect.reload());
+	
+	$.watch(paths.scripts)
+	  .pipe($.plumber())
+	  .pipe(lintScripts())
+	  .pipe($.connect.reload());
+	
+	$.watch(paths.test)
+	  .pipe($.plumber())
+	  .pipe(lintScripts());
 
   gulp.watch('bower.json', ['bower']);
 });
@@ -152,9 +138,9 @@ gulp.task('serve', function (cb) {
 
 gulp.task('serve:prod', function() {
   $.connect.server({
-    root: ['.'],
+    root: [yeoman.dist],
     livereload: true,
-    port: 9002
+    port: 9004
   });
 });
 
@@ -228,8 +214,18 @@ gulp.task('copy:fonts', function () {
     .pipe(gulp.dest(yeoman.dist + '/fonts'));
 });
 
+gulp.task('copy:i18n', function () {
+  return gulp.src(paths.i18n)
+    .pipe(gulp.dest(yeoman.dist + '/i18n'));
+});
+
+gulp.task('copy:stencilsets', function () {
+  return gulp.src(paths.stencilsets)
+    .pipe(gulp.dest(yeoman.dist + '/stencilsets'));
+});
+
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['bower','images', 'copy:extras', 'copy:fonts', 'client:build']);
+  runSequence(['bower','images', 'copy:extras', 'copy:fonts', 'copy:i18n', 'copy:stencilsets', 'client:build']);
 });
 
 gulp.task('default', ['build']);

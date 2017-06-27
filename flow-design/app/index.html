@@ -1,42 +1,32 @@
 <!doctype html>
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js"> <!--<![endif]-->
+<html class="no-js">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Flowable Modeler</title>
     <link rel="icon" type="image/ico" href="favicon.ico">
     <meta name="description" content="">
-    <meta name="viewport"
-          content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, width=device-width">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=Om5N75Y123">
-    <link rel="icon" type="image/png" href="images/favicon-32x32.png?v=Om5N75Y123" sizes="32x32">
-    <link rel="icon" type="image/png" href="images/favicon-16x16.png?v=Om5N75Y123" sizes="16x16">
-    <link rel="manifest" href="manifest.json">
-    <link rel="mask-icon" href="images/safari-pinned-tab.svg?v=Om5N75Y123" color="#506d75">
-    <link rel="shortcut icon" href="favicon.ico?v=Om5N75Y123">
-    <link rel="Stylesheet" href="libs/ui-grid_3.0.0/ui-grid.css" type="text/css"/>
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(app) styles/vendor.css -->
+	<!-- bower:css -->
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+	<link rel="stylesheet" href="bower_components/bootstrap-tour/build/css/bootstrap-tour.css" />
+	<link rel="stylesheet" href="bower_components/angular-gridster/dist/angular-gridster.min.css" />
+	<link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
+	<link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+	<link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
+	<link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
+	<!-- endbower -->
 
-    <!-- build:css styles/3thparty.css -->
-    <link rel="stylesheet" href="libs/bootstrap_3.1.1/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="libs/bootstrap-tour_0.9.1/bootstrap-tour.min.css"/>
-    <link rel="stylesheet" href="libs/angular-spectrum-colorpicker_1.0.13/spectrum.css"/>
+    <!-- build:css({.tmp,app}) styles/editor/editor.css -->
+    <link rel="stylesheet" media="screen" href="editor/css/editor.css" type="text/css"/>
     <!-- endbuild -->
-
-    <link rel="Stylesheet" media="screen" href="editor-app/editor/css/editor.css?v=2" type="text/css"/>
-    <link rel="stylesheet" href="editor-app/css/style.css?v=2" type="text/css"/>
-
-    <!-- build:css styles/style.css -->
-    <link href="styles/common/style.css" rel="stylesheet">
-    <link href="styles/common/style-retina.css" rel="stylesheet">
+    
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/style.css" type="text/css"/>
+    <link rel="stylesheet" href="styles/style-common.css" >
     <link rel="stylesheet" href="styles/style-editor.css">
     <!-- endbuild -->
 
@@ -113,149 +103,106 @@
         </div>
     </div>
 
-    <div id="main" class="wrapper full clearfix" ng-view="" ng-cloak ng-style="{height: window.height + 'px'}">
+    <div id="main" class="wrapper full clearfix" ng-include="'views/editor.html'"  ng-cloak ng-style="{height: window.height + 'px'}">
     </div>
 
-<!--[if lt IE 9]>
-<script src="libs/es5-shim-15.3.4.5/es5-shim.js"></script>
-<script src="libs/json3_3.2.6/lib/json3.min.js"></script>
-<![endif]-->
 
-<script src="libs/jquery_1.11.0/jquery.min.js"></script>
-<script src="libs/jquery-ui-1.10.3.custom.min.js"></script>
+	<!-- build:js(app) scripts/vendor.js -->
+	<!-- bower:js -->
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="bower_components/bootstrap-tour/build/js/bootstrap-tour.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
+	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+	<script src="bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
+	<script src="bower_components/javascript-detect-element-resize/detect-element-resize.js"></script>
+	<script src="bower_components/angular-gridster/src/angular-gridster.js"></script>
+	<script src="bower_components/d3/d3.js"></script>
+	<script src="bower_components/nvd3/nv.d3.js"></script>
+	<script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+	<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+	<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+	<script src="bower_components/angular-resource/angular-resource.js"></script>
+	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="bower_components/angular-scroll/angular-scroll.min.js"></script>
+	<script src="bower_components/angular-strap/dist/angular-strap.js"></script>
+	<script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
+	<script src="bower_components/angular-translate/angular-translate.js"></script>
+	<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+	<script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+	<script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+	<script src="bower_components/momentjs/moment.js"></script>
+	<script src="bower_components/mousetrap/mousetrap.js"></script>
+	<script src="bower_components/sizzle/dist/sizzle.js"></script>
+	<script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+	<script src="bower_components/prototype.js/dist/prototype.js"></script>
+	<script src="bower_components/prototype.js/dist/prototype.min.js"></script>
+	<script src="bower_components/autogrow-textarea/jquery.autogrowtextarea.js"></script>
+	<!-- endbower -->
+	<!-- endbuild -->
+	
 
-<script src="libs/angular_1.3.13/angular.min.js"></script>
-<script src="libs/angular-animate_1.3.13/angular-animate.min.js"></script>
-<script src="libs/bootstrap_3.1.1/js/bootstrap.min.js"></script>
-<script src="libs/angular-resource_1.3.13/angular-resource.min.js"></script>
-<script src="libs/angular-cookies_1.3.13/angular-cookies.min.js"></script>
-<script src="libs/angular-sanitize_1.3.13/angular-sanitize.min.js"></script>
-<script src="libs/angular-route_1.3.13/angular-route.min.js"></script>
-<script src="libs/angular-translate_2.15.1/angular-translate.min.js"></script>
-<script src="libs/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-<script src="libs/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-<script src="libs/angular-strap_2.1.6/angular-strap.min.js"></script>
-<script src="libs/angular-strap_2.1.6/angular-strap.tpl.min.js"></script>
-<script src="libs/momentjs_2.5.1/momentjs.min.js"></script>
-<script src="libs/bootstrap-tour_0.9.1/bootstrap-tour.min.js"></script>
-<script src="libs/ng-file-upload/ng-file-upload-shim.min.js"></script>
-<script src="libs/ng-file-upload/ng-file-upload.min.js"></script>
 
-<script src="editor-app/libs/ui-utils.min-0.2.1.js" type="text/javascript"></script>
-<script src="libs/ui-grid_3.0.0/ui-grid.js" type="text/javascript"></script>
-<script src="libs/angular-dragdrop_1.0.11/angular-dragdrop.min.js" type="text/javascript"></script>
-<script src="editor-app/libs/mousetrap/1.6.0/mousetrap.min.js" type="text/javascript"></script>
-<script src="editor-app/libs/jquery.autogrow-textarea.js" type="text/javascript"></script>
+	<!-- build:js(app) scripts/editor/editor.js -->
+	<script src="editor/path_parser.js" type="text/javascript"></script>
+	<script src="editor/i18n/translation_en_us.js" type="text/javascript"></script>
+	<script src="editor/i18n/translation_signavio_en_us.js" type="text/javascript"></script>
+	<script src="editor/oryx.debug.js" type="text/javascript"></script>
+	<!-- endbuild -->
+	
+	<!-- build:js(app) scripts/scripts.js -->
+	<script src="scripts/app.js"></script>
+	<script src="scripts/constants/app-cfg.js"></script>
+	<script src="scripts/constants/editor-config.js" type="text/javascript"></script>
+	<script src="scripts/constants/url-config.js" type="text/javascript"></script>
+	<script src="scripts/constants/toolbar.js" type="text/javascript"></script>
+	<script src="scripts/constants/properties.js" type="text/javascript"></script>
+	<script src="scripts/constants/eventbus.js" type="text/javascript"></script>
+	<script src="scripts/constants/tour.js" type="text/javascript"></script>
+	<script src="scripts/constants/editor-utils.js" type="text/javascript"></script>
+	
+	<script src="scripts/factorys/identity-services.js"></script>
+	<script src="scripts/factorys/editormanager.js" type="text/javascript"></script>
+	
+	
+	<script src="scripts/controllers/editor-controller.js" type="text/javascript"></script>
+	<script src="scripts/controllers/stencil-controller.js" type="text/javascript"></script>
+	<script src="scripts/controllers/toolbar-controller.js" type="text/javascript"></script>
+	<script src="scripts/controllers/header-controller.js" type="text/javascript"></script>
+	<script src="scripts/controllers/select-shape-controller.js" type="text/javascript"></script>
+	<script src="scripts/controllers/define-data-controller.js" type="text/javascript"></script>
+	<script src="scripts/controllers/process-navigator-controller.js" type="text/javascript"></script>
+	<script src="scripts/controllers/toolbar-default-actions.js" type="text/javascript"></script>
+	
+	<script src="scripts/properties/properties-default-controllers.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-execution-listeners-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-event-listeners-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-assignment-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-fields-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-form-properties-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-in-parameters-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-multiinstance-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-ordering-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-out-parameters-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-task-listeners-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-collapsed-subprocess-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-form-reference-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-sequenceflow-order-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-condition-expression-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-signal-definitions-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-signal-scope-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-message-definitions-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-message-scope-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-duedate-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-decisiontable-reference-controller.js" type="text/javascript"></script>
+	<script src="scripts/properties/properties-custom-controllers.js" type="text/javascript"></script>
+	<script src="scripts/properties/flowable-header-custom.js" type="text/javascript"></script>
+	<script src="scripts/properties/flowable-toolbar-custom-actions.js" type="text/javascript"></script>
+	<!-- endbuild -->
 
-<script src="editor-app/libs/prototype-1.7.3.js" type="text/javascript"></script>
-<script src="editor-app/libs/path_parser.js" type="text/javascript"></script>
-
-<script src="libs/angular-spectrum-colorpicker_1.0.13/spectrum.js" type="text/javascript"></script>
-<script src="libs/angular-spectrum-colorpicker_1.0.13/angular-spectrum-colorpicker.min.js" type="text/javascript"></script>
-<script src="libs/angular-scroll_0.5.7/angular-scroll.min.js" type="text/javascript"></script>
-<script src="libs/angular-drag-and-drop-lists_1.2.0/angular-drag-and-drop-lists.js" type="text/javascript"></script>
-<script src="libs/html2canvas_0.4.1/html2canvas.js"></script>
-
-<!-- Configuration -->
-<script src="scripts/app-cfg.js?v=2"></script>
-
-<!-- build:js scripts/scripts.js -->
-<script src="editor-app/editor/i18n/translation_en_us.js" type="text/javascript"></script>
-<script src="editor-app/editor/i18n/translation_signavio_en_us.js" type="text/javascript"></script>
-<script src="editor-app/editor/oryx.js" type="text/javascript"></script>
-
-<script src="scripts/app.js"></script>
-<script src="scripts/editor-directives.js"></script>
-<script src="scripts/controllers/processes.js"></script>
-<script src="scripts/controllers/process.js"></script>
-<script src="scripts/controllers/forms.js"></script>
-<script src="scripts/controllers/form.js"></script>
-<script src="scripts/controllers/decision-tables.js"></script>
-<script src="scripts/controllers/decision-table.js"></script>
-<script src="scripts/controllers/app-definitions.js"></script>
-<script src="scripts/controllers/app-definition.js"></script>
-<script src="scripts/controllers/model-common-actions.js"></script>
-
-<script src="scripts/services/util-services.js"></script>
-<script src="scripts/services/identity-services.js"></script>
-
-<script src="scripts/services/form-services.js"></script>
-<script src="scripts/controllers/form-builder.js"></script>
-<script src="scripts/configuration/form-builder-toolbar-default-actions.js" type="text/javascript"></script>
-<script src="scripts/configuration/form-builder-toolbar.js" type="text/javascript"></script>
-<script src="scripts/controllers/form-toolbar-controller.js" type="text/javascript"></script>
-<script src="scripts/controllers/form-readonly-view.js"></script>
-
-<script src="scripts/services/decision-table-service.js"></script>
-<script src="scripts/controllers/decision-table-editor.js"></script>
-<script src="scripts/configuration/decision-table-toolbar-default-actions.js" type="text/javascript"></script>
-<script src="scripts/configuration/decision-table-toolbar.js" type="text/javascript"></script>
-<script src="scripts/controllers/decision-table-toolbar-controller.js" type="text/javascript"></script>
-
-<script src="scripts/controllers/app-definition-builder.js"></script>
-<script src="scripts/configuration/app-definition-toolbar-default-actions.js" type="text/javascript"></script>
-<script src="scripts/configuration/app-definition-toolbar.js" type="text/javascript"></script>
-<script src="scripts/controllers/app-definition-toolbar-controller.js" type="text/javascript"></script>
-
-<script src="editor-app/eventbus.js" type="text/javascript"></script>
-
-<script src="editor-app/editor-controller.js" type="text/javascript"></script>
-<script src="editor-app/stencil-controller.js" type="text/javascript"></script>
-<script src="editor-app/toolbar-controller.js" type="text/javascript"></script>
-<script src="editor-app/header-controller.js" type="text/javascript"></script>
-<script src="editor-app/select-shape-controller.js" type="text/javascript"></script>
-<script src="editor-app/define-data-controller.js" type="text/javascript"></script>
-<script src="editor-app/process-navigator-controller.js" type="text/javascript"></script>
-<script src="editor-app/editormanager.js" type="text/javascript"></script>
-
-<script src="editor-app/tour.js" type="text/javascript"></script>
-<script src="editor-app/editor-utils.js" type="text/javascript"></script>
-<script src="editor-app/configuration/toolbar-default-actions.js" type="text/javascript"></script>
-
-<script src="editor-app/configuration/properties-default-controllers.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-execution-listeners-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-event-listeners-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-assignment-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-fields-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-form-properties-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-in-parameters-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-multiinstance-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-ordering-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-out-parameters-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-task-listeners-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-collapsed-subprocess-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-form-reference-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-sequenceflow-order-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-condition-expression-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-signal-definitions-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-signal-scope-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-message-definitions-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-message-scope-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-duedate-controller.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-decisiontable-reference-controller.js" type="text/javascript"></script>
-
-<script src="editor-app/editor-config.js" type="text/javascript"></script>
-
-<script src="editor-app/configuration/url-config.js" type="text/javascript"></script>
-
-<script src="editor-app/configuration/toolbar.js" type="text/javascript"></script>
-<script src="editor-app/configuration/toolbar-custom-actions.js" type="text/javascript"></script>
-
-<script src="editor-app/configuration/properties.js" type="text/javascript"></script>
-<script src="editor-app/configuration/properties-custom-controllers.js" type="text/javascript"></script>
-
-<script src="editor-app/configuration/flowable-header-custom.js" type="text/javascript"></script>
-<script src="editor-app/configuration/flowable-toolbar-custom-actions.js" type="text/javascript"></script>
-
-<script src="scripts/common/directives.js"></script>
-<script src="scripts/common/providers-config.js"></script>
-<script src="scripts/common/services/resource-service.js"></script>
-<script src="scripts/common/services/recursion-helper.js"></script>
-<script src="scripts/common/controllers/about.js"></script>
-<!-- endbuild -->
-
-<!-- Integration extensions -->
-<script src="scripts/resource-loader.js?v=2" app="editor"></script>
 
 </body>
 </html>

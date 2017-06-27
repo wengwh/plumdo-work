@@ -12,6 +12,25 @@
  */
 'use strict';
 
+var _internalCreateModal = function(modalConfig, $modal, $scope) {
+
+  if ($scope !== null && $scope !== undefined) {
+      $scope.modal = $modal(modalConfig);
+
+      $scope.$on('$routeChangeStart', function () {
+          if ($scope.modal) {
+              $scope.modal.hide();
+          }
+      });
+
+      return $scope.modal;
+  } else {
+      return $modal(modalConfig);
+  }
+
+};
+
+
 var flowableModeler = angular.module('flowableModeler', [
   'ngCookies',
   'ngResource',
@@ -19,7 +38,6 @@ var flowableModeler = angular.module('flowableModeler', [
   'ngRoute',
   'ngDragDrop',
   'mgcrea.ngStrap',
-  'mgcrea.ngStrap.helpers.dimensions', // Needed for tooltips
   'ui.grid',
   'ui.grid.edit',
   'ui.grid.selection',
@@ -28,11 +46,9 @@ var flowableModeler = angular.module('flowableModeler', [
   'ui.grid.cellNav',
   'ngAnimate',
   'pascalprecht.translate',
-  'ngFileUpload',
-  'angularSpectrumColorpicker',
-  'duScroll',
-  'dndLists'
+  'duScroll'
 ]);
+
 
 var flowableModule = flowableModeler;
 var flowableApp = flowableModeler;
@@ -100,7 +116,7 @@ flowableModeler
             controller: 'AppDefinitionCtrl'
         })
         .when('/editor/:modelId', {
-            templateUrl: appResourceRoot + 'editor-app/editor.html',
+            templateUrl: 'editor.html',
             controller: 'EditorController'
         })
         .when('/form-editor/:modelId', {
