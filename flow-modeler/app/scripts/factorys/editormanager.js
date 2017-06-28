@@ -128,7 +128,7 @@ angular.module("flowableModeler").factory("editorManager", ["$http", function ($
             //build a tree of all subprocesses and there children.
             var result = new Hash();
             var parent = this.getModel();
-            result.set("name", parent.properties["name"] || "No name provided");
+            result.set("name", parent.properties["name"] || "没有填写名称");
             result.set("id", this.modelId);
             result.set("type", "root");
             result.set("current", this.current === this.modelId)
@@ -145,7 +145,7 @@ angular.module("flowableModeler").factory("editorManager", ["$http", function ($
                 //we are currently only interested in the expanded subprocess and collapsed processes
                 if (stencilId && this.treeFilteredElements.indexOf(stencilId) > -1) {
                     var child = new Hash();
-                    child.set("name", childShape.properties.name || "No name provided");
+                    child.set("name", childShape.properties.name || "没有填写名称");
                     child.set("id", childShape.resourceId);
                     child.set("type", stencilId);
                     child.set("current", childShape.resourceId === this.current);

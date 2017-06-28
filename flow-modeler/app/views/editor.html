@@ -1,4 +1,3 @@
-<div ng-controller="EditorController">
 <div ng-controller="StencilController" ng-cloak="">
   <div class="subheader editor-toolbar" id="editor-header">
   	<div class="btn-group">
@@ -58,11 +57,11 @@
 		      </div>
 		      <div id="process-treeview-wrapper" ng-controller="ProcessNavigatorController">
                     <div class="process-treeview-header">
-                        Process Navigator
+                        	流程导航
                     </div>
                     <div class="process-treeview-body" ng-show="isEditorReady">
                         <div class="process-treeview-process-title" title="{{treeview.id}}" ng-class="{'current-process': treeview.current}" >
-                            Process: {{treeview.name}}
+                           	 流程: {{treeview.name}}
                             <img ng-show="!treeview.current" ng-src="images/pencil.png" class="pull-right" ng-click="edit(treeview.id)" />
                         </div>
                         <ul class="process-treeview-list" ng-if="treeview.children">
@@ -70,7 +69,7 @@
                             </li>
                         </ul>
                         <div ng-if="!treeview.children || treeview.children.length == 0" style="padding-left: 5px;">
-                            No structural elements used.
+                            	没有使用子流程元素
                         </div>
                     </div>
               </div>
@@ -166,5 +165,4 @@
             </div>
         </div>
     </div>
-</div>
 </div>

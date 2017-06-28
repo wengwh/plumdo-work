@@ -1278,3 +1278,24 @@ ul.list>li:hover .actions {
 	background-color: #f3f6f8;
 }
 
+
+.btn-group.span {
+    width: 100%;
+}
+.btn-group.span .selection {
+    width: 100%;
+    text-align: left;
+}
+.field-type {
+    color: #888888;
+    font-size: 12px;
+}
+
+.form-field-edit .subtitle {
+    font-size: 14px;
+    padding-top: 6px;
+}
+
+.form-field-edit .dropdown-menu {
+    //position: relative;
+}

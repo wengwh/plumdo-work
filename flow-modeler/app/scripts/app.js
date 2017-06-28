@@ -66,98 +66,31 @@ flowableModeler
       caretHtml: '&nbsp;<i class="icon icon-caret-down"></i>'
   	});
 
-    $routeProvider
-        .when('/processes', {
-            templateUrl: appResourceRoot + 'views/processes.html',
-            controller: 'ProcessesCtrl'
-        })
-        .when('/processes/:modelId', {
-            templateUrl: appResourceRoot + 'views/process.html',
-            controller: 'ProcessCtrl'
-        })
-        .when('/processes/:modelId/history/:modelHistoryId', {
-            templateUrl: appResourceRoot + 'views/process.html',
-            controller: 'ProcessCtrl'
-        })
-        .when('/forms', {
-            templateUrl: appResourceRoot + 'views/forms.html',
-            controller: 'FormsCtrl'
-        })
-        .when('/forms/:modelId', {
-            templateUrl: appResourceRoot + 'views/form.html',
-            controller: 'FormCtrl'
-        })
-        .when('/forms/:modelId/history/:modelHistoryId', {
-            templateUrl: appResourceRoot + 'views/form.html',
-            controller: 'FormCtrl'
-        })
-        .when('/decision-tables', {
-            templateUrl: appResourceRoot + 'views/decision-tables.html',
-            controller: 'DecisionTablesController'
-        })
-        .when('/decision-tables/:modelId', {
-            templateUrl: appResourceRoot + 'views/decision-table.html',
-            controller: 'DecisionTableDetailsCtrl'
-        })
-        .when('/decision-tables/:modelId/history/:modelHistoryId', {
-            templateUrl: appResourceRoot + 'views/decision-table.html',
-            controller: 'DecisionTableDetailsCtrl'
-        })
-        .when('/apps', {
-            templateUrl: appResourceRoot + 'views/app-definitions.html',
-            controller: 'AppDefinitionsCtrl'
-        })
-        .when('/apps/:modelId', {
-            templateUrl: appResourceRoot + 'views/app-definition.html',
-            controller: 'AppDefinitionCtrl'
-        })
-        .when('/apps/:modelId/history/:modelHistoryId', {
-            templateUrl: 'views/app-definition.html',
-            controller: 'AppDefinitionCtrl'
-        })
-        .when('/editor/:modelId', {
-            templateUrl: 'editor.html',
+    $routeProvider.when('/editor/:modelId', {
+            templateUrl: 'views/editor.html',
             controller: 'EditorController'
-        })
-        .when('/form-editor/:modelId', {
-            templateUrl: appResourceRoot + 'views/form-builder.html',
-            controller: 'FormBuilderController'
-        })
-        .when('/decision-table-editor/:modelId', {
-            templateUrl: appResourceRoot + 'views/decision-table-editor.html',
-            controller: 'DecisionTableEditorController'
-        })
-        .when('/app-editor/:modelId', {
-            templateUrl: appResourceRoot + 'views/app-definition-builder.html',
-            controller: 'AppDefinitionBuilderController'
-        });
+    })
             
-        if (FLOWABLE.CONFIG.appDefaultRoute) {
-            $routeProvider.when('/', {
-                redirectTo: FLOWABLE.CONFIG.appDefaultRoute
-            });
+    $routeProvider.when('/', {
+        redirectTo: '/editor/:modelId'
+    });
             
-        } else {
-            $routeProvider.when('/', {
-                redirectTo: '/processes'
-            })
-        }
 
-        // Initialize angular-translate
-        $translateProvider.useStaticFilesLoader({
-          prefix: './i18n/',
-          suffix: '.json'
-        })
-        /*
-        This can be used to map multiple browser language keys to a
-        angular translate language key.
-        */
-        // .registerAvailableLanguageKeys(['en'], {
-        //     'en-*': 'en'
-        // })
-        .useSanitizeValueStrategy('sanitizeParameters')
-        .uniformLanguageTag('bcp47')
-        .determinePreferredLanguage();
+      // Initialize angular-translate
+      $translateProvider.useStaticFilesLoader({
+        prefix: './i18n/',
+        suffix: '.json'
+      })
+      /*
+      This can be used to map multiple browser language keys to a
+      angular translate language key.
+      */
+      // .registerAvailableLanguageKeys(['en'], {
+      //     'en-*': 'en'
+      // })
+      .useSanitizeValueStrategy('sanitizeParameters')
+      .uniformLanguageTag('bcp47')
+      .determinePreferredLanguage();
 
   }])
   .run(['$rootScope', '$timeout', '$modal', '$translate', '$location', '$http', '$window', 'appResourceRoot',
@@ -194,33 +127,8 @@ flowableModeler
 
             updateWindowSize();
 
-            // Main navigation
-            $rootScope.mainNavigation = [
-                {
-                    'id': 'processes',
-                    'title': 'GENERAL.NAVIGATION.PROCESSES',
-                    'path': '/processes'
-                },
-                {
-                    'id': 'forms',
-                    'title': 'GENERAL.NAVIGATION.FORMS',
-                    'path': '/forms'
-                },
-                {
-                    'id': 'decision-tables',
-                    'title': 'GENERAL.NAVIGATION.DECISION-TABLES',
-                    'path': '/decision-tables'
-                },
-                {
-                    'id': 'apps',
-                    'title': 'GENERAL.NAVIGATION.APPS',
-                    'path': '/apps'
-                }
-            ];
 
             $rootScope.config = FLOWABLE.CONFIG;
-
-            $rootScope.mainPage = $rootScope.mainNavigation[0];
 
             /*
              * History of process and form pages accessed by the editor.
@@ -228,27 +136,6 @@ flowableModeler
              */
             $rootScope.editorHistory = [];
 
-            /*
-             * Set the current main page, using the page object. If the page is already active,
-             * this is a no-op.
-             */
-            $rootScope.setMainPage = function(mainPage) {
-                $rootScope.mainPage = mainPage;
-                $location.path($rootScope.mainPage.path);
-            };
-
-            /*
-             * Set the current main page, using the page ID. If the page is already active,
-             * this is a no-op.
-             */
-            $rootScope.setMainPageById = function(mainPageId) {
-                for (var i=0; i<$rootScope.mainNavigation.length; i++) {
-                    if (mainPageId == $rootScope.mainNavigation[i].id) {
-                        $rootScope.mainPage = $rootScope.mainNavigation[i];
-                        break;
-                    }
-                }
-            };
 
             /**
              * A 'safer' apply that avoids concurrent updates (which $apply allows).
@@ -315,24 +202,6 @@ flowableModeler
                 }
             };
             
-            $http.get(FLOWABLE.CONFIG.contextRoot + '/app/rest/account')
-	        	.success(function (data, status, headers, config) {
-	              	$rootScope.account = data;
-	               	$rootScope.invalidCredentials = false;
-	 				$rootScope.authenticated = true;
-	          	});
-	          	
-	        $rootScope.logout = function () {
-                $rootScope.authenticated = false;
-                $rootScope.authenticationError = false;
-                $http.get(FLOWABLE.CONFIG.contextRoot + '/app/logout')
-                    .success(function (data, status, headers, config) {
-                        $rootScope.login = null;
-                        $rootScope.authenticated = false;
-                        $window.location.href = '/';
-                        $window.location.reload();
-                    });
-            }  	
         }
   ])
   .run(['$rootScope', '$location', '$translate', '$window', '$modal',

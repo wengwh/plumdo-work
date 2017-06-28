@@ -1,9 +1,9 @@
 spring:
     datasource:
-        url : jdbc:log4jdbc:mysql://localhost:3306/form?useUnicode=true&characterEncoding=UTF-8
+        url : jdbc:mysql://localhost:3306/form?useUnicode=true&characterEncoding=UTF-8
         username : root
         password : root
-        driverClassName : net.sf.log4jdbc.DriverSpy
+        driver-class-name : com.mysql.jdbc.Driver
     jpa:
         show-sql : true
         hibernate:  

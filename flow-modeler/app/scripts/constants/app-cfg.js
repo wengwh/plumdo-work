@@ -19,6 +19,6 @@ var FLOWABLE = FLOWABLE || {};
 
 FLOWABLE.CONFIG = {
 	'onPremise' : true,
-	'contextRoot' : '/flowable-modeler',
-	'webContextRoot' : '/flowable-modeler'
+	'contextRoot' : 'http://127.0.0.1:8082',
+	'webContextRoot' : './'
 };

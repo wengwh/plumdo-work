@@ -28,7 +28,7 @@
     "sizzle": "1.10.16",
     "angular-ui-grid": "3.0.1",
     "prototype.js": "1.7.1",
-    "autogrow-textarea": "jquery.autogrowtextarea#*"
+    "jquery-grab-bag": "jaz303/jquery-grab-bag"
   },
   "devDependencies": {},
   "appPath": "app",

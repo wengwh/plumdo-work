@@ -14,27 +14,17 @@ var FLOWABLE = FLOWABLE || {};
 
 FLOWABLE.URL = {
 
-  /*  getModel: function(modelId) {
-        return FLOWABLE.CONFIG.contextRoot + '/app/rest/models/' + modelId + '/editor/json?version=' + Date.now();
-    },
+	getModel : function(modelId) {
+		return FLOWABLE.CONFIG.contextRoot + '/models/' + modelId + '/editor?version=' + Date.now();
+	},
+	getStencilSet : function() {
+		return FLOWABLE.CONFIG.webContextRoot + '/stencilsets/stencilset.json?version=' + Date.now();
+	},
+	putModel : function(modelId) {
+		return FLOWABLE.CONFIG.contextRoot + '/models/' + modelId + '/editor';
+	},
 
-    getStencilSet: function() {
-        return FLOWABLE.CONFIG.contextRoot + '/app/rest/stencil-sets/editor?version=' + Date.now();
-    },*/
-		
-		 getModel: function(modelId) {
-	    	return './data.json?version=' + Date.now();
-//	        return FLOWABLE.CONFIG.contextRoot + '/model/2505/json?version=' + Date.now();
-	    },
-
-	    getStencilSet: function() {
-	      	return './stencilsets/stencilset.json?version=' + Date.now();
-	    },
-    putModel: function(modelId) {
-        return FLOWABLE.CONFIG.contextRoot + '/app/rest/models/' + modelId + '/editor/json';
-    },
-    
-    validateModel: function(){
-		return FLOWABLE.CONFIG.contextRoot + '/app/rest/model/validate';
-    }
+	validateModel : function() {
+		return FLOWABLE.CONFIG.contextRoot + '/models/validate';
+	}
 };

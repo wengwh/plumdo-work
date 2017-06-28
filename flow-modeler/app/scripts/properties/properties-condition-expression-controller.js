@@ -28,7 +28,7 @@ angular.module('flowableModeler').controller('FlowableConditionExpressionCtrl', 
 }]);
 
 angular.module('flowableModeler').controller('FlowableConditionExpressionPopupCtrl',
-    [ '$rootScope', '$scope', '$translate', 'FormBuilderService', function($rootScope, $scope, $translate, FormBuilderService) {
+    [ '$rootScope', '$scope', '$translate', function($rootScope, $scope, $translate) {
     	
     // Put json representing assignment on scope
     if ($scope.property.value !== undefined && $scope.property.value !== null

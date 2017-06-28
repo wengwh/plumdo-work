@@ -366,9 +366,7 @@ angular.module('flowableModeler')
     initScrollHandling();
     
     var modelId = $routeParams.modelId;
-     modelId = 111;
-    console.info(modelId)
-	editorManager.setModelId(modelId);
+    editorManager.setModelId(modelId);
 	//we first initialize the stencilset used by the editor. The editorId is always the modelId.
 	$http.get(FLOWABLE.URL.getStencilSet()).then(function (response) {
  		var baseUrl = "http://b3mn.org/stencilset/";

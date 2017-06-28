@@ -1,4 +1,15 @@
 @font-face {
+    font-family: 'cherokeeregular';
+    src: url('../../fonts/cherokee-webfont.eot');
+    src: url('../../fonts/cherokee-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../../fonts/cherokee-webfont.woff') format('woff'),
+    url('../../fonts/cherokee-webfont.ttf') format('truetype'),
+    url('../../fonts/cherokee-webfont.svg#cherokeeregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'ActivitiModeler';
     src: url('../fonts/activiti-admin-webfont.eot');
     src: url('../fonts/activiti-admin-webfont.eot?#iefix') format('embedded-opentype'),

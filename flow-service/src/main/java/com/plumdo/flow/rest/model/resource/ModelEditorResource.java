@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.Collections;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.editor.constants.ModelDataJsonConstants;
 import org.flowable.editor.language.json.converter.BpmnJsonConverter;
@@ -11,8 +12,6 @@ import org.flowable.engine.ProcessEngineConfiguration;
 import org.flowable.engine.common.api.FlowableException;
 import org.flowable.engine.repository.Model;
 import org.flowable.image.ProcessDiagramGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,17 +28,43 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.flow.rest.model.ModelEditorJsonRequest;
 
 @RestController
-public class ModelSaveRestResource extends BaseModelResource implements ModelDataJsonConstants {
-
-	protected static final Logger LOGGER = LoggerFactory.getLogger(ModelSaveRestResource.class);
+public class ModelEditorResource extends BaseModelResource implements ModelDataJsonConstants {
 
 	@Autowired
 	protected ProcessEngineConfiguration processEngineConfiguration;
-	
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@RequestMapping(value = "/model/{modelId}/save", method = {RequestMethod.POST}, name="模型设计器保存模型")
+	@RequestMapping(value = "/models/{modelId}/editor", method = RequestMethod.GET, produces = "application/json", name="设计器获取模型信息")
+	public ObjectNode getEditorJson(@PathVariable String modelId) {
+		ObjectNode modelNode = null;
+		 
+		Model model = getModelFromRequest(modelId);
+
+		if (model != null) {
+			try {
+				if (StringUtils.isNotEmpty(model.getMetaInfo())) {
+					modelNode = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
+				} else {
+					modelNode = objectMapper.createObjectNode();
+					modelNode.put(MODEL_NAME, model.getName());
+				}
+				modelNode.put("key", model.getKey());
+				modelNode.put("category", model.getCategory());
+				modelNode.put("tenantId", model.getTenantId());
+				modelNode.put(MODEL_ID, model.getId());
+				ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(new String(repositoryService.getModelEditorSource(model.getId()), "utf-8"));
+				editorJsonNode.put("modelType", "model");
+				modelNode.set("model", editorJsonNode);
+			} catch (Exception e) {
+				LOGGER.error("Error creating model JSON", e);
+				throw new FlowableException("Error creating model JSON", e);
+			}
+		}
+		return modelNode;
+	}
+	
+	@RequestMapping(value = "/models/{modelId}/editor", method = {RequestMethod.POST}, name="模型设计器保存模型")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void saveModel(@PathVariable String modelId,@RequestBody ModelEditorJsonRequest values) {
