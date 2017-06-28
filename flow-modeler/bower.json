@@ -1,5 +1,5 @@
 {
-  "name": "flow-design",
+  "name": "flow-modeler",
   "version": "0.0.0",
   "dependencies": {
     "jquery": "1.11.0",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {},
   "appPath": "app",
-  "moduleName": "flowDesignApp",
+  "moduleName": "flowModelerApp",
   "overrides": {
     "bootstrap": {
       "main": [
