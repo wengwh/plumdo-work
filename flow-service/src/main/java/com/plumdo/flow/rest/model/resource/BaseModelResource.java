@@ -6,6 +6,7 @@ import org.flowable.engine.repository.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.logback.LogbackLoggingSystem;
 
 import com.plumdo.flow.rest.RestResponseFactory;
 
@@ -21,7 +22,6 @@ public class BaseModelResource {
 
 	protected Model getModelFromRequest(String modelId) {
 		Model model = repositoryService.getModel(modelId);
-		
 		if (model == null) {
 			throw new FlowableObjectNotFoundException("Could not find a model with id '" + modelId + "'.",Model.class);
 		}

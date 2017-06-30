@@ -550,8 +550,8 @@ a.dropdown-toggle {
 
 /* Sub header */
 .subheader {
-    background-color: #e8edf1;
-    min-height: 60px;
+    background-color: #101010;
+    min-height: 50px;
     border-bottom: 1px solid #a4acb9;
 }
 
@@ -640,7 +640,7 @@ a.dropdown-toggle {
 }
 
 .subheader >div>.pull-right {
-    margin-top: 12px;
+    margin-top: 6px;
     margin-right: 5px;
 }
 
@@ -956,7 +956,7 @@ a.dropdown-toggle {
 }
 
 .wrapper.full {
-    padding: 40px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
     overflow: hidden;
     max-width: 100%;
     min-width: 100%;

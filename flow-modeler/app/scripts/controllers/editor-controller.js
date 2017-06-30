@@ -197,14 +197,13 @@ angular.module('flowableModeler')
         jQuery(window).resize(function () {
 
             // Calculate the offset based on the bottom of the module header
-            var offset = jQuery("#editor-header").offset();
-            var propSectionHeight = jQuery('#propertySection').height();
+            var editorHeaderHeight = jQuery("#editor-header").height();
+            var propSectionHeight = jQuery('#propertySection');
             var canvas = jQuery('#canvasSection');
-            var mainHeader = jQuery('#main-header');
+//            var mainHeader = jQuery('#main-header');
 
-            if (offset == undefined || offset === null
-                || propSectionHeight === undefined || propSectionHeight === null
-                || canvas === undefined || canvas === null || mainHeader === null) {
+            if (editorHeaderHeight == undefined || editorHeaderHeight === null
+                || canvas === undefined || canvas === null ) {
                 return;
             }
 
@@ -224,8 +223,9 @@ angular.module('flowableModeler')
 	            }
         	}
         	
-        	var totalAvailable = jQuery(window).height() - offset.top - mainHeader.height() - 21;
-			canvas.height(totalAvailable - propSectionHeight);
+        	var totalAvailable = jQuery(window).height() - editorHeaderHeight;
+			canvas.height(totalAvailable);
+			propSectionHeight.height(totalAvailable);
 			var footerHeight = jQuery('#paletteSectionFooter').height();
 			var treeViewHeight = jQuery('#process-treeview-wrapper').height();
 			jQuery('#paletteSection').height(totalAvailable - treeViewHeight - footerHeight);

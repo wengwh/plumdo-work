@@ -19,12 +19,30 @@
 .sidebar-nav {
   bottom: 0;
   background: #ccc;
+  overflow: hidden;
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
   -o-transition: all 500ms ease;
   transition: all 500ms ease;
-  overflow: auto;
+
+  .nav-title {
+ 	margin-top: 10px; 
+ 	height : 31px;
+  }
+ 
+  .nav-header-top {
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #fff
+  }
+
+  .nav-body {
+    overflow: auto;
+  }
 
   .nav-list {
     list-style: none;
@@ -47,15 +65,6 @@
       text-shadow: none;
       min-width: 150px;
     }
-  }
-
-  .nav-header-top {
-    font-size: 16px;
-    color: #fff;
-    font-weight: bold;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #fff
   }
 
   .nav-content {
@@ -343,7 +352,6 @@
 .accordion-group {
   padding-right: 15px;
   padding-left: 15px;
-  margin: 10px 0 0 0;
 }
 
 .clickable {

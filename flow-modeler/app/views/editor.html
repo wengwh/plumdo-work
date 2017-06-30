@@ -1,7 +1,11 @@
 <div ng-controller="StencilController" ng-cloak="">
+
   <div class="subheader editor-toolbar" id="editor-header">
-  	<div class="btn-group">
-	    <div class="btn-toolbar pull-left" ng-controller="ToolbarController" ng-cloak>
+         <a ng-click="backToLanding()" title="{{'GENERAL.MAIN-TITLE' | translate}}">
+             <img class="toolbar-logo" ng-src="{{appResourceRoot}}images/flowable-logo.png" ng-srcset="{{appResourceRoot}}images/flowable-logo.png 1x, {{appResourceRoot}}images/flowable-logo@2x.png 2x">
+         </a>
+  		<div class="btn-group">
+    	  <div class="btn-toolbar pull-left" ng-controller="ToolbarController" ng-cloak>
         	<button id="{{item.id}}"
                     title="{{item.title | translate}}"
                     ng-repeat="item in items"
@@ -77,6 +81,48 @@
                   <i class="glyphicon glyphicon-chevron-left"></i>
               </div>
           </div>
+	      <div id="propertiesHelpWrapper" class="col-xs-3">
+              <div class="propertySection" id="propertySection" ng-class="{collapsed: propertyWindowState.collapsed}">
+                  <div class="selected-item-section">
+                      <div class="clearfix">
+                          <div class="pull-right" ng-if="selectedItem.auditData.createDate">
+                              <strong>{{'ELEMENT.DATE_CREATED' | translate}}: </strong>
+                              {{selectedItem.auditData.createDate}}
+                          </div>
+                          <div class="pull-right" ng-if="selectedItem.auditData.author">
+                              <strong>{{'ELEMENT.AUTHOR' | translate}}: </strong>
+                              {{selectedItem.auditData.author}}
+                          </div>
+                          <div class="selected-item-title">
+                              <a ng-click="propertyWindowState.toggle()">
+                                  <i class="glyphicon"
+                                     ng-class="{'glyphicon-chevron-right': propertyWindowState.collapsed, 'glyphicon-chevron-down': !propertyWindowState.collapsed}"></i>
+                                  <span ng-show="selectedItem.title != undefined && selectedItem.title != null && selectedItem.title.length > 0">{{selectedItem.title}}</span>
+                                  <span ng-show="!selectedItem || selectedItem.title == undefined || selectedItem.title == null || selectedItem.title.length == 0">{{modelData.name}}</span>
+                              </a>
+                          </div>
+                      </div>
+                      <div class="selected-item-body">
+                          <div>
+                              <div class="property-row" ng-repeat="property in selectedItem.properties"
+                                   ng-click="propertyClicked($index)" ng-class="{'clear' : $index%2 == 0}">
+                                  <span class="title" ng-if="!property.hidden">{{ property.title }}&nbsp;:</span>
+                                  <span class="title-removed" ng-if="property.hidden"><i>{{ property.title }}&nbsp;({{'PROPERTY.REMOVED' | translate}})&nbsp;:</i></span>
+                                  <span class="value">
+                               <ng-include
+                                          src="getPropertyTemplateUrl($index)"
+                                          ng-if="!property.hasReadWriteMode"></ng-include>
+                               <ng-include src="getPropertyReadModeTemplateUrl($index)"
+                                              ng-if="property.hasReadWriteMode && property.mode == 'read'"></ng-include>
+                               <ng-include src="getPropertyWriteModeTemplateUrl($index)"
+                                              ng-if="property.hasReadWriteMode && property.mode == 'write'"></ng-include>
+                           </span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
 	      <div id="contentCanvasWrapper">
                 <div id="paletteSectionOpen" class="hidden">
                     <i class="glyphicon glyphicon-chevron-right"></i>
@@ -117,48 +163,6 @@
                              data-jqyoui-options="{revert: 'invalid', helper: 'clone', opacity : 0.5}"
                              style="display:none">
                             <img ng-src="stencilsets/bpmn2.0/icons/{{item.icon}}"/>
-                        </div>
-                    </div>
-                </div>
-                <div id="propertiesHelpWrapper" class="col-xs-12">
-                    <div class="propertySection" id="propertySection" ng-class="{collapsed: propertyWindowState.collapsed}">
-                        <div class="selected-item-section">
-                            <div class="clearfix">
-                                <div class="pull-right" ng-if="selectedItem.auditData.createDate">
-                                    <strong>{{'ELEMENT.DATE_CREATED' | translate}}: </strong>
-                                    {{selectedItem.auditData.createDate}}
-                                </div>
-                                <div class="pull-right" ng-if="selectedItem.auditData.author">
-                                    <strong>{{'ELEMENT.AUTHOR' | translate}}: </strong>
-                                    {{selectedItem.auditData.author}}
-                                </div>
-                                <div class="selected-item-title">
-                                    <a ng-click="propertyWindowState.toggle()">
-                                        <i class="glyphicon"
-                                           ng-class="{'glyphicon-chevron-right': propertyWindowState.collapsed, 'glyphicon-chevron-down': !propertyWindowState.collapsed}"></i>
-                                        <span ng-show="selectedItem.title != undefined && selectedItem.title != null && selectedItem.title.length > 0">{{selectedItem.title}}</span>
-                                        <span ng-show="!selectedItem || selectedItem.title == undefined || selectedItem.title == null || selectedItem.title.length == 0">{{modelData.name}}</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="selected-item-body">
-                                <div>
-                                    <div class="property-row" ng-repeat="property in selectedItem.properties"
-                                         ng-click="propertyClicked($index)" ng-class="{'clear' : $index%2 == 0}">
-                                        <span class="title" ng-if="!property.hidden">{{ property.title }}&nbsp;:</span>
-                                        <span class="title-removed" ng-if="property.hidden"><i>{{ property.title }}&nbsp;({{'PROPERTY.REMOVED' | translate}})&nbsp;:</i></span>
-                                        <span class="value">
-	                                    <ng-include
-                                                src="getPropertyTemplateUrl($index)"
-                                                ng-if="!property.hasReadWriteMode"></ng-include>
-	                                    <ng-include src="getPropertyReadModeTemplateUrl($index)"
-                                                    ng-if="property.hasReadWriteMode && property.mode == 'read'"></ng-include>
-	                                    <ng-include src="getPropertyWriteModeTemplateUrl($index)"
-                                                    ng-if="property.hasReadWriteMode && property.mode == 'write'"></ng-include>
-	                                </span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

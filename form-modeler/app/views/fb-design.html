@@ -21,17 +21,17 @@
 	</nav>
 
 	<div class="sidebar-nav sidebar-nav-left">
-		<ul class="nav-list accordion-group">
+		<ul class="nav-title nav-list accordion-group">
 			<li class="nav-header-top"><i class="glyphicon clickable" ng-click="leftCollapsed=!leftCollapsed" ng-class="{'glyphicon-chevron-right': leftCollapsed,'pull-right glyphicon-chevron-left': !leftCollapsed}"></i> 表单组件选取</li>
 		</ul>
-		<div fb-components ng-show="!leftCollapsed"></div>
+		<div class="nav-body" fb-components ng-show="!leftCollapsed"></div>
 	</div>
 
 	<div class="sidebar-nav sidebar-nav-right">
-		<ul class="nav-list accordion-group">
+		<ul class="nav-title nav-list accordion-group">
 			<li class="nav-header-top"><i class="glyphicon clickable" ng-click="rightCollapsed=!rightCollapsed" ng-class="{'glyphicon-chevron-left': rightCollapsed,'glyphicon-chevron-right': !rightCollapsed}"></i> 表单属性设置</li>
 		</ul>
-		<div fb-properties ng-show="!rightCollapsed"></div>
+		<div class="nav-body" fb-properties ng-show="!rightCollapsed"></div>
 	</div>
 
 	<div class="content-view">

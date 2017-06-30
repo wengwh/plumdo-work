@@ -58,8 +58,12 @@
 	padding-left: 5px;
 }
 
+.editor-toolbar .toolbar-logo {
+	margin: 6px 15px 0px 0px;
+}
+
 .editor-toolbar > .btn-group {
-	margin: 12px 15px 0px 0px;
+	margin: 6px 15px 0px 0px;
 }
 
 .editor-toolbar  > .btn-group.pull-right {
@@ -241,8 +245,8 @@ div.canvas-wrapper {
 }
 
 
-div.propertySection {
-	height: 250px;
+div.propertySection {/* 
+	height: 250px; */
     background-color: #e8edf1;
 	margin-bottom: 0px;
 }
@@ -292,8 +296,8 @@ div.propertySection {
 
 .selected-item-body {
 	padding: 0;
-	overflow: auto;
-	height: 199px;
+	overflow: auto;/* 
+	height: 199px; */
 }
 
 .selected-item-body > div {
@@ -853,12 +857,19 @@ li.x-menu-list-item.x-menu-item-active a {
 	transition: 0.3s width;
 }
 
+#propertiesHelpWrapper {
+	float: right;
+	width: 300px;
+	transition: 0.3s width;
+}
+
 .close {
 	width: 0px !important;
 }
 
 #contentCanvasWrapper {
 	padding-left: 300px;
+	padding-right: 300px;
 	transition: 0.3s padding-left;
 }
 

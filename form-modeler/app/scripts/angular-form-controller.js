@@ -150,7 +150,12 @@
     };
 
     $scope.fixSize = function () {
-      jQuery('.sidebar-nav').css('height', $(window).height() - $('#navbar').height() - 1);
+    	console.info($(window).height())
+    	console.info($('#navbar').height())
+    	console.info($('.nav-title').height())
+    	
+      jQuery('.sidebar-nav').css('height', $(window).height() - $('#navbar').height()-1);
+      jQuery('.nav-body').css('height', $(window).height() - $('#navbar').height() - $('.nav-title').height() - 21);
       jQuery('.fb-builder').css('height', $(window).height() - $('#navbar').height() - 20);
     };
 
