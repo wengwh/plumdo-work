@@ -116,9 +116,9 @@
 	padding-left: 0;
 }
 
-.stencils > div {
+/* .stencils > div {
 	margin-top: 10px;
-}
+} */
 
 .stencil-group {
 	list-style: none;
@@ -130,8 +130,8 @@
 .stencil-group > li {
 	list-style: none;
 	list-style-position: outside;
-	margin: 0px 0px 5px 15px;
-	background-color: #ffffff;
+	margin: 0px 0px 5px 10px;
+	background-color: #ccc;
 	font-family: Arial, Regular;
 	font-size: 14px;
 	color: #323437;
@@ -815,75 +815,69 @@ li.x-menu-list-item.x-menu-item-active a {
 }
 
 /** collapse stencils **/
-#paletteSectionFooter {
-	height: 50px;
-	text-align: center;
-	background-color: #e8edf1;
-	border-top: 1px solid #a4acb9;
-	border-right: 1px solid #a4acb9;
-	cursor: pointer;
-	bottom: 0;
-}
-
-#paletteSectionFooter i {
-	line-height: 50px !important;
-}
-
-#paletteSectionOpen {
-	width: 30px;
-	height: 50px;
-	background-color: #e8edf1;
-	text-align: center;
-	bottom: 1px;
-	position: fixed;
-	z-index: 101;
-	border-top: 1px solid #a4acb9;
-	border-right: 1px solid #a4acb9;
-	cursor: pointer;
-	left: 0;
-}
-
-#paletteSectionOpen i {
-	line-height: 50px !important;
-}
 
 .hidden {
 	display: none
 }
+.nav-title {
+ 	margin-top: 10px; 
+ 	height : 31px;
+ 	padding : 0 15px;
+}
+.nav-header-top {
+    font-size: 16px;
+    font-weight: bold;/* 
+    color: white; */
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #fff
+}
 
 #paletteHelpWrapper {
 	float: left;
-	width: 300px;
+	width: 250px;
 	transition: 0.3s width;
+	background : #ccc;
 }
 
 #propertiesHelpWrapper {
 	float: right;
 	width: 300px;
 	transition: 0.3s width;
-}
-
-.close {
-	width: 0px !important;
+	background : #ccc;
 }
 
 #contentCanvasWrapper {
-	padding-left: 300px;
+	padding-left: 250px;
 	padding-right: 300px;
 	transition: 0.3s padding-left;
 }
 
-.collapsedCanvasWrapper {
-	padding-left: 0px !important;
+.paletteCollapsed {
+	width: 50px !important;
 }
 
+.paletteCollapsed .nav-header-top {
+  border-bottom: 0px;
+}
+.propertiesCollapsed {
+	width: 50px !important;
+}
+
+.leftCollapsedCanvasWrapper {
+	padding-left: 50px !important;
+}
+
+.rightCollapsedCanvasWrapper {
+	padding-right: 50px !important;
+}
 
 
 /**Process navigator */
 #process-treeview-wrapper{
 	height: 200px;
-	background: #f3f3f3;
-	border-right: 1px solid #bbbbbb;
+	/* background: #f3f3f3;
+	border-right: 1px solid #bbbbbb; */
 	overflow-y: auto;
 }
 

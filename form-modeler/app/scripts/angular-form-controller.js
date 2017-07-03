@@ -92,9 +92,6 @@
 			}
 			
 		}
-		
-		
-			
     
 
   }]).controller('fbDesignController', ['$scope', '$injector', '$http', '$stateParams', 'restUrl', function ($scope, $injector, $http, $stateParams, restUrl) {

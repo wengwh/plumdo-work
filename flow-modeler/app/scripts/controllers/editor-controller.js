@@ -29,17 +29,15 @@ angular.module('flowableModeler')
 
     $rootScope.staticIncludeVersion = Date.now();
 
+    
     /**
-     * Initialize the event bus: couple all Oryx events with a dispatch of the
-     * event of the event bus. This way, it gets much easier to attach custom logic
-     * to any event.
-     */
-
+		 * Initialize the event bus: couple all Oryx events with a dispatch of the
+		 * event of the event bus. This way, it gets much easier to attach custom
+		 * logic to any event.
+		 */
 
     /* Helper method to fetch model from server (always needed) */
     
-
-
     function initScrollHandling() {
         var canvasSection = jQuery('#canvasSection');
         canvasSection.scroll(function() {
@@ -47,7 +45,7 @@ angular.module('flowableModeler')
             // Hides the resizer and quick menu items during scrolling
 
             var selectedElements = editorManager.getSelection();
-			var subSelectionElements = editorManager.getSubSelection();
+            var subSelectionElements = editorManager.getSubSelection();
 
             $scope.selectedElements = selectedElements;
             $scope.subSelectionElements = subSelectionElements;
@@ -73,9 +71,12 @@ angular.module('flowableModeler')
 
         canvasSection.scrollStopped(function(){
 
-            // Puts the quick menu items and resizer back when scroll is stopped.
+            // Puts the quick menu items and resizer back when scroll is
+						// stopped.
 
-            editorManager.setSelection([]); // needed cause it checks for element changes and does nothing if the elements are the same
+            editorManager.setSelection([]); // needed cause it checks for
+																						// element changes and does nothing
+																						// if the elements are the same
             editorManager.setSelection($scope.selectedElements, $scope.subSelectionElements);
             $scope.selectedElements = undefined;
             $scope.subSelectionElements = undefined;
@@ -102,30 +103,13 @@ angular.module('flowableModeler')
     }
 
     /**
-     * Initialize the Oryx Editor when the content has been loaded
-     */
+		 * Initialize the Oryx Editor when the content has been loaded
+		 */
     if (!$rootScope.editorInitialized) {
     
-        var paletteHelpWrapper = jQuery('#paletteHelpWrapper');
-		var paletteSectionFooter = jQuery('#paletteSectionFooter');
-		var paletteSectionOpen = jQuery('#paletteSectionOpen');
-		var contentCanvasWrapper = jQuery('#contentCanvasWrapper');
-
-		paletteSectionFooter.on('click', function() {
-			paletteHelpWrapper.addClass('close');
-			contentCanvasWrapper.addClass('collapsedCanvasWrapper');
-			paletteSectionOpen.removeClass('hidden');
-		});
-
-		paletteSectionOpen.on('click', function () {
-			paletteHelpWrapper.removeClass('close');
-			contentCanvasWrapper.removeClass('collapsedCanvasWrapper');
-			paletteSectionOpen.addClass('hidden');
-		});
-
         /**
-         * A 'safer' apply that avoids concurrent updates (which $apply allows).
-         */
+				 * A 'safer' apply that avoids concurrent updates (which $apply allows).
+				 */
         $rootScope.safeApply = function(fn) {
         	if (this.$root) {
 	            var phase = this.$root.$$phase;
@@ -154,17 +138,17 @@ angular.module('flowableModeler')
             };
         	
         	if (editorManager.getCurrentModelId() != editorManager.getModelId()) {
-				historyItem.subProcessId = editorManager.getCurrentModelId();
-			}
+        		historyItem.subProcessId = editorManager.getCurrentModelId();
+        	}
         	
         	$rootScope.editorHistory.push(historyItem);
         };
 
         /**
-         * Initialize the event bus: couple all Oryx events with a dispatch of the
-         * event of the event bus. This way, it gets much easier to attach custom logic
-         * to any event.
-         */
+				 * Initialize the event bus: couple all Oryx events with a dispatch of
+				 * the event of the event bus. This way, it gets much easier to attach
+				 * custom logic to any event.
+				 */
 
         $rootScope.editorFactory.promise.then(function() {
 
@@ -178,7 +162,7 @@ angular.module('flowableModeler')
                 { oryxType : ORYX.CONFIG.EVENT_MOUSEOUT, flowableType : FLOWABLE.eventBus.EVENT_TYPE_MOUSE_OUT },
                 { oryxType : ORYX.CONFIG.EVENT_MOUSEOVER, flowableType : FLOWABLE.eventBus.EVENT_TYPE_MOUSE_OVER },
                 { oryxType: ORYX.CONFIG.EVENT_EDITOR_INIT_COMPLETED, flowableType:FLOWABLE.eventBus.EVENT_TYPE_EDITOR_READY},
-				{ oryxType: ORYX.CONFIG.EVENT_PROPERTY_CHANGED, flowableType: FLOWABLE.eventBus.EVENT_TYPE_PROPERTY_VALUE_CHANGED}
+                { oryxType: ORYX.CONFIG.EVENT_PROPERTY_CHANGED, flowableType: FLOWABLE.eventBus.EVENT_TYPE_PROPERTY_VALUE_CHANGED}
 
             ];
 
@@ -188,8 +172,10 @@ angular.module('flowableModeler')
                 });
             });
 
-            // Show getting started if this is the first time (boolean true for use local storage)
-            // FLOWABLE_EDITOR_TOUR.gettingStarted($scope, $translate, $q, true);
+            // Show getting started if this is the first time (boolean true for
+						// use local storage)
+            // FLOWABLE_EDITOR_TOUR.gettingStarted($scope, $translate, $q,
+						// true);
         });
 
         // Hook in resizing of main panels when window resizes
@@ -200,7 +186,6 @@ angular.module('flowableModeler')
             var editorHeaderHeight = jQuery("#editor-header").height();
             var propSectionHeight = jQuery('#propertySection');
             var canvas = jQuery('#canvasSection');
-//            var mainHeader = jQuery('#main-header');
 
             if (editorHeaderHeight == undefined || editorHeaderHeight === null
                 || canvas === undefined || canvas === null ) {
@@ -208,27 +193,31 @@ angular.module('flowableModeler')
             }
 
             if ($rootScope.editor) {
-	        	var selectedElements = editorManager.getSelection();
-				var subSelectionElements = editorManager.getSelection();
+            	var selectedElements = editorManager.getSelection();
+            	var subSelectionElements = editorManager.getSelection();
 
 	            $scope.selectedElements = selectedElements;
 	            $scope.subSelectionElements = subSelectionElements;
 	            if (selectedElements && selectedElements.length > 0) {
 	            	$rootScope.selectedElementBeforeScrolling = selectedElements[0];
 
-	            	editorManager.setSelection([]); // needed cause it checks for element changes and does nothing if the elements are the same
-	                editorManager.setSelection($scope.selectedElements, $scope.subSelectionElements);
-	                $scope.selectedElements = undefined;
-	                $scope.subSelectionElements = undefined;
+	            	editorManager.setSelection([]); // needed cause it checks for
+																								// element changes and does
+																								// nothing if the elements are
+																								// the same
+              	editorManager.setSelection($scope.selectedElements, $scope.subSelectionElements);
+                $scope.selectedElements = undefined;
+                $scope.subSelectionElements = undefined;
 	            }
         	}
         	
         	var totalAvailable = jQuery(window).height() - editorHeaderHeight;
-			canvas.height(totalAvailable);
-			propSectionHeight.height(totalAvailable);
-			var footerHeight = jQuery('#paletteSectionFooter').height();
-			var treeViewHeight = jQuery('#process-treeview-wrapper').height();
-			jQuery('#paletteSection').height(totalAvailable - treeViewHeight - footerHeight);
+        	canvas.height(totalAvailable);
+        	propSectionHeight.height(totalAvailable);
+        	var footerHeight = jQuery('#paletteSectionHeader').height();
+        	var treeViewHeight = jQuery('#process-treeview-wrapper').height();
+        	jQuery('#paletteHelpWrapper').height(totalAvailable);
+        	jQuery('#paletteSection').height(totalAvailable - treeViewHeight - footerHeight);
       
             // Update positions of the resize-markers, according to the canvas
 
@@ -246,13 +235,15 @@ angular.module('flowableModeler')
 
             var actualWidth = 0;
             if (actualCanvas) {
-                // In some browsers, the SVG-element clientwidth isn't available, so we revert to the parent
+                // In some browsers, the SVG-element clientwidth isn't
+								// available, so we revert to the parent
                 actualWidth = actualCanvas.clientWidth || actualCanvas.parentNode.clientWidth;
             }
 
             if (actualWidth < canvas[0].clientWidth) {
                 widthDiff = actualWidth - canvas[0].clientWidth;
-                // In case the canvas is smaller than the actual viewport, the resizers should be moved
+                // In case the canvas is smaller than the actual viewport, the
+								// resizers should be moved
                 canvasLeft -= widthDiff / 2;
                 canvasWidth += widthDiff;
             }
@@ -335,7 +326,8 @@ angular.module('flowableModeler')
     		}
 
     		if (savePlugin && savePlugin.hasChanges()) {
-    			// Always prevent location from changing. We'll use a popup to determine the action we want to take
+    			// Always prevent location from changing. We'll use a popup to
+					// determine the action we want to take
     			event.preventDefault();
 
     			if (!$scope.unsavedChangesModalInstance) {
@@ -362,32 +354,36 @@ angular.module('flowableModeler')
     	}
     });
 
-    // Always needed, cause the DOM element on wich the scroll event listeners are attached are changed for every new model
+    // Always needed, cause the DOM element on wich the scroll event listeners
+		// are attached are changed for every new model
     initScrollHandling();
     
     var modelId = $routeParams.modelId;
     editorManager.setModelId(modelId);
-	//we first initialize the stencilset used by the editor. The editorId is always the modelId.
-	$http.get(FLOWABLE.URL.getStencilSet()).then(function (response) {
- 		var baseUrl = "http://b3mn.org/stencilset/";
-		editorManager.setStencilData(response.data);
-		//the stencilset alters the data ref!
-		var stencilSet = new ORYX.Core.StencilSet.StencilSet(baseUrl, response.data);
-		ORYX.Core.StencilSet.loadStencilSet(baseUrl, stencilSet, modelId);
-		//after the stencilset is loaded we make sure the plugins.xml is loaded.
-		return $http.get(ORYX.CONFIG.PLUGINS_CONFIG);
-	}).then(function (response) {
-		ORYX._loadPlugins(response.data);
-		return $http.get(FLOWABLE.URL.getModel(modelId));
-	}).then(function (response) {
-		editorManager.bootEditor(response);
-	}).catch(function (error) {
-		console.log(error);
-	});
+		// we first initialize the stencilset used by the editor. The editorId is
+		// always the modelId.
+		$http.get(FLOWABLE.URL.getStencilSet()).then(function (response) {
+	 		var baseUrl = "http://b3mn.org/stencilset/";
+			editorManager.setStencilData(response.data);
+			// the stencilset alters the data ref!
+			var stencilSet = new ORYX.Core.StencilSet.StencilSet(baseUrl, response.data);
+			ORYX.Core.StencilSet.loadStencilSet(baseUrl, stencilSet, modelId);
+			// after the stencilset is loaded we make sure the plugins.xml is loaded.
+			return $http.get(ORYX.CONFIG.PLUGINS_CONFIG);
+		}).then(function (response) {
+			ORYX._loadPlugins(response.data);
+			return $http.get(FLOWABLE.URL.getModel(modelId));
+		}).then(function (response) {
+			editorManager.bootEditor(response);
+		}).catch(function (error) {
+			console.log(error);
+		});
  
- 	//minihack to make sure mousebind events are processed if the modeler is used in an iframe.
-	//selecting an element and pressing "del" could sometimes not trigger an event.
-	jQuery(window).focus();
+	 	// minihack to make sure mousebind events are processed if the modeler is used
+		// in an iframe.
+		// selecting an element and pressing "del" could sometimes not trigger an
+		// event.
+		jQuery(window).focus();
 
 }]);
 

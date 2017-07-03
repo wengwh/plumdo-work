@@ -30,8 +30,17 @@
   </div>
   <div class="full">
       <div class="row row-no-gutter">
-	      <div id="paletteHelpWrapper" class="col-xs-3">
-	      	<div class="stencils" id="paletteSection">
+	      <div id="paletteHelpWrapper" class="col-xs-3" ng-class="{'paletteCollapsed': paletteCollapsed}">
+	      
+            <div class="nav-title" id="paletteSectionHeader">
+				<div class="nav-header-top">
+					<i class="glyphicon clickable" ng-click="paletteCollapsed=!paletteCollapsed" ng-class="{'glyphicon-chevron-right': paletteCollapsed,'pull-right glyphicon-chevron-left': !paletteCollapsed}"></i> 
+					流程组件选取
+				</div>
+            </div>
+                          
+	      	<div class="stencils" id="paletteSection" ng-show="!paletteCollapsed">
+		
 			    <div ng-if="stencilItemGroups.length > 1">
                     <div ng-repeat="group in stencilItemGroups">
 
@@ -59,7 +68,7 @@
                     </ul>
 			     </div>
 		      </div>
-		      <div id="process-treeview-wrapper" ng-controller="ProcessNavigatorController">
+		      <div id="process-treeview-wrapper" ng-controller="ProcessNavigatorController" ng-show="!paletteCollapsed">
                     <div class="process-treeview-header">
                         	流程导航
                     </div>
@@ -77,12 +86,9 @@
                         </div>
                     </div>
               </div>
-              <div id="paletteSectionFooter">
-                  <i class="glyphicon glyphicon-chevron-left"></i>
-              </div>
           </div>
-	      <div id="propertiesHelpWrapper" class="col-xs-3">
-              <div class="propertySection" id="propertySection" ng-class="{collapsed: propertyWindowState.collapsed}">
+	      <div id="propertiesHelpWrapper" class="col-xs-3" ng-class="{'propertiesCollapsed': propertiesCollapsed}">
+              <div class="propertySection" id="propertySection">
                   <div class="selected-item-section">
                       <div class="clearfix">
                           <div class="pull-right" ng-if="selectedItem.auditData.createDate">
@@ -94,39 +100,36 @@
                               {{selectedItem.auditData.author}}
                           </div>
                           <div class="selected-item-title">
-                              <a ng-click="propertyWindowState.toggle()">
+                              <a ng-click="propertiesCollapsed=!propertiesCollapsed">
                                   <i class="glyphicon"
-                                     ng-class="{'glyphicon-chevron-right': propertyWindowState.collapsed, 'glyphicon-chevron-down': !propertyWindowState.collapsed}"></i>
+                                     ng-class="{'glyphicon-chevron-right': propertiesCollapsed, 'glyphicon-chevron-down': !propertiesCollapsed}"></i>
                                   <span ng-show="selectedItem.title != undefined && selectedItem.title != null && selectedItem.title.length > 0">{{selectedItem.title}}</span>
                                   <span ng-show="!selectedItem || selectedItem.title == undefined || selectedItem.title == null || selectedItem.title.length == 0">{{modelData.name}}</span>
                               </a>
                           </div>
                       </div>
-                      <div class="selected-item-body">
+                      <div class="selected-item-body" ng-show="!propertiesCollapsed">
                           <div>
                               <div class="property-row" ng-repeat="property in selectedItem.properties"
                                    ng-click="propertyClicked($index)" ng-class="{'clear' : $index%2 == 0}">
                                   <span class="title" ng-if="!property.hidden">{{ property.title }}&nbsp;:</span>
                                   <span class="title-removed" ng-if="property.hidden"><i>{{ property.title }}&nbsp;({{'PROPERTY.REMOVED' | translate}})&nbsp;:</i></span>
                                   <span class="value">
-                               <ng-include
-                                          src="getPropertyTemplateUrl($index)"
-                                          ng-if="!property.hasReadWriteMode"></ng-include>
-                               <ng-include src="getPropertyReadModeTemplateUrl($index)"
-                                              ng-if="property.hasReadWriteMode && property.mode == 'read'"></ng-include>
-                               <ng-include src="getPropertyWriteModeTemplateUrl($index)"
-                                              ng-if="property.hasReadWriteMode && property.mode == 'write'"></ng-include>
-                           </span>
+		                               <ng-include
+		                                          src="getPropertyTemplateUrl($index)"
+		                                          ng-if="!property.hasReadWriteMode"></ng-include>
+		                               <ng-include src="getPropertyReadModeTemplateUrl($index)"
+		                                              ng-if="property.hasReadWriteMode && property.mode == 'read'"></ng-include>
+		                               <ng-include src="getPropertyWriteModeTemplateUrl($index)"
+		                                              ng-if="property.hasReadWriteMode && property.mode == 'write'"></ng-include>
+		                          </span>
                               </div>
                           </div>
                       </div>
                   </div>
               </div>
           </div>
-	      <div id="contentCanvasWrapper">
-                <div id="paletteSectionOpen" class="hidden">
-                    <i class="glyphicon glyphicon-chevron-right"></i>
-                </div>
+	      <div id="contentCanvasWrapper" ng-class="{'leftCollapsedCanvasWrapper': paletteCollapsed,'rightCollapsedCanvasWrapper': propertiesCollapsed}">
                 <div id="canvasHelpWrapper" class="col-xs-12">
                     <div class="canvas-wrapper" id="canvasSection"
                          ng-model="droppedElement"

@@ -1706,3 +1706,6 @@ h3+div > .dropzone {
     width:100%;
     text-align: left;
 }
+.clickable {
+  cursor: pointer;
+}
