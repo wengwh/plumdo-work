@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -80,7 +80,7 @@ var FLOWABLE_EDITOR_TOUR = {
                         element: tourStepDomElements[3],
                         title: translations[8],
                         content: translations[9],
-                        placement: 'top',
+                        placement: 'left',
                         template: FLOWABLE_EDITOR_TOUR._buildStepTemplate(false, true, false, 400),
                         onNext: FLOWABLE_EDITOR_TOUR._buildOnNextFunction(tourStepDomElements[3])
                     },
@@ -166,13 +166,13 @@ var FLOWABLE_EDITOR_TOUR = {
             template = template + '<div><img src=\'' + image + '\' style=\'border 1px solid black;margin:5px 0 5px 0;\'></img></div>';
         }
         if (addPrevButton) {
-            template = template + '<button class=\'btn btn-sm btn-default \' data-role=\'prev\'>« Prev</button>';
+            template = template + '<button class=\'btn btn-sm btn-default \' data-role=\'prev\'>« 上一步</button>';
         }
         if (addNextButton) {
-            template = template + '<button class=\'btn btn-sm btn-default\' data-role=\'next\' style=\'float:right\'">Next »</button>';
+            template = template + '<button class=\'btn btn-sm btn-default\' data-role=\'next\' style=\'float:right\'">下一步 »</button>';
         }
         if (addEndTourButton) {
-            template = template + '<button class=\'btn btn-warning btn-sm\' data-role=\'end\' style=\'float:right\'">Got it!</button>';
+            template = template + '<button class=\'btn btn-warning btn-sm\' data-role=\'end\' style=\'float:right\'">知道了!</button>';
         }
 
         template = template + '</div>' + '</nav>' + '</div>';

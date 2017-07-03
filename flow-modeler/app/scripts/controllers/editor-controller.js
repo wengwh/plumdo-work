@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
  * General bootstrap of the application.
  */
 angular.module('flowableModeler')
-    .controller('EditorController', ['$rootScope', '$scope', '$http', '$q', '$routeParams', '$timeout', '$location', '$translate', '$modal', 'editorManager', 
+    .controller('EditorController', ['$rootScope', '$scope', '$http', '$q', '$routeParams', '$timeout', '$location', '$translate', '$modal', 'editorManager',
         function ($rootScope, $scope, $http, $q, $routeParams, $timeout, $location, $translate, $modal, editorManager) {
 
     $rootScope.editorFactory = $q.defer();
@@ -24,12 +24,12 @@ angular.module('flowableModeler')
     $rootScope.forceSelectionRefresh = false;
 
     $rootScope.ignoreChanges = false; // by default never ignore changes
-    
+
     $rootScope.validationErrors = [];
 
     $rootScope.staticIncludeVersion = Date.now();
 
-    
+
     /**
 		 * Initialize the event bus: couple all Oryx events with a dispatch of the
 		 * event of the event bus. This way, it gets much easier to attach custom
@@ -37,7 +37,7 @@ angular.module('flowableModeler')
 		 */
 
     /* Helper method to fetch model from server (always needed) */
-    
+
     function initScrollHandling() {
         var canvasSection = jQuery('#canvasSection');
         canvasSection.scroll(function() {
@@ -106,7 +106,7 @@ angular.module('flowableModeler')
 		 * Initialize the Oryx Editor when the content has been loaded
 		 */
     if (!$rootScope.editorInitialized) {
-    
+
         /**
 				 * A 'safer' apply that avoids concurrent updates (which $apply allows).
 				 */
@@ -120,27 +120,27 @@ angular.module('flowableModeler')
 	            } else {
 	                this.$apply(fn);
 	            }
-	            
+
         	} else {
                 this.$apply(fn);
             }
         };
-        
+
         $rootScope.addHistoryItem = function(resourceId) {
         	var modelMetaData = editorManager.getBaseModelData();
-        	
+
         	var historyItem = {
-                id: modelMetaData.modelId, 
+                id: modelMetaData.modelId,
                 name: modelMetaData.name,
                 key: modelMetaData.key,
                 stepId: resourceId,
                 type: 'bpmnmodel'
             };
-        	
+
         	if (editorManager.getCurrentModelId() != editorManager.getModelId()) {
         		historyItem.subProcessId = editorManager.getCurrentModelId();
         	}
-        	
+
         	$rootScope.editorHistory.push(historyItem);
         };
 
@@ -184,7 +184,8 @@ angular.module('flowableModeler')
 
             // Calculate the offset based on the bottom of the module header
             var editorHeaderHeight = jQuery("#editor-header").height();
-            var propSectionHeight = jQuery('#propertySection');
+            var palette = jQuery('#paletteHelpWrapper');
+            var propSection = jQuery('#propertiesHelpWrapper');
             var canvas = jQuery('#canvasSection');
 
             if (editorHeaderHeight == undefined || editorHeaderHeight === null
@@ -210,15 +211,17 @@ angular.module('flowableModeler')
                 $scope.subSelectionElements = undefined;
 	            }
         	}
-        	
+
         	var totalAvailable = jQuery(window).height() - editorHeaderHeight;
         	canvas.height(totalAvailable);
-        	propSectionHeight.height(totalAvailable);
-        	var footerHeight = jQuery('#paletteSectionHeader').height();
+        	propSection.height(totalAvailable);
+          palette.height(totalAvailable);
+        	var paletteHeaderHeight = jQuery('#paletteHeader').height();
         	var treeViewHeight = jQuery('#process-treeview-wrapper').height();
-        	jQuery('#paletteHelpWrapper').height(totalAvailable);
-        	jQuery('#paletteSection').height(totalAvailable - treeViewHeight - footerHeight);
-      
+          jQuery('#paletteSection').height(totalAvailable - treeViewHeight - paletteHeaderHeight);
+          var propertyHeaderHeight = jQuery('#propertyHeader').height();
+          jQuery('.selected-item-body').height(totalAvailable - propertyHeaderHeight);
+
             // Update positions of the resize-markers, according to the canvas
 
             var actualCanvas = null;
@@ -300,9 +303,9 @@ angular.module('flowableModeler')
 			this.editorFactory.resolve();
 			this.editorInitialized = true;
 			this.modelData = editorManager.getBaseModelData();
-			
+
 		}, $rootScope);
-		
+
 		FLOWABLE.eventBus.addListener(FLOWABLE.eventBus.EVENT_TYPE_EDITOR_READY, function() {
 			var url = window.location.href;
 		    var regex = new RegExp("[?&]subProcessId(=([^&#]*)|&|#|$)");
@@ -357,7 +360,7 @@ angular.module('flowableModeler')
     // Always needed, cause the DOM element on wich the scroll event listeners
 		// are attached are changed for every new model
     initScrollHandling();
-    
+
     var modelId = $routeParams.modelId;
     editorManager.setModelId(modelId);
 		// we first initialize the stencilset used by the editor. The editorId is
@@ -378,7 +381,7 @@ angular.module('flowableModeler')
 		}).catch(function (error) {
 			console.log(error);
 		});
- 
+
 	 	// minihack to make sure mousebind events are processed if the modeler is used
 		// in an iframe.
 		// selecting an element and pressing "del" could sometimes not trigger an
