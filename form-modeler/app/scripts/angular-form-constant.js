@@ -25,7 +25,7 @@
 			return 'http://localhost:8081/form-instances/'+instanceId;
 		},
 		getStencilSet : function() {
-			return './views/stencilset.json?version=' + Date.now();
+			return './stencilset.json?version=' + Date.now();
 		}
 	});
 

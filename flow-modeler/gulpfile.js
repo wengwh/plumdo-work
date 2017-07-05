@@ -172,6 +172,7 @@ gulp.task('clean:dist', function (cb) {
 });
 
 gulp.task('client:build', ['html', 'styles'], function () {
+  var htmlFilter = $.filter('*.html');
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
 
@@ -186,7 +187,29 @@ gulp.task('client:build', ['html', 'styles'], function () {
     .pipe(cssFilter.restore())
     .pipe($.rev())
     .pipe($.revReplace())
+  /*  .pipe(htmlFilter)
+    .pipe($.minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true,
+      conditionals: true
+    }))
+    .pipe(htmlFilter.restore())*/
     .pipe(gulp.dest(yeoman.dist));
+});
+
+gulp.task('partials', function () {
+  return gulp.src(yeoman.app +'/views/**/*.html')
+    .pipe($.minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true
+    }))
+    .pipe($.angularTemplatecache('templateCacheHtml.js', {
+      module: 'flowableModeler',
+      root: 'app'
+    }))
+    .pipe(gulp.dest(yeoman.dist + '/partials/'));
 });
 
 gulp.task('html', function () {
@@ -225,7 +248,7 @@ gulp.task('copy:stencilsets', function () {
 });
 
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['bower','images', 'copy:extras', 'copy:fonts', 'copy:i18n', 'copy:stencilsets', 'client:build']);
+  runSequence(['bower','images','partials', 'copy:extras', 'copy:fonts', 'copy:i18n', 'copy:stencilsets', 'client:build']);
 });
 
 gulp.task('default', ['build']);
