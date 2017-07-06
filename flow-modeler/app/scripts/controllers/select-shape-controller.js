@@ -39,7 +39,7 @@ angular.module('flowableModeler').controller('FlowableBpmShapeSelectionCtrl',
         enableHorizontalScrollbar: 0,
 		enableColumnMenus: false,
 		enableSorting: false,
-        columnDefs: [{ field: 'objectId', displayName: 'Icon', width: 50, cellTemplate: 'views/popups/icon-template.html?version=' + Date.now() },
+        columnDefs: [{ field: 'objectId', displayName: 'Icon', width: 50, cellTemplate: 'views/popups/icon-template.html' },
             { field: 'name', displayName: 'Name', cellTemplate: '<div class="ui-grid-cell-contents">{{"" + row.entity[col.field] | translate}}</div>'}]
     };
     

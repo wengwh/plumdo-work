@@ -19,7 +19,7 @@ angular.module('flowableModeler').controller('FlowableSignalDefinitionsCtrl', ['
 
     // Config for the modal window
     var opts = {
-        template: 'views/properties/signal-definitions-popup.html?version=' + Date.now(),
+        template: 'views/properties/signal-definitions-popup.html',
         scope: $scope
     };
 

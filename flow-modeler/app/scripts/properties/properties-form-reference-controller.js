@@ -32,7 +32,7 @@ angular.module('flowableModeler').controller('FlowableFormReferenceCtrl',
 	
      // Config for the modal window
      var opts = {
-         template:  'views/properties/form-reference-popup.html?version=' + Date.now(),
+         template:  'views/properties/form-reference-popup.html',
          scope: $scope
      };
 

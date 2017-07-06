@@ -39,11 +39,7 @@ var paths = {
   views: {
     main: yeoman.app + '/index.html',
     files: [yeoman.app + '/views/**/*.html']
-  },
-  other:[
-    yeoman.app + '/stencilset.json',
-    yeoman.app + '/favicon.ico'
-  ]
+  }
 };
 
 ////////////////////////
@@ -195,7 +191,7 @@ gulp.task('clean:dist', function (cb) {
 gulp.task('client:build', ['views', 'styles'], function () {
 	var sourcesIndex = gulp.src([yeoman.tmp+'/scripts/angular-template-html.js'], {read: false});
 
-  var htmlFilter = $.filter('*.html', { restore: true });
+  var htmlFilter = $.filter('*.html');
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
 

@@ -16,7 +16,7 @@ angular.module('flowableModeler').controller('FlowableDecisionTableReferenceCtrl
 	
      // Config for the modal window
      var opts = {
-         template:  'views/properties/decisiontable-reference-popup.html?version=' + Date.now(),
+         template:  'views/properties/decisiontable-reference-popup.html',
          scope: $scope
      };
 

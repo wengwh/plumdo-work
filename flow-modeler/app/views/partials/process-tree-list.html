@@ -3,5 +3,5 @@
     <img ng-show="!child.current && child.type === 'CollapsedSubProcess'" ng-src="images/pencil.png" class="pull-right" ng-click="edit(child.id)" />
 </div>
 <ul ng-if="child.children" class="process-treeview-list">
-    <li ng-repeat="child in child.children" ng-include="'views/partials/process-tree-list.html?version=4'"/>
+    <li ng-repeat="child in child.children" ng-include="'views/partials/process-tree-list.html'"/>
 </ul>

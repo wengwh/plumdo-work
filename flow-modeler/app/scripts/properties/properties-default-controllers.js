@@ -89,7 +89,7 @@ angular.module('flowableModeler').controller('FlowableBooleanPropertyCtrl', ['$s
 angular.module('flowableModeler').controller('FlowableTextPropertyCtrl', [ '$scope', '$modal', function($scope, $modal) {
 
     var opts = {
-        template:  'views/properties/text-popup.html?version=' + Date.now(),
+        template:  'views/properties/text-popup.html',
         scope: $scope
     };
 

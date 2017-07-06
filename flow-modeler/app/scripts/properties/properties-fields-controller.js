@@ -20,7 +20,7 @@ angular.module('flowableModeler').controller('FlowableFieldsCtrl',
 
         // Config for the modal window
         var opts = {
-            template: 'views/properties/fields-popup.html?version=' + Date.now(),
+            template: 'views/properties/fields-popup.html',
             scope: $scope
         };
 

@@ -312,14 +312,14 @@ angular.module('flowableModeler')
                             }
 
                             if (propertyConfig.readModeTemplateUrl !== undefined && propertyConfig.readModeTemplateUrl !== null) {
-                                currentProperty.readModeTemplateUrl = propertyConfig.readModeTemplateUrl + '?version=' + $rootScope.staticIncludeVersion;
+                                currentProperty.readModeTemplateUrl = propertyConfig.readModeTemplateUrl;
                             }
                             if (propertyConfig.writeModeTemplateUrl !== null && propertyConfig.writeModeTemplateUrl !== null) {
-                              currentProperty.writeModeTemplateUrl = propertyConfig.writeModeTemplateUrl + '?version=' + $rootScope.staticIncludeVersion;
+                              currentProperty.writeModeTemplateUrl = propertyConfig.writeModeTemplateUrl;
                             }
 
                             if (propertyConfig.templateUrl !== undefined && propertyConfig.templateUrl !== null) {
-                                currentProperty.templateUrl = propertyConfig.templateUrl + '?version=' + $rootScope.staticIncludeVersion;
+                                currentProperty.templateUrl = propertyConfig.templateUrl;
                                 currentProperty.hasReadWriteMode = false;
                             }
                             else {
@@ -499,7 +499,7 @@ angular.module('flowableModeler')
                       $rootScope.currentValidationId = event.validationId;
                       $rootScope.isOnProcessLevel = event.onProcessLevel;
 
-                      _internalCreateModal({template: 'views/popups/validation-errors.html?version=' + Date.now()},  $modal, $rootScope);
+                      _internalCreateModal({template: 'views/popups/validation-errors.html'},  $modal, $rootScope);
                   };
 
                   showValidationDialog();
@@ -540,7 +540,7 @@ angular.module('flowableModeler')
                             _internalCreateModal({
                                 backdrop: false,
                                 keyboard: true,
-                                template: 'views/popups/select-shape.html?version=' + Date.now()
+                                template: 'views/popups/select-shape.html'
                             },  $modal, $rootScope);
                         };
 

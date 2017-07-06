@@ -20,7 +20,7 @@ angular.module('flowableModeler').controller('FlowableInParametersCtrl',
 
         // Config for the modal window
         var opts = {
-            template: 'views/properties/in-parameters-popup.html?version=' + Date.now(),
+            template: 'views/properties/in-parameters-popup.html',
             scope: $scope
         };
 

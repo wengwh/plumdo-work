@@ -20,7 +20,7 @@ angular.module('flowableModeler').controller('FlowableSequenceFlowOrderCtrl',
 
     // Config for the modal window
     var opts = {
-        template:  'views/properties/sequenceflow-order-popup.html?version=' + Date.now(),
+        template:  'views/properties/sequenceflow-order-popup.html',
         scope: $scope
     };
 

@@ -19,7 +19,7 @@ angular.module('flowableModeler').controller('FlowableConditionExpressionCtrl', 
 
     // Config for the modal window
     var opts = {
-        template: 'views/properties/condition-expression-popup.html?version=' + Date.now(),
+        template: 'views/properties/condition-expression-popup.html',
         scope: $scope
     };
 

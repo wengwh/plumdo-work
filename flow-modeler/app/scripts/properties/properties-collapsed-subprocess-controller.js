@@ -16,7 +16,7 @@ angular.module('flowableModeler').controller('FlowableCollapsedSubprocessReferen
 	
      // Config for the modal window
      var opts = {
-         template:  'views/properties/subprocess-reference-popup.html?version=' + Date.now(),
+         template:  'views/properties/subprocess-reference-popup.html',
          scope: $scope
      };
 

@@ -20,7 +20,7 @@ angular.module('flowableModeler').controller('BpmnEditorDueDateCtrl', [ '$scope'
 
     // Config for the modal window
     var opts = {
-        template: 'views/properties/duedate-popup.html?version=' + Date.now(),
+        template: 'views/properties/duedate-popup.html',
         scope: $scope
     };
 

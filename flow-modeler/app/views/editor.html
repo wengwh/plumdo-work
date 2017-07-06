@@ -52,10 +52,10 @@
 
               <ul ng-if="group.visible && group.items" class="stencil-group"
                   ng-class="{collapsed: !group.expanded, 'first': $first}">
-                <li ng-include="'views/partials/stencil-item-template.html?version=6'"></li>
+                <li ng-include="'views/partials/stencil-item-template.html'"></li>
               </ul>
 
-              <div ng-if="!group.items" ng-include="'views/partials/root-stencil-item-template.html?version=6'"></div>
+              <div ng-if="!group.items" ng-include="'views/partials/root-stencil-item-template.html'"></div>
 
             </div>
           </div>
@@ -89,7 +89,7 @@
                    ng-click="edit(treeview.id)"/>
             </div>
             <ul class="process-treeview-list" ng-if="treeview.children">
-              <li ng-repeat="child in treeview.children" ng-include="'views/partials/process-tree-list.html?version=4'">
+              <li ng-repeat="child in treeview.children" ng-include="'views/partials/process-tree-list.html'">
               </li>
             </ul>
             <div ng-if="!treeview.children || treeview.children.length == 0" style="padding-left: 5px;">

@@ -20,7 +20,7 @@ angular.module('flowableModeler').controller('FlowableTaskListenersCtrl',
 
         // Config for the modal window
         var opts = {
-            template: 'views/properties/task-listeners-popup.html?version=' + Date.now(),
+            template: 'views/properties/task-listeners-popup.html',
             scope: $scope
         };
 

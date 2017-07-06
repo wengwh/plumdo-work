@@ -19,7 +19,7 @@ angular.module('flowableModeler').controller('FlowableMessageDefinitionsCtrl', [
 
     // Config for the modal window
     var opts = {
-        template: 'views/properties/message-definitions-popup.html?version=' + Date.now(),
+        template: 'views/properties/message-definitions-popup.html',
         scope: $scope
     };
 

@@ -20,7 +20,7 @@ angular.module('flowableModeler').controller('FlowableExecutionListenersCtrl',
 
         // Config for the modal window
         var opts = {
-            template: 'views/properties/execution-listeners-popup.html?version=' + Date.now(),
+            template: 'views/properties/execution-listeners-popup.html',
             scope: $scope
         };
 

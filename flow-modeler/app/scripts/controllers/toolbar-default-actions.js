@@ -21,7 +21,7 @@ FLOWABLE.TOOLBAR = {
 			_internalCreateModal({
 				backdrop : true,
 				keyboard : true,
-				template : 'views/popups/save-model.html?version=' + Date.now(),
+				template : 'views/popups/save-model.html',
 				scope : services.$scope
 			}, services.$modal, services.$scope);
 		},
@@ -31,7 +31,7 @@ FLOWABLE.TOOLBAR = {
 			_internalCreateModal({
 				backdrop : true,
 				keyboard : true,
-				template : 'views/popups/validate-model.html?version=' + Date.now(),
+				template : 'views/popups/validate-model.html',
 				scope : services.$scope
 			}, services.$modal, services.$scope);
 		},
