@@ -29,6 +29,32 @@
         "dist/css/bootstrap.css",
         "dist/js/bootstrap.js"
       ]
+    },
+    "PACE": {
+      "main": [
+        "themes/blue/pace-theme-corner-indicator.css"
+      ]
+    },
+    "summernote": {
+      "main": [
+	    "./dist/summernote.js",
+	    "./dist/summernote.css",
+        "./lang/summernote-zh-CN.js"
+      ]
+    },
+    "bootstrap-fileinput": {
+      "main": [
+        "./css/fileinput.min.css",
+        "./js/fileinput.min.js",
+        "./js/locales/zh.js"
+      ]
+    },
+    "smalot-bootstrap-datetimepicker": {
+      "main": [
+        "js/bootstrap-datetimepicker.min.js",
+        "css/bootstrap-datetimepicker.min.css",
+        "js/locales/bootstrap-datetimepicker.zh-CN.js"
+      ]
     }
   }
 }

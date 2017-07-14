@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="BlurAdmin">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blur Admin</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900&subset=latin,greek,greek-ext,vietnamese,cyrillic-ext,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+
+  
+  <!-- build:css(app) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.css" />
+  <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+  <link rel="stylesheet" href="bower_components/animate.css/animate.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css" />
+  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="bower_components/angular-progress-button-styles/dist/angular-progress-button-styles.min.css" />
+  <link rel="stylesheet" href="bower_components/chartist/dist/chartist.min.css" />
+  <link rel="stylesheet" href="bower_components/morris.js/morris.css" />
+  <link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.css" />
+  <link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.skinFlat.css" />
+  <link rel="stylesheet" href="bower_components/textAngular/dist/textAngular.css" />
+  <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
+  <link rel="stylesheet" href="bower_components/jstree/dist/themes/default/style.css" />
+  <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  
+  
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+  
+  
+</head>
+<body>
+<div class="body-bg"></div>
+<main ng-if="$pageFinishedLoading" ng-class="{ 'menu-collapsed': $baSidebarService.isMenuCollapsed() }">
+
+  <ba-sidebar></ba-sidebar>
+  <page-top></page-top>
+
+  <div class="al-main">
+    <div class="al-content">
+      <content-top></content-top>
+      <div ui-view autoscroll="true" autoscroll-body-top></div>
+    </div>
+  </div>
+
+  <footer class="al-footer clearfix">
+    <div class="al-footer-right">Created with <i class="ion-heart"></i></div>
+    <div class="al-footer-main clearfix">
+      <div class="al-copy">Blur Admin 2016</div>
+      <ul class="al-share clearfix">
+        <li><i class="socicon socicon-facebook"></i></li>
+        <li><i class="socicon socicon-twitter"></i></li>
+        <li><i class="socicon socicon-google"></i></li>
+        <li><i class="socicon socicon-github"></i></li>
+      </ul>
+    </div>
+  </footer>
+
+  <back-top></back-top>
+</main>
+
+<div id="preloader" ng-show="!$pageFinishedLoading">
+  <div></div>
+</div>
+
+
+<!-- build:js(app) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.js"></script>
+<script src="bower_components/jquery.easing/js/jquery.easing.js"></script>
+<script src="bower_components/requirejs/require.js"></script>
+<script src="bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.js"></script>
+<script src="bower_components/chart.js/dist/Chart.js"></script>
+<script src="bower_components/amcharts/dist/amcharts/amcharts.js"></script>
+<script src="bower_components/amcharts/dist/amcharts/plugins/responsive/responsive.min.js"></script>
+<script src="bower_components/amcharts/dist/amcharts/serial.js"></script>
+<script src="bower_components/amcharts/dist/amcharts/funnel.js"></script>
+<script src="bower_components/amcharts/dist/amcharts/pie.js"></script>
+<script src="bower_components/amcharts/dist/amcharts/gantt.js"></script>
+<script src="bower_components/amcharts-stock/dist/amcharts/amstock.js"></script>
+<script src="bower_components/ammap/dist/ammap/ammap.js"></script>
+<script src="bower_components/ammap/dist/ammap/maps/js/worldLow.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/slimScroll/jquery.slimscroll.js"></script>
+<script src="bower_components/angular-slimscroll/angular-slimscroll.js"></script>
+<script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
+<script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/angular-ui-sortable/sortable.js"></script>
+<script src="bower_components/bootstrap/js/dropdown.js"></script>
+<script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+<script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
+<script src="bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+<script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+<script src="bower_components/angular-progress-button-styles/dist/angular-progress-button-styles.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+<script src="bower_components/chartist/dist/chartist.min.js"></script>
+<script src="bower_components/angular-chartist.js/dist/angular-chartist.js"></script>
+<script src="bower_components/eve-raphael/eve.js"></script>
+<script src="bower_components/raphael/raphael.min.js"></script>
+<script src="bower_components/mocha/mocha.js"></script>
+<script src="bower_components/morris.js/morris.js"></script>
+<script src="bower_components/angular-morris-chart/src/angular-morris-chart.min.js"></script>
+<script src="bower_components/ionrangeslider/js/ion.rangeSlider.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/rangy/rangy-core.js"></script>
+<script src="bower_components/rangy/rangy-classapplier.js"></script>
+<script src="bower_components/rangy/rangy-highlighter.js"></script>
+<script src="bower_components/rangy/rangy-selectionsaverestore.js"></script>
+<script src="bower_components/rangy/rangy-serializer.js"></script>
+<script src="bower_components/rangy/rangy-textrange.js"></script>
+<script src="bower_components/textAngular/dist/textAngular.js"></script>
+<script src="bower_components/textAngular/dist/textAngular-sanitize.js"></script>
+<script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
+<script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="bower_components/jstree/dist/jstree.js"></script>
+<script src="bower_components/ng-js-tree/dist/ngJsTree.js"></script>
+<script src="bower_components/angular-ui-select/dist/select.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+
+<!-- inject:partials -->
+<!-- angular templates will be automatically converted in js and inserted here -->
+<!-- endinject -->
+<!-- endbuild -->
+</body>
+</body>
+</html>

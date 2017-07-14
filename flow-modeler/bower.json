@@ -40,6 +40,11 @@
         "dist/css/bootstrap.css",
         "dist/js/bootstrap.js"
       ]
+    },
+    "jquery-grab-bag": {
+      "main": [
+        "javascripts/jquery.autogrow-textarea.js"
+      ]
     }
   }
 }
