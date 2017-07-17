@@ -12,18 +12,18 @@ var runSequence = require('run-sequence');
 var yeoman = {
   app: require('./bower.json').appPath || 'app',
   dist: 'dist',
-  tmp:'.tmp',
-  module : 'BlurAdmin'
+  tmp: '.tmp',
+  module: 'BlurAdmin'
 };
 
 var paths = {
-  scripts: [yeoman.app + '/scripts/**/*.js'],
+  scripts: [yeoman.app + '/views/**/*.js'],
   styles: [yeoman.app + '/styles/**/*.scss'],
   fonts: [
     yeoman.app + '/fonts/**/*',
-    yeoman.app +'/bower_components/font-awesome/fonts/*',
-    yeoman.app +'/bower_components/bootstrap/fonts/*',
-    yeoman.app +'/bower_components/Ionicons/fonts/*'
+    yeoman.app + '/bower_components/font-awesome/fonts/*',
+    yeoman.app + '/bower_components/bootstrap/fonts/*',
+    yeoman.app + '/bower_components/Ionicons/fonts/*'
   ],
   test: ['test/spec/**/*.js'],
   testRequire: [
@@ -39,7 +39,7 @@ var paths = {
   karma: 'karma.conf.js',
   views: {
     main: yeoman.app + '/index.html',
-    files: [yeoman.app + '/scripts/**/*.html']
+    files: [yeoman.app + '/views/**/*.html']
   }
 };
 
@@ -57,61 +57,59 @@ var styles = lazypipe()
     precision: 10
   })
   .pipe($.autoprefixer, 'last 1 version')
-  .pipe(gulp.dest, yeoman.tmp+'/styles');
-
-
+  .pipe(gulp.dest, yeoman.tmp + '/styles');
 
 
 ///////////
 // Tasks //
 ///////////
 gulp.task('scriptInject', function () {
-	var injectFiles = gulp.src([yeoman.app+'/scripts/**/*.module.js',
-	                            yeoman.app+ '/scripts/**/*.js',
-	                            '!' + yeoman.app+ '/scripts/**/*.spec.js',
-	                            '!' + yeoman.app+ '/scripts/**/*.mock.js'
-	                          ], {read: false});
-	
-	
-	 var injectOptions = {
-		starttag : '<!-- inject:scripts -->',
-		ignorePath: yeoman.app,
-		addRootSlash : false
-	};
+  var injectFiles = gulp.src([yeoman.app + '/views/**/*.module.js',
+    yeoman.app + '/views/**/*.js',
+    '!' + yeoman.app + '/views/**/*.spec.js',
+    '!' + yeoman.app + '/views/**/*.mock.js'
+  ], {read: false});
 
-	return gulp.src(paths.views.main)
-  	.pipe($.inject(injectFiles, injectOptions))
+
+  var injectOptions = {
+    starttag: '<!-- inject:scripts -->',
+    ignorePath: yeoman.app,
+    addRootSlash: false
+  };
+
+  return gulp.src(paths.views.main)
+    .pipe($.inject(injectFiles, injectOptions))
     .pipe(gulp.dest(yeoman.app));
 
 });
 
 gulp.task('stylesMain', function () {
-	var injectFiles = gulp.src([yeoman.app+'/styles/**/_*.scss',
-	                            '!' + yeoman.app+ '/styles/theme/conf/**/*.scss',
-	                            '!' + yeoman.app+ '/styles/404.scss',
-	                            '!' + yeoman.app+ '/styles/auth.scss'
-	                          ], {read: false});
-	
-	
-	 var injectOptions = {
-		transform : function(filePath) {
-			filePath = filePath.replace(yeoman.app + '/styles/', '');
-			return '@import "' + filePath + '";';
-		},
-		starttag : '// injector',
-		endtag : '// endinjector',
-		addRootSlash : false
-	};
-	 
-	return gulp.src(yeoman.app+'/styles/main.scss')
-  	.pipe($.inject(injectFiles, injectOptions))
+  var injectFiles = gulp.src([yeoman.app + '/styles/**/_*.scss',
+    '!' + yeoman.app + '/styles/theme/conf/**/*.scss',
+    '!' + yeoman.app + '/styles/404.scss',
+    '!' + yeoman.app + '/styles/auth.scss'
+  ], {read: false});
+
+
+  var injectOptions = {
+    transform: function (filePath) {
+      filePath = filePath.replace(yeoman.app + '/styles/', '');
+      return '@import "' + filePath + '";';
+    },
+    starttag: '// injector',
+    endtag: '// endinjector',
+    addRootSlash: false
+  };
+
+  return gulp.src(yeoman.app + '/styles/main.scss')
+    .pipe($.inject(injectFiles, injectOptions))
     .pipe(styles());
 
 });
 
 
-gulp.task('styles', ['stylesMain'],function () {
-  return gulp.src([yeoman.app+'/styles/404.scss',yeoman.app+'/styles/auth.scss'])
+gulp.task('styles', ['stylesMain'], function () {
+  return gulp.src([yeoman.app + '/styles/404.scss', yeoman.app + '/styles/auth.scss'])
     .pipe(styles());
 });
 
@@ -121,42 +119,42 @@ gulp.task('lint:scripts', function () {
 });
 
 gulp.task('clean:tmp', function (cb) {
-  rimraf('./'+yeoman.tmp, cb);
+  rimraf('./' + yeoman.tmp, cb);
 });
 
 gulp.task('start:client', ['start:server', 'styles', 'scriptInject'], function () {
   openURL('http://localhost:9002');
 });
 
-gulp.task('start:server', function() {
+gulp.task('start:server', function () {
   $.connect.server({
     root: [yeoman.app, yeoman.tmp],
     livereload: {
-    	enable:true,
-    	port:35727
-  	},
+      enable: true,
+      port: 35727
+    },
     // Change this to '0.0.0.0' to access the server from outside.
     port: 9002,
     middleware: function (connect) {
-      return [connect().use('/bower_components',connect.static('./bower_components'))];
+      return [connect().use('/bower_components', connect.static('./bower_components'))];
     }
   });
 });
 
-gulp.task('start:server:test', function() {
+gulp.task('start:server:test', function () {
   $.connect.server({
     root: ['test', yeoman.app, yeoman.tmp],
     livereload: true,
     port: 9001,
     middleware: function (connect) {
-      return [connect().use('/bower_components',connect.static('./bower_components'))];
+      return [connect().use('/bower_components', connect.static('./bower_components'))];
     }
   });
 });
 
 gulp.task('watch', function () {
-	
-  $.watch(paths.styles)
+
+  $.watch(paths.styles,['styles'])
     .pipe($.plumber())
     .pipe(styles())
     .pipe($.connect.reload());
@@ -173,19 +171,19 @@ gulp.task('watch', function () {
   $.watch(paths.test)
     .pipe($.plumber())
     .pipe(lintScripts());
-  
+
   gulp.watch('bower.json', ['bower']);
 });
 
 gulp.task('serve', function (cb) {
   runSequence('clean:tmp',
-   'bower',
+    'bower',
     ['lint:scripts'],
     ['start:client'],
     'watch', cb);
 });
 
-gulp.task('serve:prod', function() {
+gulp.task('serve:prod', function () {
   $.connect.server({
     root: [yeoman.dist],
     livereload: true,
@@ -210,7 +208,7 @@ gulp.task('bower', function () {
       exclude: [/\/bootstrap\.js$/, /\/bootstrap-sass\/.*\.js/, /\/require\.js/],
       ignorePath: '..'
     }))
-  .pipe(gulp.dest(yeoman.app));
+    .pipe(gulp.dest(yeoman.app));
 });
 
 
@@ -223,10 +221,10 @@ gulp.task('views', function () {
     }))
     .pipe($.angularTemplatecache('angular-template-html.js', {
       module: yeoman.module,
-      root: 'app'
+      root: 'views'
     }))
-    .pipe(gulp.dest(yeoman.tmp+'/scripts'));
-  
+    .pipe(gulp.dest(yeoman.tmp + '/scripts'));
+
 });
 
 ///////////
@@ -238,14 +236,14 @@ gulp.task('clean:dist', function (cb) {
 });
 
 gulp.task('client:build', ['views', 'styles', 'scriptInject'], function () {
-	var sourcesIndex = gulp.src([yeoman.tmp+'/scripts/angular-template-html.js'], {read: false});
+  var sourcesIndex = gulp.src([yeoman.tmp + '/scripts/angular-template-html.js'], {read: false});
 
   var htmlFilter = $.filter('*.html');
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
 
   return gulp.src(paths.views.main)
-  	.pipe($.inject(sourcesIndex, {starttag: '<!-- inject:partials -->',ignorePath: yeoman.tmp,addRootSlash: false}))
+    .pipe($.inject(sourcesIndex, {starttag: '<!-- inject:partials -->', ignorePath: yeoman.tmp, addRootSlash: false}))
     .pipe($.useref({searchPath: [yeoman.app, yeoman.tmp]}))
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
@@ -272,15 +270,15 @@ gulp.task('client:build', ['views', 'styles', 'scriptInject'], function () {
 gulp.task('images', function () {
   return gulp.src(yeoman.app + '/images/**/*')
     .pipe($.cache($.imagemin({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
+      optimizationLevel: 5,
+      progressive: true,
+      interlaced: true
     })))
     .pipe(gulp.dest(yeoman.dist + '/images'));
 });
 
 gulp.task('copy:extras', function () {
-  return gulp.src(yeoman.app + '/**.*', { dot: true })
+  return gulp.src(yeoman.app + '/**.*', {dot: true})
     .pipe(gulp.dest(yeoman.dist));
 });
 
@@ -290,7 +288,7 @@ gulp.task('copy:fonts', function () {
 });
 
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['bower','images', 'copy:extras', 'copy:fonts', 'client:build']);
+  runSequence(['bower', 'images', 'copy:extras', 'copy:fonts', 'client:build']);
 });
 
 gulp.task('default', ['build']);

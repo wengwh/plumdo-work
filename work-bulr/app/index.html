@@ -6,13 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blur Admin</title>
 
-  <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900&subset=latin,greek,greek-ext,vietnamese,cyrillic-ext,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
 
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
 
-  
+
   <!-- build:css(app) styles/vendor.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.css" />
@@ -36,13 +35,13 @@
   <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
   <!-- endbower -->
   <!-- endbuild -->
-  
-  
+
+
   <!-- build:css(.tmp) styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
-  
-  
+
+
 </head>
 <body>
 <div class="body-bg"></div>
@@ -141,147 +140,146 @@
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <!-- inject:scripts -->
-<script src="scripts/pages/pages.module.js"></script>
-<script src="scripts/theme/theme.module.js"></script>
-<script src="scripts/pages/charts/charts.module.js"></script>
-<script src="scripts/pages/components/components.module.js"></script>
-<script src="scripts/pages/dashboard/dashboard.module.js"></script>
-<script src="scripts/pages/form/form.module.js"></script>
-<script src="scripts/pages/maps/maps.module.js"></script>
-<script src="scripts/pages/profile/profile.module.js"></script>
-<script src="scripts/pages/tables/tables.module.js"></script>
-<script src="scripts/pages/ui/ui.module.js"></script>
-<script src="scripts/theme/components/components.module.js"></script>
-<script src="scripts/theme/inputs/inputs.module.js"></script>
-<script src="scripts/pages/charts/amCharts/amCharts.module.js"></script>
-<script src="scripts/pages/charts/chartist/chartist.module.js"></script>
-<script src="scripts/pages/charts/chartJs/chartJs.module.js"></script>
-<script src="scripts/pages/charts/morris/morris.module.js"></script>
-<script src="scripts/pages/components/timeline/timeline.module.js"></script>
-<script src="scripts/pages/components/mail/mail.module.js"></script>
-<script src="scripts/pages/components/tree/tree.module.js"></script>
-<script src="scripts/pages/ui/alerts/alerts.module.js"></script>
-<script src="scripts/pages/ui/buttons/buttons.module.js"></script>
-<script src="scripts/pages/ui/grid/grid.module.js"></script>
-<script src="scripts/pages/ui/icons/icons.module.js"></script>
-<script src="scripts/pages/ui/notifications/notifications.module.js"></script>
-<script src="scripts/pages/ui/modals/modals.module.js"></script>
-<script src="scripts/pages/ui/panels/panels.module.js"></script>
-<script src="scripts/pages/ui/progressBars/progressBars.module.js"></script>
-<script src="scripts/pages/ui/slider/slider.module.js"></script>
-<script src="scripts/pages/ui/tabs/tabs.module.js"></script>
-<script src="scripts/pages/ui/typography/typography.module.js"></script>
-<script src="scripts/app.js"></script>
-<script src="scripts/theme/theme.config.js"></script>
-<script src="scripts/theme/theme.configProvider.js"></script>
-<script src="scripts/theme/theme.constants.js"></script>
-<script src="scripts/theme/theme.run.js"></script>
-<script src="scripts/theme/theme.service.js"></script>
-<script src="scripts/pages/profile/ProfileModalCtrl.js"></script>
-<script src="scripts/pages/profile/ProfilePageCtrl.js"></script>
-<script src="scripts/pages/tables/TablesPageCtrl.js"></script>
-<script src="scripts/theme/components/toastrLibConfig.js"></script>
-<script src="scripts/theme/directives/animatedChange.js"></script>
-<script src="scripts/theme/directives/autoExpand.js"></script>
-<script src="scripts/theme/directives/autoFocus.js"></script>
-<script src="scripts/theme/directives/includeWithScope.js"></script>
-<script src="scripts/theme/directives/ionSlider.js"></script>
-<script src="scripts/theme/directives/ngFileSelect.js"></script>
-<script src="scripts/theme/directives/scrollPosition.js"></script>
-<script src="scripts/theme/directives/trackWidth.js"></script>
-<script src="scripts/theme/directives/zoomIn.js"></script>
-<script src="scripts/theme/services/baProgressModal.js"></script>
-<script src="scripts/theme/services/baUtil.js"></script>
-<script src="scripts/theme/services/fileReader.js"></script>
-<script src="scripts/theme/services/preloader.js"></script>
-<script src="scripts/theme/services/stopableInterval.js"></script>
-<script src="scripts/pages/charts/chartist/chartistCtrl.js"></script>
-<script src="scripts/pages/charts/chartJs/chartJs1DCtrl.js"></script>
-<script src="scripts/pages/charts/chartJs/chartJs2DCtrl.js"></script>
-<script src="scripts/pages/charts/chartJs/chartJsWaveCtrl.js"></script>
-<script src="scripts/pages/charts/morris/morrisCtrl.js"></script>
-<script src="scripts/pages/components/timeline/TimelineCtrl.js"></script>
-<script src="scripts/pages/components/mail/MailTabCtrl.js"></script>
-<script src="scripts/pages/components/mail/mailMessages.js"></script>
-<script src="scripts/pages/components/tree/treeCtrl.js"></script>
-<script src="scripts/pages/dashboard/calendar/dashboardCalendar.js"></script>
-<script src="scripts/pages/dashboard/blurFeed/BlurFeedCtrl.js"></script>
-<script src="scripts/pages/dashboard/blurFeed/blurFeed.directive.js"></script>
-<script src="scripts/pages/dashboard/dashboardCalendar/DashboardCalendarCtrl.js"></script>
-<script src="scripts/pages/dashboard/dashboardCalendar/dashboardCalendar.directive.js"></script>
-<script src="scripts/pages/dashboard/dashboardLineChart/DashboardLineChartCtrl.js"></script>
-<script src="scripts/pages/dashboard/dashboardLineChart/dashboardLineChart.directive.js"></script>
-<script src="scripts/pages/dashboard/dashboardMap/DashboardMapCtrl.js"></script>
-<script src="scripts/pages/dashboard/dashboardMap/dashboardMap.directive.js"></script>
-<script src="scripts/pages/dashboard/dashboardPieChart/DashboardPieChartCtrl.js"></script>
-<script src="scripts/pages/dashboard/dashboardPieChart/dashboardPieChart.directive.js"></script>
-<script src="scripts/pages/dashboard/dashboardTodo/DashboardTodoCtrl.js"></script>
-<script src="scripts/pages/dashboard/dashboardTodo/dashboardTodo.directive.js"></script>
-<script src="scripts/pages/dashboard/pieCharts/dashboardPieChart.js"></script>
-<script src="scripts/pages/dashboard/popularApp/popularApp.directive.js"></script>
-<script src="scripts/pages/dashboard/trafficChart/TrafficChartCtrl.js"></script>
-<script src="scripts/pages/dashboard/trafficChart/trafficChart.directive.js"></script>
-<script src="scripts/pages/dashboard/weather/WeatherCtrl.js"></script>
-<script src="scripts/pages/dashboard/weather/weather.directive.js"></script>
-<script src="scripts/pages/form/wizard/wizrdCtrl.js"></script>
-<script src="scripts/pages/maps/google-maps/GmapPageCtrl.js"></script>
-<script src="scripts/pages/maps/leaflet/LeafletPageCtrl.js"></script>
-<script src="scripts/pages/maps/map-bubbles/MapBubblePageCtrl.js"></script>
-<script src="scripts/pages/maps/map-lines/MapLinesPageCtrl.js"></script>
-<script src="scripts/pages/ui/buttons/ButtonPageCtrl.js"></script>
-<script src="scripts/pages/ui/icons/IconsPageCtrl.js"></script>
-<script src="scripts/pages/ui/notifications/NotificationsPageCtrl.js"></script>
-<script src="scripts/pages/ui/modals/ModalsPageCtrl.js"></script>
-<script src="scripts/theme/components/baPanel/baPanel.directive.js"></script>
-<script src="scripts/theme/components/baPanel/baPanel.service.js"></script>
-<script src="scripts/theme/components/baPanel/baPanelBlur.directive.js"></script>
-<script src="scripts/theme/components/baPanel/baPanelBlurHelper.service.js"></script>
-<script src="scripts/theme/components/baPanel/baPanelSelf.directive.js"></script>
-<script src="scripts/theme/components/baSidebar/BaSidebarCtrl.js"></script>
-<script src="scripts/theme/components/baSidebar/baSidebar.directive.js"></script>
-<script src="scripts/theme/components/baSidebar/baSidebar.service.js"></script>
-<script src="scripts/theme/components/baSidebar/baSidebarHelpers.directive.js"></script>
-<script src="scripts/theme/components/baWizard/baWizard.directive.js"></script>
-<script src="scripts/theme/components/baWizard/baWizardCtrl.js"></script>
-<script src="scripts/theme/components/baWizard/baWizardStep.directive.js"></script>
-<script src="scripts/theme/components/backTop/backTop.directive.js"></script>
-<script src="scripts/theme/components/contentTop/contentTop.directive.js"></script>
-<script src="scripts/theme/components/pageTop/pageTop.directive.js"></script>
-<script src="scripts/theme/components/msgCenter/MsgCenterCtrl.js"></script>
-<script src="scripts/theme/components/msgCenter/msgCenter.directive.js"></script>
-<script src="scripts/theme/components/progressBarRound/progressBarRound.directive.js"></script>
-<script src="scripts/theme/components/widgets/widgets.directive.js"></script>
-<script src="scripts/theme/filters/text/removeHtml.js"></script>
-<script src="scripts/theme/filters/image/appImage.js"></script>
-<script src="scripts/theme/filters/image/kameleonImg.js"></script>
-<script src="scripts/theme/filters/image/profilePicture.js"></script>
-<script src="scripts/theme/inputs/baSwitcher/baSwitcher.js"></script>
-<script src="scripts/pages/charts/amCharts/barChart/BarChartCtrl.js"></script>
-<script src="scripts/pages/charts/amCharts/combinedChart/combinedChartCtrl.js"></script>
-<script src="scripts/pages/charts/amCharts/ganttChart/ganttChartCtrl.js"></script>
-<script src="scripts/pages/charts/amCharts/lineChart/LineChartCtrl.js"></script>
-<script src="scripts/pages/charts/amCharts/pieChart/PieChartCtrl.js"></script>
-<script src="scripts/pages/charts/amCharts/funnelChart/FunnelChartCtrl.js"></script>
-<script src="scripts/pages/charts/amCharts/areaChart/AreaChartCtrl.js"></script>
-<script src="scripts/pages/components/mail/composeBox/composeBoxCtrl.js"></script>
-<script src="scripts/pages/components/mail/composeBox/composeModal.js"></script>
-<script src="scripts/pages/components/mail/list/MailListCtrl.js"></script>
-<script src="scripts/pages/components/mail/detail/MailDetailCtrl.js"></script>
-<script src="scripts/pages/ui/modals/notifications/NotificationsCtrl.js"></script>
-<script src="scripts/pages/ui/modals/progressModal/ProgressModalCtrl.js"></script>
-<script src="scripts/theme/components/backTop/lib/jquery.backTop.min.js"></script>
-<script src="scripts/pages/form/inputs/widgets/datePickers/datepickerCtrl.js"></script>
-<script src="scripts/pages/form/inputs/widgets/datePickers/datepickerpopupCtrl.js"></script>
-<script src="scripts/pages/form/inputs/widgets/oldSelect/OldSelectpickerPanelCtrl.js"></script>
-<script src="scripts/pages/form/inputs/widgets/oldSelect/selectpicker.directive.js"></script>
-<script src="scripts/pages/form/inputs/widgets/oldSwitches/OldSwitchPanelCtrl.js"></script>
-<script src="scripts/pages/form/inputs/widgets/oldSwitches/switch.directive.js"></script>
-<script src="scripts/pages/form/inputs/widgets/select/GroupSelectpickerOptions.js"></script>
-<script src="scripts/pages/form/inputs/widgets/select/SelectpickerPanelCtrl.js"></script>
-<script src="scripts/pages/form/inputs/widgets/switches/SwitchDemoPanelCtrl.js"></script>
-<script src="scripts/pages/form/inputs/widgets/tagsInput/tagsInput.directive.js"></script>
+<script src="views/theme/theme.module.js"></script>
+<script src="views/pages/pages.module.js"></script>
+<script src="views/theme/components/components.module.js"></script>
+<script src="views/theme/inputs/inputs.module.js"></script>
+<script src="views/pages/charts/charts.module.js"></script>
+<script src="views/pages/components/components.module.js"></script>
+<script src="views/pages/form/form.module.js"></script>
+<script src="views/pages/dashboard/dashboard.module.js"></script>
+<script src="views/pages/maps/maps.module.js"></script>
+<script src="views/pages/profile/profile.module.js"></script>
+<script src="views/pages/ui/ui.module.js"></script>
+<script src="views/pages/tables/tables.module.js"></script>
+<script src="views/pages/charts/amCharts/amCharts.module.js"></script>
+<script src="views/pages/charts/chartJs/chartJs.module.js"></script>
+<script src="views/pages/charts/chartist/chartist.module.js"></script>
+<script src="views/pages/charts/morris/morris.module.js"></script>
+<script src="views/pages/components/mail/mail.module.js"></script>
+<script src="views/pages/components/timeline/timeline.module.js"></script>
+<script src="views/pages/components/tree/tree.module.js"></script>
+<script src="views/pages/ui/alerts/alerts.module.js"></script>
+<script src="views/pages/ui/buttons/buttons.module.js"></script>
+<script src="views/pages/ui/grid/grid.module.js"></script>
+<script src="views/pages/ui/icons/icons.module.js"></script>
+<script src="views/pages/ui/modals/modals.module.js"></script>
+<script src="views/pages/ui/notifications/notifications.module.js"></script>
+<script src="views/pages/ui/panels/panels.module.js"></script>
+<script src="views/pages/ui/progressBars/progressBars.module.js"></script>
+<script src="views/pages/ui/slider/slider.module.js"></script>
+<script src="views/pages/ui/tabs/tabs.module.js"></script>
+<script src="views/pages/ui/typography/typography.module.js"></script>
+<script src="views/app.js"></script>
+<script src="views/theme/theme.config.js"></script>
+<script src="views/theme/theme.configProvider.js"></script>
+<script src="views/theme/theme.constants.js"></script>
+<script src="views/theme/theme.run.js"></script>
+<script src="views/theme/theme.service.js"></script>
+<script src="views/theme/directives/animatedChange.js"></script>
+<script src="views/theme/directives/autoExpand.js"></script>
+<script src="views/theme/directives/autoFocus.js"></script>
+<script src="views/theme/directives/includeWithScope.js"></script>
+<script src="views/theme/directives/ionSlider.js"></script>
+<script src="views/theme/directives/ngFileSelect.js"></script>
+<script src="views/theme/directives/scrollPosition.js"></script>
+<script src="views/theme/directives/trackWidth.js"></script>
+<script src="views/theme/directives/zoomIn.js"></script>
+<script src="views/theme/components/toastrLibConfig.js"></script>
+<script src="views/theme/services/baProgressModal.js"></script>
+<script src="views/theme/services/baUtil.js"></script>
+<script src="views/theme/services/fileReader.js"></script>
+<script src="views/theme/services/preloader.js"></script>
+<script src="views/theme/services/stopableInterval.js"></script>
+<script src="views/pages/profile/ProfileModalCtrl.js"></script>
+<script src="views/pages/profile/ProfilePageCtrl.js"></script>
+<script src="views/pages/tables/TablesPageCtrl.js"></script>
+<script src="views/theme/components/baPanel/baPanel.directive.js"></script>
+<script src="views/theme/components/baPanel/baPanel.service.js"></script>
+<script src="views/theme/components/baPanel/baPanelBlur.directive.js"></script>
+<script src="views/theme/components/baPanel/baPanelBlurHelper.service.js"></script>
+<script src="views/theme/components/baPanel/baPanelSelf.directive.js"></script>
+<script src="views/theme/components/baSidebar/BaSidebarCtrl.js"></script>
+<script src="views/theme/components/baSidebar/baSidebar.directive.js"></script>
+<script src="views/theme/components/baSidebar/baSidebar.service.js"></script>
+<script src="views/theme/components/baSidebar/baSidebarHelpers.directive.js"></script>
+<script src="views/theme/components/baWizard/baWizard.directive.js"></script>
+<script src="views/theme/components/baWizard/baWizardCtrl.js"></script>
+<script src="views/theme/components/baWizard/baWizardStep.directive.js"></script>
+<script src="views/theme/components/backTop/backTop.directive.js"></script>
+<script src="views/theme/components/contentTop/contentTop.directive.js"></script>
+<script src="views/theme/components/msgCenter/MsgCenterCtrl.js"></script>
+<script src="views/theme/components/msgCenter/msgCenter.directive.js"></script>
+<script src="views/theme/components/pageTop/pageTop.directive.js"></script>
+<script src="views/theme/components/progressBarRound/progressBarRound.directive.js"></script>
+<script src="views/theme/components/widgets/widgets.directive.js"></script>
+<script src="views/theme/filters/image/appImage.js"></script>
+<script src="views/theme/filters/image/kameleonImg.js"></script>
+<script src="views/theme/filters/image/profilePicture.js"></script>
+<script src="views/theme/filters/text/removeHtml.js"></script>
+<script src="views/theme/inputs/baSwitcher/baSwitcher.js"></script>
+<script src="views/pages/charts/chartJs/chartJs1DCtrl.js"></script>
+<script src="views/pages/charts/chartJs/chartJs2DCtrl.js"></script>
+<script src="views/pages/charts/chartJs/chartJsWaveCtrl.js"></script>
+<script src="views/pages/charts/chartist/chartistCtrl.js"></script>
+<script src="views/pages/charts/morris/morrisCtrl.js"></script>
+<script src="views/pages/components/mail/MailTabCtrl.js"></script>
+<script src="views/pages/components/mail/mailMessages.js"></script>
+<script src="views/pages/components/timeline/TimelineCtrl.js"></script>
+<script src="views/pages/components/tree/treeCtrl.js"></script>
+<script src="views/pages/form/wizard/wizrdCtrl.js"></script>
+<script src="views/pages/dashboard/blurFeed/BlurFeedCtrl.js"></script>
+<script src="views/pages/dashboard/blurFeed/blurFeed.directive.js"></script>
+<script src="views/pages/dashboard/dashboardCalendar/DashboardCalendarCtrl.js"></script>
+<script src="views/pages/dashboard/dashboardCalendar/dashboardCalendar.directive.js"></script>
+<script src="views/pages/dashboard/dashboardLineChart/DashboardLineChartCtrl.js"></script>
+<script src="views/pages/dashboard/dashboardLineChart/dashboardLineChart.directive.js"></script>
+<script src="views/pages/dashboard/dashboardPieChart/DashboardPieChartCtrl.js"></script>
+<script src="views/pages/dashboard/dashboardPieChart/dashboardPieChart.directive.js"></script>
+<script src="views/pages/dashboard/dashboardMap/DashboardMapCtrl.js"></script>
+<script src="views/pages/dashboard/dashboardMap/dashboardMap.directive.js"></script>
+<script src="views/pages/dashboard/dashboardTodo/DashboardTodoCtrl.js"></script>
+<script src="views/pages/dashboard/dashboardTodo/dashboardTodo.directive.js"></script>
+<script src="views/pages/dashboard/calendar/dashboardCalendar.js"></script>
+<script src="views/pages/dashboard/pieCharts/dashboardPieChart.js"></script>
+<script src="views/pages/dashboard/popularApp/popularApp.directive.js"></script>
+<script src="views/pages/dashboard/trafficChart/TrafficChartCtrl.js"></script>
+<script src="views/pages/dashboard/trafficChart/trafficChart.directive.js"></script>
+<script src="views/pages/dashboard/weather/WeatherCtrl.js"></script>
+<script src="views/pages/dashboard/weather/weather.directive.js"></script>
+<script src="views/pages/maps/google-maps/GmapPageCtrl.js"></script>
+<script src="views/pages/maps/leaflet/LeafletPageCtrl.js"></script>
+<script src="views/pages/maps/map-lines/MapLinesPageCtrl.js"></script>
+<script src="views/pages/maps/map-bubbles/MapBubblePageCtrl.js"></script>
+<script src="views/pages/ui/buttons/ButtonPageCtrl.js"></script>
+<script src="views/pages/ui/icons/IconsPageCtrl.js"></script>
+<script src="views/pages/ui/modals/ModalsPageCtrl.js"></script>
+<script src="views/pages/ui/notifications/NotificationsPageCtrl.js"></script>
+<script src="views/theme/components/backTop/lib/jquery.backTop.min.js"></script>
+<script src="views/pages/charts/amCharts/areaChart/AreaChartCtrl.js"></script>
+<script src="views/pages/charts/amCharts/barChart/BarChartCtrl.js"></script>
+<script src="views/pages/charts/amCharts/combinedChart/combinedChartCtrl.js"></script>
+<script src="views/pages/charts/amCharts/funnelChart/FunnelChartCtrl.js"></script>
+<script src="views/pages/charts/amCharts/ganttChart/ganttChartCtrl.js"></script>
+<script src="views/pages/charts/amCharts/lineChart/LineChartCtrl.js"></script>
+<script src="views/pages/charts/amCharts/pieChart/PieChartCtrl.js"></script>
+<script src="views/pages/components/mail/composeBox/composeBoxCtrl.js"></script>
+<script src="views/pages/components/mail/composeBox/composeModal.js"></script>
+<script src="views/pages/components/mail/detail/MailDetailCtrl.js"></script>
+<script src="views/pages/components/mail/list/MailListCtrl.js"></script>
+<script src="views/pages/ui/modals/notifications/NotificationsCtrl.js"></script>
+<script src="views/pages/ui/modals/progressModal/ProgressModalCtrl.js"></script>
+<script src="views/pages/form/inputs/widgets/datePickers/datepickerCtrl.js"></script>
+<script src="views/pages/form/inputs/widgets/datePickers/datepickerpopupCtrl.js"></script>
+<script src="views/pages/form/inputs/widgets/oldSelect/OldSelectpickerPanelCtrl.js"></script>
+<script src="views/pages/form/inputs/widgets/oldSelect/selectpicker.directive.js"></script>
+<script src="views/pages/form/inputs/widgets/oldSwitches/OldSwitchPanelCtrl.js"></script>
+<script src="views/pages/form/inputs/widgets/oldSwitches/switch.directive.js"></script>
+<script src="views/pages/form/inputs/widgets/select/GroupSelectpickerOptions.js"></script>
+<script src="views/pages/form/inputs/widgets/select/SelectpickerPanelCtrl.js"></script>
+<script src="views/pages/form/inputs/widgets/switches/SwitchDemoPanelCtrl.js"></script>
+<script src="views/pages/form/inputs/widgets/tagsInput/tagsInput.directive.js"></script>
 <!-- endinject -->
-<script src="angular-template-html.js"></script>
 
 <!-- inject:partials -->
 <!-- angular templates will be automatically converted in js and inserted here -->
