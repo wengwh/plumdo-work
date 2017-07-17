@@ -9,7 +9,7 @@
     .config(routeConfig)
     .config(function(){
       $.jstree.defaults.core.themes.url = true;
-      $.jstree.defaults.core.themes.dir = "assets/img/theme/vendor/jstree/dist/themes";
+      $.jstree.defaults.core.themes.dir = "images/img/theme/vendor/jstree/dist/themes";
     });
 
   /** @ngInject */

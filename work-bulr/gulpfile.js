@@ -13,16 +13,17 @@ var yeoman = {
   app: require('./bower.json').appPath || 'app',
   dist: 'dist',
   tmp:'.tmp',
-  module : 'builder'
+  module : 'BlurAdmin'
 };
 
 var paths = {
   scripts: [yeoman.app + '/scripts/**/*.js'],
-  styles: [yeoman.app + '/sass/**/*.scss'],
+  styles: [yeoman.app + '/styles/**/*.scss'],
   fonts: [
     yeoman.app + '/fonts/**/*',
     yeoman.app +'/bower_components/font-awesome/fonts/*',
-    yeoman.app +'/bower_components/bootstrap/fonts/*'
+    yeoman.app +'/bower_components/bootstrap/fonts/*',
+    yeoman.app +'/bower_components/Ionicons/fonts/*'
   ],
   test: ['test/spec/**/*.js'],
   testRequire: [
@@ -38,7 +39,7 @@ var paths = {
   karma: 'karma.conf.js',
   views: {
     main: yeoman.app + '/index.html',
-    files: [yeoman.app + '/views/**/*.html']
+    files: [yeoman.app + '/scripts/**/*.html']
   }
 };
 
@@ -58,21 +59,43 @@ var styles = lazypipe()
   .pipe($.autoprefixer, 'last 1 version')
   .pipe(gulp.dest, yeoman.tmp+'/styles');
 
+
+
+
 ///////////
 // Tasks //
 ///////////
+gulp.task('scriptInject', function () {
+	var injectFiles = gulp.src([yeoman.app+'/scripts/**/*.module.js',
+	                            yeoman.app+ '/scripts/**/*.js',
+	                            '!' + yeoman.app+ '/scripts/**/*.spec.js',
+	                            '!' + yeoman.app+ '/scripts/**/*.mock.js'
+	                          ], {read: false});
+	
+	
+	 var injectOptions = {
+		starttag : '<!-- inject:scripts -->',
+		ignorePath: yeoman.app,
+		addRootSlash : false
+	};
+
+	return gulp.src(paths.views.main)
+  	.pipe($.inject(injectFiles, injectOptions))
+    .pipe(gulp.dest(yeoman.app));
+
+});
 
 gulp.task('stylesMain', function () {
-	var injectFiles = gulp.src([yeoman.app+'/sass/**/_*.scss',
-	                            '!' + yeoman.app+ '/sass/theme/conf/**/*.scss',
-	                            '!' + yeoman.app+ '/sass/404.scss',
-	                            '!' + yeoman.app+ '/sass/auth.scss'
+	var injectFiles = gulp.src([yeoman.app+'/styles/**/_*.scss',
+	                            '!' + yeoman.app+ '/styles/theme/conf/**/*.scss',
+	                            '!' + yeoman.app+ '/styles/404.scss',
+	                            '!' + yeoman.app+ '/styles/auth.scss'
 	                          ], {read: false});
 	
 	
 	 var injectOptions = {
 		transform : function(filePath) {
-			filePath = filePath.replace(yeoman.app + '/sass/', '');
+			filePath = filePath.replace(yeoman.app + '/styles/', '');
 			return '@import "' + filePath + '";';
 		},
 		starttag : '// injector',
@@ -80,7 +103,7 @@ gulp.task('stylesMain', function () {
 		addRootSlash : false
 	};
 	 
-	return gulp.src(yeoman.app+'/sass/main.scss')
+	return gulp.src(yeoman.app+'/styles/main.scss')
   	.pipe($.inject(injectFiles, injectOptions))
     .pipe(styles());
 
@@ -88,7 +111,7 @@ gulp.task('stylesMain', function () {
 
 
 gulp.task('styles', ['stylesMain'],function () {
-  return gulp.src([yeoman.app+'/sass/404.scss',yeoman.app+'/sass/auth.scss'])
+  return gulp.src([yeoman.app+'/styles/404.scss',yeoman.app+'/styles/auth.scss'])
     .pipe(styles());
 });
 
@@ -101,7 +124,7 @@ gulp.task('clean:tmp', function (cb) {
   rimraf('./'+yeoman.tmp, cb);
 });
 
-gulp.task('start:client', ['start:server', 'styles'], function () {
+gulp.task('start:client', ['start:server', 'styles', 'scriptInject'], function () {
   openURL('http://localhost:9002');
 });
 
@@ -184,6 +207,7 @@ gulp.task('bower', function () {
   return gulp.src(paths.views.main)
     .pipe(wiredep({
       directory: yeoman.app + '/bower_components',
+      exclude: [/\/bootstrap\.js$/, /\/bootstrap-sass\/.*\.js/, /\/require\.js/],
       ignorePath: '..'
     }))
   .pipe(gulp.dest(yeoman.app));
@@ -199,7 +223,7 @@ gulp.task('views', function () {
     }))
     .pipe($.angularTemplatecache('angular-template-html.js', {
       module: yeoman.module,
-      root: 'views'
+      root: 'app'
     }))
     .pipe(gulp.dest(yeoman.tmp+'/scripts'));
   
@@ -213,7 +237,7 @@ gulp.task('clean:dist', function (cb) {
   rimraf('./dist', cb);
 });
 
-gulp.task('client:build', ['views', 'styles'], function () {
+gulp.task('client:build', ['views', 'styles', 'scriptInject'], function () {
 	var sourcesIndex = gulp.src([yeoman.tmp+'/scripts/angular-template-html.js'], {read: false});
 
   var htmlFilter = $.filter('*.html');
