@@ -1,0 +1,47 @@
+spring:
+    datasource:
+        url : jdbc:mysql://localhost:3306/form?useUnicode=true&characterEncoding=UTF-8
+        username : root
+        password : root
+        driver-class-name : com.mysql.jdbc.Driver
+    jpa:
+        show-sql : true
+        hibernate:  
+            ddl-auto : update
+        properties:
+            hibernate:
+                dialect : org.hibernate.dialect.MySQL5InnoDBDialect
+    jackson:
+        time-zone : GMT+8
+        date-format : yyyy-MM-dd HH:mm:ss
+
+server:
+    port : 8081
+    
+logging:
+    file : log.log
+    level.com.plumdo.form.config.DruidConfiguration : debug
+    level.druid.sql : debug,stdout
+    level.druid.sql.DataSource : debug,stdout
+    level.druid.sql.Connection : debug,stdout
+    level.druid.sql.Statement : debug,stdout
+    level.druid.sql.ResultSet : debug,stdout
+    
+notconten : jkhjkh   
+     
+swagger:
+    properties:
+        title : 表单模块相关后台接口
+        description : 表单相关的全部接口都显示并且调用
+        license : MIT
+        licenseUrl : MIT
+        version : 1.0
+    contact:
+        name : wengwh
+        url : 
+        email : 415554484@qq.com
+    error:
+        404 : 没有找到相对应对象
+        500 : 内部错误查看相关描述
+    
+           

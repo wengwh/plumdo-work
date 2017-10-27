@@ -1,0 +1,60 @@
+{
+  "name": "form-modeler",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "^2.1.1",
+    "jquery-ui": "^1.10.4",
+    "bootstrap": "^3.3.5",
+    "angular": "~1.5.11",
+    "angular-ui-router": "^1.0.3",
+    "angular-validator": "^0.2.8",
+    "angular-ui-sortable": "^0.17.1",
+    "angular-ui-tree": "^2.22.5",
+    "angular-summernote": "^0.8.1",
+    "angular-chosen-localytics": "~1.3.0",
+    "angular-notify": "^2.5.1",
+    "bootstrap-fileinput": "^4.3.9",
+    "smalot-bootstrap-datetimepicker": "bootstrap-datetimepicker-master#^2.4.4",
+    "PACE": "pace#^1.0.2"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.5.11"
+  },
+  "appPath": "app",
+  "moduleName": "formModelerApp",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "PACE": {
+      "main": [
+        "themes/blue/pace-theme-corner-indicator.css"
+      ]
+    },
+    "summernote": {
+      "main": [
+	    "./dist/summernote.js",
+	    "./dist/summernote.css",
+        "./lang/summernote-zh-CN.js"
+      ]
+    },
+    "bootstrap-fileinput": {
+      "main": [
+        "./css/fileinput.min.css",
+        "./js/fileinput.min.js",
+        "./js/locales/zh.js"
+      ]
+    },
+    "smalot-bootstrap-datetimepicker": {
+      "main": [
+        "js/bootstrap-datetimepicker.min.js",
+        "css/bootstrap-datetimepicker.min.css",
+        "js/locales/bootstrap-datetimepicker.zh-CN.js"
+      ]
+    }
+  }
+}

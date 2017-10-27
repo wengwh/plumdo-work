@@ -1,0 +1,59 @@
+<div ng-class="{'edit': navActive=='editForm', 'preview': navActive=='previewForm','sidebar-nav-left-collapsed': leftCollapsed,'sidebar-nav-right-collapsed': rightCollapsed,}" ng-controller="fbMainController">
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-layoutit" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="">{{mainTitle}}<small style="margin-left: 20px;">{{mainDescription}}</small>
+				</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="menu-layoutit">
+				<ul class="nav navbar-nav">
+					<li ng-class="{'active': navActive=='editForm'}"><a href="" ng-click="editForm()"><i class="glyphicon glyphicon-edit"></i>编辑</a></li>
+					<li ng-class="{'active': navActive=='previewForm'}"><a href="" ng-click="previewForm()"><i class="glyphicon glyphicon-eye-open"></i>预览</a></li>
+					<li ng-class="{'active': navActive=='saveForm'}" data-target="#saveModal" data-toggle="modal"><a href=""><i class="glyphicon glyphicon-share"></i>保存</a></li>
+					<li ng-class="{'active': navActive=='clearForm'}"><a href="" ng-click="clearForm()"><i class="glyphicon glyphicon-trash"></i>清空</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="sidebar-nav sidebar-nav-left">
+		<ul class="nav-list accordion-group">
+			<li class="nav-header-top"><i class="glyphicon clickable" ng-click="leftCollapsed=!leftCollapsed" ng-class="{'glyphicon-chevron-right': leftCollapsed,'pull-right glyphicon-chevron-left': !leftCollapsed}"></i> 表单组件选取</li>
+		</ul>
+		<div fb-components ng-show="!leftCollapsed"></div>
+	</div>
+
+	<div class="sidebar-nav sidebar-nav-right">
+		<ul class="nav-list accordion-group">
+			<li class="nav-header-top"><i class="glyphicon clickable" ng-click="rightCollapsed=!rightCollapsed" ng-class="{'glyphicon-chevron-left': rightCollapsed,'glyphicon-chevron-right': !rightCollapsed}"></i> 表单属性设置</li>
+		</ul>
+		<div fb-properties ng-show="!rightCollapsed"></div>
+	</div>
+
+	<div class="content-view">
+		<form fb-builder="editForms" class="" ng-if="navActive=='editForm'"></form>
+		<form fb-form="previewForms" class="" ng-if="navActive=='previewForm'" ng-model="formData"></form>
+	</div>
+
+
+	<div class="modal fade confirm" role="dialog" id="saveModal">
+		<div class="modal-dialog" style="width:575px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">×</a> <i class="glyphicon glyphicon-question-sign modal-icon"></i>
+					<h5 class="modal-title">确认保存表单</h5>
+				</div>
+				<div class="modal-footer no-margin-top">
+					<button class="btn btn-lg btn-white" data-dismiss="modal">取消</button>
+					<button class="btn btn-lg btn-success" ng-click="saveForm()" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+

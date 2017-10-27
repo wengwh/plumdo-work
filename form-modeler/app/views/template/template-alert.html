@@ -1,0 +1,7 @@
+<div class="nav-view form-group">{{component.title}}</div>
+<div class="view">
+	<div class="{{'alert alert-'+component.properties.alert}}" ng-style="component.properties.style">
+		<button ng-if="component.properties.close" type="button" class="close" data-dismiss="alert">×</button>
+		<p ng-bind-html="component.properties.html | to_trusted"></p>
+	</div>
+</div>

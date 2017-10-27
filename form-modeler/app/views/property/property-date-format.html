@@ -1,0 +1,10 @@
+<select class="form-control" ng-if="component.properties.dateOptions.minView=='hour'" ng-model="component.properties.dateOptions.format">
+  <option value="yyyy-mm-dd hh:ii:ss">yyyy-mm-dd hh:ii:ss</option>
+  <option value="yyyy/mm/dd hh:ii:ss">yyyy/mm/dd hh:ii:ss</option>
+  <option value="dd/mm/yyyy hh:ii:ss">dd/mm/yyyy hh:ii:ss</option>
+</select>
+<select class="form-control" ng-if="component.properties.dateOptions.minView=='month'" ng-model="component.properties.dateOptions.format">
+  <option value="yyyy-mm-dd">yyyy-mm-dd</option>
+  <option value="yyyy/mm/dd">yyyy/mm/dd</option>
+  <option value="dd/mm/yyyy">dd/mm/yyyy</option>
+</select>
