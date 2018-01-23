@@ -1,0 +1,36 @@
+{
+  "name": "work-admin",
+  "version": "0.0.0",
+  "dependencies": {
+    "font-awesome": "Font-Awesome#^4.7.0",
+    "bootstrap": "^3.3.5",
+    "angular": "~1.5.11",
+    "angular-ui-router": "^1.0.3",
+    "themify-icons": "^0.1.2"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.5.11"
+  },
+  "appPath": "app",
+  "moduleName": "workAdminApp",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css",
+        "fonts/FontAwesome.otf",
+        "fonts/fontawesome-webfont.eot",
+        "fonts/fontawesome-webfont.svg",
+        "fonts/fontawesome-webfont.ttf",
+        "fonts/fontawesome-webfont.woff",
+        "fonts/fontawesome-webfont.woff2"
+      ]
+    }
+  }
+}

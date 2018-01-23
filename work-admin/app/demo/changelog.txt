@@ -1,0 +1,7 @@
+V1.0, 29.03.2016 Original Release
+
+V1.1.0, 30 Sept 2016 - New Page
+- added Upgrade to PRO page for those who want to upsell inside the dashboard
+
+V1.1.1, 8 Feb 2017 
+- switched to MIT license
