@@ -49,7 +49,7 @@
     };
 
     $rootScope.showErrorMsg = function (msg) {
-      $rootScope.showMsg(msg, 115000, 'notify-error');
+      $rootScope.showMsg(msg, 30000, 'notify-error');
     };
 
     $rootScope.showMsg = function (msg, duration, classes) {

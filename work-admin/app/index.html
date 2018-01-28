@@ -1,67 +1,65 @@
 <!doctype html>
 <html lang="en" ng-app="adminApp">
-<head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="./assets/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-
-    <title>Paper Dashboard Angular by Creative Tim</title>
-
-
- <!-- build:css(app) styles/vendor.css -->
-  <!-- bower:css -->
-  <link rel='stylesheet' href='bower_components/font-awesome/css/font-awesome.css' />
-  <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
-  <link rel='stylesheet' href='bower_components/themify-icons/css/themify-icons.css' />
-  <link rel='stylesheet' href='bower_components/themify-icons/ie7/ie7.css' />
-  <!-- endbower -->
-  <!-- endbuild -->
-  	<!-- build:css(.tmp) styles/main.css -->
-  	<link rel="stylesheet" href="styles/paper-dashboard.css">
-  	<!-- endbuild -->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="工作平台控制台">
+    <meta name="description" content="工作平台控制台">
+    <meta name="keywords" content="工作平台控制台">
+    <title>Work控制台</title>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   
+    <!-- build:css(app) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel='stylesheet' href='bower_components/font-awesome/css/font-awesome.css' />
+    <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
+    <link rel='stylesheet' href='bower_components/themify-icons/css/themify-icons.css' />
+    <link rel='stylesheet' href='bower_components/themify-icons/ie7/ie7.css' />
+    <!-- endbower -->
+    <!-- endbuild -->
+    
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/paper-dashboard.css">
+    <!-- endbuild -->
+    
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="styles/demo.css" rel="stylesheet" />
-
-
+  
     <!--  Fonts and icons     -->
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
-</head>
-<body class="perfect-scrollbar-off">
-<div class="wrapper">
-    <div class="sidebar" data-background-color="white" data-active-color="danger">
-        <div ng-include="'views/common/sidebar.component.html'"></div>
-    </div>
-    <div class="main-panel">
-        <div ng-include="'views/common/navbar.component.html'"></div>
-        <div class="content">
-        </div>
-        <div ng-include="'views/common/footer.component.html'"></div>
-    </div>
-</div>
-<div fixed-plugin></div>
-</body>
- 
-<!-- build:js(app) scripts/vendor.js -->
-<!-- bower:js -->
-<script src="bower_components/jquery/dist/jquery.js"></script>
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/themify-icons/ie7/ie7.js"></script>
-<!-- endbower -->
-<!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p>You are using an <strong>outdated</strong> browser. Please
+        <a href="http://browsehappy.com/">upgrade your browser</a>
+        to improve your experience.</p>
+    <![endif]-->
 
-<!-- build:js({.tmp,app}) scripts/scripts.js -->
-<!-- inject:scripts -->
-<script src="scripts/admin-app.js"></script>
-<script src="scripts/admin-directive.js"></script>
-<!-- endinject -->
+    <div ui-view></div>
     
-<!-- inject:partials -->
-<!-- angular templates will be automatically converted in js and inserted here -->
-<!-- endinject -->
-<!-- endbuild -->
+  </body>
+ 
+  <!-- build:js(app) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/themify-icons/ie7/ie7.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+  
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <!-- inject:scripts -->
+  <script src="scripts/admin-app.js"></script>
+  <script src="scripts/admin-directive.js"></script>
+  <script src="scripts/admin-router.js"></script>
+  <script src="scripts/controllers/main-controller.js"></script>
+  <!-- endinject -->
+      
+  <!-- inject:partials -->
+  <!-- angular templates will be automatically converted in js and inserted here -->
+  <!-- endinject -->
+  <!-- endbuild -->
 </html>
