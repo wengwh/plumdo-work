@@ -7,7 +7,9 @@
       Work Admin
     </a>
   </div>
-  <ul class="nav">
+  <perfect-scrollbar class="scroller" wheel-propagation="true" wheel-speed="10" min-scrollbar-length="20">
+  
+  <ul class="nav" >
     <li ng-show="isNotMobileMenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="ti-panel"></i>
@@ -36,11 +38,28 @@
       </a>
     </li>
     <li class="divider" ng-if="isNotMobileMenu"></li>
-    <li ng-repeat="menuItem in menuItems" ui-sref-active="active" ui-sref="{{menuItem.path}}" >
-      <a href="#">
+    <li ng-repeat="menuItem in menuItems" ui-sref-active="active" >
+      <a ui-sref="{{menuItem.path}}" ng-if="!menuItem.children">
         <i class="{{menuItem.icon}}"></i>
         <p>{{menuItem.title}}</p>
       </a>
+      
+       <a ui-sref="{{menuItem.path}}" data-toggle="collapse" href="{{'#'+menuItem.path}}"  ng-if="menuItem.children">
+        <i class="{{menuItem.icon}}"></i>
+        <p>{{menuItem.title}}<b class="caret"></b></p>
+      </a>
+      
+      <div class="collapse" id="{{menuItem.path}}" ng-if="menuItem.children">
+        <ul class="nav child">
+            <li ng-repeat="menuItemChild in menuItem.children" ui-sref-active="active" >
+              <a ui-sref="{{menuItemChild.path}}">
+                <i class="{{menuItemChild.icon}}"></i>
+                <span class="sidebar-normal">{{menuItemChild.title}}</span>
+              </a>
+            </li>
+         </ul>
+      </div>
     </li>
   </ul>
+  </perfect-scrollbar>
 </div>

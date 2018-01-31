@@ -17,31 +17,27 @@
       $scope.sidebarActiveColor = color;
     };
     
-    $scope.menuItems=[
-      { path: 'home.stock', title: 'Dashboard',  icon: 'ti-panel', class: 'active' },
-      { path: 'home.stock2', title: 'User Profile',  icon:'ti-user', class: '' },
-      { path: 'table', title: 'Table List',  icon:'ti-view-list-alt', class: '' },
-      { path: 'typography', title: 'Typography',  icon:'ti-text', class: '' },
-      { path: 'icons', title: 'Icons',  icon:'ti-pencil-alt2', class: '' },
-      { path: 'maps', title: 'Maps',  icon:'ti-map', class: '' },
-      { path: 'notifications', title: 'Notifications',  icon:'ti-bell', class: '' }
-    ]
-    
-   
     $scope.changeNotMobileMenu = function(){
-      if($(window).width() > 991){
-        $scope.isNotMobileMenu = false; 
-      }else{
-        $scope.isNotMobileMenu = true; 
-      }
+      $timeout(function() {
+        if($(window).width() > 991){
+          $scope.isNotMobileMenu = false; 
+        }else{
+          $scope.isNotMobileMenu = true; 
+        }
+        jQuery('.scroller').css('max-height',$(window).height()-75);
+      });
     };
     
     angular.element(window).bind('resize', function() {
-      $timeout(function() {
-        $scope.changeNotMobileMenu();
-      });
+      $scope.changeNotMobileMenu();
     });
-   
+    
+    $scope.$on('$viewContentLoaded', function() {  
+      $scope.changeNotMobileMenu();
+    });
+    
+    $scope.changeNotMobileMenu();
+    
     $scope.sidebarVisible = false;
     $scope.sidebarToggle= function(){
       var toggleButton = document.getElementsByClassName('navbar-toggle')[0]
@@ -58,5 +54,8 @@
         body.classList.remove('nav-open');
       }
     };
+    
+    
+    
   }]);
 })();
