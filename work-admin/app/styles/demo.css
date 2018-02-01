@@ -12,7 +12,7 @@
 .off-canvas-sidebar .sidebar-wrapper  .nav p {
   margin: 0;
   line-height: 30px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   position: relative;
@@ -43,6 +43,12 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+
+.sidebar .nav li.active > a[data-toggle]:after,
+.sidebar .nav li.active > a[data-toggle]:before,
+.off-canvas-sidebar .nav li.active > a[data-toggle]:after {
+  display: none;
 }
 
 .sidebar .nav.child{

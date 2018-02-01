@@ -33,6 +33,13 @@
         "fonts/fontawesome-webfont.woff",
         "fonts/fontawesome-webfont.woff2"
       ]
+    },
+    "perfect-scrollbar": {
+    	"main": [
+	    "css/perfect-scrollbar.css",
+	    "js/perfect-scrollbar.js",
+	    "js/perfect-scrollbar.jquery.js"
+      ]
     }
   }
 }

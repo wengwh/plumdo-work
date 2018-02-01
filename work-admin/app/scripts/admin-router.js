@@ -10,19 +10,52 @@
     function ($stateProvider, $urlRouterProvider) {
 
       $stateProvider.state('home', {
-        url: '',
-        templateUrl: 'views/main.html',
-        controller: 'MainController',
-        abstract: true
-      }).state('home.stock', {
-        url: '/stock',
+        url: '/home',
         templateUrl: 'views/test.html'
-      }).state('home.stock2', {
-        url: '/stock2',
+      }).state('work', {
+        url: '/work',
+        abstract: true,
+        template: '<div ui-view></div>'
+      }).state('work.process-start', {
+        url: '/process-start',
+        templateUrl: 'views/test.html'
+      }).state('work.process-run', {
+        url: '/process-run',
+        templateUrl: 'views/test2.html'
+      }).state('work.process-finish', {
+        url: '/process-finish',
+        templateUrl: 'views/test2.html'
+      }).state('work.process-involve', {
+        url: '/process-involve',
+        templateUrl: 'views/test2.html'
+      }).state('work.task-todo', {
+        url: '/task-todo',
+        templateUrl: 'views/test2.html'
+      }).state('work.task-finish', {
+        url: '/task-finish',
+        templateUrl: 'views/test2.html'
+      }).state('modeler', {
+        url: '/modeler',
+        abstract: true,
+        template: '<div ui-view></div>'
+      }).state('modeler.form', {
+        url: '/form',
+        templateUrl: 'views/test.html'
+      }).state('modeler.button', {
+        url: '/button',
+        templateUrl: 'views/test2.html'
+      }).state('modeler.flow', {
+        url: '/flow',
+        templateUrl: 'views/test2.html'
+      }).state('modeler.report', {
+        url: '/report',
+        templateUrl: 'views/test2.html'
+      }).state('modeler.app', {
+        url: '/app',
         templateUrl: 'views/test2.html'
       });
 
-      $urlRouterProvider.otherwise('/stock');
+      $urlRouterProvider.otherwise('/stock/test1');
     });
 
 })();

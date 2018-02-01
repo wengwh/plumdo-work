@@ -38,13 +38,13 @@
       </a>
     </li>
     <li class="divider" ng-if="isNotMobileMenu"></li>
-    <li ng-repeat="menuItem in menuItems" ui-sref-active="active" >
+    <li ng-repeat="menuItem in menuItems" ui-sref-active="active">
       <a ui-sref="{{menuItem.path}}" ng-if="!menuItem.children">
         <i class="{{menuItem.icon}}"></i>
         <p>{{menuItem.title}}</p>
       </a>
       
-       <a ui-sref="{{menuItem.path}}" data-toggle="collapse" href="{{'#'+menuItem.path}}"  ng-if="menuItem.children">
+       <a ui-sref="{{menuItem.path}}" data-toggle="collapse" data-target="{{'#'+menuItem.path}}"  ng-if="menuItem.children">
         <i class="{{menuItem.icon}}"></i>
         <p>{{menuItem.title}}<b class="caret"></b></p>
       </a>
