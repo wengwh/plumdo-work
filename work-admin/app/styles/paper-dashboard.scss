@@ -12,6 +12,8 @@
 
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
+@import "paper/buttons";
+@import "paper/inputs";
  */
 
 @import "paper/variables";
@@ -22,8 +24,6 @@
 // Core CSS
 @import "paper/misc";
 @import "paper/sidebar-and-main-panel";
-@import "paper/buttons";
-@import "paper/inputs";
 
 @import "paper/alerts";
 @import "paper/tables";

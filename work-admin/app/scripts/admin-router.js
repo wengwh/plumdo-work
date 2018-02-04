@@ -40,7 +40,7 @@
         template: '<div ui-view></div>'
       }).state('modeler.form', {
         url: '/form',
-        templateUrl: 'views/test.html'
+        templateUrl: 'views/modeler/form.html'
       }).state('modeler.button', {
         url: '/button',
         templateUrl: 'views/test2.html'
