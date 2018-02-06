@@ -5,35 +5,25 @@
         <div class="content">
           <div class="row">
             <div class="col-md-4">
-                  <h4 class="card-title">表单KEY</h4>
-                  <div class="form-group">
-                    <input type="text" class="form-control datetimepicker" placeholder="Datetime Picker Here">
-                  </div>
-             </div>
-             <div class="col-md-8">
-              <h4 class="card-title">表单名称</h4>
-              <div class="row">
-              
-              <div class="col-md-5">
-               <div class="input-group">
-                  <input type="text" class="form-control datetimepicker" placeholder="Datetime Picker Here">
-                  <span class="input-group-btn">
-                        <button type="button" class="btn btn-info" id="btn-search">
-                                                 搜索
-                          <i class="ace-icon fa fa-search "></i>
-                        </button>
-                  </span>
+              <h4 class="card-title">表单KEY</h4>
+              <div class="form-group">
+                <input type="text" ng-model="query.key" class="form-control" placeholder="输入表单KEY">
               </div>
-              </div>
-               <div class="col-md-5">
-               <button type="button" class="btn  btn-success "><i class="ace-icon glyphicon glyphicon-plus icon-on-right bigger-110"></i>创建</button>
-               </div>
-              </div>
-             </div>
             </div>
+            <div class="col-md-8">
+              <h4 class="card-title">表单名称</h4>
+              <div class="input-group">
+                <input type="text" ng-model="query.name" class="form-control" placeholder="输入表单名称">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info" ng-click="queryModels()">搜索</button>
+                  <button type="button" class="btn btn-info" style="margin-left:3px">创建</button>
+                </span>
+              </div>
+            </div>
+          </div>
           <div class="footer text-right">
             <hr />
-                      总共：20条
+                      总共：{{dataTotal}}条
           </div>
         </div>
       </div>
@@ -41,18 +31,18 @@
   </div>
 
   <div class="row">
-   <div class="col-lg-3 col-sm-6">
+   <div class="col-lg-3 col-sm-6" ng-repeat="item in data">
       <div class="card">
         <div class="content">
           <div class="row">
             <div class="col-xs-7">
               <span class="label label-danger">v1.0</span><br/>
               <span class="label label-primary"><i class="ti-user"></i> admin</span><br/>
-              <span class="label label-warning"><i class="ti-pencil"></i> 2018-02-04 18:14:12</span>
+              <span class="label label-warning"><i class="ti-pencil"></i> {{item.lastUpdateTime}}</span>
             </div>
             <div class="col-xs-5">
               <div class="numbers">
-                <p>请假表单</p>OA
+                <p>{{item.name}}</p>{{item.key}}
               </div>
             </div>
           </div>
@@ -64,28 +54,6 @@
         </div>
       </div>
     </div>
-   <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="content">
-          <div class="row">
-            <div class="col-xs-7">
-              <span class="label label-danger">v1.0</span><br/>
-              <span class="label label-primary"><i class="ti-user"></i> admin</span><br/>
-              <span class="label label-warning"><i class="ti-pencil"></i> 2018-02-04 18:14:12</span>
-            </div>
-            <div class="col-xs-5">
-              <div class="numbers">
-                <p>请假表单</p>OA
-              </div>
-            </div>
-          </div>
-          <div class="footer text-right">
-            <hr />
-            <button type="button" class="btn btn-xs btn-success text-left"><i class="glyphicon glyphicon-edit"></i>编辑</button>
-            <button type="button" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-search"></i>预览</button>
-          </div>
-        </div>
-      </div>
-    </div>
+   
   </div>
 </div>

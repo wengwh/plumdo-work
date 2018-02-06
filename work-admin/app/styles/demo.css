@@ -53,6 +53,7 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 
 .sidebar .nav.child{
 	margin-top: 0px;
+    margin-bottom: 0px;
 	margin-left: 20px;
 }
 
@@ -72,3 +73,63 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 .card .content .card-title {
   margin: 10px 0 10px 0;
 }
+
+
+/* cg-notify PLUGIN */
+.cg-notify-message {
+	width:250px;
+	border:0;
+	color: #ffffff;
+	font-size:14px;
+	opacity: .9;
+	background-repeat: no-repeat;
+	background-position: 15px 16px;
+
+}
+.cg-notify-close {
+    color: #fff;
+    opacity: .9;
+    top: 9px;
+}
+
+.cg-notify-message > div {
+	padding: 5px 5px 5px 15px;
+}
+
+.cg-notify-message:before{
+  position: absolute;
+  font-family: 'Glyphicons Halflings';
+  font-size: 24px;
+  line-height: 24px;
+  float: left;
+  color: #FFF;
+  padding-right: 0.5em;
+  margin: 0.2em 0.5em auto -4.5em;
+}
+
+.notify-warning:before {
+  content: "\e162";
+}
+.notify-error:before {
+  content: "\e086";
+}
+.notify-info:before {
+  content: "\e006";
+}
+.notify-success:before {
+  content: "\e013";
+}
+.notify-success {
+	background-color: #1ab394;
+}
+.notify-error {
+	background-color: #ed5565;
+}
+.notify-info {
+	background-color: #23c6c8;
+}
+.notify-warning {
+	background-color: #f8ac59;
+}
+
+

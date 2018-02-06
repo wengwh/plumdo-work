@@ -8,6 +8,7 @@
     "angular": "~1.5.11",
     "angular-ui-router": "^1.0.3",
     "themify-icons": "^0.1.2",
+    "angular-notify": "^2.5.1",
     "angular-perfect-scrollbar": "^0.1.0"
   },
   "devDependencies": {

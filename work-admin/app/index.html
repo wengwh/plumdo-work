@@ -16,6 +16,7 @@
     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
     <link rel='stylesheet' href='bower_components/themify-icons/css/themify-icons.css' />
     <link rel='stylesheet' href='bower_components/themify-icons/ie7/ie7.css' />
+    <link rel='stylesheet' href='bower_components/angular-notify/dist/angular-notify.css' />
     <link rel='stylesheet' href='bower_components/perfect-scrollbar/css/perfect-scrollbar.css' />
     <!-- endbower -->
     <!-- endbuild -->
@@ -37,6 +38,7 @@
     <![endif]-->
 
     <div ng-include="'views/main.html'" ng-controller="MainController" ></div>
+    <div view-load></div>
   </body>
  
   <!-- build:js(app) scripts/vendor.js -->
@@ -46,6 +48,7 @@
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="bower_components/themify-icons/ie7/ie7.js"></script>
+  <script src="bower_components/angular-notify/dist/angular-notify.js"></script>
   <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
   <script src="bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
@@ -55,9 +58,12 @@
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <!-- inject:scripts -->
   <script src="scripts/admin-app.js"></script>
+  <script src="scripts/admin-constants.js"></script>
   <script src="scripts/admin-directive.js"></script>
+  <script src="scripts/admin-http.js"></script>
   <script src="scripts/admin-router.js"></script>
   <script src="scripts/controllers/main-controller.js"></script>
+  <script src="scripts/controllers/modeler-form-controller.js"></script>
   <!-- endinject -->
       
   <!-- inject:partials -->

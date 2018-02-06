@@ -40,6 +40,7 @@
         template: '<div ui-view></div>'
       }).state('modeler.form', {
         url: '/form',
+        controller: 'FormModelerController',
         templateUrl: 'views/modeler/form.html'
       }).state('modeler.button', {
         url: '/button',
@@ -55,7 +56,7 @@
         templateUrl: 'views/test2.html'
       });
 
-      $urlRouterProvider.otherwise('/stock/test1');
+      $urlRouterProvider.otherwise('/modeler/form');
     });
 
 })();

@@ -6,9 +6,48 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp', ['ui.router', 'ui.router.state.events','perfect_scrollbar']).run(function ($rootScope, $state, $timeout) {
+  angular.module('adminApp', ['ui.router', 'ui.router.state.events','cgNotify','perfect_scrollbar']).run(function ($rootScope, notify, $state, $timeout,RestService, contextRoot, restUrl) {
+    $rootScope.contextRoot = contextRoot;
+    $rootScope.restUrl = restUrl;
+    $rootScope.RestService = RestService(contextRoot);
     $rootScope.$state = $state;
     $rootScope.progressNum = 0;
+    
+    $rootScope.showProgress = function (msg) {
+      $rootScope.progressNum++;
+      if (msg) {
+        $rootScope.showMsg(msg);
+      }
+    };
+
+    $rootScope.hideProgress = function (msg, isFail) {
+      $rootScope.progressNum--;
+      if (msg) {
+        if (isFail && isFail === true) {
+          $rootScope.showErrorMsg(msg);
+        } else {
+          $rootScope.showMsg(msg);
+        }
+      }
+    };
+
+    $rootScope.showSuccessMsg = function (msg) {
+      $rootScope.showMsg(msg, 1500, 'notify-success');
+    };
+    
+    
+    $rootScope.showErrorMsg = function (msg) {
+      $rootScope.showMsg(msg, 3000, 'notify-error');
+    };
+
+    $rootScope.showMsg = function (msg, duration, classes) {
+      notify({
+        message: msg,
+        duration: duration,
+        position: 'right',
+        classes: classes||'notify-success'
+      });
+    };
     
     $rootScope.menuItems=[
       { path: 'home', title: '系统首页',  icon: 'ti-panel'},
@@ -60,8 +99,6 @@
         }
       }
     });
-    
-    
     
   });
 
