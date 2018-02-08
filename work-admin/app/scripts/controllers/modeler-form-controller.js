@@ -6,7 +6,7 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('FormModelerController', [ '$scope','$timeout', function($scope,$timeout) {
+  angular.module('adminApp').controller('FormModelerController', [ '$scope','$uibModal', function($scope,$uibModal) {
     $scope.formModels = $scope.RestService($scope.restUrl.formModels);
     
     $scope.queryModels=function(){
@@ -19,6 +19,8 @@
     };
     
     
+    $uibModal.open({templateUrl: 'views/modeler/assignment-popup.html',
+      scope: $scope})
    
     
   }]);

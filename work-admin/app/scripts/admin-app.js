@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp', ['ui.router', 'ui.router.state.events','cgNotify','perfect_scrollbar']).run(function ($rootScope, notify, $state, $timeout,RestService, contextRoot, restUrl) {
+  angular.module('adminApp', ['ui.router', 'ui.router.state.events','ui.bootstrap','cgNotify','perfect_scrollbar']).run(function ($rootScope, notify, $state, $timeout,RestService, contextRoot, restUrl) {
     $rootScope.contextRoot = contextRoot;
     $rootScope.restUrl = restUrl;
     $rootScope.RestService = RestService(contextRoot);
