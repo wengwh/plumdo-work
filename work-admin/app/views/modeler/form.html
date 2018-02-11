@@ -15,8 +15,8 @@
               <div class="input-group">
                 <input type="text" ng-model="query.name" class="form-control" placeholder="输入表单名称">
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-info" ng-click="queryModels()">搜索</button>
-                  <button type="button" class="btn btn-info" style="margin-left:3px">创建</button>
+                  <button type="button" class="btn btn-info" ng-click="queryFormModels()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="openModal()" style="margin-left:3px">创建</button>
                 </span>
               </div>
             </div>
@@ -48,8 +48,8 @@
           </div>
           <div class="footer text-right">
             <hr />
-            <button type="button" class="btn btn-xs btn-success "><i class="glyphicon glyphicon-edit"></i>设计</button>
-            <button type="button" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-search"></i>预览</button>
+            <button type="button" class="btn btn-xs btn-success" ng-click="desginForm(item.id)"><i class="glyphicon glyphicon-edit"></i>设计</button>
+            <button type="button" class="btn btn-xs btn-success" ng-click="previewForm(item.id)"><i class="glyphicon glyphicon-search"></i>预览</button>
           </div>
         </div>
       </div>
@@ -57,3 +57,36 @@
    
   </div>
 </div>
+
+
+<script type="text/ng-template" id="form-model-watch.html">
+<div class="modal-body">
+<iframe ng-src="{{previewUrl}}" height="100%" width="100%" style="height: 500px;" frameborder="0"></iframe>
+</div>
+</script>
+
+<script type="text/ng-template" id="form-model-edit.html">
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+</div>
+<div class="modal-body">
+  <form role="form" novalidate name="editForm">
+    <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
+      	<label class="control-label">名称</label> 
+      	<input type="text" placeholder="名称" class="form-control" name="name" ng-model="formdata.name" required></input>
+   	</div>
+    <div class="form-group" ng-class="{'has-error':editForm.key.$error.required}">
+      	<label class="control-label">标识</label> 
+      	<input type="text" placeholder="标识" class="form-control" name="key" ng-model="formdata.key"></input>
+   	</div>
+   	<div class="form-group">
+      	<label class="control-label">分类</label> 
+      	<input type="text" placeholder="分类" class="form-control" ng-model="formdata.category"></input>
+   	</div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" ng-click="cancel()">取消</button>
+  <button type="button" class="btn btn-warning" ng-disabled="editForm.$invalid" ng-click="ok()">确定</button>
+</div>
+</script>

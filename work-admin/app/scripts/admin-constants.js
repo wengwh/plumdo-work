@@ -15,7 +15,13 @@
     'stockReports': '/stock-reports',
     'stockHotPlates': '/stock-hot-plates',
     'lotteryDetails': '/lottery-details',
-    'weibos': '/weibos'
+    'weibos': '/weibos',
+    formDesgin : function(modelId) {
+      return 'http://localhost:9002/#/design?modelId=' + modelId 
+    },
+    formPreview : function(modelId) {
+      return 'http://localhost:9002/#/watch?modelId=' + modelId 
+    }
   });
 
 })();

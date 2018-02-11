@@ -99,12 +99,28 @@
       };
     }
 
+  } ]).controller('fbWatchController', [ '$scope', '$injector', '$http', '$stateParams', 'restUrl', function($scope, $injector, $http, $stateParams, restUrl) {
+    var $builder = $injector.get('$builder');
+    $builder.forms.id = 'root';
+    $builder.forms.components = [];
+
+    $http({
+      method : 'GET',
+      url : restUrl.getModelJson($stateParams.modelId)
+    }).success(function(data) {
+      $builder.forms.components = data;
+      $scope.previewForms = angular.copy($builder.forms);
+    }).error(function(data) {
+      $scope.showErrorMsg('获取表单模型失败');
+    });
+
+    
   } ]).controller('fbDesignController', [ '$scope', '$injector', '$http', '$stateParams', 'restUrl', function($scope, $injector, $http, $stateParams, restUrl) {
     var $builder = $injector.get('$builder');
     $builder.forms.id = 'root';
     $builder.forms.components = [];
     $builder.forms.selectedComponent = {};
-
+    
     $http({
       method : 'GET',
       url : restUrl.getModelJson($stateParams.modelId)
@@ -129,7 +145,7 @@
       $scope.previewForms = angular.copy($builder.forms);
       $scope.formData = {};
     };
-
+    
     $scope.saveForm = function() {
       $scope.showProgress();
       $http({
