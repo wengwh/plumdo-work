@@ -62,7 +62,7 @@ public class Swagger2Configuration {
                 .tags(new Tag("默认标签", "定义全局默认标签"),getTags())
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.plumdo.form"))
+                .apis(RequestHandlerSelectors.basePackage("com.plumdo.flow"))
                 .paths(PathSelectors.any())
                 .build();
     }

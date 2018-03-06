@@ -19,6 +19,6 @@ var FLOWABLE = FLOWABLE || {};
 
 FLOWABLE.CONFIG = {
 	'onPremise' : true,
-	'contextRoot' : 'http://127.0.0.1:8082',
+	'contextRoot' : 'http://119.29.96.227/flow-service',
 	'webContextRoot' : './'
 };

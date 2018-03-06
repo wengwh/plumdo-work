@@ -42,6 +42,12 @@
         "js/perfect-scrollbar.js",
         "js/perfect-scrollbar.jquery.js"
       ]
+    },
+    "angular-ui-router":{
+    	"main": [
+    		"./release/angular-ui-router.js", 
+    		"./release/stateEvents.js"
+		]
     }
   }
 }

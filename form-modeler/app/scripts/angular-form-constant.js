@@ -4,25 +4,25 @@
 	angular.module('builder.constant', [])
 	.constant('restUrl', {
 		getModelJson : function(modelId) {
-			return 'http://localhost:8081/form-models/' + modelId + '/json';
+			return 'http://119.29.96.227/form-service/form-models/' + modelId + '/json';
 		},
 		saveModelJson : function(modelId) {
-			return 'http://localhost:8081/form-models/' + modelId + '/json';
+			return 'http://119.29.96.227/form-service/form-models/' + modelId + '/json';
 		},
 		getDefinitionJsonById : function(definitionId) {
-			return 'http://localhost:8081/form-definitions/' + definitionId + '/json';
+			return 'http://119.29.96.227/form-service/form-definitions/' + definitionId + '/json';
 		},
 		getDefinitionJsonByKey : function(definitionKey) {
-			return 'http://localhost:8081/form-definitions/' + definitionKey + '/latest/json';
+			return 'http://119.29.96.227/form-service/form-definitions/' + definitionKey + '/latest/json';
 		},
 		createInstance : function() {
-			return 'http://localhost:8081/form-instances';
+			return 'http://119.29.96.227/form-service/form-instances';
 		},
 		updateInstance : function(instanceId) {
-			return 'http://localhost:8081/form-instances/'+instanceId;
+			return 'http://119.29.96.227/form-service/form-instances/'+instanceId;
 		},
 		getInstance : function(instanceId) {
-			return 'http://localhost:8081/form-instances/'+instanceId;
+			return 'http://119.29.96.227/form-service/form-instances/'+instanceId;
 		},
 		getStencilSet : function() {
 			return './stencilset.json?version=' + Date.now();

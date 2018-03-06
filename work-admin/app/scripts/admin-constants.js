@@ -8,7 +8,7 @@
 
   angular.module('adminApp')
 //   .constant('contextRoot', ".")
-    .constant('contextRoot', "http://127.0.0.1:8081")
+    .constant('contextRoot', "http://119.29.96.227/form-service")
     .constant('restUrl', {
     'formModels': '/form-models',
     'stockMonsters': '/stock-monsters',
@@ -17,10 +17,10 @@
     'lotteryDetails': '/lottery-details',
     'weibos': '/weibos',
     formDesgin : function(modelId) {
-      return 'http://localhost:9002/#/design?modelId=' + modelId 
+      return 'http://119.29.96.227/form-modeler/#/design?modelId=' + modelId 
     },
     formPreview : function(modelId) {
-      return 'http://localhost:9002/#/watch?modelId=' + modelId 
+      return 'http://119.29.96.227/form-modeler/#/watch?modelId=' + modelId 
     }
   });
 
