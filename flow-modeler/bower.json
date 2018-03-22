@@ -46,5 +46,12 @@
         "javascripts/jquery.autogrow-textarea.js"
       ]
     }
+  },
+  "resolutions": {
+    "angular": "1.3.13",
+    "angular-translate": "2.15.1",
+    "bootstrap": ">=2.3.2",
+    "d3": "~3.4.1",
+    "angular-cookies": "1.3.13"
   }
 }

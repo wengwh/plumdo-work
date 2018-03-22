@@ -133,3 +133,42 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 }
 
 
+.modal-alert {
+	.modal-content {
+	  background-clip: padding-box;
+	  background-color: #FFFFFF;
+	  border: 1px solid rgba(0, 0, 0, 0);
+	  border-radius: 4px;
+	  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+	  outline: 0 none;
+	  position: relative;
+	}
+	.modal-dialog {
+	  z-index: 2200;
+	}
+	.modal-body {
+	  padding: 20px 30px 30px 30px;
+	}
+	.modal-body {
+	  background: #f8fafb;
+	}
+	.modal-header {
+	  /* padding: 30px 15px; */
+	  text-align: center;
+	}
+
+	.modal-title {
+	  font-size: 26px;
+	}
+	.modal-icon {
+	  font-size: 84px;
+	  /* color: #e2e3e3; */
+	}
+	.modal-footer {
+	  text-align: center;
+	}
+	
+	.modal-footer {
+	  margin-top: 0;
+	}
+}

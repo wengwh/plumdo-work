@@ -1,0 +1,53 @@
+spring:
+  profiles.active: dev
+  datasource:
+    url : jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=UTF-8
+    username : root
+    password : root
+    driver-class-name: com.mysql.jdbc.Driver
+    initialize: true
+    sql-script-encoding: UTF-8
+  jpa:
+    database : MYSQL
+    show-sql : false
+    hibernate:  
+      ddl-auto : none
+      naming: 
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+          dialect : org.hibernate.dialect.MySQL5InnoDBDialect
+  jackson:
+    time-zone : GMT+8
+    date-format : yyyy-MM-dd HH:mm:ss
+    
+restClient:
+  connectionTimeout: 15000
+  readTimeout: 15000
+  connectionRequestTimeout: 200
+  maxTotal: 30
+  maxPerRoute: 15
+   
+server:
+  port: 8088
+  
+
+---
+
+#生产环境
+spring:
+  profiles: pro
+  
+logging:
+  config: classpath:logback-pro.xml
+  
+---
+
+#开发环境
+spring:
+  profiles: dev
+  
+logging:
+  config: classpath:logback-dev.xml
+
+  

@@ -37,8 +37,8 @@
     },
     "summernote": {
       "main": [
-	    "./dist/summernote.js",
-	    "./dist/summernote.css",
+        "./dist/summernote.js",
+        "./dist/summernote.css",
         "./lang/summernote-zh-CN.js"
       ]
     },
@@ -56,5 +56,8 @@
         "js/locales/bootstrap-datetimepicker.zh-CN.js"
       ]
     }
+  },
+  "resolutions": {
+    "jquery": ">=3.1.x"
   }
 }

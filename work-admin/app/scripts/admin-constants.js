@@ -7,21 +7,19 @@
   'use strict';
 
   angular.module('adminApp')
-//   .constant('contextRoot', ".")
-    .constant('contextRoot', "http://119.29.96.227/form-service")
+    .constant('contextRoot', {
+    	formService:'http://119.29.96.227/form-service',
+    	identityService:'http://localhost:8088'
+    })
     .constant('restUrl', {
-    'formModels': '/form-models',
-    'stockMonsters': '/stock-monsters',
-    'stockReports': '/stock-reports',
-    'stockHotPlates': '/stock-hot-plates',
-    'lotteryDetails': '/lottery-details',
-    'weibos': '/weibos',
-    formDesgin : function(modelId) {
-      return 'http://119.29.96.227/form-modeler/#/design?modelId=' + modelId 
-    },
-    formPreview : function(modelId) {
-      return 'http://119.29.96.227/form-modeler/#/watch?modelId=' + modelId 
-    }
+    	formModels: '/form-models',
+    	users: '/users',
+	    formDesgin : function(modelId) {
+	      return 'http://119.29.96.227/form-modeler/#/design?modelId=' + modelId 
+	    },
+	    formPreview : function(modelId) {
+	      return 'http://119.29.96.227/form-modeler/#/watch?modelId=' + modelId 
+	    }
   });
 
 })();

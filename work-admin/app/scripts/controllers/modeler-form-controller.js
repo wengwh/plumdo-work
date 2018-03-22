@@ -7,7 +7,7 @@
   'use strict';
 
   angular.module('adminApp').controller('FormModelerController', [ '$scope', '$uibModal','$window','$sce', function($scope, $uibModal,$window,$sce) {
-    $scope.formModels = $scope.RestService($scope.restUrl.formModels);
+    $scope.formModels = $scope.FormService($scope.restUrl.formModels);
 
     $scope.queryFormModels = function() {
       $scope.formModels.get({

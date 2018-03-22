@@ -6,10 +6,12 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp', ['ui.router', 'ui.router.state.events','ui.bootstrap','cgNotify','perfect_scrollbar']).run(function ($rootScope, notify, $state, $timeout,RestService, contextRoot, restUrl) {
+  angular.module('adminApp', ['ui.router', 'ui.router.state.events','ui.bootstrap','cgNotify','perfect_scrollbar'])
+  	.run(function ($rootScope, notify, $state, $timeout,$uibModal,RestService, contextRoot, restUrl) {
     $rootScope.contextRoot = contextRoot;
     $rootScope.restUrl = restUrl;
-    $rootScope.RestService = RestService(contextRoot);
+    $rootScope.FormService = RestService(contextRoot.formService);
+    $rootScope.IdmService = RestService(contextRoot.identityService);
     $rootScope.$state = $state;
     $rootScope.progressNum = 0;
     
@@ -48,6 +50,24 @@
         classes: classes||'notify-success'
       });
     };
+    
+    
+    $rootScope.confirmModal = function(args) {
+			$uibModal.open({
+          templateUrl: 'views/common/confirm-modal.html',
+            controller:function($scope,$uibModalInstance){
+            	$scope.modalTitle = angular.copy(args.title);
+            	$scope.cancel = function(){
+    		        $uibModalInstance.dismiss('cancel');
+                	args.confirm(false);
+                };
+                $scope.ok = function(){
+                	$uibModalInstance.close();
+                	args.confirm(true);
+                };
+            }
+      });
+		};
     
     $rootScope.menuItems=[
       { path: 'home', title: '系统首页',  icon: 'ti-panel'},

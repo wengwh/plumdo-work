@@ -54,6 +54,14 @@
       }).state('modeler.app', {
         url: '/app',
         templateUrl: 'views/test2.html'
+      }).state('idm', {
+        url: '/idm',
+        abstract: true,
+        template: '<div ui-view></div>'
+      }).state('idm.user', {
+        url: '/user',
+        controller: 'UserController',
+        templateUrl: 'views/idm/user.html'
       });
 
       $urlRouterProvider.otherwise('/modeler/form');
