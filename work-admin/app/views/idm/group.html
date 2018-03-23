@@ -1,0 +1,134 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="content">
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title">用户电话</h4>
+              <div class="form-group">
+                <input type="text" ng-model="query.phone" class="form-control" placeholder="输入用户电话">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h4 class="card-title">用户名称</h4>
+              <div class="input-group">
+                <input type="text" ng-model="query.name" class="form-control" placeholder="输入用户名称">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info" ng-click="queryUsers()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="openModal()" style="margin-left:3px">创建</button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="footer text-right">
+            <hr />
+                      总共：{{dataTotal}}条
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+   <div class="col-md-12">
+       <div class="card">
+       	<div class="content table-responsive table-full-width">
+	      	<table ng-table="tableOptions" class="table table-striped table-hover ng-table">
+			</table>
+		 </div>
+	  </div>
+	  
+	  <div class="card">
+         <div class="header">
+             <h4 class="title">Striped Table</h4>
+             <p class="category">Here is a subtitle for this table</p>
+         </div>
+         <div class="content table-responsive table-full-width">
+             <table class="table table-striped">
+                 <thead>
+                     <tr>
+                     <th>ID</th>
+                 	<th>Name</th>
+                 	<th>Salary</th>
+                 	<th>Country</th>
+                 	<th>City</th>
+                 	</tr>
+                 </thead>
+                 <tbody>
+                     <tr>
+                     	<td>1</td>
+                     	<td>Dakota Rice</td>
+                     	<td>$36,738</td>
+                     	<td>Niger</td>
+                     	<td>Oud-Turnhout</td>
+                     </tr>
+                     <tr>
+                     	<td>1</td>
+                     	<td>Dakota Rice</td>
+                     	<td>$36,738</td>
+                     	<td>Niger</td>
+                     	<td>Oud-Turnhout</td>
+                     </tr>
+                 </tbody>
+             </table>
+
+         </div>
+     </div>
+	  
+    </div>
+   
+  </div>
+</div>
+
+
+<script type="text/ng-template" id="user-edit.html">
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+</div>
+<div class="modal-body">
+  <form role="form" novalidate name="editForm">
+	<div class="form-group" ng-class="{'has-error':editForm.account.$error.required}">
+      	<label class="control-label">登录账户</label> 
+      	<input type="text" placeholder="登录账户" class="form-control" name="account" ng-model="formdata.account" required></input>
+   	</div>
+	<div class="form-group" ng-class="{'has-error':editForm.pwd.$error.required}">
+      	<label class="control-label">登录密码</label> 
+      	<input type="password" placeholder="登录密码" class="form-control" name="pwd" ng-model="formdata.pwd" required></input>
+   	</div>
+ 	<div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
+      	<label class="control-label">姓名</label> 
+      	<input type="text" placeholder="姓名" class="form-control" name="name" ng-model="formdata.name" required></input>
+   	</div>
+
+    <div class="form-group">
+      	<label class="control-label">性别</label> 
+		<div >
+			<label class="radio-inline"> 
+				<input type="radio" ng-model="formdata.sex" value="0" /> 女
+			</label>
+			<label class="radio-inline"> 
+				<input type="radio" ng-model="formdata.sex" value="1" /> 男
+			</label>
+		</div>
+   	</div>
+   	<div class="form-group">
+      	<label class="control-label">电话</label> 
+      	<input type="text" placeholder="电话" class="form-control" ng-model="formdata.phone"></input>
+   	</div>
+	<div class="form-group">
+      	<label class="control-label">email</label> 
+      	<input type="text" placeholder="email" class="form-control" ng-model="formdata.email"></input>
+   	</div>
+	<div class="form-group">
+      	<label class="control-label">备注</label> 
+		<textarea placeholder="备注" class="form-control" ng-model="formdata.remark" rows="3"></textarea>
+   	</div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" ng-click="cancel()">取消</button>
+  <button type="button" class="btn btn-warning" ng-disabled="editForm.$invalid" ng-click="ok()">确定</button>
+</div>
+</script>

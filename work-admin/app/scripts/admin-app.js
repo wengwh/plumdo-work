@@ -103,7 +103,7 @@
           { path: 'idm.user', title: '人员管理',  icon: 'ti-user'},
           { path: 'idm.group', title: '部门管理',  icon: 'ti-microsoft-alt'},
           { path: 'idm.menu', title: '菜单管理',  icon: 'ti-menu'},
-          { path: 'idm.role', title: '权限管理',  icon: 'ti-ruler-pencil'}
+          { path: 'idm.role', title: '角色管理',  icon: 'ti-ruler-pencil'}
         ]
       }
     ]

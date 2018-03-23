@@ -14,6 +14,8 @@
     .constant('restUrl', {
     	formModels: '/form-models',
     	users: '/users',
+    	groups: '/users',
+    	roles: '/roles',
 	    formDesgin : function(modelId) {
 	      return 'http://119.29.96.227/form-modeler/#/design?modelId=' + modelId 
 	    },

@@ -62,6 +62,14 @@
         url: '/user',
         controller: 'UserController',
         templateUrl: 'views/idm/user.html'
+      }).state('idm.group', {
+        url: '/group',
+        controller: 'GroupController',
+        templateUrl: 'views/idm/group.html'
+      }).state('idm.role', {
+        url: '/role',
+        controller: 'RoleController',
+        templateUrl: 'views/idm/role.html'
       });
 
       $urlRouterProvider.otherwise('/modeler/form');

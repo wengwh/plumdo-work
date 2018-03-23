@@ -172,3 +172,119 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 	  margin-top: 0;
 	}
 }
+
+
+/* TABLES */
+.table-bordered {
+  border: 1px solid #EBEBEB;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  background-color: #F5F5F6;
+  border-bottom-width: 1px;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #e7e7e7;
+}
+.table > thead > tr > th {
+  border-bottom: 1px solid #DDDDDD;
+  vertical-align: bottom;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  border-top: 1px solid #e7eaec;
+  line-height: 1.42857;
+  padding: 8px;
+  vertical-align: top;
+}
+
+
+table.ng-table{
+	clear:both;
+	margin-top:6px !important;
+	margin-bottom:6px !important;
+	max-width:none !important;
+}
+table.table-bordered.ng-table{
+	border-collapse:separate !important;
+}
+
+table.table-bordered.ng-table th,
+table.table-bordered.ng-table td{
+	border-left-width:0;
+}
+table.table-bordered.ng-table th:last-child,
+table.table-bordered.ng-table td:last-child{
+	border-right-width:0
+}
+table.table-bordered.ng-table tbody td{
+	border-bottom-width:0
+}
+
+table.ng-table thead .sorting:after,
+table.ng-table thead .sorting_asc:after,
+table.ng-table thead .sorting_desc:after,
+table.ng-table thead .sorting_asc_disabled:after,
+table.ng-table thead .sorting_desc_disabled:after{
+	position:absolute;
+	bottom:8px;
+	right:8px;
+	display:block;
+	font-family:'Glyphicons Halflings';
+	opacity:0.7
+}
+
+table.ng-table thead .sorting,
+table.ng-table thead .sorting_asc_disabled,
+table.ng-table thead .sorting_desc_disabled {
+  background: transparent;
+}
+
+table.ng-table thead .sorting,
+table.ng-table thead .sorting_asc,
+table.ng-table thead .sorting_desc,
+table.ng-table thead .sorting_asc_disabled,
+table.ng-table thead .sorting_desc_disabled{
+	cursor:pointer;
+	position:relative
+}
+table.ng-table thead .sorting_asc:after{
+  background: transparent;
+	content:"\e155"
+}
+table.ng-table thead .sorting_desc:after{
+	content:"\e156"
+}
+table.ng-table thead .sorting:after{
+	opacity:0.2;
+	content:"\e150"
+}
+
+.table-footer{
+	padding-top:10px;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+nav.ng-table{
+	margin:0 !important;
+	text-align:right;
+}
+nav.ng-table ul.pagination{
+	margin:2px 0 !important;
+}
+select.ng-table{
+	padding:0 0 !important;
+	height:28px;
+	width:47px;
+	display:inline-block;
+}
