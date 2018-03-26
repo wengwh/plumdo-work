@@ -14,7 +14,7 @@
         params : $scope.query
       }, function(response) {
         $scope.data = response.data;
-        $scope.dataTotal = response.total;
+        $scope.total = response.total;
       });
     };
 

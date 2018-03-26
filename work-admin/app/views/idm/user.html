@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <div class="card">
+      <div class="card card-query">
         <div class="content">
           <div class="row">
             <div class="col-md-6">
@@ -16,23 +16,20 @@
                 <input type="text" ng-model="query.name" class="form-control" placeholder="输入用户名称">
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-info" ng-click="queryUsers()">搜索</button>
-                  <button type="button" class="btn btn-info" ng-click="openModal()" style="margin-left:3px">创建</button>
+                  <button type="button" class="btn btn-info" ng-click="openModal()">创建</button>
                 </span>
               </div>
             </div>
           </div>
-          <div class="footer text-right">
-            <hr />
-                      总共：{{dataTotal}}条
-          </div>
+          <div ng-pagination total="total" changed="queryUsers" param="query"></div>  
         </div>
       </div>
     </div>
   </div>
 
   <div class="row">
-   <div class="col-lg-3 col-sm-6" ng-repeat="item in data">
-      <div class="card">
+    <div class="col-lg-3 col-sm-6" ng-repeat="item in data">
+      <div class="card card-person">
         <div class="content">
           <div class="row">
             <div class="col-xs-7">
@@ -41,7 +38,7 @@
               <span class="label label-warning"><i class="ti-pencil"></i> {{item.lastUpdateTime}}</span>
             </div>
             <div class="col-xs-5">
-                <image src="{{item.avatar}}"  widht="60" height="60"></image>
+                <image class="avatar border-white" src="{{item.avatar}}"></image>
             </div>
           </div>
           <div class="footer text-right">
@@ -52,7 +49,6 @@
         </div>
       </div>
     </div>
-   
   </div>
 </div>
 
@@ -75,15 +71,14 @@
       	<label class="control-label">姓名</label> 
       	<input type="text" placeholder="姓名" class="form-control" name="name" ng-model="formdata.name" required></input>
    	</div>
-
     <div class="form-group">
       	<label class="control-label">性别</label> 
-		<div >
+		<div>
 			<label class="radio-inline"> 
-				<input type="radio" ng-model="formdata.sex" value="0" /> 女
+				<input ng-icheck type="radio" ng-model="formdata.sex" value="0" /> 女
 			</label>
 			<label class="radio-inline"> 
-				<input type="radio" ng-model="formdata.sex" value="1" /> 男
+				<input ng-icheck type="radio" ng-model="formdata.sex" value="1" /> 男
 			</label>
 		</div>
    	</div>
@@ -107,3 +102,4 @@
   <button type="button" class="btn btn-warning" ng-disabled="editForm.$invalid" ng-click="ok()">确定</button>
 </div>
 </script>
+

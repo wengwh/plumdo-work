@@ -14,7 +14,80 @@
         $(element).fadeIn(300);
       }
     };
-  }).directive('ngTable', [ '$compile', function($compile) {
+  }).directive('ngPagination', [ function() {
+		return {
+			restrict : 'A',
+			template: `
+				<div class="row ng-pagination">
+					<div class="col-xs-12 col-sm-5">
+						<select class="form-control input-sm" ng-model="param.pageSize"
+							ng-change="pageSizeChange()">
+							<option ng-repeat="item in pageList" ng-value="item">{{item}} 条/页</option>
+						</select>  共 {{total}} 条
+					</div>
+					<div class="col-xs-12 col-sm-7">
+						<nav>
+							<ul uib-pagination ng-change="pageNumChange()"
+								total-items="total" items-per-page="param.pageSize" ng-model="param.pageNum"
+								max-size="5" class="pagination-sm" boundary-links="true"
+								previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+								last-text="&raquo;">
+							</ul>
+						</nav>
+					</div>
+				</div>
+			 ` ,
+      scope: {
+      	total: '=' ,
+      	param: '=' ,
+        changed: '=' 
+      },
+			controller : function($scope) {
+				$scope.pageList= [5, 10, 20, 50, 100, 500];
+				$scope.param = $scope.param || {};
+				$scope.param.pageNum = $scope.param.pageNum || 1;
+				$scope.param.pageSize = $scope.param.pageSize || 10;
+
+				$scope.pageNumChange = function() {
+					$scope.changed();
+				};
+
+				$scope.pageSizeChange = function() {
+					$scope.param.pageNum = 1;
+					$scope.changed();
+				};
+
+			}
+		};
+	} ]).directive('ngIcheck', ['$timeout',function($timeout) {
+    return {
+      require: 'ngModel',
+      link: function($scope, element, $attrs, ngModel) {
+      	return $timeout(function() {
+          $scope.$watch($attrs['ngModel'], function (newValue) {
+              $(element).iCheck('update');
+          });
+
+          return $(element).iCheck({
+              checkboxClass: 'icheckbox_square-green',
+              radioClass: 'iradio_square-green',
+              increaseArea: '20%' 
+          }).on('ifChanged', function (event) {
+              if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+                  $scope.$apply(function () {
+                      return ngModel.$setViewValue(event.target.checked);
+                  });
+              }
+              if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+                  return $scope.$apply(function () {
+                      return ngModel.$setViewValue($attrs['value']);
+                  });
+              }
+          });
+        });
+      }
+    };
+	}]).directive('ngTable', [ '$compile', function($compile) {
 		return {
 			restrict : 'A',
 			link : function(scope, element, attrs) {
@@ -126,79 +199,6 @@
 
 				element.html('').append($compile(tableHtml)(scope));
 				element.after($compile(pageHtml)(scope));
-			}
-		};
-	} ]).directive('ngPage', [ '$compile', function($compile) {
-		return {
-			restrict : 'A',
-			require: 'ngModel',
-      scope: {
-        total: '=ngModel',
-      	load: '=load'
-      },
-			link : function(scope, element, attrs) {
-
-				console.info(scope.total)
-				
-				var conf = scope[attrs.ngPage]||{};
-				var tableId = 'model';
-
-				var pageList = conf.pageList || [ 5,10, 20, 50, 100 ];
-				var loadFunction = conf.loadFunction || function() {
-				};
-				scope[tableId] = scope[tableId] || {};
-
-				scope[tableId].queryParams = conf.queryParams || {};
-				scope[tableId].pageNum = conf.pageNum ? conf.pageNum : 1;
-				scope[tableId].pageSize = conf.pageSize ? conf.pageSize : 10;
-				scope[tableId].total = 100;
-				scope.total = scope.total ? scope.total : 0;
-				scope[tableId].startNum = scope[tableId].pageNum*scope[tableId].pageSize;
-				if(scope[tableId].startNum+scope[tableId].pageSize>scope[tableId].total){
-					scope[tableId].endNum = scope[tableId].total;
-				}else{
-					scope[tableId].endNum = scope[tableId].startNum+scope[tableId].pageSize;
-				}
-				
-				var optionStr = '';
-				for (var i in pageList) {
-					optionStr = optionStr + '<option value="' + pageList[i] + '">' + pageList[i] + '</option>\n';
-				}
-				
-				var pageHtml = '<div class="row table-footer">' 
-						+ '<div class="col-xs-5 col-sm-5">'
-						+ '<select class="form-control input-sm ng-table" ng-model="' + tableId + '.pageSize" ng-change="' + tableId + '.pageSizeChange()">' + optionStr + '</select>条 ' 
-						+ ' 共 ' + scope.total + ' 条</div>' 
-						+ '<div class="col-xs-7 col-sm-7"><nav class="ng-table">' 
-						+ '<ul  uib-pagination class="ng-table" ng-change="' + tableId + '.pageNumChange()"'
-						+ 'total-items="' + tableId + '.total" items-per-page="' + tableId + '.pageSize" ng-model="' + tableId + '.pageNum" max-size="5" '
-						+ 'class="pagination-sm" boundary-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>'
-						+ '</nav></div>'
-						+ '</div>';
-
-				scope[tableId].pageNumChange = scope[tableId].pageNumChange || function() {
-					clickLoad();
-				};
-
-				scope[tableId].pageSizeChange = scope[tableId].pageSizeChange || function() {
-					clickLoad(1);
-				};
-
-				var clickLoad = function(pageNum, pageSize) {
-						scope[tableId].pageNum = scope[tableId].pageNum;
-						scope[tableId].pageSize = scope[tableId].pageSize;
-						console.info(scope[tableId].pageNum)
-						scope[tableId].startNum = scope[tableId].pageNum*scope[tableId].pageSize;
-						scope.load();
-				};
-
-				if (scope[tableId].queryParams.pageNum && scope[tableId].queryParams.pageSize) {
-					loadFunction(scope[tableId].queryParams);
-				} else {
-					clickLoad(1);
-				}
-
-				element.html('').append($compile(pageHtml)(scope));
 			}
 		};
 	} ]);

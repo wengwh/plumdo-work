@@ -38,7 +38,7 @@
     			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'15%'},
     			{name:'操作',index:'',width:'10%',
     				formatter:function(){
-    					return '<div class="btn-role">'+
+    					return '<div class="btn-group">'+
     					'<button class="btn btn-primary btn-xs" ng-click=openModal(row.id) type="button"><i class="fa fa-pencil"></i>&nbsp;修改</button>'+
     					'<button class="btn btn-danger btn-xs" ng-click=deleteRole(row.id) type="button"><i class="fa fa-trash-o"></i>&nbsp;删除</button>'+
     					'</div>';

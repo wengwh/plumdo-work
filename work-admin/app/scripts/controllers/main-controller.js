@@ -7,7 +7,7 @@
   'use strict';
 
   angular.module('adminApp').controller('MainController', [ '$scope','$timeout', function($scope,$timeout) {
-    $scope.sidebarBackground='white';
+    $scope.sidebarBackground='black';
     $scope.switchSidebarBackground = function(color) {
       $scope.sidebarBackground = color;
     };

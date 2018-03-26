@@ -1,34 +1,26 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <div class="card">
+      <div class="card card-query">
         <div class="content">
-          <div class="row">
-            <div class="col-md-12">
-              <h4 class="card-title">名称</h4>
-              <div class="input-group">
-                <input type="text" ng-model="query.name" class="form-control" placeholder="输入名称">
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-info" ng-click="queryRoles()">搜索</button>
-                  <button type="button" class="btn btn-info" ng-click="openModal()" style="margin-left:3px">创建</button>
-                </span>
-              </div>
-            </div>
+          <h4 class="card-title">名称</h4>
+          <div class="input-group">
+            <input type="text" ng-model="query.name" class="form-control" placeholder="输入名称">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-info" ng-click="queryRoles()">搜索</button>
+              <button type="button" class="btn btn-info" ng-click="openModal()">创建</button>
+            </span>
           </div>
-          <div class="footer text-right">
-            <hr />
-                      总共：{{dataTotal}}条
         </div>
       </div>
     </div>
-  </div>
-<div ng-page="pageOptions" ng-model="total" load="load">   </div>    
+  </div>  
   <div class="row">
    <div class="col-md-12">
      <div class="card">
        	<div class="content table-responsive table-full-width">
-	      	<table ng-table="tableOptions" class="table table-striped table-hover ng-table">
-			</table>
+          <table ng-table="tableOptions" class="table table-striped table-hover ng-table">
+		  </table>
 	 	</div>
   	</div>
    </div>
@@ -58,3 +50,4 @@
   <button type="button" class="btn btn-warning" ng-disabled="editForm.$invalid" ng-click="ok()">确定</button>
 </div>
 </script>
+

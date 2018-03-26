@@ -150,6 +150,30 @@
         }
     }
 }
+.card-query{
+	.input-group-btn{
+		button:last-child{
+			margin-left:3px;
+		}
+	}
+}
+
+.card-person{
+	.avatar{
+        width: 66px;
+        height: 66px;
+        border-radius: 0;
+        position: relative;
+
+        &.border-white{
+            border: 5px solid $white-color;
+        }
+        &.border-gray{
+            border: 5px solid $card-muted-color;
+        }
+    }
+}
+
 .card-user{
     .image{
         border-radius: 8px 8px 0 0;
@@ -177,8 +201,8 @@
         }
     }
     .avatar{
-        width: 100px;
-        height: 100px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         position: relative;
         margin-bottom: 15px;
