@@ -209,3 +209,13 @@ select.ng-table{
 	width:47px;
 	display:inline-block;
 }
+
+
+
+
+.pagination > .active > a, .pagination > .active > span, 
+.pagination > .active > a:hover, .pagination > .active > span:hover, 
+.pagination > .active > a:focus, .pagination > .active > span:focus{
+	background-color: #31b0d5;
+	border-color: #31b0d5;
+}

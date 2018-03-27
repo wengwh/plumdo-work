@@ -1,7 +1,8 @@
 /**
- * 时间指令，由于第三方的时间使用默认按钮，input不会触发，自定义通过事件触发
- *
+ * 自定义指令
+ * 
  * @author wengwh
+ * @date 2018-03-26
  */
 (function () {
   'use strict';
@@ -9,7 +10,13 @@
   angular.module('adminApp').directive('viewLoad', function () {
     return {
       restrict: 'A',
-      templateUrl: 'views/common/view-load.html',
+			template: `
+				<div class="folat" ng-show="progressNum>0">
+					<div class="sk-spinner-wave">
+        		<div class="sk-rect{{num}}" ng-repeat="num in [1,2,3,4,5]"></div>   
+					</div>
+				</div>
+			 ` ,
       link: function (scope, element) {
         $(element).fadeIn(300);
       }
@@ -37,8 +44,9 @@
 					</div>
 				</div>
 			 ` ,
+      require: 'ngModel',
       scope: {
-      	total: '=' ,
+      	total: '=ngModel' ,
       	param: '=' ,
         changed: '=' 
       },
@@ -91,30 +99,23 @@
 		return {
 			restrict : 'A',
 			link : function(scope, element, attrs) {
-
 				var conf = scope[attrs.ngTable];
-
 				var tableId = conf.id;
-
-				var loadFunction = conf.loadFunction || function() {
-				};
-
-				var pageList = conf.pageList || [ 5,10, 20, 50, 100 ];
-
 				scope[tableId] = scope[tableId] || {};
-
+				scope[tableId].loadFunction = conf.loadFunction || function() {};
 				scope[tableId].queryParams = conf.queryParams || {};
-				scope[tableId].pageNum = conf.pageNum ? conf.pageNum.toString() : "1";
-				scope[tableId].pageSize = conf.pageSize ? conf.pageSize.toString() : "10";
-				scope[tableId].sortName = conf.sortName || "";
-				scope[tableId].sortOrder = conf.sortOrder || "desc";
+				scope[tableId].queryParams.sortName = conf.sortName || "";
+				scope[tableId].queryParams.sortOrder = conf.sortOrder || "desc";
 
 				var headThStr = '';
 				var bodyThStr = '';
-				for ( var i in conf.colModels) {
+				for (var i in conf.colModels) {
 					var sortHtml = '';
 					if (conf.colModels[i].sortable) {
-						sortHtml = 'ng-class="{\'sorting\':' + tableId + '.sortName!=\'' + conf.colModels[i].index + '\',' + '\'sorting_asc\':' + tableId + '.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.sortOrder==\'asc\',' + '\'sorting_desc\':' + tableId + '.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.sortOrder==\'desc\'}" ' + 'ng-click="' + tableId + '.sortChange(\'' + conf.colModels[i].index + '\')"';
+						sortHtml = 'ng-class="{\'sorting\':' + tableId + '.queryParams.sortName!=\'' + conf.colModels[i].index + '\',' 
+						+ '\'sorting_asc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'asc\',' 
+						+ '\'sorting_desc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'desc\'}" ' 
+						+ 'ng-click="' + tableId + '.sortChange(\'' + conf.colModels[i].index + '\')"';
 					}
 					var widthHtml = '';
 					if (conf.colModels[i].width) {
@@ -127,75 +128,30 @@
 					} else {
 						bodyThStr = bodyThStr + '<td>{{row.' + conf.colModels[i].index + '}}</td>\n';
 					}
-
 				}
 
-				var tableHtml = '<thead><tr>' + headThStr + '</tr></thead>' + '<tbody><tr ng-repeat="row in ' + conf.data + '.data ">' + bodyThStr + '</tr></tbody>';
-
-				var optionStr = '';
-				for ( var i in pageList) {
-					optionStr = optionStr + '<option value="' + pageList[i] + '">' + pageList[i] + '</option>\n';
-				}
-
-				var pageHtml = '<div class="row table-footer">' 
-						+ '<div class="col-xs-5 col-sm-5">'
-						+ '<select class="form-control input-sm ng-table" ng-model="' + tableId + '.pageSize" ng-change="' + tableId + '.pageSizeChange()">' + optionStr + '</select>条 ' 
-						+ '{{(' + conf.data + '.startNum)}} - {{' + conf.data + '.endNum}}  共 {{' + conf.data + '.dataTotal}} 条</div>' 
-						+ '<div class="col-xs-7 col-sm-7"><nav class="ng-table">' 
-						+ '<ul  uib-pagination class="ng-table" ng-change="' + tableId + '.pageNumChange(' + conf.data + '.pageNum)"'
-						+ 'total-items="' + conf.data + '.dataTotal" items-per-page="' + conf.data + '.pageSize" ng-model="' + conf.data + '.pageNum" max-size="5" '
-						+ 'class="pagination-sm" boundary-links="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>'
-						+ '</nav></div>'
-						+ '</div>';
-
-				scope[tableId].pageNumChange = scope[tableId].pageNumChange || function(pageNum) {
-					clickLoad(pageNum);
-				};
-
-				scope[tableId].pageSizeChange = scope[tableId].pageSizeChange || function() {
-					clickLoad(1);
-				};
+				var tableHtml = '<thead><tr>' 
+					+ headThStr 
+					+ '</tr></thead>' 
+					+ '<tbody><tr ng-repeat="row in ' + conf.data + '.data ">' 
+					+ bodyThStr 
+					+ '</tr></tbody>';
+				
+				var pageHtml = '<div ng-pagination ng-model="'+ conf.data +'.total" changed="'+ tableId +'.loadFunction" param="' + tableId + '.queryParams"></div>';
 
 				scope[tableId].sortChange = scope[tableId].sortChange || function(sortName) {
-					if (scope[tableId].sortName != sortName) {
-						scope[tableId].sortName = sortName;
-						scope[tableId].sortOrder = "desc";
+					if (scope[tableId].queryParams.sortName != sortName) {
+						scope[tableId].queryParams.sortName = sortName;
+						scope[tableId].queryParams.sortOrder = "desc";
 					} else {
-						if (scope[tableId].sortOrder == "desc") {
-							scope[tableId].sortOrder = "asc";
+						if (scope[tableId].queryParams.sortOrder == "desc") {
+							scope[tableId].queryParams.sortOrder = "asc";
 						} else {
-							scope[tableId].sortOrder = "desc";
+							scope[tableId].queryParams.sortOrder = "desc";
 						}
 					}
-					clickLoad(1);
+					scope[tableId].loadFunction();
 				};
-
-				var clickLoad = function(pageNum, pageSize) {
-					if (pageNum) {
-						scope[tableId].queryParams.pageNum = pageNum;
-					} else {
-						scope[tableId].queryParams.pageNum = scope[tableId].pageNum;
-					}
-
-					if (pageSize) {
-						scope[tableId].queryParams.pageSize = pageSize;
-					} else {
-						scope[tableId].queryParams.pageSize = scope[tableId].pageSize;
-					}
-
-					if (scope[tableId].sortName != "") {
-						scope[tableId].queryParams.sortName = scope[tableId].sortName;
-						scope[tableId].queryParams.sortOrder = scope[tableId].sortOrder;
-					}
-
-					loadFunction(scope[tableId].queryParams);
-				};
-
-				if (scope[tableId].queryParams.pageNum && scope[tableId].queryParams.pageSize) {
-					loadFunction(scope[tableId].queryParams);
-				} else {
-					clickLoad(1);
-				}
 
 				element.html('').append($compile(tableHtml)(scope));
 				element.after($compile(pageHtml)(scope));

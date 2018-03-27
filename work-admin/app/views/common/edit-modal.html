@@ -1,0 +1,11 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{modalTitle}}</h3>
+</div>
+<div class="modal-body">
+  <form role="form" novalidate name="editForm" ng-include="formUrl">
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+  <button type="button" class="btn btn-info" ng-disabled="editForm.$invalid" ng-click="ok()">确定</button>
+</div>

@@ -25,20 +25,21 @@ public abstract class BaseResource {
 
 	protected Pageable getPageable(Map<String, String> requestParams) {
 		int page = 1;
-		if (requestParams.containsKey("page")) {
-			page = ObjectUtils.convertToInteger(requestParams.get("page"), 1);
+		if (requestParams.containsKey("pageNum")) {
+			page = ObjectUtils.convertToInteger(requestParams.get("pageNum"), 1);
 		}
 		int size = 10;
-		if (requestParams.containsKey("limit")) {
-			size = ObjectUtils.convertToInteger(requestParams.get("limit"), 10);
+		if (requestParams.containsKey("pageSize")) {
+			size = ObjectUtils.convertToInteger(requestParams.get("pageSize"), 10);
 		}
 		Order order = null;
-		if (ObjectUtils.isNotEmpty(requestParams.get("order"))) {
-			String orderBy = requestParams.get("order");
-			if (orderBy.startsWith("-")) {
-				order = new Order(Direction.DESC, orderBy.substring(1));
+		if (ObjectUtils.isNotEmpty(requestParams.get("sortName"))) {
+			String sortName = requestParams.get("sortName");
+			String sortOrder = requestParams.get("sortOrder");
+			if (ObjectUtils.isEmpty(sortOrder) || sortOrder.equals("desc")) {
+				order = new Order(Direction.DESC, sortName);
 			} else {
-				order = new Order(Direction.ASC, orderBy);
+				order = new Order(Direction.ASC, sortName);
 			}
 		}
 

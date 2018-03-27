@@ -21,7 +21,7 @@
               </div>
             </div>
           </div>
-          <div ng-pagination total="total" changed="queryUsers" param="query"></div>  
+          <div ng-pagination ng-model="total" changed="queryUsers" param="query"></div>  
         </div>
       </div>
     </div>
@@ -102,4 +102,15 @@
   <button type="button" class="btn btn-warning" ng-disabled="editForm.$invalid" ng-click="ok()">确定</button>
 </div>
 </script>
-
+<thead>
+  <tr>
+    <th ng-repeat="col in config.colModels" width="{{col.width}}"
+      ng-class="{'sorting':config.sortName!=col.index,'sorting_asc':config.sortName==col.index && config.sortOrder=='asc','sorting_desc':config.sortName==col.index && config.sortOrder=='desc'}"
+      ng-click=sortChange(col.index)>{{col.name}}</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="row in data.data track by $index">
+    <td ng-repeat="col in config.colModels track by $index">{{row[col.index]}}</td>
+  </tr>
+</tbody>
