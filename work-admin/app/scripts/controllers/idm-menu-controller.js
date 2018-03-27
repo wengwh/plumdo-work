@@ -42,9 +42,9 @@
 						id : id,
 						data : function() {
 							if(!id){
-								return {code: 'Y'+Math.ceil(Math.random()*10000), type:0};
+								return {code: 'Y'+Math.ceil(Math.random()*10000), type:0,icon:''};
 							}else{
-								return {code: 'M'+Math.ceil(Math.random()*10000), type:1};
+								return {code: 'M'+Math.ceil(Math.random()*10000), type:1,icon:''};
 							}
 						},
 						service : $scope.menuService,

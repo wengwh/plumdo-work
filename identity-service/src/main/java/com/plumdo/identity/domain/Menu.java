@@ -15,8 +15,8 @@ import com.plumdo.common.domain.BaseEntity;
 public class Menu extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	private String code;
-	private String iconUrl;
-	private String menuUrl;
+	private String icon;
+	private String url;
 	private String name;
 	private int order;
 	private int parentId;
@@ -35,22 +35,22 @@ public class Menu extends BaseEntity {
 		this.code = code;
 	}
 
-	@Column(name = "icon_url_", nullable = false, length = 255)
-	public String getIconUrl() {
-		return this.iconUrl;
+	@Column(name = "icon_", nullable = false, length = 255)
+	public String getIcon() {
+		return this.icon;
 	}
 
-	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
-	@Column(name = "menu_url_", length = 255)
-	public String getMenuUrl() {
-		return this.menuUrl;
+	@Column(name = "url_", length = 255)
+	public String getUrl() {
+		return this.url;
 	}
 
-	public void setMenuUrl(String menuUrl) {
-		this.menuUrl = menuUrl;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	@Column(name = "name_", nullable = false, length = 64)
