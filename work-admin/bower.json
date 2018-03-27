@@ -11,7 +11,8 @@
     "angular-notify": "^2.5.1",
     "angular-perfect-scrollbar": "^0.1.0",
     "angular-bootstrap": "^2.5.0",
-    "iCheck": "jquery-icheck#^1.0.2"
+    "iCheck": "jquery-icheck#^1.0.2",
+    "bootstrap-iconpicker": "^1.9.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.11"
@@ -49,6 +50,18 @@
         "./release/angular-ui-router.js",
         "./release/stateEvents.js"
       ]
+    },
+    "bootstrap-iconpicker": {
+      "main": [
+      	"dist/js/bootstrap-iconpicker-iconset-all.js",
+      	"dist/js/bootstrap-iconpicker.js",
+    	"dist/css/bootstrap-iconpicker.css"
+      ]
     }
+  },
+  "resolutions": {
+    "angular": "1.6.9",
+    "angular-bootstrap": "^2.5.0",
+    "jquery": ">=1.7"
   }
 }

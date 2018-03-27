@@ -66,6 +66,10 @@
         url: '/group',
         controller: 'GroupController',
         templateUrl: 'views/idm/group.html'
+      }).state('idm.menu', {
+        url: '/menu',
+        controller: 'MenuController',
+        templateUrl: 'views/idm/menu.html'
       }).state('idm.role', {
         url: '/role',
         controller: 'RoleController',

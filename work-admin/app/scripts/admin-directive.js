@@ -157,6 +157,40 @@
 				element.after($compile(pageHtml)(scope));
 			}
 		};
-	} ]);
+	} ]).directive('ngIconpicker', ['$timeout',function ($timeout) {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      scope: {
+      	value: '=ngModel' 
+      },
+      link: function (scope, element) {
+        var config = {
+            arrowClass: 'btn-info',
+            arrowPrevIconClass: 'glyphicon glyphicon-chevron-left',
+            arrowNextIconClass: 'glyphicon glyphicon-chevron-right',
+            cols: 10,
+            footer: true,
+            header: true,
+            icon: scope.value,
+            iconset: 'fontawesome',
+            labelHeader: '第{0}页/共 {1} 页',
+            labelFooter: '{0} - {1} 共 {2} 图标',
+            placement: 'bottom', // Only in button tag
+            rows: 5,
+            search: true,
+            searchText: '搜索',
+            selectedClass: 'btn-success',
+            unselectedClass: ''
+        }
+        element.on('change', function(e) {
+        	$timeout(function() {
+        		scope.value = e.icon;
+        	});
+        });
+        element.iconpicker(config);
+      }
+    };
+  }]);
 
 })();

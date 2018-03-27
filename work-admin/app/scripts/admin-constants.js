@@ -16,6 +16,7 @@
     	users: '/users',
     	groups: '/users',
     	roles: '/roles',
+    	menus: '/menus',
 	    formDesgin : function(modelId) {
 	      return 'http://119.29.96.227/form-modeler/#/design?modelId=' + modelId 
 	    },

@@ -7,9 +7,9 @@
 	'use strict';
 
 	angular.module('adminApp').controller('EditModalController',
-		function($scope, $uibModalInstance, id, service, complete, title, url) {
+		function($scope, $uibModalInstance, id, service, complete, title, url, data) {
 			$scope.formUrl = url;
-			$scope.formdata = {};
+			$scope.formdata = data || {};
 			if (id) {
 				$scope.modalTitle = "修改" + title;
 
