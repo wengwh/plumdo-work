@@ -16,7 +16,7 @@
 				service.get({
 					urlPath : '/' + id
 				}, function(data, status) {
-					$scope.formdata = data;
+					$scope.formdata = angular.extend($scope.formdata, data);
 				});
 
 				$scope.ok = function() {

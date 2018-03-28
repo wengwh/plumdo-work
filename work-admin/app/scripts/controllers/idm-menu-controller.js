@@ -12,12 +12,20 @@
 			$scope.menuService = $scope.IdmService($scope.restUrl.menus);
 			$scope.queryResult = {};
 			$scope.queryParams = {};
-
+			$scope.queryChildResult = {};
+			$scope.queryChildParams = {};
+			$scope.parentMenu = {};
+			$scope.viewChild = false;
+			
 			$scope.queryMenu = function() {
 				$scope.menuService.get({
-					params : $scope.queryParams
+					params : $scope.viewChild ? $scope.queryChildParams:$scope.queryParams
 				}, function(response) {
-					$scope.queryResult = response;
+					if($scope.viewChild){
+						$scope.queryChildResult = response;
+					}else{
+						$scope.queryResult = response;
+					}
 				});
 			};
 
@@ -41,10 +49,10 @@
 				$scope.editModal({
 						id : id,
 						data : function() {
-							if(!id){
-								return {code: 'Y'+Math.ceil(Math.random()*10000), type:0,icon:''};
+							if($scope.viewChild){
+								return {code: 'C'+Math.ceil(Math.random()*10000), type:1, parentId:$scope.parentMenu.id, parentName:$scope.parentMenu.name};
 							}else{
-								return {code: 'M'+Math.ceil(Math.random()*10000), type:1,icon:''};
+								return {code: 'P'+Math.ceil(Math.random()*10000), type:0, parentId:0};
 							}
 						},
 						service : $scope.menuService,
@@ -60,24 +68,42 @@
 				})
 			};
 			
+			$scope.queryChild = function(item) {
+				$scope.parentMenu = item;
+				$scope.viewChild = true;
+				$scope.queryChildParams.parentId = item.id;
+				$scope.queryChildParams.name = '';
+				$scope.queryChildParams.pageNum = 1;
+				$scope.queryMenu();
+			};
+			
+			$scope.returnParent = function() {
+				$scope.parentMenu = {};
+				$scope.viewChild = false;
+				$scope.queryParams.parentId = 0;
+				$scope.queryMenu();
+			};
+			
 			$scope.tableOptions = {
 	  		id : 'menu',
 	  		data : 'queryResult',
 	  		colModels : [
 	  			{name:'名称',index:'name',sortable:true,width:'10%'},
-	  			{name:'编号',index:'code',sortable:true,width:'10%'},
-	  			{name:'路径',index:'url',sortable:true,width:'10%'},
-	  			{name:'图标',index:'icon',width:'10%'},
-	  			{name:'排序',index:'order',sortable:true,width:'10%'},
-	  			{name:'描述',index:'remark',width:'10%'},
-	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'15%'},
-	  			{name:'操作',index:'',width:'10%',
+	  			{name:'编号',index:'code',sortable:true,width:'7%'},
+	  			{name:'图标',index:'icon',width:'7%',
 	  				formatter:function(){
-	  					return '<div class="btn-group">'
-		  					+'<button type="button" class="btn btn-info btn-xs" ng-click=editMenu(row.id)>'
-		  					+'<i class="fa fa-pencil"></i>&nbsp;修改</button>'
-		  					+'<button type="button" class="btn btn-danger btn-xs" ng-click=deleteMenu(row.id)>'
-		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
+	  					return '<div class="th-icon"><span class="{{\'fa \'+row.icon}}"></span></div>';
+	  				}
+	  			},
+	  			{name:'排序',index:'order',sortable:true,width:'7%'},
+	  			{name:'描述',index:'remark',width:'12%'},
+	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
+	  			{name:'操作',index:'',width:'15%',
+	  				formatter:function(){
+	  					return '<div class="th-btn-group">'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=editMenu(row.id)>修改</button>'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=queryChild(row)>下级</button>'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=deleteMenu(row.id)>删除</button>'
 		  					+'</div>';
 	  				}
 	  			}
@@ -88,7 +114,38 @@
 	  		sortOrder : 'asc'
 	  	};
 			
-			$scope.queryMenu();
+			
+			$scope.childTableOptions = {
+	  		id : 'childMenu',
+	  		data : 'queryChildResult',
+	  		colModels : [
+	  			{name:'名称',index:'name',sortable:true,width:'10%'},
+	  			{name:'编号',index:'code',sortable:true,width:'7%'},
+	  			{name:'路径',index:'url',sortable:true,width:'10%'},
+	  			{name:'图标',index:'icon',width:'7%',
+	  				formatter:function(){
+	  					return '<div class="th-icon"><span class="{{\'fa \'+row.icon}}"></span></div>';
+	  				}
+	  			},
+	  			{name:'排序',index:'order',sortable:true,width:'7%'},
+	  			{name:'描述',index:'remark',width:'12%'},
+	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
+	  			{name:'操作',index:'',width:'10%',
+	  				formatter:function(){
+	  					return '<div class="th-btn-group">'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=editMenu(row.id)>修改</button>'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=deleteMenu(row.id)>删除</button>'
+		  					+'</div>';
+	  				}
+	  			}
+	  		],
+	  		loadFunction : $scope.queryMenu,
+	  		queryParams : $scope.queryChildParams,
+	  		sortName : 'name',
+	  		sortOrder : 'asc'
+	  	};
+			
+			$scope.returnParent();
 		});
 
 })();

@@ -161,10 +161,10 @@
     return {
       restrict: 'A',
       require: 'ngModel',
-      scope:{
-      	data:'=ngModel'
+      scope: {
+        data: '=ngModel'
       },
-      link: function (scope, element, attrs, ngModel) {
+      link: function (scope, element) {
         var config = {
             arrowClass: 'btn-info',
             arrowPrevIconClass: 'glyphicon glyphicon-chevron-left',
@@ -175,7 +175,7 @@
             iconset: 'fontawesome',
             labelHeader: '第{0}页/共 {1} 页',
             labelFooter: '{0} - {1} 共 {2} 图标',
-            placement: 'bottom', // Only in button tag
+            placement: 'bottom',
             rows: 5,
             search: true,
             searchText: '搜索',
@@ -183,22 +183,16 @@
             unselectedClass: ''
         };
         
-      	var oldValue = '';
-      	scope.$watch(scope.data, function (newValue) {
-      		console.info(scope.data)
-          if(newValue && newValue !== oldValue){
-      			element.iconpicker('setIcon', newValue);
-      		}
-        }, true);
-      	scope.$watch(attrs['ngModel'], function (newValue) {
-          if(newValue && newValue !== oldValue){
-      			element.iconpicker('setIcon', newValue);
-      		}
+        scope.$watch("data", function(newValue) {
+        	if(newValue){
+            element.iconpicker('setIcon', newValue);
+        	}
         });
-      	
+        
         element.on('change', function(e) {
-        		oldValue = e.icon
-        		scope[attrs.ngModel] = e.icon;
+        	$timeout(function() {
+        		scope.data = e.icon;
+          });
         });
         element.iconpicker(config);
       }

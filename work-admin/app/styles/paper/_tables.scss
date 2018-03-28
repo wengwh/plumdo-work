@@ -12,6 +12,15 @@
        font-size: $font-size-h5;
        font-weight: $font-weight-light;
    }
+   .th-icon{
+   		font-size: 16px;
+   }
+   
+   .th-btn-group{
+   		.btn{
+   			margin: 0 5px;
+   		}
+   }
    
 }
 .table-striped{
