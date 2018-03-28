@@ -101,9 +101,12 @@
 	  			{name:'操作',index:'',width:'15%',
 	  				formatter:function(){
 	  					return '<div class="th-btn-group">'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=editMenu(row.id)>修改</button>'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=queryChild(row)>下级</button>'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=deleteMenu(row.id)>删除</button>'
+		  					+'<button type="button" class="btn btn-xs btn-info" ng-click=editMenu(row.id)>'
+		  					+'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=queryChild(row)>'
+		  					+'<i class="fa fa-list"></i>&nbsp;下级</button>'
+		  					+'<button type="button" class="btn btn-xs btn-danger" ng-click=deleteMenu(row.id)>'
+		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
 		  					+'</div>';
 	  				}
 	  			}
@@ -133,8 +136,10 @@
 	  			{name:'操作',index:'',width:'10%',
 	  				formatter:function(){
 	  					return '<div class="th-btn-group">'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=editMenu(row.id)>修改</button>'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=deleteMenu(row.id)>删除</button>'
+		  					+'<button type="button" class="btn btn-xs btn-info" ng-click=editMenu(row.id)>'
+		  					+'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'
+		  					+'<button type="button" class="btn btn-xs btn-danger" ng-click=deleteMenu(row.id)>'
+		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
 		  					+'</div>';
 	  				}
 	  			}

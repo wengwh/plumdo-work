@@ -10,6 +10,7 @@
 	angular.module('adminApp').controller('RoleController',
 		function($scope) {
 			$scope.roleService = $scope.IdmService($scope.restUrl.roles);
+			$scope.menuService = $scope.IdmService($scope.restUrl.menus);
 			$scope.queryResult = {};
 			$scope.queryParams = {};
 
@@ -38,19 +39,38 @@
 			};
 
 			$scope.editRole = function(id) {
+				if(id){
+						$scope.roleService.get({
+							urlPath : '/' + id +'/menus'
+						}, function(response) {
+							$scope.openModal(id,response);
+						});
+				}else{
+					$scope.menuService.get({
+						urlPath : '/tree'
+					}, function(response) {
+						$scope.openModal(id,response);
+					});
+				}
+			};
+			
+			$scope.openModal = function(id,data) {
 				$scope.editModal({
-						id : id,
-						service : $scope.roleService,
-						url : function() {
-							return angular.copy('role-edit.html');
-						},
-						title : function() {
-							return angular.copy('角色');
-						},
-						complete : function() {
-							return $scope.queryRole;
-						}
-				})
+					id : id,
+					service : $scope.roleService,
+					data : function(){
+						return {menus:data};
+					},
+					url : function() {
+						return angular.copy('role-edit.html');
+					},
+					title : function() {
+						return angular.copy('角色');
+					},
+					complete : function() {
+						return $scope.queryRole;
+					}
+				});
 			};
 			
 			$scope.tableOptions = {
@@ -63,9 +83,9 @@
 	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'15%'},
 	  			{name:'操作',index:'',width:'10%',
 	  				formatter:function(){
-	  					return '<div class="btn-group">'
+	  					return '<div class="th-btn-group">'
 		  					+'<button type="button" class="btn btn-info btn-xs" ng-click=editRole(row.id)>'
-		  					+'<i class="fa fa-pencil"></i>&nbsp;修改</button>'
+		  					+'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'
 		  					+'<button type="button" class="btn btn-danger btn-xs" ng-click=deleteRole(row.id)>'
 		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
 		  					+'</div>';

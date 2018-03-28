@@ -2,10 +2,14 @@ package com.plumdo.common.utils;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.plumdo.common.model.ObjectMap;
 
 
 /**
@@ -19,7 +23,7 @@ public class ObjectUtils {
 	public static boolean isGtZero(Object pObj) {
 		return !isLeZeroOrNull(pObj);
 	}
-	
+
 	public static boolean isGeZero(Object pObj) {
 		if (pObj == null)
 			return false;
@@ -41,7 +45,7 @@ public class ObjectUtils {
 		}
 		return false;
 	}
-	
+
 	public static boolean isNotEmpty(Object pObj) {
 		return !isEmpty(pObj);
 	}
@@ -171,20 +175,49 @@ public class ObjectUtils {
 	public static Date convertToDate(Object obj) {
 		return convertToDate(obj, null);
 	}
-	
-	public static Timestamp convertToTimestap(Object obj, Timestamp defaultVal) {
-		try {
-			return (obj != null) ? Timestamp.valueOf(convertToString(obj)) : defaultVal;
-		} catch (Exception e) {
-			return defaultVal;
-		}
+
+	public static Timestamp convertToTimestamp(Object obj, Timestamp defaultVal) {
+		return DateUtils.parseTimestamp(convertToString(obj, ""), defaultVal);
 	}
 
-	public static Timestamp convertToTimestap(Object obj) {
-		return convertToTimestap(obj, null);
+	public static Timestamp convertToTimestamp(Object obj) {
+		return convertToTimestamp(obj, null);
 	}
-	
-	
+
+	@SuppressWarnings("unchecked")
+	public static List<Object> convertToList(Object object) {
+		List<Object> result = new ArrayList<>();
+		if (isNotEmpty(object) && object instanceof List) {
+			result = (List<Object>) object;
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<ObjectMap> convertToObjectMapList(Object list) {
+		List<ObjectMap> result = new ArrayList<>();
+		if (isNotEmpty(list)) {
+			for (Object tempObj : (List<Object>) list) {
+				result.add(new ObjectMap((HashMap<String, Object>) tempObj));
+			}
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static ObjectMap convertToObjectMap(Object data) {
+		if (data == null) {
+			return null;
+		}
+
+		if (data instanceof ObjectMap) {
+			return (ObjectMap) data;
+		}
+		if (data instanceof Map) {
+			return new ObjectMap((Map<String, Object>) data);
+		}
+		return null;
+	}
 
 	@SuppressWarnings("rawtypes")
 	public static String listToString(List list, char separator) {
@@ -194,6 +227,5 @@ public class ObjectUtils {
 		}
 		return sb.toString().substring(0, sb.toString().length() - 1);
 	}
-
 
 }

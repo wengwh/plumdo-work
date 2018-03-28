@@ -1,7 +1,7 @@
 package com.plumdo.identity.resource;
 
-import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.common.jpa.Criteria;
 import com.plumdo.common.jpa.Restrictions;
+import com.plumdo.common.model.ObjectMap;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.identity.constant.ErrorCodeConstant;
 import com.plumdo.identity.domain.Menu;
 import com.plumdo.identity.repository.MenuRepository;
+import com.plumdo.identity.response.ConvertFactory;
 
 @RestController
 public class MenuResource extends BaseResource {
@@ -39,7 +41,7 @@ public class MenuResource extends BaseResource {
 
 	@GetMapping(value = "/menus")
 	@ResponseStatus(value = HttpStatus.OK)
-	public PageResponse<Menu> getMenus(@ApiIgnore @RequestParam Map<String, String> requestParams) {
+	public PageResponse<Menu> getMenus(@RequestParam Map<String, String> requestParams) {
 		Criteria<Menu> criteria = new Criteria<Menu>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id"), true));
 		criteria.add(Restrictions.eq("parentId", requestParams.get("parentId"), true));
@@ -48,6 +50,14 @@ public class MenuResource extends BaseResource {
 		return createPageResponse(menuRepository.findAll(criteria, getPageable(requestParams)));
 	}
 
+	@GetMapping(value = "/menus/tree")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<ObjectMap> getTreeMenus() {
+		List<Menu> menus = menuRepository.findAll();
+		return ConvertFactory.convertMenuTree(menus);
+	}
+	
+	
 	@GetMapping(value = "/menus/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Menu getMenu(@PathVariable Integer id) {

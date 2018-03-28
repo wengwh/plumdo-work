@@ -12,7 +12,8 @@
     "angular-perfect-scrollbar": "^0.1.0",
     "angular-bootstrap": "^2.5.0",
     "iCheck": "jquery-icheck#^1.0.2",
-    "bootstrap-iconpicker": "^1.9.0"
+    "bootstrap-iconpicker": "^1.9.0",
+    "isteven-angular-multiselect": "angular-multi-select#^4.0.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.11"
@@ -53,9 +54,9 @@
     },
     "bootstrap-iconpicker": {
       "main": [
-      	"dist/js/bootstrap-iconpicker-iconset-all.js",
-      	"dist/js/bootstrap-iconpicker.js",
-    	"dist/css/bootstrap-iconpicker.css"
+        "dist/js/bootstrap-iconpicker-iconset-all.js",
+        "dist/js/bootstrap-iconpicker.js",
+        "dist/css/bootstrap-iconpicker.css"
       ]
     }
   },

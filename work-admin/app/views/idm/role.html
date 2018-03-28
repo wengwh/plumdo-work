@@ -37,5 +37,19 @@
   	<label class="control-label">备注</label> 
 	<textarea placeholder="备注" class="form-control" ng-model="formdata.remark" rows="3"></textarea>
   </div>
+
+  <div class="form-group">
+  	<label class="control-label">菜单权限</label> <br/>
+    <isteven-multi-select    
+        input-model="formdata.menus"    
+        output-model="formdata.roleMenus"
+        button-label="name"
+        item-label="name code"
+        tick-property="selected"
+        orientation="horizontal"
+        group-property="group"
+        translation="multiSelectLang">
+   </isteven-multi-select>
+  </div>
 </script>
 

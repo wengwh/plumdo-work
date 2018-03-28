@@ -7,7 +7,7 @@
 	'use strict';
 
 	angular.module(
-		'adminApp',[ 'ui.router', 'ui.router.state.events', 'ui.bootstrap', 'cgNotify', 'perfect_scrollbar' ])
+		'adminApp',[ 'ui.router', 'ui.router.state.events', 'ui.bootstrap', 'cgNotify', 'isteven-multi-select','perfect_scrollbar' ])
 		.run(function($rootScope, notify, $state, $timeout, $uibModal, RestService, contextRoot, restUrl) {
 			$rootScope.contextRoot = contextRoot;
 			$rootScope.restUrl = restUrl;
@@ -127,12 +127,22 @@
 					}
 				}
 			});
+			
+			
+			$rootScope.multiSelectLang = {
+			    selectAll       : "全选",
+			    selectNone      : "全部不选",
+			    reset           : "重置",
+			    search          : "搜索",
+			    nothingSelected : "没有选项被选中" 
+			}
 
 		}).filter('to_trusted', [ '$sce', function($sce) {
 		return function(text) {
 			return $sce.trustAsHtml(text);
 		}
-	} ]);
-	;
+	} ]).config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+	}]);
 
 })();

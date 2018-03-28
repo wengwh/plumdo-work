@@ -2,10 +2,12 @@ package com.plumdo.identity.resource;
 
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,16 +20,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.common.jpa.Criteria;
 import com.plumdo.common.jpa.Restrictions;
+import com.plumdo.common.model.ObjectMap;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.identity.constant.ErrorCodeConstant;
+import com.plumdo.identity.domain.Menu;
 import com.plumdo.identity.domain.Role;
+import com.plumdo.identity.domain.RoleMenu;
+import com.plumdo.identity.repository.MenuRepository;
+import com.plumdo.identity.repository.RoleMenuRepository;
 import com.plumdo.identity.repository.RoleRepository;
+import com.plumdo.identity.response.ConvertFactory;
 
 @RestController
 public class RoleResource extends BaseResource {
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	private MenuRepository menuRepository;
+	@Autowired
+	private RoleMenuRepository roleMenuRepository;
 
 	private Role getRoleFromRequest(Integer id) {
 		Role role = roleRepository.findOne(id);
@@ -52,27 +64,56 @@ public class RoleResource extends BaseResource {
 	public Role getRole(@PathVariable Integer id) {
 		return getRoleFromRequest(id);
 	}
+	
+	@GetMapping(value = "/roles/{id}/menus")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<ObjectMap> getRoleMenus(@PathVariable Integer id) {
+		List<Menu> allMenus = menuRepository.findAll();
+		List<Menu> roleMenus = menuRepository.findByRoleId(id);
+		return ConvertFactory.convertRoleMenuTree(allMenus, roleMenus);
+	}
 
 	@PostMapping("/roles")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Role createRole(@RequestBody Role roleRequest) {
-		return roleRepository.save(roleRequest);
+	@Transactional
+	public Role createRole(@RequestBody ObjectMap roleRequest) {
+		return saveRoleAndMenu(null, roleRequest);
 	}
 
 	@PutMapping(value = "/roles/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Role updateRole(@PathVariable Integer id, @RequestBody Role roleRequest) {
+	@Transactional
+	public Role updateRole(@PathVariable Integer id, @RequestBody ObjectMap roleRequest) {
 		Role role = getRoleFromRequest(id);
-		role.setName(roleRequest.getName());
-		role.setRemark(roleRequest.getRemark());
-		role.setTenantId(roleRequest.getTenantId());
-		return roleRepository.save(role);
+		return saveRoleAndMenu(role, roleRequest);
+	}
+
+	private Role saveRoleAndMenu(Role role, ObjectMap roleRequest) {
+		if (role == null) {
+			role = new Role();
+		}
+		role.setName(roleRequest.getAsString("name"));
+		role.setRemark(roleRequest.getAsString("remark"));
+		role.setTenantId(roleRequest.getAsString("tenantId"));
+		roleRepository.save(role);
+
+		roleMenuRepository.deleteByRoleId(role.getId());
+		List<ObjectMap> menus = roleRequest.getAsList("roleMenus");
+		for (ObjectMap menu : menus) {
+			RoleMenu roleMenu = new RoleMenu();
+			roleMenu.setMenuId(menu.getAsInteger("id"));
+			roleMenu.setRoleId(role.getId());
+			roleMenuRepository.save(roleMenu);
+		}
+		return role;
 	}
 
 	@DeleteMapping(value = "/roles/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@Transactional
 	public void deleteRole(@PathVariable Integer id) {
 		Role role = getRoleFromRequest(id);
 		roleRepository.delete(role);
+		roleMenuRepository.deleteByRoleId(role.getId());
 	}
 }
