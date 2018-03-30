@@ -5,17 +5,17 @@
         <div class="content">
           <div class="row">
             <div class="col-md-3">
-              <h4 class="card-title">群组状态</h4>
+              <h4 class="title">群组状态</h4>
               <div class="form-group">
                 <select class="form-control" ng-model="queryParams.status">
-                  <option ng-value="">全部</option>
-                  <option ng-value="0">启用</option>
-                  <option ng-value="1">停用</option>
+                  <option value="">全部</option>
+                  <option value="0">启用</option>
+                  <option value="1">停用</option>
                 </select>
               </div>
             </div>
             <div class="col-md-9">
-              <h4 class="card-title">群组名称</h4>
+              <h4 class="title">群组名称</h4>
                 <div class="input-group">
                   <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入群组名称">
                   <span class="input-group-btn">
@@ -33,7 +33,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="content">
-          <h4 class="card-title" ng-show="parentGroup.id!=0"> 
+          <h4 class="title" ng-show="parentGroup.id!=0"> 
             <a href="" ng-click="returnParent()">
               <span class="label label-success pull-left"><i class="fa fa-mail-reply"></i> 返回上级</span>
             </a>

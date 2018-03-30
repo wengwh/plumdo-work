@@ -8,70 +8,79 @@
 
   angular.module('adminApp').config(
     function ($stateProvider, $urlRouterProvider) {
-
-      $stateProvider.state('home', {
+      
+      $stateProvider.state('login', {
+        url: '/login',
+        templateUrl: 'views/login.html',
+        controller : 'LoginController'
+      }).state('main', {
+        url: '',
+        templateUrl : 'views/main.html',
+        controller : 'MainController',
+        abstract : true
+      }).state('main.home', {
         url: '/home',
         templateUrl: 'views/test.html'
-      }).state('work', {
+      }).state('main.work', {
         url: '/work',
         abstract: true,
         template: '<div ui-view></div>'
-      }).state('work.process-start', {
+      }).state('main.work.process-start', {
         url: '/process-start',
         templateUrl: 'views/test.html'
-      }).state('work.process-run', {
+      }).state('main.work.process-run', {
         url: '/process-run',
         templateUrl: 'views/test2.html'
-      }).state('work.process-finish', {
+      }).state('main.work.process-finish', {
         url: '/process-finish',
         templateUrl: 'views/test2.html'
-      }).state('work.process-involve', {
+      }).state('main.work.process-involve', {
         url: '/process-involve',
         templateUrl: 'views/test2.html'
-      }).state('work.task-todo', {
+      }).state('main.work.task-todo', {
         url: '/task-todo',
         templateUrl: 'views/test2.html'
-      }).state('work.task-finish', {
+      }).state('main.work.task-finish', {
         url: '/task-finish',
         templateUrl: 'views/test2.html'
-      }).state('modeler', {
+      }).state('main.modeler', {
         url: '/modeler',
         abstract: true,
         template: '<div ui-view></div>'
-      }).state('modeler.form', {
+      }).state('main.modeler.form', {
         url: '/form',
         controller: 'FormModelerController',
         templateUrl: 'views/modeler/form.html'
-      }).state('modeler.button', {
+      }).state('main.modeler.button', {
         url: '/button',
         templateUrl: 'views/test2.html'
-      }).state('modeler.flow', {
+      }).state('main.modeler.flow', {
         url: '/flow',
         templateUrl: 'views/test2.html'
-      }).state('modeler.report', {
+      }).state('main.modeler.report', {
         url: '/report',
         templateUrl: 'views/test2.html'
-      }).state('modeler.app', {
+      }).state('main.modeler.app', {
         url: '/app',
         templateUrl: 'views/test2.html'
-      }).state('idm', {
+      }).state('main.idm', {
         url: '/idm',
         abstract: true,
         template: '<div ui-view></div>'
-      }).state('idm.user', {
+      }).state('main.idm.user', {
         url: '/user',
         controller: 'UserController',
         templateUrl: 'views/idm/user.html'
-      }).state('idm.group', {
+      }).state('main.idm.group', {
         url: '/group',
         controller: 'GroupController',
         params:{cacheParams:{parentGroupArray:[],queryParamsArray:[]}},
         templateUrl: 'views/idm/group.html'
-      }).state('idm.menu', {
+      }).state('main.idm.menu', {
         url: '/menu',
         controller: 'MenuController',
         templateUrl: 'views/idm/menu.html'
-      }).state('idm.role', {
+      }).state('main.idm.role', {
         url: '/role',
         controller: 'RoleController',
         templateUrl: 'views/idm/role.html'

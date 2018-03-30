@@ -147,6 +147,21 @@ public class UserResource extends BaseResource {
 		}
 		return user;
 	}
+	
+	@PostMapping("/users/login")
+	@ResponseStatus(HttpStatus.OK)
+	public User loginUser(@RequestBody ObjectMap loginRequest) {
+		String account = loginRequest.getAsString("account");
+		String pwd = loginRequest.getAsString("pwd");
+		User user = userRepository.findByAccount(account);
+		if(user == null) {
+			return null;
+		}
+		if(user.getPwd().equals(pwd)) {
+			return user;
+		}
+		return null;
+	}
 
 
 	@DeleteMapping(value = "/users/{id}")

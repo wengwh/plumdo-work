@@ -23,6 +23,9 @@
     }
     .content{
         padding: 15px 15px 10px 15px;
+        .title {
+		  margin: 10px 0 10px 0;
+		}
     }
     .header{
         padding: 20px 20px 0;
@@ -157,7 +160,22 @@
 		}
 	}
 }
-
+.card-login{
+	label{
+		color: #252422;
+	}
+	
+	.footer{
+		padding-bottom: 20px;
+		button{
+			background-color:#484541;
+			color: #FFFFFF;
+			border-color:#484541;
+			min-width: 140px;
+			
+		}
+	}
+}
 .card-person{
 	.avatar{
         width: 66px;

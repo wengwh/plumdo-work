@@ -2,7 +2,7 @@
   <div class="logo">
     <a href="#" class="simple-text">
       <div class="logo-img">
-        <img src="/images/angular2-logo.png" alt="">
+        <img src="./images/angular2-logo.png" alt="">
       </div>
       Work Admin
     </a>
@@ -44,12 +44,12 @@
         <p>{{menuItem.title}}</p>
       </a>
       
-       <a href="javascript:void(0);" data-toggle="collapse" data-target="{{'#'+menuItem.path}}"  ng-if="menuItem.children">
+       <a href="javascript:void(0);" data-toggle="collapse" data-target="{{'#'+menuItem.id}}"  ng-if="menuItem.children">
         <i class="{{menuItem.icon}}"></i>
         <p>{{menuItem.title}}<b class="caret"></b></p>
       </a>
       
-      <div class="collapse" id="{{menuItem.path}}" ng-if="menuItem.children">
+      <div class="collapse" id="{{menuItem.id}}" ng-if="menuItem.children">
         <ul class="nav child">
             <li ng-repeat="menuItemChild in menuItem.children" ui-sref-active="active" >
               <a ui-sref="{{menuItemChild.path}}">
