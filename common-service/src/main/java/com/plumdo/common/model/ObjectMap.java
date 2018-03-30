@@ -119,6 +119,14 @@ public class ObjectMap extends HashMap<String, Object> {
 		return ObjectUtils.convertToInteger(get(pStr));
 	}
 
+	public Byte getAsByte(String pStr, Byte defaultVal) {
+		return ObjectUtils.convertToByte(get(pStr), defaultVal);
+	}
+
+	public Byte getAsByte(String pStr) {
+		return ObjectUtils.convertToByte(get(pStr));
+	}
+	
 	public Short getAsShort(String pStr, Short defaultVal) {
 		return ObjectUtils.convertToShort(get(pStr), defaultVal);
 	}

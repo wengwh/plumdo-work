@@ -20,66 +20,64 @@ import com.plumdo.common.jpa.Restrictions;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.identity.constant.ErrorCodeConstant;
-import com.plumdo.identity.domain.Menu;
-import com.plumdo.identity.repository.MenuRepository;
+import com.plumdo.identity.domain.Group;
+import com.plumdo.identity.repository.GroupRepository;
 
 @RestController
-public class MenuResource extends BaseResource {
+public class GroupResource extends BaseResource {
 	@Autowired
-	private MenuRepository menuRepository;
+	private GroupRepository groupRepository;
 
-	private Menu getMenuFromRequest(Integer id) {
-		Menu menu = menuRepository.findOne(id);
-		if (menu == null) {
+	private Group getGroupFromRequest(Integer id) {
+		Group group = groupRepository.findOne(id);
+		if (group == null) {
 			exceptionFactory.throwDefinedException(ErrorCodeConstant.OBJECT_NOT_FOUND);
 		}
-		return menu;
+		return group;
 	}
 
-	@GetMapping(value = "/menus")
+	@GetMapping(value = "/groups")
 	@ResponseStatus(value = HttpStatus.OK)
-	public PageResponse<Menu> getMenus(@RequestParam Map<String, String> requestParams) {
-		Criteria<Menu> criteria = new Criteria<Menu>();
+	public PageResponse<Group> getGroups(@RequestParam Map<String, String> requestParams) {
+		Criteria<Group> criteria = new Criteria<Group>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id"), true));
+		criteria.add(Restrictions.eq("status", requestParams.get("status"), true));
 		criteria.add(Restrictions.eq("parentId", requestParams.get("parentId"), true));
 		criteria.add(Restrictions.like("name", requestParams.get("name"), true));
 		criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId"), true));
-		return createPageResponse(menuRepository.findAll(criteria, getPageable(requestParams)));
+		return createPageResponse(groupRepository.findAll(criteria, getPageable(requestParams)));
 	}
 
-	
-	@GetMapping(value = "/menus/{id}")
+	@GetMapping(value = "/groups/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Menu getMenu(@PathVariable Integer id) {
-		return getMenuFromRequest(id);
+	public Group getGroup(@PathVariable Integer id) {
+		return getGroupFromRequest(id);
 	}
 
-	@PostMapping("/menus")
+	@PostMapping("/groups")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Menu createMenu(@RequestBody Menu menuRequest) {
-		return menuRepository.save(menuRequest);
+	public Group createGroup(@RequestBody Group groupRequest) {
+		return groupRepository.save(groupRequest);
 	}
 
-	@PutMapping(value = "/menus/{id}")
+	@PutMapping(value = "/groups/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public Menu updateMenu(@PathVariable Integer id, @RequestBody Menu menuRequest) {
-		Menu menu = getMenuFromRequest(id);
-		menu.setName(menuRequest.getName());
-		menu.setCode(menuRequest.getCode());
-		menu.setIcon(menuRequest.getIcon());
-		menu.setOrder(menuRequest.getOrder());
-		menu.setParentId(menuRequest.getParentId());
-		menu.setType(menuRequest.getType());
-		menu.setUrl(menuRequest.getUrl());
-		menu.setRemark(menuRequest.getRemark());
-		menu.setTenantId(menuRequest.getTenantId());
-		return menuRepository.save(menu);
+	public Group updateGroup(@PathVariable Integer id, @RequestBody Group groupRequest) {
+		Group group = getGroupFromRequest(id);
+		group.setName(groupRequest.getName());
+		group.setStatus(groupRequest.getStatus());
+		group.setType(groupRequest.getType());
+		group.setOrder(groupRequest.getOrder());
+		group.setParentId(groupRequest.getParentId());
+		group.setRemark(groupRequest.getRemark());
+		group.setTenantId(groupRequest.getTenantId());
+		return groupRepository.save(group);
 	}
 
-	@DeleteMapping(value = "/menus/{id}")
+	@DeleteMapping(value = "/groups/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteMenu(@PathVariable Integer id) {
-		Menu menu = getMenuFromRequest(id);
-		menuRepository.delete(menu);
+	public void deleteGroup(@PathVariable Integer id) {
+		Group group = getGroupFromRequest(id);
+		groupRepository.delete(group);
 	}
 }

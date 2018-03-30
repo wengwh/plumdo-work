@@ -16,11 +16,7 @@ import com.plumdo.identity.domain.Menu;
  */
 public class MenuConverter {
 
-	public static List<ObjectMap> convertTree(List<Menu> menus) {
-		return convertSelectedTree(menus, null);
-	}
-	
-	public static List<ObjectMap> convertSelectedTree(List<Menu> menus,List<Menu> roleMenus) {
+	public static List<ObjectMap> convertMultiSelect(List<Menu> menus,List<Menu> roleMenus) {
 		List<ObjectMap> menuList = new ArrayList<>();
 		for (Menu menu : menus) {
 			if (menu.getType() == TableConstant.MENU_TYPE_CHILD) {

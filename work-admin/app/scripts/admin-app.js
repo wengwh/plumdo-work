@@ -116,18 +116,32 @@
 	      }
 	    ]
 			
-			$rootScope.menuTitle = null;
-
 			$rootScope.$on('$stateChangeSuccess', function(toState, toParams) {
+				$rootScope.menuTitle = null;
+				$rootScope.menuSecondTitle = null;
 				var statePath = toParams.name;
+				var pathArray = statePath.split('.');
 				for (var index in $rootScope.menuItems) {
-					if ($rootScope.menuItems[index].path === statePath) {
-						$rootScope.menuTitle = $rootScope.menuItems[index].title;
+					var item = $rootScope.menuItems[index];
+					if (item.path === pathArray[0]) {
+						$rootScope.menuTitle = item.title;
+						console.info(item.children)
+						if(item.children && item.children.length>0){
+							console.info(item.children)
+							for (var child in item.children) {
+								var childItem = item.children[child];
+								console.info(childItem)
+								console.info(childItem.path)
+								if (childItem.path === statePath) {
+									$rootScope.menuSecondTitle = childItem.title;
+									break;
+								}
+							}
+						}
 						break;
 					}
 				}
 			});
-			
 			
 			$rootScope.multiSelectLang = {
 			    selectAll       : "全选",

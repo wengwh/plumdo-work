@@ -119,6 +119,18 @@ public class ObjectUtils {
 	public static Short convertToShort(Object obj) {
 		return convertToShort(obj, (short) 0);
 	}
+	
+	public static Byte convertToByte(Object obj, Byte defaultVal) {
+		try {
+			return (obj != null) ? Byte.parseByte(convertToString(obj)) : defaultVal;
+		} catch (Exception e) {
+			return defaultVal;
+		}
+	}
+
+	public static Byte convertToByte(Object obj) {
+		return convertToByte(obj, (byte) 0);
+	}
 
 	public static Float convertToFloat(Object obj, Float defaultVal) {
 		try {

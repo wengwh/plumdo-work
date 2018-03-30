@@ -14,7 +14,7 @@
     .constant('restUrl', {
     	formModels: '/form-models',
     	users: '/users',
-    	groups: '/users',
+    	groups: '/groups',
     	roles: '/roles',
     	menus: '/menus',
 	    formDesgin : function(modelId) {

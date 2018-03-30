@@ -6,15 +6,17 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('UserController', [ '$scope', '$uibModal','$window','$sce', function($scope, $uibModal,$window,$sce) {
-    $scope.users = $scope.IdmService($scope.restUrl.users);
+  angular.module('adminApp').controller('UserController', 
+  		function($scope, $q) {
+    $scope.userService = $scope.IdmService($scope.restUrl.users);
+		$scope.queryResult = {};
+		$scope.queryParams = {};
 
-    $scope.queryUsers = function() {
-      $scope.users.get({
-        params : $scope.query
+    $scope.queryUser = function() {
+      $scope.userService.get({
+        params : $scope.queryParams
       }, function(response) {
-        $scope.data = response.data;
-        $scope.total = response.total;
+				$scope.queryResult = response;
       });
     };
 
@@ -23,71 +25,58 @@
   			title:'确认删除用户',
   			confirm:function(isConfirm){
   				if(isConfirm){
-  					$scope.users.delete({
+  					$scope.userService.delete({
   	          urlPath : '/' + id
   	        }, function(data, status) {
   	          $scope.showSuccessMsg('删除用户成功');
-  	          $scope.queryUsers();
+  	          $scope.queryUser();
   	        });
   				}
   			}
   		});
   	};
+  	
+  	$scope.editUser = function(id) {
+  		var data = {};
+  		var rolesPromise = $scope.userService.get({
+				urlPath : '/roles',
+				params : {id:id}
+			}, function(response) {
+				data.roles = response;
+			});
+  		
+  		var groupsPromise = $scope.userService.get({
+				urlPath : '/groups',
+				params : {id:id}
+			}, function(response) {
+				data.groups = response;
+			});
+
+  		$q.all([rolesPromise,groupsPromise]).then(function(results) {  
+  			$scope.editModal({
+					id : id,
+					data : function() {
+							return data;
+					},
+					service : $scope.userService,
+					url : function() {
+						return angular.copy('user-edit.html');
+					},
+					title : function() {
+						return angular.copy('用户');
+					},
+					complete : function() {
+						return $scope.queryUser;
+					}
+			})
+  		});
+		
+		};
     
-    $scope.openModal = function(id) {
-      $scope.id = id;
-      $uibModal.open({
-        templateUrl : 'user-edit.html',
-        controller : 'UserModalCtrl',
-        scope : $scope
-      });
-    };
+    $scope.queryUser();
     
     
-    $scope.queryUsers();
-    
-    
-  } ]);
+  } );
 
-  angular.module('adminApp').controller('UserModalCtrl', [ '$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
-    $scope.formdata = {};
-
-    if ($scope.id) {
-      $scope.modalTitle = "修改用户";
-
-      $scope.users.get({
-        urlPath : '/' + $scope.id
-      }, function(data, status) {
-        $scope.formdata = data;
-      });
-
-      $scope.ok = function() {
-        $scope.users.put({
-          urlPath : '/' + $scope.id,
-          data : $scope.formdata
-        }, function(data, status) {
-          $uibModalInstance.close();
-          $scope.showSuccessMsg('修改用户成功');
-          $scope.queryUsers();
-        });
-      };
-
-    } else {
-      $scope.modalTitle = "添加用户";
-      $scope.ok = function() {
-        $scope.users.post({
-          data : $scope.formdata
-        }, function(data, status) {
-          $uibModalInstance.close();
-          $scope.showSuccessMsg('添加用户成功');
-          $scope.queryUsers();
-        });
-      };
-    }
-
-    $scope.cancel = function() {
-      $uibModalInstance.dismiss('cancel');
-    };
-  } ]);
 
 })();

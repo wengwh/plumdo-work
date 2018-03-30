@@ -8,7 +8,7 @@
 	'use strict';
 
 	angular.module('adminApp').controller('RoleController',
-		function($scope) {
+		function($scope,$q) {
 			$scope.roleService = $scope.IdmService($scope.restUrl.roles);
 			$scope.menuService = $scope.IdmService($scope.restUrl.menus);
 			$scope.queryResult = {};
@@ -39,38 +39,33 @@
 			};
 
 			$scope.editRole = function(id) {
-				if(id){
-						$scope.roleService.get({
-							urlPath : '/' + id +'/menus'
-						}, function(response) {
-							$scope.openModal(id,response);
-						});
-				}else{
-					$scope.menuService.get({
-						urlPath : '/tree'
-					}, function(response) {
-						$scope.openModal(id,response);
-					});
-				}
-			};
-			
-			$scope.openModal = function(id,data) {
-				$scope.editModal({
-					id : id,
-					service : $scope.roleService,
-					data : function(){
-						return {menus:data};
-					},
-					url : function() {
-						return angular.copy('role-edit.html');
-					},
-					title : function() {
-						return angular.copy('角色');
-					},
-					complete : function() {
-						return $scope.queryRole;
-					}
+				var data = {};
+	  		var menusPromise = $scope.roleService.get({
+					urlPath : '/menus',
+					params : {id:id}
+				}, function(response) {
+					data.menus = response;
 				});
+	  		
+	  		$q.all([menusPromise]).then(function(results) {  
+		  		$scope.editModal({
+						id : id,
+						service : $scope.roleService,
+						data : function(){
+							return data;
+						},
+						url : function() {
+							return angular.copy('role-edit.html');
+						},
+						title : function() {
+							return angular.copy('角色');
+						},
+						complete : function() {
+							return $scope.queryRole;
+						}
+					});
+	  		});
+				
 			};
 			
 			$scope.tableOptions = {

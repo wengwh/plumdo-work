@@ -23,6 +23,7 @@ import com.plumdo.common.jpa.Restrictions;
 import com.plumdo.common.model.ObjectMap;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
+import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.identity.constant.ErrorCodeConstant;
 import com.plumdo.identity.domain.Menu;
 import com.plumdo.identity.domain.Role;
@@ -65,12 +66,15 @@ public class RoleResource extends BaseResource {
 		return getRoleFromRequest(id);
 	}
 	
-	@GetMapping(value = "/roles/{id}/menus")
+	@GetMapping(value = "/roles/menus")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<ObjectMap> getRoleMenus(@PathVariable Integer id) {
+	public List<ObjectMap> getRoleMenus(@RequestParam(required=false) Integer id) {
+		List<Menu> roleMenus = null;
 		List<Menu> allMenus = menuRepository.findAll();
-		List<Menu> roleMenus = menuRepository.findByRoleId(id);
-		return ConvertFactory.convertRoleMenuTree(allMenus, roleMenus);
+		if(ObjectUtils.isNotEmpty(id)) {
+			roleMenus = menuRepository.findByRoleId(id);
+		}
+		return ConvertFactory.convertRoleMenus(allMenus, roleMenus);
 	}
 
 	@PostMapping("/roles")

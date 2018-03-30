@@ -1,120 +1,116 @@
 /**
- * 群组控制
- * 
- * @author wengwh
+ * 群组控制器
+ *
+ * @author wengwenhui
+ * @date 2018年3月27日
  */
 (function() {
-  'use strict';
+	'use strict';
 
-  angular.module('adminApp').controller('GroupController', [ '$scope', '$uibModal','$window','$sce', function($scope, $uibModal,$window,$sce) {
-    $scope.groups = $scope.IdmService($scope.restUrl.groups);
+	angular.module('adminApp').controller('GroupController',
+		function($scope,$state,$stateParams) {
+			$scope.groupService = $scope.IdmService($scope.restUrl.groups);
+			$scope.cacheParams = $stateParams.cacheParams || {};
+			$scope.parentGroup = $scope.cacheParams.parentGroup||{id:0};
+			$scope.queryParams = $scope.cacheParams.queryParams||{};
+			$scope.queryParams.parentId = $scope.parentGroup.id;
+			$scope.queryResult = {};
+			
+			$scope.queryGroup = function() {
+				$scope.groupService.get({
+					params : $scope.queryParams
+				}, function(response) {
+						$scope.queryResult = response;
+				});
+			};
 
-    $scope.queryGroups = function() {
-      $scope.groups.get({
-        params : $scope.query
-      }, function(response) {
-      	$scope.tableData = response;
-        $scope.data = response.data;
-        $scope.dataTotal = response.total;
-      });
-    };
-    
-    $scope.tableOptions = {
-    		id:'model',
-    		data:'tableData',
-    		colModels:[
-    			{name:'名称',index:'name',sortable:true,width:'10%'},
-    			{name:'标识',index:'key',sortable:true,width:'10%'},
-    			{name:'分类',index:'category',sortable:true,width:'10%'},
-    			{name:'创建时间',index:'createTime',sortable:true,width:'15%'},
-    			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'15%'},
-    			{name:'操作',index:'',width:'10%',
-    				formatter:function(){
-    					return '<div class="btn-group">'+
-    					'<button class="btn btn-primary btn-xs" ng-click=openModal(row.id) type="button"><i class="fa fa-pencil"></i>&nbsp;修改</button>'+
-    					'<button class="btn btn-danger btn-xs" ng-click=deleteFormDefinition(row.id) type="button"><i class="fa fa-trash-o"></i>&nbsp;删除</button>'+
-    					'</div>';
-    				}
-    			}
-    		],
-    		loadFunction:$scope.queryGroups,
-    		queryParams:$scope.query,
-    		sortName:'id',
-    		sortOrder:'asc'
-    	};
-    
-    
+			$scope.deleteGroup = function(id) {
+				$scope.confirmModal({
+					title : '确认删除群组',
+					confirm : function(isConfirm) {
+						if (isConfirm) {
+							$scope.groupService.delete({
+								urlPath : '/' + id
+							}, function() {
+								$scope.showSuccessMsg('删除群组成功');
+								$scope.queryGroup();
+							});
+						}
+					}
+				});
+			};
 
-    $scope.deleteGroup = function(id){
-  		$scope.confirmModal({
-  			title:'确认删除群组',
-  			confirm:function(isConfirm){
-  				if(isConfirm){
-  					$scope.groups.delete({
-  	          urlPath : '/' + id
-  	        }, function(data, status) {
-  	          $scope.showSuccessMsg('删除群组成功');
-  	          $scope.queryGroups();
-  	        });
-  				}
-  			}
-  		});
-  	};
-    
-    $scope.openModal = function(id) {
-      $scope.id = id;
-      $uibModal.open({
-        templateUrl : 'group-edit.html',
-        controller : 'GroupModalCtrl',
-        scope : $scope
-      });
-    };
-    
-    
-    $scope.queryGroups();
-    
-    
-  } ]);
-
-  angular.module('adminApp').controller('GroupModalCtrl', [ '$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
-    $scope.formdata = {};
-
-    if ($scope.id) {
-      $scope.modalTitle = "修改群组";
-
-      $scope.groups.get({
-        urlPath : '/' + $scope.id
-      }, function(data, status) {
-        $scope.formdata = data;
-      });
-
-      $scope.ok = function() {
-        $scope.groups.put({
-          urlPath : '/' + $scope.id,
-          data : $scope.formdata
-        }, function(data, status) {
-          $uibModalInstance.close();
-          $scope.showSuccessMsg('修改群组成功');
-          $scope.queryGroups();
-        });
-      };
-
-    } else {
-      $scope.modalTitle = "添加群组";
-      $scope.ok = function() {
-        $scope.groups.post({
-          data : $scope.formdata
-        }, function(data, status) {
-          $uibModalInstance.close();
-          $scope.showSuccessMsg('添加群组成功');
-          $scope.queryGroups();
-        });
-      };
-    }
-
-    $scope.cancel = function() {
-      $uibModalInstance.dismiss('cancel');
-    };
-  } ]);
+			$scope.editGroup = function(id) {
+				$scope.editModal({
+						id : id,
+						data : function() {
+								return {parentId:$scope.parentGroup.id, parentName:$scope.parentGroup.name};
+						},
+						service : $scope.groupService,
+						url : function() {
+							return angular.copy('group-edit.html');
+						},
+						title : function() {
+							return angular.copy('群组');
+						},
+						complete : function() {
+							return $scope.queryGroup;
+						}
+				})
+			};
+			
+			$scope.queryChild = function(item) {
+				$scope.cacheParams.queryParamsArray.push($scope.queryParams);
+				$scope.cacheParams.queryParams={};
+				$scope.cacheParams.parentGroupArray.push($scope.cacheParams.parentGroup);
+				$scope.cacheParams.parentGroup=item;
+        $state.go('idm.group', {cacheParams: $scope.cacheParams},{reload:true});
+			};
+			
+			$scope.returnParent = function() {
+				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
+				$scope.cacheParams.parentGroup=$scope.cacheParams.parentGroupArray.pop();
+        $state.go('idm.group', {cacheParams: $scope.cacheParams},{reload:true});
+			};
+			
+			$scope.tableOptions = {
+	  		id : 'group',
+	  		data : 'queryResult',
+	  		colModels : [
+	  			{name:'名称',index:'name',sortable:true,width:'10%'},
+	  			{name:'类型',index:'type',sortable:true,width:'7%',
+	  				formatter:function(){
+	  					return '<span ng-if="row.type==0">父集</span>'
+	  								+'<span ng-if="row.type==1">子集</span>'
+  					}
+	  			},
+	  			{name:'状态',index:'status',sortable:true,width:'7%',
+	  				formatter:function(){
+	  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'
+	  								+'<span class="label label-danger" ng-if="row.status==1">停用</span>'
+  					}
+	  			},
+	  			{name:'排序',index:'order',sortable:true,width:'7%'},
+	  			{name:'描述',index:'remark',width:'12%'},
+	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
+	  			{name:'操作',index:'',width:'15%',
+	  				formatter:function(){
+	  					return '<div class="th-btn-group">'
+		  					+'<button type="button" class="btn btn-xs btn-info" ng-click=editGroup(row.id)>'
+		  					+'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-if="row.type==0" ng-click=queryChild(row)>'
+		  					+'<i class="fa fa-list"></i>&nbsp;下级</button>'
+		  					+'<button type="button" class="btn btn-xs btn-danger" ng-click=deleteGroup(row.id)>'
+		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
+		  					+'</div>';
+	  				}
+	  			}
+	  		],
+	  		loadFunction : $scope.queryGroup,
+	  		queryParams : $scope.queryParams
+	  	};
+			
+			$scope.queryGroup();
+		});
 
 })();

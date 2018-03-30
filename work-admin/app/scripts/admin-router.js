@@ -65,6 +65,7 @@
       }).state('idm.group', {
         url: '/group',
         controller: 'GroupController',
+        params:{cacheParams:{parentGroupArray:[],queryParamsArray:[]}},
         templateUrl: 'views/idm/group.html'
       }).state('idm.menu', {
         url: '/menu',

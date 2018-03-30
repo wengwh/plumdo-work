@@ -48,14 +48,21 @@ public class SimpleExpression implements Criterion{
         }else{  
             expression = root.get(fieldName);  
         }  
-        
         switch (operator) {  
         case EQ:  
             return builder.equal(expression, value);  
         case NE:  
             return builder.notEqual(expression, value);  
+        case NULL:  
+            return builder.isNull(expression); 
+        case NOT_NULL:  
+            return builder.isNotNull(expression);
         case LIKE:  
             return builder.like((Expression<String>) expression, "%" + value + "%");  
+        case LIKE_LEFT:  
+            return builder.like((Expression<String>) expression, "%" + value); 
+        case LIKE_RIGHT:  
+            return builder.like((Expression<String>) expression, value + "%"); 
         case LT:  
             return builder.lessThan(expression, (Comparable) value);  
         case GT:  

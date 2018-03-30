@@ -10,13 +10,7 @@
   angular.module('adminApp').directive('viewLoad', function () {
     return {
       restrict: 'A',
-			template: `
-				<div class="folat" ng-show="progressNum>0">
-					<div class="sk-spinner-wave">
-        		<div class="sk-rect{{num}}" ng-repeat="num in [1,2,3,4,5]"></div>   
-					</div>
-				</div>
-			 ` ,
+			templateUrl: 'views/common/view-load.html',
       link: function (scope, element) {
         $(element).fadeIn(300);
       }
@@ -24,26 +18,7 @@
   }).directive('ngPagination', [ function() {
 		return {
 			restrict : 'A',
-			template: `
-				<div class="row ng-pagination">
-					<div class="col-xs-12 col-sm-5">
-						<select class="form-control input-sm" ng-model="param.pageSize"
-							ng-change="pageSizeChange()">
-							<option ng-repeat="item in pageList" ng-value="item">{{item}} 条/页</option>
-						</select>  共 {{total}} 条
-					</div>
-					<div class="col-xs-12 col-sm-7">
-						<nav>
-							<ul uib-pagination ng-change="pageNumChange()"
-								total-items="total" items-per-page="param.pageSize" ng-model="param.pageNum"
-								max-size="5" class="pagination-sm" boundary-links="true"
-								previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
-								last-text="&raquo;">
-							</ul>
-						</nav>
-					</div>
-				</div>
-			 ` ,
+			templateUrl: 'views/common/pagination.html',
       require: 'ngModel',
       scope: {
       	total: '=ngModel' ,
@@ -77,8 +52,8 @@
           });
 
           return $(element).iCheck({
-              checkboxClass: 'icheckbox_square-green',
-              radioClass: 'iradio_square-green',
+              checkboxClass: 'icheckbox_square-aero',
+              radioClass: 'iradio_square-aero',
               increaseArea: '20%' 
           }).on('ifChanged', function (event) {
               if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {

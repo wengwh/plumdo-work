@@ -52,6 +52,12 @@
         "./release/stateEvents.js"
       ]
     },
+    "iCheck": {
+      "main": [
+        "./skins/square/_all.css",
+        "./icheck.js"
+      ]
+    },
     "bootstrap-iconpicker": {
       "main": [
         "dist/js/bootstrap-iconpicker-iconset-all.js",
