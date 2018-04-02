@@ -6,18 +6,18 @@ package com.plumdo.common.exception;
  * @author wengwenhui
  * 
  */
-public class ResponseException extends RuntimeException {
+public class BaseException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
 	private String ret;
 
-	public ResponseException(String ret,String msg) {
+	public BaseException(String ret,String msg) {
 		super(msg);
 		this.ret = ret;
 	}
 
-	public ResponseException(String ret,String msg, Throwable cause) {
+	public BaseException(String ret,String msg, Throwable cause) {
 		super(msg, cause);
 		this.ret = ret;
 	}

@@ -19,7 +19,7 @@ import com.plumdo.common.jpa.Criteria;
 import com.plumdo.common.jpa.Restrictions;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
-import com.plumdo.identity.constant.ErrorCodeConstant;
+import com.plumdo.identity.constant.ErrorConstant;
 import com.plumdo.identity.domain.Group;
 import com.plumdo.identity.repository.GroupRepository;
 
@@ -31,7 +31,7 @@ public class GroupResource extends BaseResource {
 	private Group getGroupFromRequest(Integer id) {
 		Group group = groupRepository.findOne(id);
 		if (group == null) {
-			exceptionFactory.throwDefinedException(ErrorCodeConstant.OBJECT_NOT_FOUND);
+			exceptionFactory.throwDefinedException(ErrorConstant.OBJECT_NOT_FOUND);
 		}
 		return group;
 	}

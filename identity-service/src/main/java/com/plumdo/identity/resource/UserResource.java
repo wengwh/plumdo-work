@@ -22,7 +22,7 @@ import com.plumdo.common.model.ObjectMap;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.common.utils.ObjectUtils;
-import com.plumdo.identity.constant.ErrorCodeConstant;
+import com.plumdo.identity.constant.ErrorConstant;
 import com.plumdo.identity.domain.Group;
 import com.plumdo.identity.domain.Role;
 import com.plumdo.identity.domain.User;
@@ -51,7 +51,7 @@ public class UserResource extends BaseResource {
 	private User getUserFromRequest(Integer id) {
 		User user = userRepository.findOne(id);
 		if (user == null) {
-			exceptionFactory.throwDefinedException(ErrorCodeConstant.OBJECT_NOT_FOUND);
+			exceptionFactory.throwDefinedException(ErrorConstant.OBJECT_NOT_FOUND);
 		}
 		return user;
 	}
@@ -148,22 +148,6 @@ public class UserResource extends BaseResource {
 		return user;
 	}
 	
-	@PostMapping("/users/login")
-	@ResponseStatus(HttpStatus.OK)
-	public User loginUser(@RequestBody ObjectMap loginRequest) {
-		String account = loginRequest.getAsString("account");
-		String pwd = loginRequest.getAsString("pwd");
-		User user = userRepository.findByAccount(account);
-		if(user == null) {
-			return null;
-		}
-		if(user.getPwd().equals(pwd)) {
-			return user;
-		}
-		return null;
-	}
-
-
 	@DeleteMapping(value = "/users/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@Transactional

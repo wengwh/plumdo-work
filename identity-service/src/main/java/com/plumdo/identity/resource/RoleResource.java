@@ -24,7 +24,7 @@ import com.plumdo.common.model.ObjectMap;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.common.utils.ObjectUtils;
-import com.plumdo.identity.constant.ErrorCodeConstant;
+import com.plumdo.identity.constant.ErrorConstant;
 import com.plumdo.identity.domain.Menu;
 import com.plumdo.identity.domain.Role;
 import com.plumdo.identity.domain.RoleMenu;
@@ -45,7 +45,7 @@ public class RoleResource extends BaseResource {
 	private Role getRoleFromRequest(Integer id) {
 		Role role = roleRepository.findOne(id);
 		if (role == null) {
-			exceptionFactory.throwDefinedException(ErrorCodeConstant.OBJECT_NOT_FOUND);
+			exceptionFactory.throwDefinedException(ErrorConstant.OBJECT_NOT_FOUND);
 		}
 		return role;
 	}
