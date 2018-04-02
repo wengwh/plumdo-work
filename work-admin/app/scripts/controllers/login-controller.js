@@ -1,28 +1,32 @@
 /**
- * 主窗口控制
- * 
- * @author wengwh
+ * 登录窗口控制器
+ *
+ * @author wengwenhui
+ * @date 2018年4月2日
  */
 (function() {
   'use strict';
 
   angular.module('adminApp').controller('LoginController', [ '$scope','$window', function($scope,$window) {
     $scope.user = {};
-    $scope.user.account='';
-    $scope.user.password='';
-    $scope.userService = $scope.IdmService($scope.restUrl.users);
+    $scope.user.account='admin';
+    $scope.user.password='123456';
+    $scope.authService = $scope.IdmService($scope.restUrl.auths);
 
     if(!($window.localStorage.token == null || $window.localStorage.token == 'null'
         || $window.localStorage.token == '')){
-//        $scope.$state.go('main.home');
+        $scope.$state.go('main.home');
     }
     
     $scope.login = function() {
-      $scope.userService.post({
+      $scope.authService.post({
         urlPath : '/login',
         data : $scope.user
       }, function(response) {
-        $window.localStorage.token = response.token;
+      	$window.localStorage.token = response.token;
+      	$window.localStorage.userId = response.id;
+      	$window.localStorage.userName = response.name;
+      	$window.localStorage.userAvatar = response.avatar;
         $scope.$state.go('main.home');
       });
     };

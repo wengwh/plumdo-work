@@ -10,9 +10,17 @@
 		<artifactId>plumdo-work</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
+	<properties>
+		<jsonwebtoken.version>0.5.1</jsonwebtoken.version>
+	</properties>
 	<dependencies>
-		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jsonwebtoken.version}</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

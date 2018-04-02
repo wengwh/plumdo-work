@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,6 +28,7 @@ import com.plumdo.common.utils.ObjectUtils;
  *
  */
 @Component
+@Order(1)
 public class RequestLogFilter extends OncePerRequestFilter {
 	private Logger logger = LoggerFactory.getLogger(RequestLogFilter.class);
 

@@ -13,6 +13,7 @@
     })
     .constant('restUrl', {
     	formModels: '/form-models',
+    	auths: '/auths',
     	users: '/users',
     	groups: '/groups',
     	roles: '/roles',

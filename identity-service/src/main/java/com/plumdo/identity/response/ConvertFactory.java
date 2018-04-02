@@ -6,6 +6,7 @@ import com.plumdo.common.model.ObjectMap;
 import com.plumdo.identity.domain.Group;
 import com.plumdo.identity.domain.Menu;
 import com.plumdo.identity.domain.Role;
+import com.plumdo.identity.domain.User;
 
 /**
  * TODO
@@ -14,6 +15,10 @@ import com.plumdo.identity.domain.Role;
  * @date 2018年3月28日
  */
 public abstract class ConvertFactory {
+	public static ObjectMap convertUseAuth(User user, String token) {
+		return UserConverter.convertAuth(user, token);
+	}
+	
 	public static List<ObjectMap> convertUserGroups(List<Group> groups,List<Group> roleGroups) {
 		return GroupConverter.convertMultiSelect(groups, roleGroups);
 	}

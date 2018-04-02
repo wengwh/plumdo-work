@@ -6,7 +6,7 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('MainController', [ '$scope','$timeout', function($scope,$timeout) {
+  angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window', function($scope,$timeout,$window) {
     $scope.sidebarBackground='black';
     $scope.switchSidebarBackground = function(color) {
       $scope.sidebarBackground = color;
@@ -53,6 +53,11 @@
         $scope.sidebarVisible = false;
         body.classList.remove('nav-open');
       }
+    };
+    
+    $scope.signOut= function(){
+    	$window.localStorage.token = null;
+    	$scope.$state.go('login');
     };
 
     $scope.menuItems=[

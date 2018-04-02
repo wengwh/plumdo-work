@@ -31,14 +31,23 @@
       'responseError': function (rejection) {
         // 请求发生了错误，如果能从错误中恢复，可以返回一个新的响应或promise
         console.info('response error- rejection:' + rejection);
-        $rootScope.hideProgress('请求异常', true);
+      	console.info(rejection)
+        if(rejection.status==401){
+					$window.localStorage.token = null;
+					$rootScope.$state.go('login');
+					$rootScope.hideProgress('用户校验过期',true);
+        }else if(rejection.data && rejection.data.msg){
+        	$rootScope.hideProgress(rejection.data.msg, true);
+        }else{
+          $rootScope.hideProgress('HTTP请求异常', true);
+        }
         return $q.reject(rejection);
       }
     };
     return interceptor;
   }]);
 
-  angular.module('adminApp').factory('RestService', ['$http', '$q', function ($http, $q) {
+  angular.module('adminApp').factory('RestService', ['$http', '$q', '$window',function ($http, $q,$window) {
     var RestService = function (url, defaultConf) {
       this.url = url;
       this.defaultConf = defaultConf;
@@ -50,16 +59,16 @@
       http: function (method, conf, callback) {
         if (this.defaultConf) {
           if (this.defaultConf.params) {
-            angular.extend(conf.params, this.defaultConf.params);
+            angular.extend(conf.params||{}, this.defaultConf.params);
           }
           if (this.defaultConf.data) {
-            angular.extend(conf.data, this.defaultConf.data);
+            angular.extend(conf.data||{}, this.defaultConf.data);
           }
           if (this.defaultConf.headers) {
-            angular.extend(conf.headers, this.defaultConf.headers);
+            angular.extend(conf.headers||{}, this.defaultConf.headers);
           }
           if (this.defaultConf.responseType) {
-            angular.extend(conf.responseType, this.defaultConf.responseType);
+            angular.extend(conf.responseType||{}, this.defaultConf.responseType);
           }
         }
         console.info(this.url + (conf.urlPath || ''))
@@ -70,7 +79,7 @@
           params: conf.params,
           data: conf.data,
           responseType: conf.responseType,
-          headers: conf.headers
+          headers: angular.extend(conf.headers||{},{'token':'Bearer ' + $window.localStorage.token})
         })
           .then(function successCallback(response) {
             callback(response.data);

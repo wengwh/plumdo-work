@@ -63,3 +63,48 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 
 
 
+.navbar {
+ 	.nav>li{
+ 		line-height:45px;
+ 		height:45px;
+ 		border-left:1px solid #E1E1E1;
+ 		padding:0;
+ 		position:relative;
+ 		float:left;
+ 		color:#93CBF9!important;
+ 		>a{
+ 			background-color:#31708f;
+ 			color:#FFF!important;
+ 			display:block;
+ 			line-height:inherit;
+ 			text-align:center;
+ 			height:100%;
+ 			width:auto;
+ 			min-width:50px;
+ 			padding:0 8px;
+ 			position:relative;
+ 		}
+ 	}
+	.nav-user-photo{
+		margin:-4px 8px 0 0;
+		border-radius:100%;
+		border:2px solid #FFF;
+		max-width: 40px;
+	}
+	.user-info{
+		max-width:100px;
+		display:inline-block;
+		overflow:hidden;
+		text-overflow:ellipsis;
+		white-space:nowrap;
+		text-align:left;
+		vertical-align:top;
+		line-height:15px;
+		position:relative;
+		top:6px;
+		small{
+			display:block;
+		}
+	}
+		
+}

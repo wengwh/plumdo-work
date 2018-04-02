@@ -11,12 +11,16 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.plumdo</groupId>
 			<artifactId>common-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
 	</dependencies>
 
 	<build>
