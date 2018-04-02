@@ -30,4 +30,8 @@ public abstract class ConvertFactory {
 	public static List<ObjectMap> convertRoleMenus(List<Menu> menus, List<Menu> roleMenus) {
 		return MenuConverter.convertMultiSelect(menus, roleMenus);
 	}
+	
+	public static List<ObjectMap> convertUserMenus(List<Menu> parentMenus,List<Menu> childMenus) {
+		return MenuConverter.convertUserMenus(parentMenus, childMenus);
+	}
 }

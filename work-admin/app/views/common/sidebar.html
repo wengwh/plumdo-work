@@ -2,7 +2,7 @@
   <div class="logo">
     <a href="#" class="simple-text">
       <div class="logo-img">
-        <img src="./images/angular2-logo.png" alt="">
+        <img src="./images/angular2-logo.png">
       </div>
       Work Admin
     </a>
@@ -40,21 +40,21 @@
     <li class="divider" ng-if="isNotMobileMenu"></li>
     <li ng-repeat="menuItem in menuItems" ng-class="{'active':$state.includes(menuItem.path)}">
       <a ui-sref="{{menuItem.path}}" ng-if="!menuItem.children">
-        <i class="{{menuItem.icon}}"></i>
-        <p>{{menuItem.title}}</p>
+        <i class="{{'fa '+menuItem.icon}}"></i>
+        <p>{{menuItem.name}}</p>
       </a>
       
        <a href="javascript:void(0);" data-toggle="collapse" data-target="{{'#'+menuItem.id}}"  ng-if="menuItem.children">
-        <i class="{{menuItem.icon}}"></i>
-        <p>{{menuItem.title}}<b class="caret"></b></p>
+        <i class="{{'fa '+menuItem.icon}}"></i>
+        <p>{{menuItem.name}}<b class="caret"></b></p>
       </a>
       
       <div class="collapse" id="{{menuItem.id}}" ng-if="menuItem.children">
         <ul class="nav child">
             <li ng-repeat="menuItemChild in menuItem.children" ui-sref-active="active" >
               <a ui-sref="{{menuItemChild.path}}">
-                <i class="{{menuItemChild.icon}}"></i>
-                <p>{{menuItemChild.title}}</p>
+                <i class="{{'fa '+menuItemChild.icon}}"></i>
+                <p>{{menuItemChild.name}}</p>
               </a>
             </li>
          </ul>

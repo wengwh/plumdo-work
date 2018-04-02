@@ -46,7 +46,7 @@
 				notify({
 					message : msg,
 					duration : duration,
-					position : 'right',
+					position : 'center',
 					classes : classes || 'notify-success'
 				});
 			};

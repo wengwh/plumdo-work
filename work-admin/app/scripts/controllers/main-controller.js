@@ -7,6 +7,10 @@
   'use strict';
 
   angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window', function($scope,$timeout,$window) {
+    $scope.authService = $scope.IdmService($scope.restUrl.auths);
+    $scope.userName = $window.localStorage.userName;
+    $scope.userAvatar = $window.localStorage.userAvatar;
+    
     $scope.sidebarBackground='black';
     $scope.switchSidebarBackground = function(color) {
       $scope.sidebarBackground = color;
@@ -60,7 +64,13 @@
     	$scope.$state.go('login');
     };
 
-    $scope.menuItems=[
+    $scope.authService.get({
+      urlPath : '/menus'
+    }, function(response) {
+      $scope.menuItems = response;
+    });
+    
+    /*$scope.menuItems=[
       { path: 'home', title: '系统首页',  icon: 'ti-panel'},
       { path: 'work', title: '我的工作台',  icon:'ti-bell',
         children:[
@@ -97,7 +107,7 @@
           { path: 'main.idm.role', title: '角色管理',  icon: 'ti-ruler-pencil'}
         ]
       }
-    ]
+    ]*/
 
     $scope.menuTitle = null;
     $scope.$on('$stateChangeSuccess', function(toState, toParams) {
@@ -106,12 +116,12 @@
       for (var index in $scope.menuItems) {
         var item = $scope.menuItems[index];
         if (item.path === pathArray[0]+'.'+pathArray[1]) {
-          $scope.menuTitle = item.title;
+          $scope.menuTitle = item.name;
           if(item.children && item.children.length>0){
             for (var child in item.children) {
               var childItem = item.children[child];
               if (childItem.path === statePath) {
-                $scope.menuTitle = childItem.title;
+                $scope.menuTitle = childItem.name;
                 break;
               }
             }

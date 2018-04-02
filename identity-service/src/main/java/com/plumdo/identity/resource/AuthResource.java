@@ -2,9 +2,11 @@ package com.plumdo.identity.resource;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +19,9 @@ import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.utils.DateUtils;
 import com.plumdo.identity.constant.ErrorConstant;
 import com.plumdo.identity.constant.TableConstant;
+import com.plumdo.identity.domain.Menu;
 import com.plumdo.identity.domain.User;
+import com.plumdo.identity.repository.MenuRepository;
 import com.plumdo.identity.repository.UserRepository;
 import com.plumdo.identity.response.ConvertFactory;
 
@@ -28,6 +32,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class AuthResource extends BaseResource {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private MenuRepository menuRepository;
 
 	@PostMapping("/auths/login")
 	@ResponseStatus(HttpStatus.OK)
@@ -52,6 +58,16 @@ public class AuthResource extends BaseResource {
 		return ConvertFactory.convertUseAuth(user, token);
 	}
 
+	
+	@GetMapping("/auths/menus")
+	@ResponseStatus(HttpStatus.OK)
+	public List<ObjectMap> getUserMenus() {
+		List<Menu>  childMenus = menuRepository.findByUserId(2);
+		List<Menu>  parentMenus = menuRepository.findByType(TableConstant.MENU_TYPE_PARENT);
+		return ConvertFactory.convertUserMenus(parentMenus, childMenus);
+	}
+
+	
 	@PutMapping("/auths/password/change")
 	@ResponseStatus(HttpStatus.OK)
 	public User changePwd(@RequestBody ObjectMap loginRequest) {

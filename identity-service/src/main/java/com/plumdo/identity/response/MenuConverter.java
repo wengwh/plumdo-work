@@ -36,5 +36,33 @@ public class MenuConverter {
 		}
 		return menuList;
 	}
+	
+	
+	public static List<ObjectMap> convertUserMenus(List<Menu> parentMenus,List<Menu> childMenus) {
+		List<ObjectMap> menuList = new ArrayList<>();
+		for (Menu menu : parentMenus) {
+			List<ObjectMap> childList = new ArrayList<>();
+			for (Menu childMenu : childMenus) {
+				if (menu.getId().equals(childMenu.getParentId())) {
+					childList.add(convertMenuMap(childMenu));
+				}
+			}
+			if(ObjectUtils.isNotEmpty(childList)) {
+				ObjectMap menuMap = convertMenuMap(menu);
+				menuMap.put("children", childList);
+				menuList.add(menuMap);
+			}
+		}
+		return menuList;
+	}
+	
+	private static ObjectMap convertMenuMap(Menu menu) {
+		ObjectMap objectMap = new ObjectMap();
+		objectMap.put("id", menu.getId());
+		objectMap.put("name", menu.getName());
+		objectMap.put("path", menu.getUrl());
+		objectMap.put("icon", menu.getIcon());
+		return objectMap;
+	}
 
 }

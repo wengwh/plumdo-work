@@ -4,6 +4,7 @@
         > a:focus{
             background-color: transparent;
         }
+        
     }
 }
 .navbar{
@@ -18,9 +19,23 @@
         font-size: $font-size-large-navbar;
     }
     .navbar-nav{
+    	 > li {
+    	 	line-height:55px;
+ 			border-left:1px solid #E1E1E1;
+    	 
+    	 }
          > li > a {
-             line-height: 1.42857;
-             margin: $navbar-margin-a;
+         	background-color:#333;
+ 			color:#333;
+ 			display:block;
+ 			line-height:inherit;
+ 			text-align:center;
+ 			height:100%;
+ 			width:auto;
+ 			min-width:50px;
+ 			margin:0;
+ 			position:relative;
+
              padding: $navbar-padding-a;
 
             i,
@@ -37,6 +52,29 @@
              margin: $navbar-margin-a-btn;
              padding: $padding-base-vertical $padding-base-horizontal;
          }
+         
+         .nav-user-photo{
+			margin:-4px 8px 0 0;
+			border-radius:100%;
+			border:2px solid #FFF;
+			max-width: 55px;
+		}
+		.user-info{
+			max-width:100px;
+			display:inline-block;
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			text-align:left;
+			vertical-align:top;
+			line-height:15px;
+			position:relative;
+			top:12px;
+			small{
+				display:block;
+			}
+		}
+         
     }
     .btn{
        margin: $navbar-margin-btn;
@@ -56,12 +94,18 @@
     background-color: $bg-nude;
     border-bottom: 1px solid $medium-gray;
 
+	.container-fluid {
+		padding-right: 0;
+	}
     .brand{
         color: $font-color !important;
     }
     .navbar-nav{
         > li > a:not(.btn){
-            color: $dark-gray;
+            color: #f5f5f5;
+            i{
+            	font-size: 20px;
+            }
         }
 
         > .active > a,
@@ -69,8 +113,7 @@
         > .active > a:not(.btn):focus,
         > li > a:not(.btn):hover,
         > li > a:not(.btn):focus {
-            background-color: transparent;
-            border-radius: 3px;
+            background-color: #66615B;
             color: $info-color;
             @include opacity(1);
         }

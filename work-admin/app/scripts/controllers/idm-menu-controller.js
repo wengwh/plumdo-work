@@ -90,6 +90,7 @@
 	  		colModels : [
 	  			{name:'名称',index:'name',sortable:true,width:'10%'},
 	  			{name:'编号',index:'code',sortable:true,width:'7%'},
+          {name:'路径',index:'url',sortable:true,width:'10%'},
 	  			{name:'图标',index:'icon',width:'7%',
 	  				formatter:function(){
 	  					return '<div class="th-icon"><span class="{{\'fa \'+row.icon}}"></span></div>';
