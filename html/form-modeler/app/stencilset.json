@@ -1,0 +1,358 @@
+{
+  "title" : "Plumdo-Form",
+  "description" : "Bootstrap3表单设计器",
+  "propertyPackages" : [ {
+      "id" : "overrideIdPackage",
+      "properties":[{
+		  "key":"overrideId",
+		  "title" : "标识",
+	      "templateUrl" : "views/property/property-default-string.html",
+	      "value" : "guid()",
+	      "description" : "标识"
+      }]
+  },{
+      "id" : "labelPackage",
+      "properties":[{
+		  "key":"label",
+	      "title" : "标签",
+	      "templateUrl" : "views/property/property-default-string.html",
+	      "value" : "名称",
+	      "description" : "标签名称"
+      }]
+  },{
+      "id" : "placeholderPackage",
+      "properties":[{
+		  "key":"placeholder",
+	      "title" : "输入提示",
+	      "templateUrl" : "views/property/property-default-string.html",
+	      "value" : "请输入",
+	      "description" : "输入提示"
+      }]
+  },{
+      "id" : "initValuePackage",
+      "properties":[{
+		  "key":"initValue",
+	      "title" : "初始值",
+	      "templateUrl" : "views/property/property-init-value.html",
+	      "value" : "",
+	      "description" : "初始值"
+      }]
+  },{
+      "id" : "descriptionPackage",
+      "properties":[{
+		  "key":"description",
+	      "title" : "帮助说明",
+	      "templateUrl" : "views/property/property-default-content.html",
+	      "value" : "帮助说明",
+	      "description" : "帮助说明"
+      }]
+  },{
+      "id" : "visiblePackage",
+      "properties":[{
+		  "key":"visible",
+	      "title" : "可见性",
+	      "templateUrl" : "views/property/property-visible.html",
+	      "value" : "",
+	      "description" : "可见性设置，隐藏属性在采编窗口使用透明度做个区分，实际显示直接隐藏。"
+      }]
+  },{
+      "id" : "requiredPackage",
+      "properties":[{
+		  "key":"required",
+	      "title" : "必须输入",
+	      "templateUrl" : "views/property/property-default-boolean.html",
+	      "value" : false,
+	      "description" : ""
+      }]
+  },{
+      "id" : "validationPackage",
+      "properties":[{
+		  "key":"validation",
+	      "title" : "类型验证",
+	      "templateUrl" : "views/property/property-validation.html",
+	      "value" : "/.*/",
+	      "description" : ""
+      }]
+  },{
+      "id" : "stylePackage",
+	  "object":"style",
+      "properties":[{
+		  "key":"width",
+	      "title" : "显示宽度",
+	      "templateUrl" : "views/property/property-default-string.html",
+	      "value" : "100%",
+	      "description" : ""
+      }]
+  },{
+      "id" : "dateOptionsPackage",
+      "object":"dateOptions",
+      "properties":[{
+			"key":"minView",
+      		"title" : "时间类型",
+      		"templateUrl" : "views/property/property-date-min-view.html",
+      		"value" : "month",
+	        "description" : ""
+      	},{
+			"key":"format",
+      		"title" : "时间格式",
+      		"templateUrl" : "views/property/property-date-format.html",
+      		"value" : "yyyy-mm-dd",
+	        "description" : ""
+      }]
+  },{
+      "id" : "rowsPackage",
+      "properties":[{
+      	  "key" : "rows",
+	      "title" : "显示行数",
+	      "templateUrl" : "views/property/property-default-string.html",
+	      "value" : "3",
+	      "description" : ""
+      }]
+  },{
+      "id" : "optionsPackage",
+      "properties":[{
+      	  "key" : "options",
+	      "title" : "选择项",
+	      "templateUrl" : "views/property/property-options.html",
+	      "value" : [{"text":"value one","value":"value one"}, {"text":"value two","value":"value two"}],
+	      "description" : ""
+      }]
+  },{
+      "id" : "treeOptionsPackage",
+      "properties":[{
+      	  "key" : "treeOptions",
+	      "title" : "选择项",
+	      "templateUrl" : "views/property/property-tree-options.html",
+	      "value" : [{"text":"value one","value":"value one","children":[{"text":"value three","value":"value three","children":[]}]}, {"text":"value two","value":"value two","children":[{"text":"value four","value":"value four","children":[]}]}],
+	      "description" : ""
+      }]
+  },{
+      "id" : "columnsPackage",
+      "properties":[{
+      	  "key" : "columns",
+	      "title" : "显示列数",
+	      "templateUrl" : "views/property/property-columns.html",
+	      "value" : "1",
+	      "description" : ""
+      }]
+  },{
+      "id" : "levelPackage",
+      "properties":[{
+      	  "key" : "level",
+	      "title" : "层级",
+	      "templateUrl" : "views/property/property-level.html",
+	      "value" : "1",
+	      "description" : ""
+      }]
+  },{
+      "id" : "contentPackage",
+      "properties":[{
+      	  "key" : "content",
+	      "title" : "文字内容",
+	      "templateUrl" : "views/property/property-default-content.html",
+	      "value" : "文字内容",
+	      "description" : "文字内容"
+      }]
+  },{
+      "id" : "htmlPackage",
+      "properties":[{
+      	  "key" : "html",
+	      "title" : "HTML内容",
+	      "templateUrl" : "views/property/property-html.html",
+	      "value" : "内容",
+	      "description" : "HTML内容"
+      }]
+  },{
+      "id" : "pagePackage",
+      "properties":[{
+      	  "key" : "page",
+	      "title" : "页标题",
+	      "templateUrl" : "views/property/property-default-boolean.html",
+	      "value" : true,
+	      "description" : ""
+      }]
+  },{
+      "id" : "selectPluginPackage",
+      "properties":[{
+      	  "key" : "selectPlugin",
+	      "title" : "插件",
+	      "templateUrl" : "views/property/property-select-plugin.html",
+	      "value" : false,
+	      "description" : ""
+      }]
+  },{
+      "id" : "signPackage",
+      "properties":[{
+      	  "key" : "sign",
+	      "title" : "标记",
+	      "templateUrl" : "views/property/property-sign.html",
+	      "value" : "default",
+	      "description" : "标记"
+      }]
+  },{
+      "id" : "alertPackage",
+      "properties":[{
+      	  "key" : "alert",
+	      "title" : "标记",
+	      "templateUrl" : "views/property/property-alert.html",
+	      "value" : "success",
+	      "description" : "标记"
+      }]
+  },{
+      "id" : "closePackage",
+      "properties":[{
+      	  "key" : "close",
+	      "title" : "关闭按钮",
+	      "templateUrl" : "views/property/property-default-boolean.html",
+	      "value" : true,
+	      "description" : ""
+      }]
+  },{
+      "id" : "fileOptionsPackage",
+      "object":"fileOptions",
+      "properties":[{
+      	  "key" : "showPreview",
+	      "title" : "显示预览",
+	      "templateUrl" : "views/property/property-default-boolean.html",
+	      "value" : true,
+	      "description" : ""
+      },{
+      	  "key" : "autoReplace",
+	      "title" : "自动替换",
+	      "templateUrl" : "views/property/property-default-boolean.html",
+	      "value" : false,
+	      "description" : "建议在限制只能上传一个文件的情况下面开启改功能"
+      },{
+      	  "key" : "maxFileCount",
+	      "title" : "文件数量",
+	      "templateUrl" : "views/property/property-default-string.html",
+	      "value" : 5,
+	      "description" : ""
+      },{
+      	  "key" : "maxFileSize",
+	      "title" : "文件大小",
+	      "templateUrl" : "views/property/property-default-string.html",
+	      "value" : 1000,
+	      "description" : "限制上传文件大小，单位KB"
+      },{
+      	  "key" : "allowedFileTypes",
+	      "title" : "允许文件类型",
+	      "templateUrl" : "views/property/property-allowed-file-types.html",
+	      "value" : ["all"],
+	      "description" : ""
+      },{
+      	  "key" : "allowedFileExtensions",
+	      "title" : "允许文件后缀",
+	      "templateUrl" : "views/property/property-allowed-file-extensions.html",
+	      "value" : ["all"],
+	      "description" : ""
+      }]
+  }],
+  "components" : [ {
+    "id" : "col-12",
+    "templateUrl" : "views/template/template-column.html",
+    "type" : "column",
+    "value" : "12",
+    "propertyPackages" : [ "visiblePackage" ]
+  }, {
+    "id" : "col-6-6",
+    "templateUrl" : "views/template/template-column.html",
+    "type" : "column",
+    "value" : "6 6",
+    "propertyPackages" : [ "visiblePackage" ]
+  }, {
+    "id" : "col-8-4",
+    "templateUrl" : "views/template/template-column.html",
+    "type" : "column",
+    "value" : "8 4",
+    "propertyPackages" : [ "visiblePackage" ]
+  }, {
+    "id" : "col-4-4-4",
+    "templateUrl" : "views/template/template-column.html",
+    "type" : "column",
+    "value" : "4 4 4",
+    "propertyPackages" : [ "visiblePackage" ]
+  }, {
+    "id" : "col-2-6-4",
+    "templateUrl" : "views/template/template-column.html",
+    "type" : "column",
+    "value" : "2 6 4",
+    "propertyPackages" : [ "visiblePackage" ]
+  }, {
+    "id" : "text",
+    "title" : "单行文本",
+    "templateUrl" : "views/template/template-text.html",
+    "propertyPackages" : [ "overrideIdPackage","labelPackage","placeholderPackage","initValuePackage","stylePackage","requiredPackage","validationPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "textarea",
+    "title" : "多行文本",
+    "templateUrl" : "views/template/template-textarea.html",
+    "propertyPackages" : [ "overrideIdPackage","labelPackage","placeholderPackage","initValuePackage","stylePackage","rowsPackage","requiredPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "checkbox",
+    "title" : "复选框",
+    "templateUrl" : "views/template/template-checkbox.html",
+    "propertyPackages" : [ "overrideIdPackage","labelPackage","stylePackage","columnsPackage","optionsPackage","requiredPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "radio",
+    "title" : "单选框",
+    "templateUrl" : "views/template/template-radio.html",
+    "propertyPackages" : [ "overrideIdPackage","labelPackage","stylePackage","columnsPackage","optionsPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "select",
+    "title" : "下拉框",
+    "templateUrl" : "views/template/template-select.html",
+    "propertyPackages" : [ "overrideIdPackage","selectPluginPackage","labelPackage","stylePackage","levelPackage","treeOptionsPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "multiple-select",
+    "title" : "多选下拉框",
+    "templateUrl" : "views/template/template-multiple-select.html",
+    "propertyPackages" : [ "overrideIdPackage","selectPluginPackage","labelPackage","stylePackage","optionsPackage","requiredPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "datetime",
+    "title" : "时间框",
+    "templateUrl" : "views/template/template-datetime.html",
+    "propertyPackages" : [ "overrideIdPackage","labelPackage","dateOptionsPackage","placeholderPackage","initValuePackage","stylePackage","requiredPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "file",
+    "title" : "文件上传",
+    "templateUrl" : "views/template/template-file.html",
+    "propertyPackages" : [ "overrideIdPackage","labelPackage","fileOptionsPackage","stylePackage","requiredPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "html",
+    "title" : "富文本框",
+    "templateUrl" : "views/template/template-html.html",
+    "propertyPackages" : [ "overrideIdPackage","labelPackage","initValuePackage","stylePackage","requiredPackage","visiblePackage","descriptionPackage" ]
+  }, {
+    "id" : "title",
+    "title" : "标题栏",
+    "templateUrl" : "views/template/template-title.html",
+    "propertyPackages" : [ "pagePackage","htmlPackage"]
+  }, {
+    "id" : "alert",
+    "title" : "提示框",
+    "templateUrl" : "views/template/template-alert.html",
+    "propertyPackages" : [ "alertPackage","closePackage","stylePackage","htmlPackage"]
+  }, {
+    "id" : "label",
+    "title" : "文字标签",
+    "templateUrl" : "views/template/template-label.html",
+    "propertyPackages" : [ "signPackage","contentPackage"]
+  } ],
+  "groups" : [ {
+     "id" : "layout",
+     "title" : "布局设置",
+     "description" : "在这里设置你的栅格布局, 栅格总数默认为12, 用空格分割每列的栅格值, 如果您需要了解更多信息，请百度Bootstrap栅格系统.",
+     "components" : ["col-12","col-6-6","col-8-4","col-4-4-4","col-2-6-4"]
+  },{
+     "id" : "input",
+     "title" : "输入框",
+     "description" : "在这里包括常用的输入组件，拖放组件到表单容器内. 拖入后你可以设置组件属性 ",
+     "components" : ["text","textarea","checkbox","radio","select","multiple-select","datetime","file","html"]
+  },{
+     "id" : "prompt",
+     "title" : "提示组件",
+     "description" : "在这里包括一些提示组件，拖放组件到表单容器内. 拖入后你可以设置组件属性",
+     "components" : ["title","alert","label"]
+  } ]
+}

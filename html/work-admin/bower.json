@@ -1,0 +1,74 @@
+{
+  "name": "work-admin",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "^2.1.1",
+    "font-awesome": "Font-Awesome#^4.7.0",
+    "bootstrap": "^3.3.5",
+    "angular": "~1.5.11",
+    "angular-ui-router": "^1.0.3",
+    "themify-icons": "^0.1.2",
+    "angular-notify": "^2.5.1",
+    "angular-perfect-scrollbar": "^0.1.0",
+    "angular-bootstrap": "^2.5.0",
+    "iCheck": "jquery-icheck#^1.0.2",
+    "bootstrap-iconpicker": "^1.9.0",
+    "isteven-angular-multiselect": "angular-multi-select#^4.0.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.5.11"
+  },
+  "appPath": "app",
+  "moduleName": "adminApp",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css",
+        "fonts/FontAwesome.otf",
+        "fonts/fontawesome-webfont.eot",
+        "fonts/fontawesome-webfont.svg",
+        "fonts/fontawesome-webfont.ttf",
+        "fonts/fontawesome-webfont.woff",
+        "fonts/fontawesome-webfont.woff2"
+      ]
+    },
+    "perfect-scrollbar": {
+      "main": [
+        "css/perfect-scrollbar.css",
+        "js/perfect-scrollbar.js",
+        "js/perfect-scrollbar.jquery.js"
+      ]
+    },
+    "angular-ui-router": {
+      "main": [
+        "./release/angular-ui-router.js",
+        "./release/stateEvents.js"
+      ]
+    },
+    "iCheck": {
+      "main": [
+        "./skins/square/_all.css",
+        "./icheck.js"
+      ]
+    },
+    "bootstrap-iconpicker": {
+      "main": [
+        "dist/js/bootstrap-iconpicker-iconset-all.js",
+        "dist/js/bootstrap-iconpicker.js",
+        "dist/css/bootstrap-iconpicker.css"
+      ]
+    }
+  },
+  "resolutions": {
+    "angular": "1.6.9",
+    "angular-bootstrap": "^2.5.0",
+    "jquery": ">=1.7"
+  }
+}

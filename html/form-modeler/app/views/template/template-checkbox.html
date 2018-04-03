@@ -1,0 +1,25 @@
+<div class="nav-view form-group">{{component.title}}</div>
+<div class="view form-group" ng-class="{'fb-hidden': component.properties.visible=='hidden'}">
+	<label for="{{component.properties.overrideId}}" class="control-label" ng-class="{'required':component.properties.required}">{{component.properties.label}}</label>
+	<div ng-style="component.properties.style">
+		<input type="hidden" fb-dynamic-model="component.properties.overrideId" fb-dynamic-model-pre="data" validator-required="{{component.properties.required}}" validator>
+		
+		<div class="row" ng-if="component.properties.columns!='auto'">
+			<div class="{{'col-xs-'+ 12/component.properties.columns}}" ng-repeat="num in [1,2,3,4,5,6]| limitTo: component.properties.columns" >
+				<div class="checkbox" ng-repeat="item in component.properties.options">
+					<label ng-if="$index% (component.properties.columns)== $parent.$index">
+						<input type="checkbox" ng-model="component.arrayValue[$index]" ng-disabled="component.properties.visible=='disabled'"/>{{item.text}} 
+					</label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="checkbox" ng-if="component.properties.columns=='auto'">
+			<label class="checkbox-inline" ng-repeat="item in component.properties.options">
+				<input type="checkbox" ng-model="component.arrayValue[$index]" ng-disabled="component.properties.visible=='disabled'"/> {{item.text}} 
+			</label>
+		</div>
+		
+		<p class="help-block">{{component.properties.description}}</p>
+	</div>
+</div>

@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-query">
+        <div class="content">
+          <h4 class="title">菜单名称</h4>
+          <div class="input-group">
+            <input type="text" ng-if="!viewChild" ng-model="queryParams.name" class="form-control" placeholder="输入菜单名称">
+            <input type="text" ng-if="viewChild" ng-model="queryChildParams.name" class="form-control" placeholder="输入菜单名称">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-info" ng-click="queryMenu()">搜索</button>
+              <button type="button" class="btn btn-info" ng-click="editMenu()">创建</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" ng-show="!viewChild">
+       	<div class="content">
+          <table ng-table="tableOptions" class="table table-striped ng-table">
+		  </table>
+	 	</div>
+      </div>
+      <div class="card" ng-show="viewChild">
+        <div class="content">
+          <h4 class="title"> 
+            <a href="" ng-click="returnParent()">
+              <span class="label label-success pull-left"><i class="fa fa-mail-reply"></i> 返回上级</span>
+            </a>
+            <span class="label label-info pull-right"><i class="fa fa-align-right"></i> 上级：{{parentMenu.name}}</span>
+          </h4>
+          <table ng-table="childTableOptions" class="table table-striped ng-table">
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+<script type="text/ng-template" id="menu-edit.html">
+  <div class="form-group" ng-show="formdata.parentId!=0">
+    <label class="control-label">父级</label> 
+  	<input type="text" readonly class="form-control" ng-model="formdata.parentName"></input>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
+    <label class="control-label">名称</label> 
+  	<input type="text" class="form-control" name="name" ng-model="formdata.name" required></input>
+  </div>
+  <div class="form-group">
+    <label class="control-label">编号</label> 
+  	<input type="text" readonly class="form-control" ng-model="formdata.code"></input>
+  </div>
+  <div class="form-group">
+    <label class="control-label">路径</label> 
+    <input type="text" class="form-control" ng-model="formdata.url"></input>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.icon.$error.required}">
+    <label class="control-label">图标</label> 
+	<div class="input-group">
+    <input type="text" class="form-control"  name="icon" ng-model="formdata.icon" readonly required>
+    <span class="input-group-btn">
+        <button class="btn btn-default" ng-iconpicker ng-model="formdata.icon" role="iconpicker"></button>
+    </span>
+	</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">排序</label> 
+    <input type="number" class="form-control" ng-model="formdata.order"></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">描述</label> 
+	<textarea class="form-control" ng-model="formdata.remark" rows="3"></textarea>
+  </div>
+</script>
+

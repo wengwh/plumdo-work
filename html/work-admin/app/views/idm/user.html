@@ -1,0 +1,138 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-query">
+        <div class="content">
+          <div class="row">
+            <div class="col-md-3">
+              <h4 class="title">状态</h4>
+              <div class="form-group">
+                <select class="form-control" ng-model="queryParams.status">
+                  <option value="">全部</option>
+                  <option value="0">启用</option>
+                  <option value="1">停用</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <h4 class="title">用户电话</h4>
+              <div class="form-group">
+                <input type="text" ng-model="queryParams.phone" class="form-control" placeholder="输入用户电话">
+              </div>
+            </div>
+            <div class="col-md-5">
+              <h4 class="title">用户名称</h4>
+              <div class="input-group">
+                <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入用户名称">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info" ng-click="queryUser()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="editUser()">创建</button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div ng-pagination ng-model="queryResult.total" changed="queryUser" param="queryParams"></div>  
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-sm-6" ng-repeat="item in queryResult.data">
+      <div class="card card-person">
+        <div class="content">
+          <div class="row">
+            <div class="col-xs-7">
+              <span class="label label-primary"><i class="fa fa-user"></i> {{item.name}}</span><br/>
+              <span class="label label-danger"><i class="fa fa-phone"></i> {{item.phone}}</span><br/>
+              <span class="label label-warning"><i class="fa fa-calendar-times-o"></i> {{item.lastUpdateTime}}</span>
+            </div>
+            <div class="col-xs-5">
+                <image class="avatar border-white" src="{{item.avatar}}"></image>
+            </div>
+          </div>
+          <div class="footer text-right">
+            <hr />
+            <span class="pull-left" ng-if="item.status==0"><i class="fa fa-circle text-info"></i> 启用</span>
+            <span class="pull-left" ng-if="item.status==1"><i class="fa fa-circle text-danger"></i> 停用</span>
+            <button type="button" class="btn btn-xs btn-info" ng-click="editUser(item.id)"><i class="fa fa-pencil"></i>编辑</button>
+            <button type="button" class="btn btn-xs btn-danger" ng-click="deleteUser(item.id)"><i class="fa fa-trash-o"></i>删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script type="text/ng-template" id="user-edit.html">
+  <div class="form-group" ng-class="{'has-error':editForm.account.$error.required}">
+    <label class="control-label">登录账户(默认密码电话后6位)</label> 
+    <input type="text" placeholder="登录账户" class="form-control" name="account" ng-model="formdata.account" required></input>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.phone.$error.required||editForm.phone.$error.minlength}">
+    <label class="control-label">电话</label> 
+    <input type="text" placeholder="电话" class="form-control" name="phone" ng-minlength="6" ng-model="formdata.phone" required></input>
+  	<span ng-show="editForm.phone.$error.minlength" class="help-block">位数不能低于6位</span>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
+    <label class="control-label">姓名</label> 
+	<input type="text" placeholder="姓名" class="form-control" name="name" ng-model="formdata.name" required></input>
+  </div>
+  <div class="form-group">
+    <label class="control-label">性别</label>
+    <div>
+      <label class="radio-inline"> 
+        <input ng-icheck type="radio" ng-model="formdata.sex" ng-value="0" ng-checked="true" /> 女
+      </label> 
+      <label class="radio-inline"> 
+        <input ng-icheck type="radio" ng-model="formdata.sex" ng-value="1" /> 男
+      </label>
+    </div>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.email.$invalid}">
+    <label class="control-label">邮箱</label> 
+    <input type="email" placeholder="email" class="form-control" name="email" ng-model="formdata.email"></input>
+	<span ng-show="editForm.email.$invalid && !editForm.email.$pristine" class="help-block">输入一个合法的邮箱地址</span>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">状态</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="0" ng-checked="true" /> 启用
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="1" /> 停用
+		</label>
+	</div>
+  </div>
+ <div class="form-group">
+  	<label class="control-label">所属角色</label> <br/>
+    <isteven-multi-select    
+        input-model="formdata.roles"    
+        output-model="formdata.userRoles"
+        button-label="name"
+        item-label="name"
+        tick-property="selected"
+        orientation="horizontal"
+        group-property="group"
+        translation="multiSelectLang">
+   </isteven-multi-select>
+  </div>
+ <div class="form-group">
+  	<label class="control-label">所属群组</label> <br/>
+    <isteven-multi-select    
+        input-model="formdata.groups"    
+        output-model="formdata.userGroups"
+        button-label="name"
+        item-label="name"
+        tick-property="selected"
+        orientation="horizontal"
+        group-property="group"
+        translation="multiSelectLang">
+   </isteven-multi-select>
+  </div>
+ <div class="form-group">
+    <label class="control-label">备注</label>
+    <textarea placeholder="备注" class="form-control" ng-model="formdata.remark" rows="3"></textarea>
+  </div>
+</script>

@@ -1,0 +1,1556 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Tutorial - Paper Dashboard Free by Creative Tim</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/paper-dashboard.css" rel="stylesheet"/>
+    <link href="../assets/css/demo.css" rel="stylesheet" />
+    <link href="css/documentation.css" rel="stylesheet" />
+	<link href="../assets/css/animate.min.css" rel="stylesheet" />
+
+    <!--  Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="../assets/css/themify-icons.css" rel="stylesheet">
+</head>
+
+<body class="nude">
+
+
+
+<div class="header-wrapper">
+        <nav class="navbar navbar-default navbar-transparent navbar-fixed-top navbar-color-on-scroll" role="navigation">
+          <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button id="menu-toggle" type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar bar1"></span>
+                <span class="icon-bar bar2"></span>
+                <span class="icon-bar bar3"></span>
+              </button>
+              <a href="http://www.creative-tim.com">
+                   <div class="logo-container">
+                        <div class="logo">
+                            <img src="../assets/img/new_logo.png" alt="Creative Tim Logo">
+                        </div>
+                        <div class="brand">
+                            Creative Tim
+                        </div>
+                    </div>
+              </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse text-center">
+				<ul class="nav navbar-nav navbar-center">
+					<li>
+						<div class="navbar-title hidden text-center">
+							<h4>
+								Paper Dashboard Free
+							</h4>
+						</div>
+					</li>
+				</ul>
+				<ul  class="nav navbar-nav navbar-right">
+				    <li>
+						<a href="https://github.com/timcreative/paper-dashboard/issues" target="_blank">Have an issue?</a>
+				    </li>
+					<li>
+						<a href="https://github.com/creativetimofficial/paper-dashboard" target="_blank" class="btn btn-default btn-simple">
+							<i class="fa fa-github"></i> <p>Contribute</p>
+						</a>
+					</li>
+				</ul>
+
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="header">
+            <div class="filter"></div>
+            <div class="title-container text-center">
+                    <h1>Paper Dashboard Free</h1>
+                    <h3>Elements description</h3>
+            </div>
+        </div>
+</div>
+
+
+<div class="wrapper">
+
+    <div class="main">
+        <div class="section section-white">
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="fixed-section affix-top" data-spy="affix" data-offset-top="390">
+                <ul id="menuresize">
+					<li><a href="#license-row">License</a></li>
+                    <li><a href="#buttons-row">Buttons</a></li>
+                    <li><a href="#dropdown-row">Dropdown</a></li>
+                    <li><a href="#inputs-row">Inputs</a></li>
+                    <li><a href="#textarea-row">Textarea</a></li>
+                    <li><a href="#navbar-row">Navigation</a></li>
+                    <li><a href="#panels-row">Panels</a></li>
+                    <li><a href="#tables-row">Tables</a></li>
+                    <li><a href="#notification-row">Notification</a></li>
+                    <li><a href="#charts-row">Charts</a></li>
+                    <li><a href="#google-row">Google Maps</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-1">
+            <div class="space-top"></div>
+            <div class="tim-container" style="min-height: 2000px;">
+<div class="tim-row">
+	<h2 class="text-center">Short Description and Usage</h2>
+	<legend></legend>
+	<p>
+	Paper Dashboard is a beautiful resource built over Bootstrap to allow you to create powerful and beautiful dashboards. We have redesigned all the usual components in Bootstrap to make it look flat, minimalist and easy to use.
+	<br /><br />
+		Using the dashboard is very simple, but it does require you to understand basic JavaScript functions. To get the desired effect you will need to integrate JS plugins that take a little bit more effort. Down below we list all the files you need to include inside the application to get going.
+	</p>
+</div>
+
+<div class="tim-row">
+	<h2 class="text-center">Getting Started</h2>
+	<legend></legend>
+	<p>
+	The Paper Dashboard is built on top of Bootstrap 3, so you can safely use it on your existing or new Bootstrap project. No line of code from Bootstrap 3 was changed, so you don't have to worry about undesired effects in your work.
+	</p>
+	<p>
+		We provide all the necessary CSS resources. So, to immediately change or get started with our design, include the "css/paper-dashboard.css" in your HTML template. Your project will get the new look.
+	</p>
+	<p>
+		To jump start your project, you can use our start-up template where all the files are already included and ready to use. If you do however, want to start from scratch, you can see the file structure below. The core JavaScript is contained in "js/paper-dashboard.js". Some functions are called from "js/demo.js" because they are presented only for demo purpose, you can check there how they are working and duplicate their effect on your projct. For the other files, you should add them if you use the specific element inside your page.
+	</p>
+</div>
+
+<div class="tim-row">
+	<h2 class="text-center">File Structure</h2>
+	<legend></legend>
+		<p>
+			Once you have downloaded the archive and opened it, you will find the following structure:
+		</p>
+		<p>
+			Let's take it one by one:
+		</p>
+		<pre>
+		paper-dashboard/
+		├── assets/
+		|   ├── css/
+		|   |   ├── animate.min.css
+		|   |   ├── bootstrap.min.css
+		|   |   ├── demo.css
+		│   |   ├── paper-dashboard.css
+		│   |   └── themify-icons.css
+		|   ├── js/
+		|   |   ├── bootstrap-checkbox-radio.js
+		|   |   ├── bootstrap-notify.js
+		|   |   ├── bootstrap.min.js
+		│   |   ├── chartist.min.js
+		│   |   ├── demo.js
+		│   |   ├── jquery-1.10.2.js
+		│   |   └── paper-dashboard.js
+		|   ├── fonts/
+		|   ├── sass/
+		|   └── img/
+		|
+		├── dashboard.html
+		├── documentation/
+		|   ├── css
+		|   └── documentation.html
+		├── icons.html
+		├── maps.html
+		├── notifications.html
+		├── table.html
+		├── template.html
+		├── typography.html
+		├── upgrade.html
+		└── user.html
+
+</pre>
+</div>
+
+<div class="tim-row">
+	<h2 class="text-center">Restyled Components</h2>
+	<legend></legend>
+		<p>
+		Here is the list of Bootstrap 3 components that we restyled for the Paper Dashboard:
+			<ul>
+				<li> Buttons </li>
+				<li> Dropdown</li>
+				<li> Images</li>
+				<li> Inputs</li>
+				<li> Navigation Menu</li>
+				<li> Notifications</li>
+				<li> Tables</li>
+				<li> Textarea</li>
+				<li> Typography</li>
+			</ul>
+		</p>
+</div>
+
+<div class="tim-row">
+	<h2 class="text-center">New Components</h2>
+	<legend></legend>
+		<p>
+		Besides giving the existing Bootstrap elements a new look, we added new ones, so that the interface and consistent and homogenous. We also imported more plugins to use depending on your needs.
+		</p>
+		<p>
+		Going through them, we added:
+		<ul>
+			<li> Charts</li>
+			<li> Google Maps</li>
+			<li> Panels</li>
+		</ul>
+		</p>
+</div>
+<!-- buttons row -->
+    <div class="tim-row" id="buttons-row">
+
+            <h2>Buttons</h2>
+            <legend></legend>
+            <h4>Colors</h4>
+                <p>
+                We worked over the original Bootstrap classes, choosing a different, slightly intenser colour palette:
+                </p>
+                <p>
+                   <button class="btn btn-default">Default</button>
+                   <button class="btn btn-primary">Primary</button>
+                   <button class="btn btn-info">Info</button>
+                   <button class="btn btn-success">Success</button>
+                   <button class="btn btn-warning">Warning</button>
+                   <button class="btn btn-danger">Danger</button>
+                   <button class="btn btn-neutral">Neutral</button>
+
+                </p>
+                <br />
+<pre class="prettyprint">
+&lt;button class=&quot;btn btn-default&quot;&gt;Default&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-primary&quot;&gt;Primary&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-info&quot;&gt;Info&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-success&quot;&gt;Success&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-warning&quot;&gt;Warning&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-danger&quot;&gt;Danger&lt;/button&gt;
+
+</pre>
+            <h4>Sizes</h4>
+                <p class="space-top">
+                    Buttons come in all needed sizes:
+                </p>
+                <p>
+                    <button class="btn btn-primary btn-lg">Large</button>
+                    <button class="btn btn-primary">Normal</button>
+                    <button class="btn btn-primary btn-sm">Small</button>
+                    <button class="btn btn-primary btn-xs">Extra Small</button>
+                </p>
+<pre class="prettyprint">
+&lt;button class=&quot;btn btn-primary btn-lg&quot;&gt;Large&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-primary&quot;&gt;Normal&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-primary btn-sm&quot;&gt;Small&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-primary btn-xs&quot;&gt;Extra Small&lt;/button&gt;
+</pre>
+            <h4>Styles</h4>
+                <p class="space-top">
+                    We added extra classes that help you better customise the look. You can use regular buttons, filled buttons or plain link buttons. Let's see some examples:
+                </p>
+                <p>
+                    <button class="btn btn-primary">Default</button>
+                    <button class="btn btn-primary btn-fill">Filled</button>
+                    <button class="btn btn-primary btn-simple">Simple</button>
+                </p>
+
+<pre class="prettyprint">
+&lt;button class=&quot;btn btn-primary&quot;&gt;Default&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-primary btn-fill&quot;&gt;Filled&lt;/button&gt;
+
+&lt;button class=&quot;btn btn-primary btn-simple&quot;&gt;Simple&lt;/button&gt;
+</pre>
+
+                <p class="space-top">
+                    Button groups, toolbars, and disabled states all work like they are supposed to.
+                </p>
+
+    </div>
+<!--     end row -->
+
+<!-- dropdown row -->
+<div class="tim-row" id="dropdown-row">
+        <h2> Dropdown</h2>
+        <legend></legend>
+        <p>
+        We are very proud to present the dropdown, we added a subtle animation for this classic widget.  <br />
+        Here is an example and the code:
+        </p>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="dropdown">
+                      <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                          Regular
+                          <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#paper">Action</a></li>
+                        <li><a href="#paper">Another action</a></li>
+                        <li><a href="#paper">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#paper">Separated link</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#paper">One more separated link</a></li>
+                      </ul>
+                </div>
+            </div>
+          </div>
+
+<pre class="prettyprint">
+	&lt;div class=&quot;dropdown&quot;&gt;
+              &lt;a href=&quot;#&quot; class=&quot;btn dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;
+                  Regular
+                  &lt;b class=&quot;caret&quot;&gt;&lt;/b&gt;
+              &lt;/a&gt;
+              &lt;ul class=&quot;dropdown-menu&quot;&gt;
+                &lt;li&gt;&lt;a href=&quot;#paper&quot;&gt;Action&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#paper&quot;&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#paper&quot;&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#paper&quot;&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;#paper&quot;&gt;One more separated link&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;
+        &lt;/div&gt;
+</pre>
+
+</div>
+<!-- end row -->
+
+<!-- inputs row -->
+    <div class="tim-row" id="inputs-row">
+            <h2>Inputs</h2>
+            <legend></legend>
+
+            <p>
+            We restyled the Bootstrap input to give it a flat, minimal look. You can use the classic look, different colours and states or input groups.
+            </p>
+            <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                	<input type="text" value="" placeholder="Input" class="form-control" />
+            	</div>
+        	</div>
+        	<div class="col-md-6">
+        	    <div class="form-group has-success">
+                    <input type="text" value="Success" class="form-control" />
+                </div>
+        	</div>
+    	</div>
+            <div class="row">
+            <div class="col-md-6">
+                  <div class="form-group has-error has-feedback">
+                    <input type="text" value="Error" class="form-control" />
+                  </div>
+        	</div>
+        	<div class="col-md-6">
+                	<div class="input-group">
+                      <input type="text" value="Group Addon" class="form-control">
+                      <span class="input-group-addon"><i class="fa fa-group"></i></span>
+                    </div>
+        	</div>
+    	</div>
+
+<pre class="prettyprint">
+&lt;div class=&quot;form-group&quot;&gt;
+
+    &lt;input type=&quot;text&quot; value=&quot;&quot; placeholder=&quot;Input&quot; class=&quot;form-control&quot; /&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&quot;form-group has-success&quot;&gt;
+
+    &lt;input type=&quot;text&quot; value=&quot;Success&quot; class=&quot;form-control&quot; /&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&quot;form-group has-error has-feedback&quot;&gt;
+
+    &lt;input type=&quot;text&quot; value=&quot;Error&quot; class=&quot;form-control&quot; /&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;div class=&quot;input-group&quot;&gt;
+
+    &lt;input type=&quot;text&quot; value=&quot;Group Addon&quot; class=&quot;form-control&quot;&gt;
+
+    &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-group&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+
+&lt;/div&gt;
+</pre>
+
+    </div>
+<!-- end row -->
+
+<!-- textarea row -->
+<div class="tim-row" id="textarea-row">
+    <h2>Textarea</h2>
+    <legend></legend>
+    <p>We added custom style for the textarea, so it looks similar to all other inputs.</p>
+
+    <textarea class="form-control" placeholder="Here can be your nice text" rows="3"></textarea>
+
+<pre class="prettyprint">
+&lt;textarea class=&quot;form-control&quot; placeholder=&quot;Here can be your nice text&quot; rows=&quot;3&quot;&gt;&lt;/textarea&gt;
+</pre>
+</div>
+<!-- end row -->
+
+<!-- navbar row -->
+<div class="tim-row" id="navbar-row">
+        <h2>Navbar </h2>
+        <legend></legend>
+        <p>
+            We restyled the classic Bootstrap Navbar:
+        </p>
+
+        <div id="navbar">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Dashboard</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+
+                        <form class="navbar-form navbar-left navbar-search-form" role="search">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input type="text" value="" class="form-control" placeholder="Search...">
+                            </div>
+                        </form>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="charts.html">
+                                    <i class="fa fa-line-chart"></i>
+                                    <p>Stats</p>
+                                </a>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-gavel"></i>
+                                    <p class="hidden-md hidden-lg">
+                                    Actions
+                                    <b class="caret"></b>
+                                </p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Create New Post</a></li>
+                                    <li><a href="#">Manage Something</a></li>
+                                    <li><a href="#">Do Nothing</a></li>
+                                    <li><a href="#">Submit to live</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Another Action</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="notification">5</span>
+                                    <p class="hidden-md hidden-lg">
+    									<b class="caret"></b>
+    								</p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Notification 1</a></li>
+                                    <li><a href="#">Notification 2</a></li>
+                                    <li><a href="#">Notification 3</a></li>
+                                    <li><a href="#">Notification 4</a></li>
+                                    <li><a href="#">Another notification</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown dropdown-with-icons">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-list"></i>
+                                    <p class="hidden-md hidden-lg">
+    								More
+    								<b class="caret"></b>
+    							</p>
+                                </a>
+                                <ul class="dropdown-menu dropdown-with-icons">
+                                    <li>
+                                        <a href="#">
+                                            <i class="pe-7s-mail"></i> Messages
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="pe-7s-help1"></i> Help Center
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="pe-7s-tools"></i> Settings
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="pe-7s-lock"></i> Lock Screen
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="text-danger">
+                                            <i class="pe-7s-close-circle"></i>
+                                            Log out
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+<pre class="prettyprint">
+&lt;nav class=&quot;navbar navbar-default&quot;&gt;
+        &lt;div class=&quot;container-fluid&quot;&gt;
+            &lt;div class=&quot;navbar-header&quot;&gt;
+                &lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot; data-toggle=&quot;collapse&quot;&gt;
+                    &lt;span class=&quot;sr-only&quot;&gt;Toggle navigation&lt;/span&gt;
+                    &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                    &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;/button&gt;
+                &lt;a class=&quot;navbar-brand&quot; href=&quot;#&quot;&gt;Dashboard&lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;collapse navbar-collapse&quot;&gt;
+
+                &lt;form class=&quot;navbar-form navbar-left navbar-search-form&quot; role=&quot;search&quot;&gt;
+                    &lt;div class=&quot;input-group&quot;&gt;
+                        &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;fa fa-search&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+                        &lt;input type=&quot;text&quot; value=&quot;&quot; class=&quot;form-control&quot; placeholder=&quot;Search...&quot;&gt;
+                    &lt;/div&gt;
+                &lt;/form&gt;
+
+                &lt;ul class=&quot;nav navbar-nav navbar-right&quot;&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;charts.html&quot;&gt;
+                            &lt;i class=&quot;fa fa-line-chart&quot;&gt;&lt;/i&gt;
+                            &lt;p&gt;Stats&lt;/p&gt;
+                        &lt;/a&gt;
+                    &lt;/li&gt;
+
+                    &lt;li class=&quot;dropdown&quot;&gt;
+                        &lt;a href=&quot;#&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;
+                            &lt;i class=&quot;fa fa-gavel&quot;&gt;&lt;/i&gt;
+                            &lt;p class=&quot;hidden-md hidden-lg&quot;&gt;Actions&lt;/p&gt;
+                        &lt;/a&gt;
+                        &lt;ul class=&quot;dropdown-menu&quot;&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Create New Post&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Manage Something&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Do Nothing&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Submit to live&lt;/a&gt;&lt;/li&gt;
+                            &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Another Action&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+
+                    &lt;li class=&quot;dropdown&quot;&gt;
+                        &lt;a href=&quot;#&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;
+                            &lt;i class=&quot;fa fa-bell-o&quot;&gt;&lt;/i&gt;
+                            &lt;span class=&quot;notification&quot;&gt;5&lt;/span&gt;
+                            &lt;p class=&quot;hidden-md hidden-lg&quot;&gt;Notifications&lt;/p&gt;
+                        &lt;/a&gt;
+                        &lt;ul class=&quot;dropdown-menu&quot;&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Notification 1&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Notification 2&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Notification 3&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Notification 4&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Another notification&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+
+                    &lt;li class=&quot;dropdown dropdown-with-icons&quot;&gt;
+                        &lt;a href=&quot;#&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;
+                            &lt;i class=&quot;fa fa-list&quot;&gt;&lt;/i&gt;
+                            &lt;p class=&quot;hidden-md hidden-lg&quot;&gt;More&lt;/p&gt;
+                        &lt;/a&gt;
+                        &lt;ul class=&quot;dropdown-menu dropdown-with-icons&quot;&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;#&quot;&gt;
+                                    &lt;i class=&quot;pe-7s-mail&quot;&gt;&lt;/i&gt; Messages
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;#&quot;&gt;
+                                    &lt;i class=&quot;pe-7s-help1&quot;&gt;&lt;/i&gt; Help Center
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;#&quot;&gt;
+                                    &lt;i class=&quot;pe-7s-tools&quot;&gt;&lt;/i&gt; Settings
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;#&quot;&gt;
+                                    &lt;i class=&quot;pe-7s-lock&quot;&gt;&lt;/i&gt; Lock Screen
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                            &lt;li&gt;
+                                &lt;a href=&quot;#&quot; class=&quot;text-danger&quot;&gt;
+                                    &lt;i class=&quot;pe-7s-close-circle&quot;&gt;&lt;/i&gt;
+                                    Log out
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/nav&gt;
+</pre>
+
+
+		<p class="space-top">
+            <b>Fixed Navbar: </b> If you want to have a "Fixed Navbar" on Desktop and Mobile please add the class <code>navbar-fixed</code> on the tag <code>nav</code> and move the entire <code>nav</code> structure outside of the div with class <code>main-panel</code>. Check the example implementation for more details:
+        </p>
+
+        <div id="navbar">
+
+<pre class="prettyprint">
+	&lt;div class=&quot;sidebar&quot; data-color=&quot;orange&quot; data-image=&quot;../assets/img/full-screen-image-3.jpg&quot;&gt;
+	    ....
+	&lt;/div&gt;
+
+	&lt;nav class=&quot;navbar navbar-default navbar-fixed&quot;&gt;
+		&lt;div class=&quot;container-fluid&quot;&gt;
+			....
+		&lt;/div&gt;
+	&lt;/nav&gt;
+
+	&lt;div class=&quot;main-panel&quot;&gt;
+		&lt;-- .navbar used to be here, but was moved outside of this div --&gt;
+		....
+	&lt;/div&gt;
+</pre>
+
+
+
+        <p class="space-top">
+            Besides the default navbar, we added 5 colors for the 5 classes: primary, info, success, warning, danger. If you want to use one of them, you have to replace the <code>navbar-default</code> with the class for the chosen color <code>navbar-ct-{class}</code>.
+        </p>
+
+
+<div id="navbar-blue">
+    <nav class="navbar navbar-ct-primary">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Dashboard</a>
+            </div>
+            <div class="collapse navbar-collapse">
+
+                <form class="navbar-form navbar-left navbar-search-form" role="search">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="charts.html">
+                            <i class="fa fa-line-chart"></i>
+                            <p>Stats</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div><!--  end navbar -->
+
+<!-- navbar azure -->
+<div id="navbar-azure">
+       <nav class="navbar navbar-ct-info">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Dashboard</a>
+            </div>
+            <div class="collapse navbar-collapse">
+
+                <form class="navbar-form navbar-left navbar-search-form" role="search">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="charts.html">
+                            <i class="fa fa-line-chart"></i>
+                            <p>Stats</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- navbar green -->
+<div id="navbar-green">
+   <nav class="navbar navbar-ct-success">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Dashboard</a>
+            </div>
+            <div class="collapse navbar-collapse">
+
+                <form class="navbar-form navbar-left navbar-search-form" role="search">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="charts.html">
+                            <i class="fa fa-line-chart"></i>
+                            <p>Stats</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div><!--  end navbar -->
+
+<!-- navbar orange -->
+<div id="navbar-orange">
+    <nav class="navbar navbar-ct-warning">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Dashboard</a>
+            </div>
+            <div class="collapse navbar-collapse">
+
+                <form class="navbar-form navbar-left navbar-search-form" role="search">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="charts.html">
+                            <i class="fa fa-line-chart"></i>
+                            <p>Stats</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div><!--  end navbar -->
+
+<!-- navbar red -->
+<div id="navbar-red">
+    <nav class="navbar navbar-ct-danger">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Dashboard</a>
+            </div>
+            <div class="collapse navbar-collapse">
+
+                <form class="navbar-form navbar-left navbar-search-form" role="search">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="charts.html">
+                            <i class="fa fa-line-chart"></i>
+                            <p>Stats</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div><!--  end navbar -->
+
+</div>
+<!-- end row -->
+
+<!-- panel row -->
+<div class="tim-row" id="panels-row">
+    <h2>Panels</h2>
+    <legend></legend>
+    <p>
+        If you have information that you don't need to show at once, we suggest you use tabs. You can use them horizontally or vertically.
+        Here are the coded examples:
+    </p>
+    <div class="space-top"></div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                        <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+                        <li><a href="#profile" data-toggle="tab">Profile</a></li>
+                        <li><a href="#messages" data-toggle="tab">Messages</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="my-tab-content" class="tab-content text-center">
+                <div class="tab-pane active" id="home">
+                    <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient. With a smooth metal surface that seamlessly meets the new Retina HD display.</p>
+                </div>
+                <div class="tab-pane" id="profile">
+                    <p>Here is your profile.</p>
+                </div>
+                <div class="tab-pane" id="messages">
+                    <p>Here are your messages.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+			<div class="row">
+				<div class="col-md-4 col-sm-4 col-xs-6">
+                    <ul class="nav nav-stacked" role="tablist">
+                        <li class="active">
+                            <a href="#info" role="tab" data-toggle="tab">
+                                 Info
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#description" role="tab" data-toggle="tab">
+                                 Description
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#concept" role="tab" data-toggle="tab">
+                                 Concept
+                            </a>
+						</li>
+                        <li>
+                           <a href="#support" role="tab" data-toggle="tab">
+                                Support
+                           </a>
+                        </li>
+                        <li>
+                           <a href="#extra" role="tab" data-toggle="tab">
+                                Extra
+                           </a>
+                        </li>
+                    </ul>
+                </div>
+				<div class="col-md-8 col-sm-8 col-xs-6">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="info">
+                            <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient. With a smooth metal surface that seamlessly meets the new Retina HD display.</p>
+                            <p>It’s one continuous form where hardware and software function in perfect unison, creating a new generation of phone that’s better by any measure.</p>
+                        </div>
+                        <div class="tab-pane" id="description">
+                            <p>The first thing you notice when you hold the phone is how great it feels in your hand. The cover glass curves down around the sides to meet the anodized aluminum enclosure in a remarkable, simplified design. </p>
+                            <p>There are no distinct edges. No gaps. Just a smooth, seamless bond of metal and glass that feels like one continuous surface.</p>
+                        </div>
+                        <div class="tab-pane" id="concept">
+                            <p>It’s one continuous form where hardware and software function in perfect unison, creating a new generation of phone that’s better by any measure.</p>
+                            <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient. With a smooth metal surface that seamlessly meets the new Retina HD display. </p>
+                        </div>
+                        <div class="tab-pane" id="support">
+                            <p>From the seamless transition of glass and metal to the streamlined profile, every detail was carefully considered to enhance your experience. So while its display is larger, the phone feels just right.</p>
+                            <p>It’s one continuous form where hardware and software function in perfect unison, creating a new generation of phone that’s better by any measure.</p>
+                        </div>
+                        <div class="tab-pane" id="extra">
+                            <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient. With a smooth metal surface that seamlessly meets the new Retina HD display. </p>
+                            <p>It’s one continuous form where hardware and software function in perfect unison, creating a new generation of phone that’s better by any measure.</p>
+                        </div>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+<pre class="prettyprint">
+&lt;!-- horizontal tabs --&gt;
+&lt;div class=&quot;nav-tabs-navigation&quot;&gt;
+    &lt;div class=&quot;nav-tabs-wrapper&quot;&gt;
+        &lt;ul id=&quot;tabs&quot; class=&quot;nav nav-tabs&quot; data-tabs=&quot;tabs&quot;&gt;
+            &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#home&quot; data-toggle=&quot;tab&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#profile&quot; data-toggle=&quot;tab&quot;&gt;Profile&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#messages&quot; data-toggle=&quot;tab&quot;&gt;Messages&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;my-tab-content&quot; class=&quot;tab-content text-center&quot;&gt;
+    &lt;div class=&quot;tab-pane active&quot; id=&quot;home&quot;&gt;
+        &lt;p&gt;Larger, yet dramatically thinner. More powerful, but remarkably power efficient. With a smooth metal surface that seamlessly meets the new Retina HD display.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;tab-pane&quot; id=&quot;profile&quot;&gt;
+        &lt;p&gt;Here is your profile.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;tab-pane&quot; id=&quot;messages&quot;&gt;
+        &lt;p&gt;Here are your messages.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;!-- vertical tabs --&gt;
+&lt;div class=&quot;row&quot;&gt;
+	&lt;div class=&quot;col-md-4 col-sm-4 col-xs-6&quot;&gt;
+        &lt;ul class=&quot;nav nav-stacked&quot; role=&quot;tablist&quot;&gt;
+            &lt;li class=&quot;active&quot;&gt;
+                &lt;a href=&quot;#info&quot; role=&quot;tab&quot; data-toggle=&quot;tab&quot;&gt;
+                     Info
+                &lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;a href=&quot;#description&quot; role=&quot;tab&quot; data-toggle=&quot;tab&quot;&gt;
+                     Description
+                &lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;a href=&quot;#concept&quot; role=&quot;tab&quot; data-toggle=&quot;tab&quot;&gt;
+                     Concept
+                &lt;/a&gt;
+			&lt;/li&gt;
+            &lt;li&gt;
+               &lt;a href=&quot;#support&quot; role=&quot;tab&quot; data-toggle=&quot;tab&quot;&gt;
+                    Support
+               &lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+               &lt;a href=&quot;#extra&quot; role=&quot;tab&quot; data-toggle=&quot;tab&quot;&gt;
+                    Extra
+               &lt;/a&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+	&lt;div class=&quot;col-md-8 col-sm-8 col-xs-6&quot;&gt;
+        &lt;!-- Tab panes --&gt;
+        &lt;div class=&quot;tab-content&quot;&gt;
+            &lt;div class=&quot;tab-pane active&quot; id=&quot;info&quot;&gt;
+                &lt;p&gt;Larger, yet.&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;tab-pane&quot; id=&quot;description&quot;&gt;
+                &lt;p&gt;The first thing...&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;tab-pane&quot; id=&quot;concept&quot;&gt;
+                &lt;p&gt;It&rsquo;s one...&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;tab-pane&quot; id=&quot;support&quot;&gt;
+                &lt;p&gt;From the...&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;tab-pane&quot; id=&quot;extra&quot;&gt;
+                &lt;p&gt;Larger, yet...&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+</pre>
+
+</div>
+<!-- end row -->
+
+<!-- tables row -->
+<div class="tim-row" id="tables-row">
+    <h2>Tables</h2>
+    <legend></legend>
+    <p>
+   All Boostrap classes for tables are supported and improved. Besides the simple and striped tables, we added tables that have actions and tables with switches. <br />
+   You can see coded examples below:
+    </p>
+    <h4>Striped Table</h4>
+	<div class="content table-responsive table-full-width">
+		<table class="table table-striped">
+			<thead>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Salary</th>
+				<th>Country</th>
+				<th>City</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>Dakota Rice</td>
+					<td>$36,738</td>
+					<td>Niger</td>
+					<td>Oud-Turnhout</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>Minerva Hooper</td>
+					<td>$23,789</td>
+					<td>Curaçao</td>
+					<td>Sinaai-Waas</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>Sage Rodriguez</td>
+					<td>$56,142</td>
+					<td>Netherlands</td>
+					<td>Baileux</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>Philip Chaney</td>
+					<td>$38,735</td>
+					<td>Korea, South</td>
+					<td>Overland Park</td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td>Doris Greene</td>
+					<td>$63,542</td>
+					<td>Malawi</td>
+					<td>Feldkirchen in Kärnten</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td>Mason Porter</td>
+					<td>$78,615</td>
+					<td>Chile</td>
+					<td>Gloucester</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+<pre class="prettyprint">
+	&#x3C;div class=&#x22;content table-responsive table-full-width&#x22;&#x3E;
+    &#x3C;table class=&#x22;table table-striped&#x22;&#x3E;
+        &#x3C;thead&#x3E;
+            &#x3C;th&#x3E;ID&#x3C;/th&#x3E;
+        &#x9;&#x3C;th&#x3E;Name&#x3C;/th&#x3E;
+        &#x9;&#x3C;th&#x3E;Salary&#x3C;/th&#x3E;
+        &#x9;&#x3C;th&#x3E;Country&#x3C;/th&#x3E;
+        &#x9;&#x3C;th&#x3E;City&#x3C;/th&#x3E;
+        &#x3C;/thead&#x3E;
+        &#x3C;tbody&#x3E;
+            &#x3C;tr&#x3E;
+            &#x9;&#x3C;td&#x3E;1&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Dakota Rice&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;$36,738&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Niger&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Oud-Turnhout&#x3C;/td&#x3E;
+            &#x3C;/tr&#x3E;
+            &#x3C;tr&#x3E;
+            &#x9;&#x3C;td&#x3E;2&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Minerva Hooper&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;$23,789&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Cura&#xE7;ao&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Sinaai-Waas&#x3C;/td&#x3E;
+            &#x3C;/tr&#x3E;
+            &#x3C;tr&#x3E;
+            &#x9;&#x3C;td&#x3E;3&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Sage Rodriguez&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;$56,142&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Netherlands&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Baileux&#x3C;/td&#x3E;
+            &#x3C;/tr&#x3E;
+            &#x3C;tr&#x3E;
+            &#x9;&#x3C;td&#x3E;4&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Philip Chaney&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;$38,735&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Korea, South&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Overland Park&#x3C;/td&#x3E;
+            &#x3C;/tr&#x3E;
+            &#x3C;tr&#x3E;
+            &#x9;&#x3C;td&#x3E;5&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Doris Greene&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;$63,542&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Malawi&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Feldkirchen in K&#xE4;rnten&#x3C;/td&#x3E;
+            &#x3C;/tr&#x3E;
+            &#x3C;tr&#x3E;
+            &#x9;&#x3C;td&#x3E;6&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Mason Porter&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;$78,615&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Chile&#x3C;/td&#x3E;
+            &#x9;&#x3C;td&#x3E;Gloucester&#x3C;/td&#x3E;
+            &#x3C;/tr&#x3E;
+        &#x3C;/tbody&#x3E;
+    &#x3C;/table&#x3E;
+
+&#x3C;/div&#x3E;
+</pre>
+
+</div>
+<!-- end row -->
+
+<!-- notification row -->
+<div class="tim-row" id="notification-row">
+        <h2> Notifications</h2>
+        <legend></legend>
+        <p>
+        The notifications for Paper Dashboard PRO are looking fresh and clean. They go great with the navbar. They come with 4 classes, each for a different color: <code>.alert-info</code>, <code>.alert-success</code>, <code>.alert-warning</code>, <code>.alert-danger</code>.
+        <br /><br />
+        If you want to add special animations for them, we integrated a third party plugin called Bootstrap Notify. To see the original repository for it, check it out <a href="https://github.com/mouse0270/bootstrap-notify">here</a>. Out friend Robert McIntosh did a wonderful job. If you want to see a coded example, you can see it below.
+        </p>
+        <button class="btn btn-default" onclick="showNotification('top','right')">Top Right Notification</button>
+
+<pre class="prettyprint">
+&lt;!-- button to trigger the action --&gt;
+&lt;button class=&quot;btn btn-default&quot; onclick=&quot;showNotification(&#39;top&#39;,&#39;right&#39;)&quot;&gt;Top Right Notification&lt;/button&gt;
+
+&lt;!-- javascript --&gt;
+function showNotification(from, align){
+	color = Math.floor((Math.random() * 4) + 1);
+
+	$.notify({
+    	icon: &quot;ti-gift&quot;,
+    	message: &quot;Welcome to &lt;b&gt;Paper Dashboard&lt;/b&gt; - a beautiful freebie for every web developer.&quot;
+
+    },{
+        type: type[color],
+        timer: 4000,
+        placement: {
+            from: from,
+            align: align
+        }
+    });
+}
+</pre>
+</div>
+<!-- end row -->
+
+<!-- charts row -->
+<div class="tim-row" id="charts-row">
+    <h2>Charts</h2>
+    <legend></legend>
+    <p>For the implementation of graphic charts, we used the Chartist plugin and added our custom styles. The plugin is free to download and use <a href="https://gionkunz.github.io/chartist-js/examples.html">here</a>. <a href="https://github.com/gionkunz">Gion Kunz</a> is the guy behind the project; he did an awesome job and we recommend using his stuff. Besides all the great options for customisation that you have using it, it is also fully responsive. We changed the colours, background and typography.</p>
+
+    <h4>Multiple Lines Chart</h4>
+    <p>We recommend you use this graphic when you need to show multiple functions in the same visual element. For example, you can see a correlation between the registered versus active users. Always try to use a legend when you have multiple elements in the graphic.</p>
+    <div class="row">
+            <div class="col-md-8">
+                 <h4><small>Users Behavior</small></h4>
+                <div id="chartHours" class="ct-chart"></div>
+
+                 <h6>Legend</h6>
+                 <i class="fa fa-circle text-info"></i> Visited Site
+                 <i class="fa fa-circle text-warning"></i> Register
+                 <i class="fa fa-circle text-danger"></i> Login 2nd Time
+            </div>
+    </div>
+<pre class="prettyprint">
+&lt;!-- graphic area in html --&gt;
+
+&lt;h4&gt;&lt;small&gt;Users Behavior&lt;/small&gt;&lt;/h4&gt;
+
+&lt;div id=&quot;chartHours&quot; class=&quot;ct-chart&quot;&gt;&lt;/div&gt;
+
+&lt;h6&gt;Legend&lt;/h6&gt;
+
+&lt;i class=&quot;fa fa-circle text-info&quot;&gt;&lt;/i&gt; Visited Site
+&lt;i class=&quot;fa fa-circle text-warning&quot;&gt;&lt;/i&gt; Register
+&lt;i class=&quot;fa fa-circle text-danger&quot;&gt;&lt;/i&gt; Login 2nd Time
+
+
+&lt;!-- javascript --&gt;
+
+var dataSales = {
+  labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
+  series: [
+     [287, 385, 490, 562, 594, 626, 698, 895, 952],
+    [67, 152, 193, 240, 387, 435, 535, 642, 744],
+    [23, 113, 67, 108, 190, 239, 307, 410, 410]
+  ]
+};
+
+var optionsSales = {
+  lineSmooth: false,
+  low: 0,
+  high: 1000,
+  showArea: true,
+  height: "245px",
+  axisX: {
+    showGrid: false,
+  },
+  lineSmooth: Chartist.Interpolation.simple({
+    divisor: 3
+  }),
+  showLine: true,
+  showPoint: false,
+};
+
+var responsiveSales = [
+  ['screen and (max-width: 640px)', {
+    axisX: {
+      labelInterpolationFnc: function (value) {
+        return value[0];
+      }
+    }
+  }]
+];
+
+Chartist.Line('#chartHours', dataSales, optionsSales, responsiveSales);
+</pre>
+
+    <h4>Pie Chart</h4>
+    <p>A pie chart is the easiest way to represent an information. Use it whenever you want to show something understandable at once.</p>
+    <div class="row">
+        <div class="col-md-8">
+            <h4><small>Public Preferences</small></h4>
+             <div class="row margin-top">
+                 <div class="col-md-10 col-md-offset-1">
+                     <div id="chartPreferences" class="ct-chart"></div>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-md-10 col-md-offset-1">
+                    <div class="chart-legend">
+                        <h6>Legend</h6>
+                        <i class="fa fa-circle text-info"></i> Open
+                        <i class="fa fa-circle text-danger"></i> Bounce
+                        <i class="fa fa-circle text-warning"></i> Unsubscribe
+                    </div>
+                 </div>
+             </div>
+        </div>
+    </div>
+<pre class="prettyprint">
+&lt;!-- graphic area in html --&gt;
+
+&lt;h4&gt;&lt;small&gt;Public Preferences&lt;/small&gt;&lt;/h4&gt;
+
+&lt;div class=&quot;row margin-top&quot;&gt;
+
+ &lt;div class=&quot;col-md-10 col-md-offset-1&quot;&gt;
+
+     &lt;div id=&quot;chartPreferences&quot; class=&quot;ct-chart&quot;&gt;&lt;/div&gt;
+
+ &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+
+ &lt;div class=&quot;col-md-10 col-md-offset-1&quot;&gt;
+
+     &lt;h6&gt;Legend&lt;/h6&gt;
+
+    &lt;i class=&quot;fa fa-circle text-info&quot;&gt;&lt;/i&gt; Open
+    &lt;i class=&quot;fa fa-circle text-danger&quot;&gt;&lt;/i&gt; Bounce
+    &lt;i class=&quot;fa fa-circle text-warning&quot;&gt;&lt;/i&gt; Unsubscribe
+
+ &lt;/div&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;!-- javascript --&gt;
+
+Chartist.Pie('#chartPreferences', {
+  labels: ['62%','32%','6%'],
+  series: [62, 32, 6]
+});
+</pre>
+    <h4>Multiple Bars Chart</h4>
+    <p>Go for multiple bars charts if you want to show two indicators side by side.</p>
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Activity <br><small>Multiple Bars Chart</small></h4>
+            <div id="chartActivity" class="ct-chart"></div>
+            <h6>Legend</h6>
+            <span class="label label-info">Tesla</span>
+            <span class="label label-warning">BMW</span>
+        </div>
+    </div>
+<pre class="prettyprint">
+&lt;!-- graphic area in html --&gt;
+
+&lt;h4&gt;Activity &lt;br&gt;&lt;small&gt;Multiple Bars Chart&lt;/small&gt;&lt;/h4&gt;
+
+&lt;div id=&quot;chartActivity&quot; class=&quot;ct-chart&quot;&gt;&lt;/div&gt;
+
+&lt;h6&gt;Legend&lt;/h6&gt;
+
+&lt;span class=&quot;label label-info&quot;&gt;Tesla&lt;/span&gt;
+
+&lt;span class=&quot;label label-warning&quot;&gt;BMW&lt;/span&gt;
+
+
+
+&lt;!-- javascript --&gt;
+
+var data = {
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  series: [
+    [542, 543, 520, 680, 653, 753, 326, 434, 568, 610, 756, 895],
+    [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795]
+  ]
+};
+
+var options = {
+    seriesBarDistance: 10,
+    axisX: {
+        showGrid: false
+    },
+    height: &quot;245px&quot;
+};
+
+var responsiveOptions = [
+  ['screen and (max-width: 640px)', {
+    seriesBarDistance: 5,
+    axisX: {
+      labelInterpolationFnc: function (value) {
+        return value[0];
+      }
+    }
+  }]
+];
+
+Chartist.Line('#chartActivity', data, options, responsiveOptions);
+
+</pre>
+</div>
+<!-- end row -->
+
+<!-- google maps row -->
+<div class="tim-row" id="google-row">
+        <h2> Google Maps</h2>
+        <legend></legend>
+        <p>
+            We changed the classic Google Maps by adding special skins and putting them in cards. If you want to see the full documentation from Google, you can see the docs <a href="https://developers.google.com/maps/documentation/javascript/">here</a>.<br /><br />
+            Below, you will find a coded example:
+        </p>
+        <div class="card card-map">
+            <div class="header">
+                <p class="category">Regular Map</p>
+            </div>
+			<div class="map">
+				<div id="regularMap" class="map"></div>
+			</div>
+        </div>
+<pre class="prettyprint">
+&#x3C;div class=&#x22;card card-map&#x22;&#x3E;
+    &#x3C;div class=&#x22;header&#x22;&#x3E;
+        &#x3C;p class=&#x22;category&#x22;&#x3E;Regular Map&#x3C;/p&#x3E;
+    &#x3C;/div&#x3E;
+&#x9;&#x3C;div class=&#x22;map&#x22;&#x3E;
+&#x9;&#x9;&#x3C;div id=&#x22;regularMap&#x22; class=&#x22;map&#x22;&#x3E;&#x3C;/div&#x3E;
+&#x9;&#x3C;/div&#x3E;
+&#x3C;/div&#x3E;
+
+&lt;!-- javascript for init --&gt;
+var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
+var mapOptions = {
+    zoom: 8,
+    center: myLatlng,
+    scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
+}
+
+var map = new google.maps.Map(document.getElementById(&quot;regularMap&quot;), mapOptions);
+
+var marker = new google.maps.Marker({
+    position: myLatlng,
+    title:&quot;Regular Map!&quot;
+});
+
+marker.setMap(map);
+
+});
+</pre>
+</div>
+<!-- end row -->
+
+
+</div>
+<!-- end row -->
+
+            <!-- end container -->
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+</div>
+<footer class="footer footer-black">
+    <div class="container">
+        <nav class="pull-left">
+            <ul>
+                <li>
+                    <a href="http://www.creative-tim.com">
+                        Creative Tim
+                    </a>
+                </li>
+                <li>
+                    <a href="http://blog.creative-tim.com">
+                       Blog
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.creative-tim.com/license">
+                        Licenses
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="copyright pull-right">
+            &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+        </div>
+    </div>
+</footer>
+</body>
+	<!--   Core JS Files. Extra: PerfectScrollbar + TouchPunch libraries inside jquery-ui.min.js   -->
+	<script src="../assets/js/jquery-1.10.2.js" type="text/javascript"></script>
+	<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+
+	<!--  Checkbox, Radio, Switch and Tags Input Plugins -->
+	<script src="../assets/js/bootstrap-checkbox-radio.js"></script>
+
+	<!--  Charts Plugin -->
+	<script src="../assets/js/chartist.min.js"></script>
+
+	<!--  Notifications Plugin    -->
+	<script src="../assets/js/bootstrap-notify.js"></script>
+
+	<!--  Google Maps Plugin    -->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBYfAYUc7kARllaeGfKNThtEP5xbrt6bv4"></script>
+
+
+	<!-- Paper Dashboard PRO Core javascript and methods for Demo purpose -->
+	<script src="../assets/js/paper-dashboard.js"></script>
+
+	<!-- Paper Dashboard PRO DEMO methods, don't include it in your project! -->
+	<script src="../assets/js/demo.js"></script>
+
+
+    <script>
+		$(window).on('scroll', pd.checkScrollForTransparentNavbar);
+
+        $().ready(function(){
+
+            //activate the tooltips after the data table is initialized
+            $('[rel="tooltip"]').tooltip();
+
+            //for chartist
+            demo.initChartist();
+
+
+            //for google map
+            // Regular Map
+            var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
+            var mapOptions = {
+                zoom: 8,
+                center: myLatlng,
+                scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
+            }
+
+            var map = new google.maps.Map(document.getElementById("regularMap"), mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                title:"Regular Map!"
+            });
+
+            marker.setMap(map);
+
+
+
+            });
+
+        function showNotification(from, align){
+        	color = Math.floor((Math.random() * 4) + 1);
+
+        	$.notify({
+            	icon: "ti-gift",
+            	message: "Welcome to <b>Paper Dashboard PRO</b> - a beautiful dashboard for your next project."
+
+            },{
+                type: type[1],
+                timer: 4000,
+                placement: {
+                    from: from,
+                    align: align
+                }
+            });
+        }
+    </script>
+
+</html>

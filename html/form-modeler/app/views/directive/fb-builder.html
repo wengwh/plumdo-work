@@ -1,0 +1,21 @@
+ <div class="column ui-sortable" ui-sortable="sortableOptions" ng-model="forms.components">
+	<div ng-repeat="component in forms.components">
+		<div class="ui-draggable lyrow" ng-click="selectComponent(component,$event)" ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+			ng-class="{'box': component.type!='column','hover':hover&&component.type!='column','focused': builderForms.selectedComponent===component}" >
+			<span class="drag label label-default">
+				<i class="glyphicon glyphicon-move icon-black"></i>拖动
+			</span>
+			
+			<a ng-click="copyComponent(forms,component,$event)" class="copy label label-success">
+				<i class="glyphicon glyphglyphicon glyphicon-plus icon-white"></i>复制
+			</a>
+			<a ng-click="removeComponent(forms,$index)" class="remove label label-danger">
+				<i class="glyphicon glyphglyphicon glyphicon-remove icon-white"></i>删除
+			</a>
+			
+			<div fb-builder-object="component"></div>
+			
+			<div ng-if="component.type!='column'" class="handle"></div>
+		</div>
+    </div>
+</div>
