@@ -134,5 +134,3 @@ CREATE TABLE IF NOT EXISTS `pw_id_user_role`  (
   PRIMARY KEY (`id_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与角色对应表';
 
-
-
