@@ -1,4 +1,4 @@
-# plumdo-work
+# plumdo-work 工作流平台
 
 # 交流QQ群：717933986
 
@@ -29,6 +29,12 @@ UI：Bootstrap
 数据库：Mysql
 ```
 
+## 文件介绍
+```
+html:前端页面模块
+java:后端服务模块
+```
+
 
 ## 模块介绍
 ```
@@ -38,6 +44,7 @@ form-modeler:表单模型（设计，明细）
 flow-modeler:流程模型（设计，监控）
 
 后端工程
+common-module:项目公共模块
 identity-service:人员接口
 flow-service:流程接口
 form-service:表单接口
