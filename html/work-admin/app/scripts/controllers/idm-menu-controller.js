@@ -50,9 +50,9 @@
 						id : id,
 						data : function() {
 							if($scope.viewChild){
-								return {code: 'C'+Math.ceil(Math.random()*10000), type:1, parentId:$scope.parentMenu.id, parentName:$scope.parentMenu.name};
+								return {type:1, parentId:$scope.parentMenu.id, parentName:$scope.parentMenu.name};
 							}else{
-								return {code: 'P'+Math.ceil(Math.random()*10000), type:0, parentId:0};
+								return {type:0, parentId:0};
 							}
 						},
 						service : $scope.menuService,
@@ -89,12 +89,17 @@
 	  		data : 'queryResult',
 	  		colModels : [
 	  			{name:'名称',index:'name',sortable:true,width:'10%'},
-	  			{name:'编号',index:'code',sortable:true,width:'7%'},
-          {name:'路径',index:'url',sortable:true,width:'10%'},
+	  			{name:'路径',index:'route',sortable:true,width:'10%'},
 	  			{name:'图标',index:'icon',width:'7%',
 	  				formatter:function(){
 	  					return '<div class="th-icon"><span class="{{\'fa \'+row.icon}}"></span></div>';
 	  				}
+	  			},
+	  			{name:'状态',index:'status',sortable:true,width:'7%',
+	  				formatter:function(){
+	  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'
+	  								+'<span class="label label-danger" ng-if="row.status==1">停用</span>'
+  					}
 	  			},
 	  			{name:'排序',index:'order',sortable:true,width:'7%'},
 	  			{name:'描述',index:'remark',width:'12%'},
@@ -119,17 +124,23 @@
 	  	};
 			
 			
-			$scope.childTableOptions = {
+		$scope.childTableOptions = {
 	  		id : 'childMenu',
 	  		data : 'queryChildResult',
 	  		colModels : [
 	  			{name:'名称',index:'name',sortable:true,width:'10%'},
 	  			{name:'编号',index:'code',sortable:true,width:'7%'},
-	  			{name:'路径',index:'url',sortable:true,width:'10%'},
+	  			{name:'路径',index:'route',sortable:true,width:'10%'},
 	  			{name:'图标',index:'icon',width:'7%',
 	  				formatter:function(){
 	  					return '<div class="th-icon"><span class="{{\'fa \'+row.icon}}"></span></div>';
 	  				}
+	  			},
+	  			{name:'状态',index:'status',sortable:true,width:'7%',
+	  				formatter:function(){
+	  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'
+	  								+'<span class="label label-danger" ng-if="row.status==1">停用</span>'
+  					}
 	  			},
 	  			{name:'排序',index:'order',sortable:true,width:'7%'},
 	  			{name:'描述',index:'remark',width:'12%'},
@@ -151,7 +162,7 @@
 	  		sortOrder : 'asc'
 	  	};
 			
-			$scope.returnParent();
-		});
+		$scope.returnParent();
+	});
 
 })();

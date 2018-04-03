@@ -52,12 +52,19 @@
   	<input type="text" class="form-control" name="name" ng-model="formdata.name" required></input>
   </div>
   <div class="form-group">
-    <label class="control-label">编号</label> 
-  	<input type="text" readonly class="form-control" ng-model="formdata.code"></input>
+    <label class="control-label">路径</label> 
+    <input type="text" class="form-control" ng-model="formdata.route"></input>
   </div>
   <div class="form-group">
-    <label class="control-label">路径</label> 
-    <input type="text" class="form-control" ng-model="formdata.url"></input>
+  	<label class="control-label">状态</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="0" ng-checked="true" /> 启用
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="1" /> 停用
+		</label>
+	</div>
   </div>
   <div class="form-group" ng-class="{'has-error':editForm.icon.$error.required}">
     <label class="control-label">图标</label> 

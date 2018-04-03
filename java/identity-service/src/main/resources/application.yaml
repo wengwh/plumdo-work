@@ -5,6 +5,7 @@ spring:
     username : root
     password : root
     driver-class-name: com.mysql.jdbc.Driver
+    separator : $$
     initialize: true
     sql-script-encoding: UTF-8
   jpa:

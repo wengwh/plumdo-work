@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS plumdo_identity DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
-USE plumdo_identity;
+CREATE DATABASE IF NOT EXISTS plumdo_identity DEFAULT CHARSET utf8 COLLATE utf8_general_ci$$
+USE plumdo_identity$$
 
-SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=0$$
 
 -- ----------------------------
 -- 租户表
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `pw_id_tenant`(
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='租户表'$$
 
 
 -- ----------------------------
@@ -23,20 +23,20 @@ CREATE TABLE IF NOT EXISTS `pw_id_tenant`(
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `pw_id_menu`(
   `id_` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `code_` varchar(64) NOT NULL COMMENT '菜单编号',
   `name_` varchar(64) NOT NULL COMMENT '菜单名称',
   `icon_` varchar(255) NOT NULL DEFAULT '' COMMENT '菜单图标',
-  `type_` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '菜单类型 0 业务分类 1 菜单分类 2 菜单模块',
-  `parent_id_` int(10) unsigned NOT NULL COMMENT '父级菜单ID,根群组id为1',
+  `type_` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '菜单类型 0 菜单分类 1 菜单模块',
+  `parent_id_` int(10) unsigned NOT NULL COMMENT '父级菜单ID,根群组id为0',
   `order_` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '序号',
-  `url_` varchar(255) DEFAULT '' COMMENT '菜单对应的URL地址',
+  `status_` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '状态值0:正常 1:停用',
+  `route_` varchar(255) DEFAULT '' COMMENT '菜单对应的路由地址',
   `remark_` varchar(500) DEFAULT '' COMMENT '菜单说明',
   `create_time_` timestamp(3) NULL COMMENT '创建时间',
   `last_update_time_` timestamp(3) NULL COMMENT '更新时间',
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统菜单表'$$
 
 -- ----------------------------
 -- 群组表
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `pw_id_group`  (
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='群组表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='群组表'$$
 
 -- ----------------------------
 -- 用户表
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `pw_id_user`   (
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表'$$
 
 
 -- ----------------------------
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `pw_id_user_group`  (
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与群组对应表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与群组对应表'$$
 
 -- ----------------------------
 -- 角色表
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `pw_id_role`    (
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表'$$
 
 -- ----------------------------
 -- 角色与菜单对应表
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `pw_id_role_menu`  (
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色与菜单对应表'$$
 
 -- ----------------------------
 -- 用户与角色对应表
@@ -132,5 +132,5 @@ CREATE TABLE IF NOT EXISTS `pw_id_user_role`  (
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
   `tenant_id_` varchar(255) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id_`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与角色对应表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户与角色对应表'$$
 

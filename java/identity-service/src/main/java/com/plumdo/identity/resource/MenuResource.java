@@ -40,10 +40,10 @@ public class MenuResource extends BaseResource {
 	@ResponseStatus(value = HttpStatus.OK)
 	public PageResponse<Menu> getMenus(@RequestParam Map<String, String> requestParams) {
 		Criteria<Menu> criteria = new Criteria<Menu>();
-		criteria.add(Restrictions.eq("id", requestParams.get("id"), true));
-		criteria.add(Restrictions.eq("parentId", requestParams.get("parentId"), true));
-		criteria.add(Restrictions.like("name", requestParams.get("name"), true));
-		criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId"), true));
+		criteria.add(Restrictions.eq("id", requestParams.get("id")));
+		criteria.add(Restrictions.eq("parentId", requestParams.get("parentId")));
+		criteria.add(Restrictions.like("name", requestParams.get("name")));
+		criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId")));
 		return createPageResponse(menuRepository.findAll(criteria, getPageable(requestParams)));
 	}
 
@@ -65,12 +65,12 @@ public class MenuResource extends BaseResource {
 	public Menu updateMenu(@PathVariable Integer id, @RequestBody Menu menuRequest) {
 		Menu menu = getMenuFromRequest(id);
 		menu.setName(menuRequest.getName());
-		menu.setCode(menuRequest.getCode());
+		menu.setStatus(menuRequest.getStatus());
 		menu.setIcon(menuRequest.getIcon());
 		menu.setOrder(menuRequest.getOrder());
 		menu.setParentId(menuRequest.getParentId());
 		menu.setType(menuRequest.getType());
-		menu.setUrl(menuRequest.getUrl());
+		menu.setRoute(menuRequest.getRoute());
 		menu.setRemark(menuRequest.getRemark());
 		menu.setTenantId(menuRequest.getTenantId());
 		return menuRepository.save(menu);

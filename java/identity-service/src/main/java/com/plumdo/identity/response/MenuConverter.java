@@ -60,7 +60,7 @@ public class MenuConverter {
 		ObjectMap objectMap = new ObjectMap();
 		objectMap.put("id", menu.getId());
 		objectMap.put("name", menu.getName());
-		objectMap.put("path", menu.getUrl());
+		objectMap.put("path", menu.getRoute());
 		objectMap.put("icon", menu.getIcon());
 		return objectMap;
 	}

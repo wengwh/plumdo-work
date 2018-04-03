@@ -14,26 +14,18 @@ import com.plumdo.common.domain.BaseEntity;
 @NamedQuery(name = "Menu.findAll", query = "SELECT m FROM Menu m")
 public class Menu extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-	private String code;
 	private String icon;
-	private String url;
+	private String route;
 	private String name;
 	private int order;
 	private int parentId;
 	private String remark;
 	private byte type;
+	private byte status;
 
 	public Menu() {
 	}
 
-	@Column(name = "code_", nullable = false, length = 64)
-	public String getCode() {
-		return this.code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
 
 	@Column(name = "icon_", nullable = false, length = 255)
 	public String getIcon() {
@@ -44,13 +36,13 @@ public class Menu extends BaseEntity {
 		this.icon = icon;
 	}
 
-	@Column(name = "url_", length = 255)
-	public String getUrl() {
-		return this.url;
+	@Column(name = "route_", length = 255)
+	public String getRoute() {
+		return this.route;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setRoute(String route) {
+		this.route = route;
 	}
 
 	@Column(name = "name_", nullable = false, length = 64)
@@ -98,4 +90,12 @@ public class Menu extends BaseEntity {
 		this.type = type;
 	}
 
+	@Column(name = "status_", nullable = false)
+	public byte getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
 }
