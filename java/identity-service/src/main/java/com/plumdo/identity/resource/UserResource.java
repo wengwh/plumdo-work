@@ -90,7 +90,7 @@ public class UserResource extends BaseResource {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<ObjectMap> getUserGroups(@RequestParam(required=false) Integer id) {
 		List<Group> roleGroups = null;
-		List<Group> allGroups = groupRepository.findByStatus(TableConstant.GROUP_STATUS_NORMAL);
+		List<Group> allGroups = groupRepository.findByStatusOrderByOrderAsc(TableConstant.GROUP_STATUS_NORMAL);
 		if(ObjectUtils.isNotEmpty(id)) {
 			roleGroups = groupRepository.findByUserId(id);
 		}

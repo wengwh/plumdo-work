@@ -240,15 +240,21 @@ gulp.task('client:build', ['views', 'styles', 'scriptInject'], function () {
   .pipe(gulp.dest(yeoman.dist));
 });
 
-gulp.task('images', function () {
+gulp.task('images', ['styles:images'], function () {
   return gulp.src(yeoman.app + '/images/**/*')
-    .pipe($.cache($.imagemin({
+   /* .pipe($.cache($.imagemin({
       optimizationLevel: 5,
       progressive: true,
       interlaced: true
-    })))
+    })))*/
     .pipe(gulp.dest(yeoman.dist + '/images'));
 });
+
+gulp.task('styles:images', function () {
+  return gulp.src(yeoman.app + '/bower_components/iCheck/skins/square/*.png')
+    .pipe(gulp.dest(yeoman.dist + '/styles'));
+});
+
 
 gulp.task('copy:extras', function () {
   return gulp.src(yeoman.app + '/*/.*', { dot: true })

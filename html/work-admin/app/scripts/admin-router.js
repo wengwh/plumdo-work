@@ -18,6 +18,9 @@
         templateUrl : 'views/main.html',
         controller : 'MainController',
         abstract : true
+      }).state('main.blank', {
+        url: '/blank',
+        template: '<h1 class="text-center"> 页面不存在 </h1>'
       }).state('main.home', {
         url: '/home',
         templateUrl: 'views/test.html'

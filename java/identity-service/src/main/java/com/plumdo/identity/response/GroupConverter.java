@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.plumdo.common.model.ObjectMap;
+import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.identity.constant.TableConstant;
 import com.plumdo.identity.domain.Group;
 
@@ -16,21 +17,28 @@ import com.plumdo.identity.domain.Group;
 public class GroupConverter {
 
 	public static List<ObjectMap> convertMultiSelect(List<Group> groups, List<Group> userGroups) {
-		return getChildren(TableConstant.GROUP_PARNET_ID, groups);
+		return getChildren(TableConstant.GROUP_PARNET_ID, groups, userGroups);
 	}
 
-	private static List<ObjectMap> getChildren(int parentId, List<Group> groups) {
+	private static List<ObjectMap> getChildren(int parentId, List<Group> groups, List<Group> userGroups) {
 		List<ObjectMap> groupList = new ArrayList<>();
 		for (Group child : groups) {
-			if(parentId==child.getParentId()) {
-				if(child.getType()==TableConstant.GROUP_TYPE_CHILD) {
-					groupList.add(ObjectMap.of("id", child.getId(), "name", child.getName(), "selected", false));
-				}else {
-					groupList.add(ObjectMap.of("id", child.getId(), "name", child.getName(), "group", true));
-					groupList.addAll(getChildren(child.getId(), groups));
-					groupList.add(ObjectMap.of("group", false));
+			if (parentId == child.getParentId()) {
+				if (child.getType() == TableConstant.GROUP_TYPE_CHILD) {
+					if (ObjectUtils.isNotEmpty(userGroups) && userGroups.contains(child)) {
+						groupList.add(ObjectMap.of("id", child.getId(), "name", child.getName(), "selected", true));
+					} else {
+						groupList.add(ObjectMap.of("id", child.getId(), "name", child.getName(), "selected", false));
+					}
+				} else {
+					List<ObjectMap> children = getChildren(child.getId(), groups, userGroups);
+					if (ObjectUtils.isNotEmpty(children)) {
+						groupList.add(ObjectMap.of("id", child.getId(), "name", child.getName(), "group", true));
+						groupList.addAll(children);
+						groupList.add(ObjectMap.of("group", false));
+					}
 				}
-				
+
 			}
 		}
 		return groupList;

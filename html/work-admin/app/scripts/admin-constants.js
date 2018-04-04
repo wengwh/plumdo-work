@@ -9,7 +9,7 @@
   angular.module('adminApp')
     .constant('contextRoot', {
     	formService:'http://119.29.96.227/form-service',
-    	identityService:'http://localhost:8088'
+    	identityService:'http://119.29.96.227/identity-service'
     })
     .constant('restUrl', {
     	formModels: '/form-models',

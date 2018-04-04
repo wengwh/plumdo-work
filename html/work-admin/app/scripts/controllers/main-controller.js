@@ -6,7 +6,7 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window','$uibModal', function($scope,$timeout,$window,$uibModal) {
+  angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window','$uibModal','$location','$q', function($scope,$timeout,$window,$uibModal,$location,$q) {
     $scope.authService = $scope.IdmService($scope.restUrl.auths);
     $scope.userName = $window.localStorage.userName;
     $scope.userAvatar = $window.localStorage.userAvatar;
@@ -85,21 +85,22 @@
         }
       });
 		};
-    
-    $scope.authService.get({
-      urlPath : '/menus',
-      params : {userId:$scope.userId}
-    }, function(response) {
-      $scope.menuItems = response;
-    });
-    
-    $scope.$on('$stateChangeSuccess', function(toState, toParams) {
-      var statePath = toParams.name;
+		
+		
+		$scope.setMenuTitle = function(statePath){
+		  if($window.localStorage.token == null || $window.localStorage.token == 'null' || $window.localStorage.token == ''){
+        $scope.$state.go('login');
+        return;
+		  }
+		  $scope.menuTitle = null;
       var pathArray = statePath.split('.');
+      console.info(statePath)
+      if(pathArray[0]!=='main'){
+        return;
+      }
       for (var index in $scope.menuItems) {
         var item = $scope.menuItems[index];
         if (item.path === pathArray[0]+'.'+pathArray[1]) {
-          $scope.menuTitle = item.name;
           if(item.children && item.children.length>0){
             for (var child in item.children) {
               var childItem = item.children[child];
@@ -108,10 +109,35 @@
                 break;
               }
             }
+          }else{
+            $scope.menuTitle = item.name;
           }
           break;
         }
       }
+      
+      if($scope.menuTitle == null){
+        $scope.$state.go('main.blank');
+      }
+      
+		};
+		
+		
+		var menusPromise = $scope.authService.get({
+      urlPath : '/menus',
+      params : {userId:$scope.userId}
+    }, function(response) {
+      $scope.menuItems = response;
+    });
+
+    $q.all([menusPromise]).then(function(results) {  
+      $scope.setMenuTitle($scope.$state.current.name);
+    });
+    
+    
+    
+    $scope.$on('$stateChangeSuccess', function(toState, toParams) {
+      $scope.setMenuTitle(toParams.name);
     });
     
     /*$scope.menuItems=[

@@ -22,17 +22,21 @@ public class MenuConverter {
 			if (menu.getType() == TableConstant.MENU_TYPE_CHILD) {
 				continue;
 			}
-			menuList.add(ObjectMap.of("id", menu.getId(), "name", menu.getName(), "group", true));
+			List<ObjectMap> children = new ArrayList<>();
 			for (Menu childMenu : menus) {
 				if (menu.getId().equals(childMenu.getParentId())) {
 					if(ObjectUtils.isNotEmpty(roleMenus) && roleMenus.contains(childMenu)) {
-						menuList.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(),"selected", true));
+						children.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(),"selected", true));
 					}else {
-						menuList.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(),"selected", false));
+						children.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(),"selected", false));
 					}
 				}
 			}
-			menuList.add(ObjectMap.of("group", false));
+			if(ObjectUtils.isNotEmpty(children)) {
+				menuList.add(ObjectMap.of("id", menu.getId(), "name", menu.getName(), "group", true));
+				menuList.addAll(children);
+				menuList.add(ObjectMap.of("group", false));
+			}
 		}
 		return menuList;
 	}

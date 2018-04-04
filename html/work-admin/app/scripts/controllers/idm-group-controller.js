@@ -8,7 +8,7 @@
 	'use strict';
 
 	angular.module('adminApp').controller('GroupController',
-		function($scope,$state,$stateParams) {
+		function($scope,$stateParams) {
 			$scope.groupService = $scope.IdmService($scope.restUrl.groups);
 			$scope.cacheParams = $stateParams.cacheParams || {};
 			$scope.parentGroup = $scope.cacheParams.parentGroup||{id:0};
@@ -73,13 +73,13 @@
 				$scope.cacheParams.queryParams={};
 				$scope.cacheParams.parentGroupArray.push($scope.cacheParams.parentGroup);
 				$scope.cacheParams.parentGroup=item;
-        $state.go('main.idm.group', {cacheParams: $scope.cacheParams},{reload:true});
+				$scope.$state.go('main.idm.group', {cacheParams: $scope.cacheParams},{reload:true});
 			};
 			
 			$scope.returnParent = function() {
 				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
 				$scope.cacheParams.parentGroup=$scope.cacheParams.parentGroupArray.pop();
-        $state.go('main.idm.group', {cacheParams: $scope.cacheParams},{reload:true});
+				$scope.$state.go('main.idm.group', {cacheParams: $scope.cacheParams},{reload:true});
 			};
 
 			$scope.queryGroupUser = function(id) {

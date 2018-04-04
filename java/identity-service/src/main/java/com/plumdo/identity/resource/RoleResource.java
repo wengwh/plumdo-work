@@ -79,7 +79,7 @@ public class RoleResource extends BaseResource {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<ObjectMap> getRoleMenus(@RequestParam(required = false) Integer id) {
 		List<Menu> roleMenus = null;
-		List<Menu> allMenus = menuRepository.findByStatus(TableConstant.MENU_STATUS_NORMAL);
+		List<Menu> allMenus = menuRepository.findByStatusOrderByOrderAsc(TableConstant.MENU_STATUS_NORMAL);
 		if (ObjectUtils.isNotEmpty(id)) {
 			roleMenus = menuRepository.findByRoleId(id);
 		}

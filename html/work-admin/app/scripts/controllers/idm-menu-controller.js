@@ -8,7 +8,7 @@
 	'use strict';
 
 	angular.module('adminApp').controller('MenuController',
-		function($scope,$state,$stateParams) {
+		function($scope,$stateParams) {
 			$scope.menuService = $scope.IdmService($scope.restUrl.menus);
 			$scope.cacheParams = $stateParams.cacheParams || {};
 			$scope.parentMenu = $scope.cacheParams.parentMenu||{id:0};
@@ -76,13 +76,13 @@
 				$scope.cacheParams.queryParamsArray.push($scope.queryParams);
 				$scope.cacheParams.queryParams={};
 				$scope.cacheParams.parentMenu=item;
-        $state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
+				$scope.$state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
 			};
 			
 			$scope.returnParent = function() {
 				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
 				$scope.cacheParams.parentMenu=null;
-        $state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
+				$scope.$state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
 			};
 			
 			$scope.queryMenuRole = function(id) {

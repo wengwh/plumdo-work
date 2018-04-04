@@ -60,7 +60,7 @@ public class AuthResource extends BaseResource {
 	@ResponseStatus(HttpStatus.OK)
 	public List<ObjectMap> getUserMenus(@RequestParam Integer userId) {
 		List<Menu> childMenus = menuRepository.findByUserId(userId);
-		List<Menu> parentMenus = menuRepository.findByTypeAndStatus(TableConstant.MENU_TYPE_PARENT, TableConstant.MENU_STATUS_NORMAL);
+		List<Menu> parentMenus = menuRepository.findByTypeAndStatusOrderByOrderAsc(TableConstant.MENU_TYPE_PARENT, TableConstant.MENU_STATUS_NORMAL);
 		return ConvertFactory.convertUserMenus(parentMenus, childMenus);
 	}
 
