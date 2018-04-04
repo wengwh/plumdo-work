@@ -9,20 +9,20 @@
 	angular.module('adminApp').controller('EditModalController',
 		function($scope, $uibModalInstance, id, service, complete, title, url, data) {
 			$scope.formUrl = url;
-			$scope.formdata = data || {};
+			$scope.formData = data || {};
 			if (id) {
 				$scope.modalTitle = "修改" + title;
 
 				service.get({
 					urlPath : '/' + id
 				}, function(data, status) {
-					$scope.formdata = angular.extend($scope.formdata, data);
+					$scope.formData = angular.extend($scope.formData, data);
 				});
 
 				$scope.ok = function() {
 					service.put({
 						urlPath : '/' + id,
-						data : $scope.formdata
+						data : $scope.formData
 					}, function(data, status) {
 						$uibModalInstance.close();
 						$scope.showSuccessMsg('修改' + title + '成功');
@@ -34,7 +34,7 @@
 				$scope.modalTitle = '添加' + title;
 				$scope.ok = function() {
 					service.post({
-						data : $scope.formdata
+						data : $scope.formData
 					}, function(data, status) {
 						$uibModalInstance.close();
 						$scope.showSuccessMsg('添加' + title + '成功');

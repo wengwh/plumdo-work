@@ -3,14 +3,27 @@
     <div class="col-md-12">
       <div class="card card-query">
         <div class="content">
-          <h4 class="title">菜单名称</h4>
-          <div class="input-group">
-            <input type="text" ng-if="!viewChild" ng-model="queryParams.name" class="form-control" placeholder="输入菜单名称">
-            <input type="text" ng-if="viewChild" ng-model="queryChildParams.name" class="form-control" placeholder="输入菜单名称">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-info" ng-click="queryMenu()">搜索</button>
-              <button type="button" class="btn btn-info" ng-click="editMenu()">创建</button>
-            </span>
+          <div class="row">
+            <div class="col-md-3">
+              <h4 class="title">菜单状态</h4>
+              <div class="form-group">
+                <select class="form-control" ng-model="queryParams.status">
+                  <option value="">全部</option>
+                  <option value="0">启用</option>
+                  <option value="1">停用</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <h4 class="title">菜单名称</h4>
+              <div class="input-group">
+                <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入菜单名称">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info" ng-click="queryMenu()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="editMenu()">创建</button>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -18,21 +31,15 @@
   </div>  
   <div class="row">
     <div class="col-md-12">
-      <div class="card" ng-show="!viewChild">
-       	<div class="content">
-          <table ng-table="tableOptions" class="table table-striped ng-table">
-		  </table>
-	 	</div>
-      </div>
-      <div class="card" ng-show="viewChild">
+      <div class="card">
         <div class="content">
-          <h4 class="title"> 
+          <h4 class="title" ng-show="parentMenu.id!=0"> 
             <a href="" ng-click="returnParent()">
               <span class="label label-success pull-left"><i class="fa fa-mail-reply"></i> 返回上级</span>
             </a>
             <span class="label label-info pull-right"><i class="fa fa-align-right"></i> 上级：{{parentMenu.name}}</span>
           </h4>
-          <table ng-table="childTableOptions" class="table table-striped ng-table">
+          <table ng-table="tableOptions" class="table table-striped ng-table">
           </table>
         </div>
       </div>
@@ -43,45 +50,45 @@
 
 
 <script type="text/ng-template" id="menu-edit.html">
-  <div class="form-group" ng-show="formdata.parentId!=0">
+  <div class="form-group" ng-show="formData.parentId!=0">
     <label class="control-label">父级</label> 
-  	<input type="text" readonly class="form-control" ng-model="formdata.parentName"></input>
+  	<input type="text" readonly class="form-control" ng-model="formData.parentName"></input>
   </div>
   <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
     <label class="control-label">名称</label> 
-  	<input type="text" class="form-control" name="name" ng-model="formdata.name" required></input>
+  	<input type="text" class="form-control" name="name" ng-model="formData.name" required></input>
   </div>
   <div class="form-group">
     <label class="control-label">路径</label> 
-    <input type="text" class="form-control" ng-model="formdata.route"></input>
+    <input type="text" class="form-control" ng-model="formData.route"></input>
   </div>
   <div class="form-group">
   	<label class="control-label">状态</label> 
 	<div>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="0" ng-checked="true" /> 启用
+			<input ng-icheck type="radio" ng-model="formData.status" ng-value="0" ng-checked="true" /> 启用
 		</label>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="1" /> 停用
+			<input ng-icheck type="radio" ng-model="formData.status" ng-value="1" /> 停用
 		</label>
 	</div>
   </div>
   <div class="form-group" ng-class="{'has-error':editForm.icon.$error.required}">
     <label class="control-label">图标</label> 
 	<div class="input-group">
-    <input type="text" class="form-control"  name="icon" ng-model="formdata.icon" readonly required>
+    <input type="text" class="form-control"  name="icon" ng-model="formData.icon" readonly required>
     <span class="input-group-btn">
-        <button class="btn btn-default" ng-iconpicker ng-model="formdata.icon" role="iconpicker"></button>
+        <button class="btn btn-default" ng-iconpicker ng-model="formData.icon" role="iconpicker"></button>
     </span>
 	</div>
   </div>
   <div class="form-group">
     <label class="control-label">排序</label> 
-    <input type="number" class="form-control" ng-model="formdata.order"></input>
+    <input type="number" class="form-control" ng-model="formData.order"></input>
   </div>
   <div class="form-group">
   	<label class="control-label">描述</label> 
-	<textarea class="form-control" ng-model="formdata.remark" rows="3"></textarea>
+	<textarea class="form-control" ng-model="formData.remark" rows="3"></textarea>
   </div>
 </script>
 

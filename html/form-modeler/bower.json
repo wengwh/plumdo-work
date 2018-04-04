@@ -55,6 +55,12 @@
         "css/bootstrap-datetimepicker.min.css",
         "js/locales/bootstrap-datetimepicker.zh-CN.js"
       ]
+    },
+    "angular-validator": {
+      "main": [
+        "dist/angular-validator.js",
+        "dist/angular-validator-rules.js"
+      ]
     }
   },
   "resolutions": {

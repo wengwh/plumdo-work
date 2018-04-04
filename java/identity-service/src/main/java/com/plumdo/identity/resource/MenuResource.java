@@ -1,6 +1,6 @@
 package com.plumdo.identity.resource;
 
-
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +19,28 @@ import com.plumdo.common.jpa.Criteria;
 import com.plumdo.common.jpa.Restrictions;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
+import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.identity.constant.ErrorConstant;
+import com.plumdo.identity.constant.TableConstant;
 import com.plumdo.identity.domain.Menu;
+import com.plumdo.identity.domain.Role;
 import com.plumdo.identity.repository.MenuRepository;
+import com.plumdo.identity.repository.RoleMenuRepository;
+import com.plumdo.identity.repository.RoleRepository;
 
 @RestController
 public class MenuResource extends BaseResource {
 	@Autowired
 	private MenuRepository menuRepository;
+	@Autowired
+	private RoleRepository roleRepository;
+	@Autowired
+	private RoleMenuRepository roleMenuRepository;
 
 	private Menu getMenuFromRequest(Integer id) {
 		Menu menu = menuRepository.findOne(id);
 		if (menu == null) {
-			exceptionFactory.throwDefinedException(ErrorConstant.OBJECT_NOT_FOUND);
+			exceptionFactory.throwObjectNotFound(ErrorConstant.MENU_NOT_FOUND);
 		}
 		return menu;
 	}
@@ -42,12 +51,12 @@ public class MenuResource extends BaseResource {
 		Criteria<Menu> criteria = new Criteria<Menu>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id")));
 		criteria.add(Restrictions.eq("parentId", requestParams.get("parentId")));
+		criteria.add(Restrictions.eq("status", requestParams.get("status")));
 		criteria.add(Restrictions.like("name", requestParams.get("name")));
 		criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId")));
 		return createPageResponse(menuRepository.findAll(criteria, getPageable(requestParams)));
 	}
 
-	
 	@GetMapping(value = "/menus/{id}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Menu getMenu(@PathVariable Integer id) {
@@ -76,10 +85,45 @@ public class MenuResource extends BaseResource {
 		return menuRepository.save(menu);
 	}
 
+	@PutMapping(value = "/menus/{id}/switch")
+	@ResponseStatus(value = HttpStatus.OK)
+	public Menu switchStatus(@PathVariable Integer id) {
+		Menu menu = getMenuFromRequest(id);
+		if (menu.getStatus() == TableConstant.MENU_STATUS_NORMAL) {
+			menu.setStatus(TableConstant.MENU_STATUS_STOP);
+		} else {
+			menu.setStatus(TableConstant.MENU_STATUS_NORMAL);
+		}
+		return menuRepository.save(menu);
+	}
+
+	@GetMapping(value = "/menus/{id}/roles")
+	@ResponseStatus(value = HttpStatus.OK)
+	public List<Role> getMenuRoles(@PathVariable Integer id) {
+		return roleRepository.findByMenuId(id);
+	}
+
+	@DeleteMapping(value = "/menus/{id}/roles/{roleId}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void deleteMenuRole(@PathVariable Integer id, @PathVariable(value = "roleId") Integer roleId) {
+		roleMenuRepository.deleteByMenuIdAndRoleId(id, roleId);
+	}
+
 	@DeleteMapping(value = "/menus/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteMenu(@PathVariable Integer id) {
 		Menu menu = getMenuFromRequest(id);
+		if (menu.getType() == TableConstant.MENU_TYPE_PARENT) {
+			List<Menu> children = menuRepository.findByParentId(menu.getId());
+			if (ObjectUtils.isNotEmpty(children)) {
+				exceptionFactory.throwForbidden(ErrorConstant.MENU_HAVE_CHILDREN);
+			}
+		} else {
+			List<Role> roles = roleRepository.findByMenuId(menu.getId());
+			if (ObjectUtils.isNotEmpty(roles)) {
+				exceptionFactory.throwForbidden(ErrorConstant.MENU_ALREADY_ROLE_USE, roles.get(0).getName());
+			}
+		}
 		menuRepository.delete(menu);
 	}
 }

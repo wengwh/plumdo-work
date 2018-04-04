@@ -1,6 +1,6 @@
 /**
  * 菜单控制器
- *
+ * 
  * @author wengwenhui
  * @date 2018年3月27日
  */
@@ -8,24 +8,19 @@
 	'use strict';
 
 	angular.module('adminApp').controller('MenuController',
-		function($scope) {
+		function($scope,$state,$stateParams) {
 			$scope.menuService = $scope.IdmService($scope.restUrl.menus);
+			$scope.cacheParams = $stateParams.cacheParams || {};
+			$scope.parentMenu = $scope.cacheParams.parentMenu||{id:0};
+			$scope.queryParams = $scope.cacheParams.queryParams||{};
+			$scope.queryParams.parentId = $scope.parentMenu.id;
 			$scope.queryResult = {};
-			$scope.queryParams = {};
-			$scope.queryChildResult = {};
-			$scope.queryChildParams = {};
-			$scope.parentMenu = {};
-			$scope.viewChild = false;
 			
 			$scope.queryMenu = function() {
 				$scope.menuService.get({
-					params : $scope.viewChild ? $scope.queryChildParams:$scope.queryParams
+					params : $scope.queryParams
 				}, function(response) {
-					if($scope.viewChild){
-						$scope.queryChildResult = response;
-					}else{
 						$scope.queryResult = response;
-					}
 				});
 			};
 
@@ -49,7 +44,7 @@
 				$scope.editModal({
 						id : id,
 						data : function() {
-							if($scope.viewChild){
+							if($scope.parentMenu.id!=0){
 								return {type:1, parentId:$scope.parentMenu.id, parentName:$scope.parentMenu.name};
 							}else{
 								return {type:0, parentId:0};
@@ -68,20 +63,31 @@
 				})
 			};
 			
+			$scope.switchStaus = function(id){
+				$scope.menuService.put({
+					urlPath : '/' + id +'/switch'
+				}, function() {
+					$scope.showSuccessMsg('修改状态成功');
+					$scope.queryMenu();
+				});
+			};
+			
 			$scope.queryChild = function(item) {
-				$scope.parentMenu = item;
-				$scope.viewChild = true;
-				$scope.queryChildParams.parentId = item.id;
-				$scope.queryChildParams.name = '';
-				$scope.queryChildParams.pageNum = 1;
-				$scope.queryMenu();
+				$scope.cacheParams.queryParamsArray.push($scope.queryParams);
+				$scope.cacheParams.queryParams={};
+				$scope.cacheParams.parentMenu=item;
+        $state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
 			};
 			
 			$scope.returnParent = function() {
-				$scope.parentMenu = {};
-				$scope.viewChild = false;
-				$scope.queryParams.parentId = 0;
-				$scope.queryMenu();
+				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
+				$scope.cacheParams.parentMenu=null;
+        $state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
+			};
+			
+			$scope.queryMenuRole = function(id) {
+				$scope.menuId = id;
+				$scope.tableModal('QueryMenuRoleController',$scope);
 			};
 			
 			$scope.tableOptions = {
@@ -89,28 +95,29 @@
 	  		data : 'queryResult',
 	  		colModels : [
 	  			{name:'名称',index:'name',sortable:true,width:'10%'},
-	  			{name:'路径',index:'route',sortable:true,width:'10%'},
+	  			{name:'路径',index:'route',sortable:true,width:'9%'},
 	  			{name:'图标',index:'icon',width:'7%',
 	  				formatter:function(){
 	  					return '<div class="th-icon"><span class="{{\'fa \'+row.icon}}"></span></div>';
 	  				}
 	  			},
-	  			{name:'状态',index:'status',sortable:true,width:'7%',
+	  			{name:'状态',index:'status',sortable:true,width:'11%',
 	  				formatter:function(){
-	  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'
-	  								+'<span class="label label-danger" ng-if="row.status==1">停用</span>'
+	  					return '<toggle-switch ng-init="switch=(row.status==0)" ng-model="switch" class="switch-small switch-info" '
+	  						+'on-label="启用" off-label="停用" on-change="switchStaus(row.id)"></toggle-switch>';
   					}
 	  			},
 	  			{name:'排序',index:'order',sortable:true,width:'7%'},
-	  			{name:'描述',index:'remark',width:'12%'},
 	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
 	  			{name:'操作',index:'',width:'15%',
 	  				formatter:function(){
 	  					return '<div class="th-btn-group">'
 		  					+'<button type="button" class="btn btn-xs btn-info" ng-click=editMenu(row.id)>'
 		  					+'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-click=queryChild(row)>'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-if="row.type==0" ng-click=queryChild(row)>'
 		  					+'<i class="fa fa-list"></i>&nbsp;下级</button>'
+		  					+'<button type="button" class="btn btn-xs btn-success" ng-if="row.type!=0" ng-click=queryMenuRole(row.id)>'
+		  					+'<i class="fa fa-list"></i>&nbsp;关联角色</button>'
 		  					+'<button type="button" class="btn btn-xs btn-danger" ng-click=deleteMenu(row.id)>'
 		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
 		  					+'</div>';
@@ -119,50 +126,56 @@
 	  		],
 	  		loadFunction : $scope.queryMenu,
 	  		queryParams : $scope.queryParams,
-	  		sortName : 'name',
+	  		sortName : 'order',
 	  		sortOrder : 'asc'
 	  	};
-			
-			
-		$scope.childTableOptions = {
-	  		id : 'childMenu',
-	  		data : 'queryChildResult',
-	  		colModels : [
-	  			{name:'名称',index:'name',sortable:true,width:'10%'},
-	  			{name:'编号',index:'code',sortable:true,width:'7%'},
-	  			{name:'路径',index:'route',sortable:true,width:'10%'},
-	  			{name:'图标',index:'icon',width:'7%',
-	  				formatter:function(){
-	  					return '<div class="th-icon"><span class="{{\'fa \'+row.icon}}"></span></div>';
-	  				}
-	  			},
-	  			{name:'状态',index:'status',sortable:true,width:'7%',
-	  				formatter:function(){
-	  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'
-	  								+'<span class="label label-danger" ng-if="row.status==1">停用</span>'
-  					}
-	  			},
-	  			{name:'排序',index:'order',sortable:true,width:'7%'},
-	  			{name:'描述',index:'remark',width:'12%'},
-	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
-	  			{name:'操作',index:'',width:'10%',
-	  				formatter:function(){
-	  					return '<div class="th-btn-group">'
-		  					+'<button type="button" class="btn btn-xs btn-info" ng-click=editMenu(row.id)>'
-		  					+'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'
-		  					+'<button type="button" class="btn btn-xs btn-danger" ng-click=deleteMenu(row.id)>'
-		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
-		  					+'</div>';
-	  				}
-	  			}
-	  		],
-	  		loadFunction : $scope.queryMenu,
-	  		queryParams : $scope.queryChildParams,
-	  		sortName : 'name',
-	  		sortOrder : 'asc'
-	  	};
-			
-		$scope.returnParent();
+
+			$scope.queryMenu();
 	});
+	
+	angular.module('adminApp').controller('QueryMenuRoleController',
+			function($scope) {
+				$scope.queryRoleResult = [];
+				$scope.tableOptions = {
+		  		id : 'menuRole',
+		  		data : 'queryRoleResult',
+		  		isPage : false,
+		  		colModels : [
+		  			{name:'名称',index:'name',width:'10%'},
+		  			{name:'状态',index:'status',width:'7%',
+		  				formatter:function(){
+		  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'
+		  								+'<span class="label label-danger" ng-if="row.status==1">停用</span>'
+	  					}
+		  			},
+		  			{name:'操作',index:'',width:'10%',
+		  				formatter:function(){
+		  					return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteMenuRole(row.id)>'
+			  					+'<i class="fa fa-trash-o"></i>&nbsp;删除关联</button>';
+		  				}
+		  			}
+		  		]
+		  	};
+
+				$scope.queryMenuRole = function() {
+					$scope.menuService.get({
+						urlPath : '/'+$scope.menuId+'/roles'
+					}, function(response) {
+						$scope.queryRoleResult = response;
+					});
+				};
+				
+				$scope.deleteMenuRole = function(userId) {
+					$scope.menuService.delete({
+						urlPath : '/'+$scope.menuId+'/roles/'+userId
+					}, function(response) {
+						$scope.showSuccessMsg('删除关联成功');
+						$scope.queryMenuRole();
+					});
+				};
+				
+				$scope.queryMenuRole();
+				
+			});
 
 })();

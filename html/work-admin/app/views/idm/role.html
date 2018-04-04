@@ -3,13 +3,27 @@
     <div class="col-md-12">
       <div class="card card-query">
         <div class="content">
-          <h4 class="title">角色名称</h4>
-          <div class="input-group">
-            <input type="text" ng-model="query.name" class="form-control" placeholder="输入角色名称">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-info" ng-click="queryRole()">搜索</button>
-              <button type="button" class="btn btn-info" ng-click="editRole()">创建</button>
-            </span>
+          <div class="row">
+            <div class="col-md-3">
+              <h4 class="title">角色状态</h4>
+              <div class="form-group">
+                <select class="form-control" ng-model="queryParams.status">
+                  <option value="">全部</option>
+                  <option value="0">启用</option>
+                  <option value="1">停用</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <h4 class="title">角色名称</h4>
+              <div class="input-group">
+                <input type="text" ng-model="query.name" class="form-control" placeholder="输入角色名称">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info" ng-click="queryRole()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="editRole()">创建</button>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -31,25 +45,37 @@
 <script type="text/ng-template" id="role-edit.html">
   <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
     <label class="control-label">名称</label> 
-  	<input type="text" placeholder="名称" class="form-control" name="name" ng-model="formdata.name" required></input>
+  	<input type="text" placeholder="名称" class="form-control" name="name" ng-model="formData.name" required></input>
   </div>
+
   <div class="form-group">
-  	<label class="control-label">备注</label> 
-	<textarea placeholder="备注" class="form-control" ng-model="formdata.remark" rows="3"></textarea>
+    <label class="control-label">状态</label> 
+	<div>
+      <label class="radio-inline"> 
+		<input ng-icheck type="radio" ng-model="formData.status" ng-value="0" ng-checked="true" /> 启用
+      </label>
+      <label class="radio-inline"> 
+		<input ng-icheck type="radio" ng-model="formData.status" ng-value="1" /> 停用
+	  </label>
+	</div>
   </div>
 
   <div class="form-group">
   	<label class="control-label">菜单权限</label> <br/>
     <isteven-multi-select    
-        input-model="formdata.menus"    
-        output-model="formdata.roleMenus"
+        input-model="formData.menus"    
+        output-model="formData.roleMenus"
         button-label="name"
-        item-label="name code"
+        item-label="name"
         tick-property="selected"
         orientation="horizontal"
         group-property="group"
         translation="multiSelectLang">
-   </isteven-multi-select>
+    </isteven-multi-select>
+  </div>
+
+  <div class="form-group">
+  	<label class="control-label">备注</label> 
+	<textarea placeholder="备注" class="form-control" ng-model="formData.remark" rows="3"></textarea>
   </div>
 </script>
-

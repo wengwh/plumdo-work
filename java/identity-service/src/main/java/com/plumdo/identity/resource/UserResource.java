@@ -23,6 +23,7 @@ import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.identity.constant.ErrorConstant;
+import com.plumdo.identity.constant.TableConstant;
 import com.plumdo.identity.domain.Group;
 import com.plumdo.identity.domain.Role;
 import com.plumdo.identity.domain.User;
@@ -51,7 +52,7 @@ public class UserResource extends BaseResource {
 	private User getUserFromRequest(Integer id) {
 		User user = userRepository.findOne(id);
 		if (user == null) {
-			exceptionFactory.throwDefinedException(ErrorConstant.OBJECT_NOT_FOUND);
+			exceptionFactory.throwObjectNotFound(ErrorConstant.USER_NOT_FOUND);
 		}
 		return user;
 	}
@@ -78,7 +79,7 @@ public class UserResource extends BaseResource {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<ObjectMap> getUserRoles(@RequestParam(required=false) Integer id) {
 		List<Role> roleRoles = null;
-		List<Role> allRoles = roleRepository.findAll();
+		List<Role> allRoles = roleRepository.findByStatus(TableConstant.ROLE_STATUS_NORMAL);
 		if(ObjectUtils.isNotEmpty(id)) {
 			roleRoles = roleRepository.findByUserId(id);
 		}
@@ -89,7 +90,7 @@ public class UserResource extends BaseResource {
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<ObjectMap> getUserGroups(@RequestParam(required=false) Integer id) {
 		List<Group> roleGroups = null;
-		List<Group> allGroups = groupRepository.findAll();
+		List<Group> allGroups = groupRepository.findByStatus(TableConstant.GROUP_STATUS_NORMAL);
 		if(ObjectUtils.isNotEmpty(id)) {
 			roleGroups = groupRepository.findByUserId(id);
 		}

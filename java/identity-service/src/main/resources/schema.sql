@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `pw_id_user_group`  (
 CREATE TABLE IF NOT EXISTS `pw_id_role`    (
   `id_` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name_` varchar(64) NOT NULL COMMENT '角色名称',
+  `status_` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '状态值0:正常 1:停用',
   `remark_` varchar(500) DEFAULT '' COMMENT '备注',
   `create_time_` timestamp(3) NULL COMMENT '创建时间',
   `last_update_time_` timestamp(3) NULL COMMENT '更新时间',

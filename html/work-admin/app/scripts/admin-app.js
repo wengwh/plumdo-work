@@ -7,7 +7,7 @@
 	'use strict';
 
 	angular.module(
-		'adminApp',[ 'ui.router', 'ui.router.state.events', 'ui.bootstrap', 'cgNotify', 'isteven-multi-select','perfect_scrollbar' ])
+		'adminApp',['ui.router', 'ui.router.state.events', 'ui.bootstrap', 'cgNotify', 'isteven-multi-select','toggle-switch','perfect_scrollbar' ])
 		.run(function($rootScope, notify, $state, $timeout, $uibModal, RestService, contextRoot, restUrl) {
 			$rootScope.contextRoot = contextRoot;
 			$rootScope.restUrl = restUrl;
@@ -76,7 +76,30 @@
 				});
 			};
 			
-
+			$rootScope.editConfirmModal = function (args) {
+				$uibModal.open({
+	        templateUrl: 'views/common/edit-modal.html',
+	        controller: function ($scope, $uibModalInstance) {
+	          $scope.modalTitle = angular.copy(args.title);
+	          $scope.formData = angular.copy(args.formData) || {};
+	          $scope.formUrl = angular.copy(args.formUrl);
+	          $scope.cancel = function () {
+	    				$uibModalInstance.dismiss('cancel');
+	          };
+	          $scope.ok = function () {
+	            args.confirm($scope.formData,$uibModalInstance);
+	          };
+	        }
+	      });
+	    };
+	    
+			$rootScope.tableModal = function(controller,scope) {
+				$uibModal.open({
+					templateUrl : 'views/common/table-modal.html',
+					controller : controller,
+					scope : scope
+				});
+			};
 			
 			$rootScope.multiSelectLang = {
 			    selectAll       : "全选",
@@ -87,13 +110,13 @@
 			}
 
 		}).filter('to_trusted', [ '$sce', function($sce) {
-		return function(text) {
-			return $sce.trustAsHtml(text);
-		}
-	} ]).config(['$qProvider', function ($qProvider) {
-	  if($qProvider.errorOnUnhandledRejections){
-	    $qProvider.errorOnUnhandledRejections(false);
-	  }
+			return function(text) {
+				return $sce.trustAsHtml(text);
+			}
+	}]).config(['$qProvider', function ($qProvider) {
+		  if($qProvider.errorOnUnhandledRejections){
+		    $qProvider.errorOnUnhandledRejections(false);
+		  }
 	}]);
 
 })();

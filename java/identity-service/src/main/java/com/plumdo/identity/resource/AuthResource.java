@@ -1,6 +1,5 @@
 package com.plumdo.identity.resource;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,51 +50,43 @@ public class AuthResource extends BaseResource {
 		if (user.getStatus() == TableConstant.USER_STATUS_STOP) {
 			exceptionFactory.throwForbidden(ErrorConstant.USER_ALREADY_STOP);
 		}
-		String token = Jwts.builder().setSubject(account)
-				.setIssuedAt(DateUtils.currentTimestamp())
-				.setExpiration(new Date(DateUtils.currentTimeMillis() + CoreConstant.LOGIN_USER_EXPIRE_IN))
-				.signWith(SignatureAlgorithm.HS256, CoreConstant.JWT_SECRET).compact();
+		String token = Jwts.builder().setSubject(account).setId(user.getId().toString()).setIssuedAt(DateUtils.currentTimestamp())
+				.setExpiration(new Date(DateUtils.currentTimeMillis() + CoreConstant.LOGIN_USER_EXPIRE_IN)).signWith(SignatureAlgorithm.HS256, CoreConstant.JWT_SECRET).compact();
 
 		return ConvertFactory.convertUseAuth(user, token);
 	}
 
-	
 	@GetMapping("/auths/menus")
 	@ResponseStatus(HttpStatus.OK)
-	public List<ObjectMap> getUserMenus() {
-		List<Menu>  childMenus = menuRepository.findByUserId(2);
-		List<Menu>  parentMenus = menuRepository.findByType(TableConstant.MENU_TYPE_PARENT);
+	public List<ObjectMap> getUserMenus(@RequestParam Integer userId) {
+		List<Menu> childMenus = menuRepository.findByUserId(userId);
+		List<Menu> parentMenus = menuRepository.findByTypeAndStatus(TableConstant.MENU_TYPE_PARENT, TableConstant.MENU_STATUS_NORMAL);
 		return ConvertFactory.convertUserMenus(parentMenus, childMenus);
 	}
 
-	
 	@PutMapping("/auths/password/change")
 	@ResponseStatus(HttpStatus.OK)
-	public User changePwd(@RequestBody ObjectMap loginRequest) {
-		String account = loginRequest.getAsString("account");
-		String pwd = loginRequest.getAsString("pwd");
-		User user = userRepository.findByAccount(account);
+	public User changePwd(@RequestBody ObjectMap changeRequest) {
+		String newPassword = changeRequest.getAsString("newPassword");
+		String confirmPassword = changeRequest.getAsString("confirmPassword");
+		String oldPassword = changeRequest.getAsString("oldPassword");
+		Integer userId = changeRequest.getAsInteger("userId");
+		if(!newPassword.equals(confirmPassword)) {
+			exceptionFactory.throwConflict(ErrorConstant.USER_PASSWORD_CONFIRM_ERROR);
+		}
+		
+		User user = userRepository.findOne(userId);
 		if (user == null) {
-			return null;
+			exceptionFactory.throwObjectNotFound(ErrorConstant.USER_NOT_FOUND);
 		}
-		if (user.getPwd().equals(pwd)) {
-			return user;
+		
+		if(!user.getPwd().equals(oldPassword)) {
+			exceptionFactory.throwConflict(ErrorConstant.USER_OLD_PASSWORD_WRONG);
 		}
-		return null;
+		
+		user.setPwd(newPassword);
+		
+		return userRepository.save(user);
 	}
 
-	@PutMapping("/auths/password/reset")
-	@ResponseStatus(HttpStatus.OK)
-	public User resetPwd(@RequestBody ObjectMap loginRequest) {
-		String account = loginRequest.getAsString("account");
-		String pwd = loginRequest.getAsString("pwd");
-		User user = userRepository.findByAccount(account);
-		if (user == null) {
-			return null;
-		}
-		if (user.getPwd().equals(pwd)) {
-			return user;
-		}
-		return null;
-	}
 }

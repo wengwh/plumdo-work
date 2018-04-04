@@ -6,10 +6,12 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window', function($scope,$timeout,$window) {
+  angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window','$uibModal', function($scope,$timeout,$window,$uibModal) {
     $scope.authService = $scope.IdmService($scope.restUrl.auths);
     $scope.userName = $window.localStorage.userName;
     $scope.userAvatar = $window.localStorage.userAvatar;
+    $scope.userId = $window.localStorage.userId;
+    $scope.menuTitle = null;
     
     $scope.sidebarBackground='black';
     $scope.switchSidebarBackground = function(color) {
@@ -63,11 +65,53 @@
     	$window.localStorage.token = null;
     	$scope.$state.go('login');
     };
-
+    
+    $scope.changePwd = function() {
+    	$scope.editConfirmModal({
+    		formUrl: 'change-password.html',
+        title: '修改密码',
+        confirm: function (formData,modalInstance) {
+        	if(formData.newPassword != formData.confirmPassword){
+        		$scope.showErrorMsg('新密码重复输入不一致')
+        	}else{
+        		$scope.authService.put({
+            	urlPath : '/password/change',
+              data: angular.extend(formData,{userId:$scope.userId})
+            }, function () {
+              $scope.showSuccessMsg('修改密码成功');
+              modalInstance.close();
+            });
+        	}
+        }
+      });
+		};
+    
     $scope.authService.get({
-      urlPath : '/menus'
+      urlPath : '/menus',
+      params : {userId:$scope.userId}
     }, function(response) {
       $scope.menuItems = response;
+    });
+    
+    $scope.$on('$stateChangeSuccess', function(toState, toParams) {
+      var statePath = toParams.name;
+      var pathArray = statePath.split('.');
+      for (var index in $scope.menuItems) {
+        var item = $scope.menuItems[index];
+        if (item.path === pathArray[0]+'.'+pathArray[1]) {
+          $scope.menuTitle = item.name;
+          if(item.children && item.children.length>0){
+            for (var child in item.children) {
+              var childItem = item.children[child];
+              if (childItem.path === statePath) {
+                $scope.menuTitle = childItem.name;
+                break;
+              }
+            }
+          }
+          break;
+        }
+      }
     });
     
     /*$scope.menuItems=[
@@ -108,27 +152,6 @@
         ]
       }
     ]*/
-
-    $scope.menuTitle = null;
-    $scope.$on('$stateChangeSuccess', function(toState, toParams) {
-      var statePath = toParams.name;
-      var pathArray = statePath.split('.');
-      for (var index in $scope.menuItems) {
-        var item = $scope.menuItems[index];
-        if (item.path === pathArray[0]+'.'+pathArray[1]) {
-          $scope.menuTitle = item.name;
-          if(item.children && item.children.length>0){
-            for (var child in item.children) {
-              var childItem = item.children[child];
-              if (childItem.path === statePath) {
-                $scope.menuTitle = childItem.name;
-                break;
-              }
-            }
-          }
-          break;
-        }
-      }
-    });
+ 
   }]);
 })();

@@ -29,7 +29,7 @@ public class RequestCrossFilter extends OncePerRequestFilter {
 		// Access-Control-Allow-Methods: 授权请求的方法（GET, POST, PUT, DELETE，OPTIONS等)
 		response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 
-		response.addHeader("Access-Control-Allow-Headers", "Content-Type, token");
+		response.addHeader("Access-Control-Allow-Headers", "Content-Type, Token, User-ID");
 
 		response.addHeader("Access-Control-Max-Age", "1800");// 30 min
 

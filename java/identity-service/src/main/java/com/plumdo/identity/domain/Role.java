@@ -4,23 +4,23 @@ import javax.persistence.*;
 
 import com.plumdo.common.domain.BaseEntity;
 
-
 /**
  * The persistent class for the pw_id_role database table.
  * 
  */
 @Entity
-@Table(name="pw_id_role", catalog="plumdo_identity")
-@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r")
+@Table(name = "pw_id_role", catalog = "plumdo_identity")
+@NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
 public class Role extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	private String name;
+	private byte status;
 	private String remark;
 
 	public Role() {
 	}
 
-	@Column(name="name_", nullable=false, length=64)
+	@Column(name = "name_", nullable = false, length = 64)
 	public String getName() {
 		return this.name;
 	}
@@ -29,8 +29,16 @@ public class Role extends BaseEntity {
 		this.name = name;
 	}
 
+	@Column(name = "status_", nullable = false)
+	public byte getStatus() {
+		return this.status;
+	}
 
-	@Column(name="remark_", length=500)
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+
+	@Column(name = "remark_", length = 500)
 	public String getRemark() {
 		return this.remark;
 	}

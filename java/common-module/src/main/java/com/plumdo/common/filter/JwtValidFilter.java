@@ -34,22 +34,28 @@ public class JwtValidFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		String token = request.getHeader("token");
-		if (ObjectUtils.isEmpty(token) || !token.startsWith("Bearer ")) {
+		String token = request.getHeader("Token");
+		String userId = request.getHeader("User-ID");
+		if (ObjectUtils.isEmpty(userId) ||ObjectUtils.isEmpty(token) || !token.startsWith("Bearer ")) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
-
-		Date expiration = null;
+		
 		try {
 			token = token.substring(7);
 			Claims claims = Jwts.parser().setSigningKey(CoreConstant.JWT_SECRET).parseClaimsJws(token).getBody();
-			expiration = claims.getExpiration();
+			
+			if(!userId.equals(claims.getId())) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				return;
+			}
+			
+			Date expiration = claims.getExpiration();
+			if (expiration != null && expiration.before(new Date())) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				return;
+			}
 		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
-		}
-		if (expiration != null && expiration.before(new Date())) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}

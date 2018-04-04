@@ -81,6 +81,11 @@
 				scope[tableId].queryParams = conf.queryParams || {};
 				scope[tableId].queryParams.sortName = conf.sortName || "";
 				scope[tableId].queryParams.sortOrder = conf.sortOrder || "desc";
+				if(conf.isPage==false){
+					scope[tableId].isPage = false;
+				}else{
+					scope[tableId].isPage = true;
+				}
 
 				var headThStr = '';
 				var bodyThStr = '';
@@ -105,15 +110,21 @@
 					}
 				}
 
+				var trHtml = null;
+				if(scope[tableId].isPage){
+					trHtml = '<tr ng-repeat="row in ' + conf.data + '.data ">' 
+				}else{
+					trHtml = '<tr ng-repeat="row in ' + conf.data +'">' 
+				}
+				
 				var tableHtml = '<thead><tr>' 
 					+ headThStr 
 					+ '</tr></thead>' 
-					+ '<tbody><tr ng-repeat="row in ' + conf.data + '.data ">' 
+					+ '<tbody>'
+					+ trHtml
 					+ bodyThStr 
 					+ '</tr></tbody>';
 				
-				var pageHtml = '<div ng-pagination ng-model="'+ conf.data +'.total" changed="'+ tableId +'.loadFunction" param="' + tableId + '.queryParams"></div>';
-
 				scope[tableId].sortChange = scope[tableId].sortChange || function(sortName) {
 					if (scope[tableId].queryParams.sortName != sortName) {
 						scope[tableId].queryParams.sortName = sortName;
@@ -129,7 +140,11 @@
 				};
 
 				element.html('').append($compile(tableHtml)(scope));
-				element.after($compile(pageHtml)(scope));
+				
+				if(scope[tableId].isPage){
+					var pageHtml = '<div ng-pagination ng-model="'+ conf.data +'.total" changed="'+ tableId +'.loadFunction" param="' + tableId + '.queryParams"></div>';
+					element.after($compile(pageHtml)(scope));
+				}
 			}
 		};
 	} ]).directive('ngIconpicker', ['$timeout',function ($timeout) {

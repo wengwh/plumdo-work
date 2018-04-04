@@ -79,6 +79,7 @@
       }).state('main.idm.menu', {
         url: '/menu',
         controller: 'MenuController',
+        params:{cacheParams:{queryParamsArray:[]}},
         templateUrl: 'views/idm/menu.html'
       }).state('main.idm.role', {
         url: '/role',
@@ -86,7 +87,7 @@
         templateUrl: 'views/idm/role.html'
       });
 
-      $urlRouterProvider.otherwise('/modeler/form');
+      $urlRouterProvider.otherwise('/home');
     });
 
 })();

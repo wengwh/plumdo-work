@@ -49,45 +49,45 @@
 
 
 <script type="text/ng-template" id="group-edit.html">
-  <div class="form-group" ng-show="formdata.parentId!=0">
+  <div class="form-group" ng-show="formData.parentId!=0">
     <label class="control-label">父级</label> 
-  	<input type="text" readonly class="form-control" ng-model="formdata.parentName"></input>
+  	<input type="text" readonly class="form-control" ng-model="formData.parentName"></input>
   </div>
   <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
     <label class="control-label">名称</label> 
-  	<input type="text" class="form-control" name="name" ng-model="formdata.name" required></input>
+  	<input type="text" class="form-control" name="name" ng-model="formData.name" required></input>
   </div>
   
   <div class="form-group">
   	<label class="control-label">类型</label> 
 	<div>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formdata.type" ng-value="0" ng-checked="true" /> 父级
+			<input ng-icheck type="radio" ng-model="formData.type" ng-value="0" ng-checked="true" /> 父级
 		</label>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formdata.type" ng-value="1" /> 子级
+			<input ng-icheck type="radio" ng-model="formData.type" ng-value="1" /> 子级
 		</label>
 	</div>
   </div>
 
   <div class="form-group">
     <label class="control-label">排序</label> 
-    <input type="number" class="form-control" ng-model="formdata.order"></input>
+    <input type="number" class="form-control" ng-model="formData.order"></input>
   </div>
   <div class="form-group">
   	<label class="control-label">状态</label> 
 	<div>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="0" ng-checked="true" /> 启用
+			<input ng-icheck type="radio" ng-model="formData.status" ng-value="0" ng-checked="true" /> 启用
 		</label>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formdata.status" ng-value="1" /> 停用
+			<input ng-icheck type="radio" ng-model="formData.status" ng-value="1" /> 停用
 		</label>
 	</div>
   </div>
   <div class="form-group">
   	<label class="control-label">描述</label> 
-	<textarea class="form-control" ng-model="formdata.remark" rows="3"></textarea>
+	<textarea class="form-control" ng-model="formData.remark" rows="3"></textarea>
   </div>
 </script>
 

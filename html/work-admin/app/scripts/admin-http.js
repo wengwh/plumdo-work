@@ -79,7 +79,7 @@
           params: conf.params,
           data: conf.data,
           responseType: conf.responseType,
-          headers: angular.extend(conf.headers||{},{'token':'Bearer ' + $window.localStorage.token})
+          headers: angular.extend(conf.headers||{},{'Token':'Bearer ' + $window.localStorage.token,'User-ID':$window.localStorage.userId})
         })
           .then(function successCallback(response) {
             callback(response.data);
