@@ -25,12 +25,12 @@
     
     $scope.changeNotMobileMenu = function(){
       $timeout(function() {
-        if($(window).width() > 991){
+        if(angular.element($window).width() > 991){
           $scope.isNotMobileMenu = false; 
         }else{
           $scope.isNotMobileMenu = true; 
         }
-        jQuery('.scroller').css('max-height',$(window).height()-75);
+        jQuery('.scroller').css('max-height',angular.element($window).height()-75);
       });
     };
     
@@ -46,9 +46,9 @@
     
     $scope.sidebarVisible = false;
     $scope.sidebarToggle= function(){
-      var toggleButton = document.getElementsByClassName('navbar-toggle')[0]
+      var toggleButton = document.getElementsByClassName('navbar-toggle')[0];
       var body = document.getElementsByTagName('body')[0];
-      if($scope.sidebarVisible == false){
+      if($scope.sidebarVisible === false){
         $timeout(function(){
             toggleButton.classList.add('toggled');
         },500);
@@ -71,8 +71,8 @@
     		formUrl: 'change-password.html',
         title: '修改密码',
         confirm: function (formData,modalInstance) {
-        	if(formData.newPassword != formData.confirmPassword){
-        		$scope.showErrorMsg('新密码重复输入不一致')
+        	if(formData.newPassword !== formData.confirmPassword){
+        		$scope.showErrorMsg('新密码重复输入不一致');
         	}else{
         		$scope.authService.put({
             	urlPath : '/password/change',
@@ -88,13 +88,12 @@
 		
 		
 		$scope.setMenuTitle = function(statePath){
-		  if($window.localStorage.token == null || $window.localStorage.token == 'null' || $window.localStorage.token == ''){
+		  if($window.localStorage.token === null || $window.localStorage.token === 'null' || $window.localStorage.token === ''){
         $scope.$state.go('login');
         return;
 		  }
 		  $scope.menuTitle = null;
       var pathArray = statePath.split('.');
-      console.info(statePath)
       if(pathArray[0]!=='main'){
         return;
       }
@@ -116,7 +115,7 @@
         }
       }
       
-      if($scope.menuTitle == null){
+      if($scope.menuTitle === null){
         $scope.$state.go('main.blank');
       }
       
@@ -130,7 +129,7 @@
       $scope.menuItems = response;
     });
 
-    $q.all([menusPromise]).then(function(results) {  
+    $q.all([menusPromise]).then(function() {  
       $scope.setMenuTitle($scope.$state.current.name);
     });
     

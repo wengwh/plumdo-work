@@ -44,7 +44,7 @@
 				$scope.editModal({
 						id : id,
 						data : function() {
-							if($scope.parentMenu.id!=0){
+							if($scope.parentMenu.id!==0){
 								return {type:1, parentId:$scope.parentMenu.id, parentName:$scope.parentMenu.name};
 							}else{
 								return {type:0, parentId:0};
@@ -60,7 +60,7 @@
 						complete : function() {
 							return $scope.queryMenu;
 						}
-				})
+				});
 			};
 			
 			$scope.switchStaus = function(id){
@@ -76,18 +76,32 @@
 				$scope.cacheParams.queryParamsArray.push($scope.queryParams);
 				$scope.cacheParams.queryParams={};
 				$scope.cacheParams.parentMenu=item;
-				$scope.$state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
+				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams},{reload:$scope.$state.current});
 			};
 			
 			$scope.returnParent = function() {
 				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
 				$scope.cacheParams.parentMenu=null;
-				$scope.$state.go('main.idm.menu', {cacheParams: $scope.cacheParams},{reload:true});
+				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams},{reload:$scope.$state.current});
 			};
 			
 			$scope.queryMenuRole = function(id) {
-				$scope.menuId = id;
-				$scope.tableModal('QueryMenuRoleController',$scope);
+				$scope.tableModal({
+					service : function(){
+						return $scope.IdmService($scope.restUrl.menus+'/'+id+'/roles');
+					},
+					colModels : function(){
+						return [
+							{name:'名称',index:'name'},
+							{name:'状态',index:'status',
+								formatter:function(){
+			  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
+	  								 '<span class="label label-danger" ng-if="row.status==1">停用</span>';
+	  						}
+							}
+						];
+					}
+				});
 			};
 			
 			$scope.tableOptions = {
@@ -103,24 +117,24 @@
 	  			},
 	  			{name:'状态',index:'status',sortable:true,width:'11%',
 	  				formatter:function(){
-	  					return '<toggle-switch ng-init="switch=(row.status==0)" ng-model="switch" class="switch-small switch-info" '
-	  						+'on-label="启用" off-label="停用" on-change="switchStaus(row.id)"></toggle-switch>';
+	  					return '<toggle-switch ng-init="switch=(row.status==0)" ng-model="switch" class="switch-small switch-info" '+
+  							'on-label="启用" off-label="停用" on-change="switchStaus(row.id)"></toggle-switch>';
   					}
 	  			},
 	  			{name:'排序',index:'order',sortable:true,width:'7%'},
 	  			{name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
 	  			{name:'操作',index:'',width:'15%',
 	  				formatter:function(){
-	  					return '<div class="th-btn-group">'
-		  					+'<button type="button" class="btn btn-xs btn-info" ng-click=editMenu(row.id)>'
-		  					+'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-if="row.type==0" ng-click=queryChild(row)>'
-		  					+'<i class="fa fa-list"></i>&nbsp;下级</button>'
-		  					+'<button type="button" class="btn btn-xs btn-success" ng-if="row.type!=0" ng-click=queryMenuRole(row.id)>'
-		  					+'<i class="fa fa-list"></i>&nbsp;关联角色</button>'
-		  					+'<button type="button" class="btn btn-xs btn-danger" ng-click=deleteMenu(row.id)>'
-		  					+'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'
-		  					+'</div>';
+	  					return '<div class="th-btn-group">'+
+		  					'<button type="button" class="btn btn-xs btn-info" ng-click=editMenu(row.id)>'+
+		  					'<i class="fa fa-pencil"></i>&nbsp;编辑</button>'+
+		  					'<button type="button" class="btn btn-xs btn-success" ng-if="row.type==0" ng-click=queryChild(row)>'+
+		  					'<i class="fa fa-list"></i>&nbsp;下级</button>'+
+		  					'<button type="button" class="btn btn-xs btn-success" ng-if="row.type!=0" ng-click=queryMenuRole(row.id)>'+
+		  					'<i class="fa fa-list"></i>&nbsp;关联角色</button>'+
+		  					'<button type="button" class="btn btn-xs btn-danger" ng-click=deleteMenu(row.id)>'+
+		  					'<i class="fa fa-trash-o"></i>&nbsp;删除</button>'+
+		  					'</div>';
 	  				}
 	  			}
 	  		],
@@ -132,50 +146,5 @@
 
 			$scope.queryMenu();
 	});
-	
-	angular.module('adminApp').controller('QueryMenuRoleController',
-			function($scope) {
-				$scope.queryRoleResult = [];
-				$scope.tableOptions = {
-		  		id : 'menuRole',
-		  		data : 'queryRoleResult',
-		  		isPage : false,
-		  		colModels : [
-		  			{name:'名称',index:'name',width:'10%'},
-		  			{name:'状态',index:'status',width:'7%',
-		  				formatter:function(){
-		  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'
-		  								+'<span class="label label-danger" ng-if="row.status==1">停用</span>'
-	  					}
-		  			},
-		  			{name:'操作',index:'',width:'10%',
-		  				formatter:function(){
-		  					return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteMenuRole(row.id)>'
-			  					+'<i class="fa fa-trash-o"></i>&nbsp;删除关联</button>';
-		  				}
-		  			}
-		  		]
-		  	};
-
-				$scope.queryMenuRole = function() {
-					$scope.menuService.get({
-						urlPath : '/'+$scope.menuId+'/roles'
-					}, function(response) {
-						$scope.queryRoleResult = response;
-					});
-				};
-				
-				$scope.deleteMenuRole = function(userId) {
-					$scope.menuService.delete({
-						urlPath : '/'+$scope.menuId+'/roles/'+userId
-					}, function(response) {
-						$scope.showSuccessMsg('删除关联成功');
-						$scope.queryMenuRole();
-					});
-				};
-				
-				$scope.queryMenuRole();
-				
-			});
 
 })();

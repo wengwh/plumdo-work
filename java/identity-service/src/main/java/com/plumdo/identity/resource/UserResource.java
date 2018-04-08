@@ -74,24 +74,24 @@ public class UserResource extends BaseResource {
 	public User getUser(@PathVariable Integer id) {
 		return getUserFromRequest(id);
 	}
-	
+
 	@GetMapping(value = "/users/roles")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<ObjectMap> getUserRoles(@RequestParam(required=false) Integer id) {
+	public List<ObjectMap> getUserRoles(@RequestParam(required = false) Integer id) {
 		List<Role> roleRoles = null;
 		List<Role> allRoles = roleRepository.findByStatus(TableConstant.ROLE_STATUS_NORMAL);
-		if(ObjectUtils.isNotEmpty(id)) {
+		if (ObjectUtils.isNotEmpty(id)) {
 			roleRoles = roleRepository.findByUserId(id);
 		}
 		return ConvertFactory.convertUseRoles(allRoles, roleRoles);
 	}
-	
+
 	@GetMapping(value = "/users/groups")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<ObjectMap> getUserGroups(@RequestParam(required=false) Integer id) {
+	public List<ObjectMap> getUserGroups(@RequestParam(required = false) Integer id) {
 		List<Group> roleGroups = null;
 		List<Group> allGroups = groupRepository.findByStatusOrderByOrderAsc(TableConstant.GROUP_STATUS_NORMAL);
-		if(ObjectUtils.isNotEmpty(id)) {
+		if (ObjectUtils.isNotEmpty(id)) {
 			roleGroups = groupRepository.findByUserId(id);
 		}
 		return ConvertFactory.convertUserGroups(allGroups, roleGroups);
@@ -101,7 +101,14 @@ public class UserResource extends BaseResource {
 	@ResponseStatus(HttpStatus.CREATED)
 	@Transactional
 	public User createUser(@RequestBody ObjectMap userRequest) {
-		return saveUserAndGroupAndRole(null,userRequest);
+		String account = userRequest.getAsString("account");
+		User user = userRepository.findByAccount(account);
+		logger.info("accountaccount:"+account);
+		logger.info("user:"+user);
+		if(user != null) {
+			exceptionFactory.throwConflict(ErrorConstant.USER_ACCOUNT_REPEAT);
+		}
+		return saveUserAndGroupAndRole(null, userRequest);
 	}
 
 	@PutMapping(value = "/users/{id}")
@@ -111,15 +118,15 @@ public class UserResource extends BaseResource {
 		User user = getUserFromRequest(id);
 		return saveUserAndGroupAndRole(user, userRequest);
 	}
-	
+
 	private User saveUserAndGroupAndRole(User user, ObjectMap userRequest) {
 		String phone = userRequest.getAsString("phone");
 		if (user == null) {
 			user = new User();
-			user.setPwd(phone.substring(phone.length()-6, phone.length()));
+			user.setPwd(phone.substring(phone.length() - 6, phone.length()));
+			user.setAccount(userRequest.getAsString("account"));
 		}
 		user.setName(userRequest.getAsString("name"));
-		user.setAccount(userRequest.getAsString("account"));
 		user.setSex(userRequest.getAsByte("sex"));
 		user.setAvatar("http://wx.qlogo.cn/mmopen/fsFT5ibPNuBiaZGWzb7yT0yFy0ibaTENudO3LTia7fn4ibSc3mlma5alTpUDw39tx8EuCMrVqjCF9rMicak7H5MQ2tQ7LQTNt6cicv1/0");
 		user.setEmail(userRequest.getAsString("email"));
@@ -137,7 +144,7 @@ public class UserResource extends BaseResource {
 			userRole.setUserId(user.getId());
 			userRoleRepository.save(userRole);
 		}
-		
+
 		userGroupRepository.deleteByUserId(user.getId());
 		List<ObjectMap> groups = userRequest.getAsList("userGroups");
 		for (ObjectMap group : groups) {
@@ -148,7 +155,7 @@ public class UserResource extends BaseResource {
 		}
 		return user;
 	}
-	
+
 	@DeleteMapping(value = "/users/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@Transactional

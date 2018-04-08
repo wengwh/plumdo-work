@@ -93,11 +93,11 @@
 	      });
 	    };
 	    
-			$rootScope.tableModal = function(controller,scope) {
+			$rootScope.tableModal = function(args) {
 				$uibModal.open({
-					templateUrl : 'views/common/table-modal.html',
-					controller : controller,
-					scope : scope
+					template : '<div class="modal-body"><table ng-table="tableOptions" class="table table-striped ng-table"></table></div>',
+					controller : 'TableModalController',
+					resolve : args
 				});
 			};
 			
@@ -107,12 +107,12 @@
 			    reset           : "重置",
 			    search          : "搜索",
 			    nothingSelected : "没有选项被选中" 
-			}
+			};
 
-		}).filter('to_trusted', [ '$sce', function($sce) {
+	}).filter('to_trusted', [ '$sce', function($sce) {
 			return function(text) {
 				return $sce.trustAsHtml(text);
-			}
+			};
 	}]).config(['$qProvider', function ($qProvider) {
 		  if($qProvider.errorOnUnhandledRejections){
 		    $qProvider.errorOnUnhandledRejections(false);

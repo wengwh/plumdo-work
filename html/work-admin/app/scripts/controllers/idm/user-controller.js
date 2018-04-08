@@ -27,7 +27,7 @@
   				if(isConfirm){
   					$scope.userService.delete({
   	          urlPath : '/' + id
-  	        }, function(data, status) {
+  	        }, function() {
   	          $scope.showSuccessMsg('删除用户成功');
   	          $scope.queryUser();
   	        });
@@ -52,7 +52,7 @@
 				data.groups = response;
 			});
 
-  		$q.all([rolesPromise,groupsPromise]).then(function(results) {  
+  		$q.all([rolesPromise,groupsPromise]).then(function() {  
   			$scope.editModal({
 					id : id,
 					data : function() {
@@ -68,15 +68,10 @@
 					complete : function() {
 						return $scope.queryUser;
 					}
-			})
+  			});
   		});
-		
 		};
     
     $scope.queryUser();
-    
-    
-  } );
-
-
+  });
 })();

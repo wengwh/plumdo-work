@@ -47,7 +47,7 @@
       require: 'ngModel',
       link: function($scope, element, $attrs, ngModel) {
       	return $timeout(function() {
-          $scope.$watch($attrs['ngModel'], function (newValue) {
+          $scope.$watch($attrs.ngModel, function () {
               $(element).iCheck('update');
           });
 
@@ -56,14 +56,14 @@
               radioClass: 'iradio_square-aero',
               increaseArea: '20%' 
           }).on('ifChanged', function (event) {
-              if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+              if ($(element).attr('type') === 'checkbox' && $attrs.ngModel) {
                   $scope.$apply(function () {
                       return ngModel.$setViewValue(event.target.checked);
                   });
               }
-              if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+              if ($(element).attr('type') === 'radio' && $attrs.ngModel) {
                   return $scope.$apply(function () {
-                      return ngModel.$setViewValue($attrs['value']);
+                      return ngModel.$setViewValue($attrs.value);
                   });
               }
           });
@@ -81,21 +81,35 @@
 				scope[tableId].queryParams = conf.queryParams || {};
 				scope[tableId].queryParams.sortName = conf.sortName || "";
 				scope[tableId].queryParams.sortOrder = conf.sortOrder || "desc";
-				if(conf.isPage==false){
+				if(conf.isPage === false){
 					scope[tableId].isPage = false;
 				}else{
 					scope[tableId].isPage = true;
 				}
 
+				scope[tableId].sortChange = scope[tableId].sortChange || function(sortName) {
+					if (scope[tableId].queryParams.sortName !== sortName) {
+						scope[tableId].queryParams.sortName = sortName;
+						scope[tableId].queryParams.sortOrder = "desc";
+					} else {
+						if (scope[tableId].queryParams.sortOrder === "desc") {
+							scope[tableId].queryParams.sortOrder = "asc";
+						} else {
+							scope[tableId].queryParams.sortOrder = "desc";
+						}
+					}
+					scope[tableId].loadFunction();
+				};
+				
 				var headThStr = '';
 				var bodyThStr = '';
 				for (var i in conf.colModels) {
 					var sortHtml = '';
 					if (conf.colModels[i].sortable) {
-						sortHtml = 'ng-class="{\'sorting\':' + tableId + '.queryParams.sortName!=\'' + conf.colModels[i].index + '\',' 
-						+ '\'sorting_asc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'asc\',' 
-						+ '\'sorting_desc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'desc\'}" ' 
-						+ 'ng-click="' + tableId + '.sortChange(\'' + conf.colModels[i].index + '\')"';
+						sortHtml = 'ng-class="{\'sorting\':' + tableId + '.queryParams.sortName!=\'' + conf.colModels[i].index + '\',' +
+						 '\'sorting_asc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'asc\',' +
+						 '\'sorting_desc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'desc\'}" '+ 
+						 'ng-click="' + tableId + '.sortChange(\'' + conf.colModels[i].index + '\')"';
 					}
 					var widthHtml = '';
 					if (conf.colModels[i].width) {
@@ -112,33 +126,13 @@
 
 				var trHtml = null;
 				if(scope[tableId].isPage){
-					trHtml = '<tr ng-repeat="row in ' + conf.data + '.data ">' 
+					trHtml = '<tr ng-repeat="row in ' + conf.data + '.data ">';
 				}else{
-					trHtml = '<tr ng-repeat="row in ' + conf.data +'">' 
+					trHtml = '<tr ng-repeat="row in ' + conf.data +'">';
 				}
 				
-				var tableHtml = '<thead><tr>' 
-					+ headThStr 
-					+ '</tr></thead>' 
-					+ '<tbody>'
-					+ trHtml
-					+ bodyThStr 
-					+ '</tr></tbody>';
+				var tableHtml = '<thead><tr>' + headThStr + '</tr></thead><tbody>'+ trHtml+ bodyThStr + '</tr></tbody>';
 				
-				scope[tableId].sortChange = scope[tableId].sortChange || function(sortName) {
-					if (scope[tableId].queryParams.sortName != sortName) {
-						scope[tableId].queryParams.sortName = sortName;
-						scope[tableId].queryParams.sortOrder = "desc";
-					} else {
-						if (scope[tableId].queryParams.sortOrder == "desc") {
-							scope[tableId].queryParams.sortOrder = "asc";
-						} else {
-							scope[tableId].queryParams.sortOrder = "desc";
-						}
-					}
-					scope[tableId].loadFunction();
-				};
-
 				element.html('').append($compile(tableHtml)(scope));
 				
 				if(scope[tableId].isPage){

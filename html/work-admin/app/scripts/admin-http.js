@@ -31,8 +31,7 @@
       'responseError': function (rejection) {
         // 请求发生了错误，如果能从错误中恢复，可以返回一个新的响应或promise
         console.info('response error- rejection:' + rejection);
-      	console.info(rejection)
-        if(rejection.status==401){
+        if(rejection.status === 401){
 					$window.localStorage.token = null;
 					$rootScope.$state.go('login');
 					$rootScope.hideProgress('用户校验过期',true);
@@ -71,7 +70,7 @@
             angular.extend(conf.responseType||{}, this.defaultConf.responseType);
           }
         }
-        console.info(this.url + (conf.urlPath || ''))
+        console.info(this.url + (conf.urlPath || ''));
         var defer = $q.defer();
         return $http({
           method: method,

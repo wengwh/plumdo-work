@@ -15,7 +15,7 @@
 
 				service.get({
 					urlPath : '/' + id
-				}, function(data, status) {
+				}, function(data) {
 					$scope.formData = angular.extend($scope.formData, data);
 				});
 
@@ -23,7 +23,7 @@
 					service.put({
 						urlPath : '/' + id,
 						data : $scope.formData
-					}, function(data, status) {
+					}, function() {
 						$uibModalInstance.close();
 						$scope.showSuccessMsg('修改' + title + '成功');
 						complete();
@@ -35,7 +35,7 @@
 				$scope.ok = function() {
 					service.post({
 						data : $scope.formData
-					}, function(data, status) {
+					}, function() {
 						$uibModalInstance.close();
 						$scope.showSuccessMsg('添加' + title + '成功');
 						complete();

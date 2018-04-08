@@ -9,7 +9,7 @@
   angular.module('adminApp')
     .constant('contextRoot', {
     	formService:'http://119.29.96.227/form-service',
-    	identityService:'http://119.29.96.227/identity-service'
+    	identityService:'http://localhost:8088'
     })
     .constant('restUrl', {
     	formModels: '/form-models',
@@ -19,10 +19,10 @@
     	roles: '/roles',
     	menus: '/menus',
 	    formDesgin : function(modelId) {
-	      return 'http://119.29.96.227/form-modeler/#/design?modelId=' + modelId 
+	      return 'http://119.29.96.227/form-modeler/#/design?modelId=' + modelId;
 	    },
 	    formPreview : function(modelId) {
-	      return 'http://119.29.96.227/form-modeler/#/watch?modelId=' + modelId 
+	      return 'http://119.29.96.227/form-modeler/#/watch?modelId=' + modelId;
 	    }
   });
 

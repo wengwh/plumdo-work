@@ -67,7 +67,7 @@
 <script type="text/ng-template" id="user-edit.html">
   <div class="form-group" ng-class="{'has-error':editForm.account.$error.required}">
     <label class="control-label">登录账户(默认密码电话后6位)</label> 
-    <input type="text" placeholder="登录账户" class="form-control" name="account" ng-model="formData.account" required></input>
+    <input type="text" placeholder="登录账户" class="form-control" name="account" ng-model="formData.account" required ng-readonly="formData.id"></input>
   </div>
   <div class="form-group" ng-class="{'has-error':editForm.phone.$error.required||editForm.phone.$error.minlength}">
     <label class="control-label">电话</label> 

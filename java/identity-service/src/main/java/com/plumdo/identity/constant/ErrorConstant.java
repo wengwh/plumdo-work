@@ -10,9 +10,10 @@ package com.plumdo.identity.constant;
 public class ErrorConstant {
 	public static final String OBJECT_NOT_FOUND = "1001";
 	
-	public static final String USER_NOT_FOUND = "2003";
+	public static final String USER_NOT_FOUND = "2001";
+	public static final String USER_ACCOUNT_REPEAT = "2002";
+	public static final String USER_ALREADY_STOP = "2003";
 	public static final String USER_PWD_NOT_MATCH = "2004";
-	public static final String USER_ALREADY_STOP = "2005";
 	public static final String USER_PASSWORD_CONFIRM_ERROR = "2006";
 	public static final String USER_OLD_PASSWORD_WRONG = "2007";
 	

@@ -13,8 +13,7 @@
     $scope.user.password='123456';
     $scope.authService = $scope.IdmService($scope.restUrl.auths);
 
-    if(!($window.localStorage.token == null || $window.localStorage.token == 'null'
-        || $window.localStorage.token == '')){
+    if(!($window.localStorage.token === null || $window.localStorage.token === 'null' || $window.localStorage.token === '')){
         $scope.$state.go('main.home');
     }
     
