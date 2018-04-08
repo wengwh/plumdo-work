@@ -21,13 +21,7 @@ spring:
   jackson:
     time-zone : GMT+8
     date-format : yyyy-MM-dd HH:mm:ss
-    
-restClient:
-  connectionTimeout: 15000
-  readTimeout: 15000
-  connectionRequestTimeout: 200
-  maxTotal: 30
-  maxPerRoute: 15
+
    
 server:
   port: 8088

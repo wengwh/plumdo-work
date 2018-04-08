@@ -47,7 +47,7 @@ public class ModelResource extends BaseModelResource {
 		allowedSortProperties.put("tenantId", ModelQueryProperty.MODEL_TENANT_ID);
 	}
 
-	@RequestMapping(value = "/model", method = RequestMethod.GET, produces = "application/json", name="模型查询")
+	@RequestMapping(value = "/models", method = RequestMethod.GET, produces = "application/json", name="模型查询")
 	public DataResponse getModels(@RequestParam Map<String, String> allRequestParams) {
 		ModelQuery modelQuery = repositoryService.createModelQuery();
 
@@ -95,13 +95,13 @@ public class ModelResource extends BaseModelResource {
 		}
 		return new ModelsPaginateList(restResponseFactory).paginateList(allRequestParams, modelQuery, "id", allowedSortProperties);
 	}
-	@RequestMapping(value = "/model/{modelId}", method = RequestMethod.GET, produces = "application/json", name="根据ID模型查询")
+	@RequestMapping(value = "/models/{modelId}", method = RequestMethod.GET, produces = "application/json", name="根据ID模型查询")
 	public ModelResponse getModel(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);
 		return restResponseFactory.createModelResponse(model);
 	}
 	
-	@RequestMapping(value = "/model", method = RequestMethod.POST, produces = "application/json", name="模型创建")
+	@RequestMapping(value = "/models", method = RequestMethod.POST, produces = "application/json", name="模型创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public ModelResponse createModel(@RequestBody ModelRequest modelRequest){
@@ -142,7 +142,7 @@ public class ModelResource extends BaseModelResource {
 		return restResponseFactory.createModelResponse(model);
 	}
 
-	@RequestMapping(value = "/model/{modelId}", method = RequestMethod.PUT, produces = "application/json", name="模型修改")
+	@RequestMapping(value = "/models/{modelId}", method = RequestMethod.PUT, produces = "application/json", name="模型修改")
 	public ModelResponse updateModel(@PathVariable String modelId,@RequestBody ModelRequest modelRequest) {
 		Model model = getModelFromRequest(modelId);
 
@@ -175,7 +175,7 @@ public class ModelResource extends BaseModelResource {
 		return restResponseFactory.createModelResponse(model);
 	}
 
-	@RequestMapping(value = "/model/{modelId}", method = RequestMethod.DELETE, name="模型删除")
+	@RequestMapping(value = "/models/{modelId}", method = RequestMethod.DELETE, name="模型删除")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteModel(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);

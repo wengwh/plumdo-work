@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class ModelXmlResource extends BaseModelResource{
 	
-	@RequestMapping(value = "/model/{modelId}/xml", method = RequestMethod.GET, name="获取模型XML")
+	@RequestMapping(value = "/models/{modelId}/xml", method = RequestMethod.GET, name="获取模型XML")
 	public ResponseEntity<byte[]> getModelXml(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);
 		try {

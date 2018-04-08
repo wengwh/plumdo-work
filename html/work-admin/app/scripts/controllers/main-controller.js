@@ -7,7 +7,7 @@
   'use strict';
 
   angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window','$uibModal','$location','$q', function($scope,$timeout,$window,$uibModal,$location,$q) {
-    $scope.authService = $scope.IdmService($scope.restUrl.auths);
+    $scope.authService = $scope.IdmService($scope.restUrl.idmAuths);
     $scope.userName = $window.localStorage.userName;
     $scope.userAvatar = $window.localStorage.userAvatar;
     $scope.userId = $window.localStorage.userId;

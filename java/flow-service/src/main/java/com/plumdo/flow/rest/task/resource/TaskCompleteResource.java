@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
-import org.flowable.engine.impl.identity.Authentication;
-import org.flowable.engine.task.DelegationState;
-import org.flowable.engine.task.Task;
+import org.flowable.engine.common.impl.identity.Authentication;
+import org.flowable.task.api.DelegationState;
+import org.flowable.task.api.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;

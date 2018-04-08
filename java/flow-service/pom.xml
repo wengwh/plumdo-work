@@ -12,10 +12,15 @@
 	</parent>
 
 	<properties>
-		<flowable.version>6.0.1</flowable.version>
+		<flowable.version>6.3.0</flowable.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.plumdo</groupId>
+			<artifactId>common-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.flowable</groupId>
 			<artifactId>flowable-spring-boot-starter-basic</artifactId>

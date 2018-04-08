@@ -9,7 +9,7 @@
 
 	angular.module('adminApp').controller('GroupController',
 		function($scope,$stateParams) {
-			$scope.groupService = $scope.IdmService($scope.restUrl.groups);
+			$scope.groupService = $scope.IdmService($scope.restUrl.idmGroups);
 			$scope.cacheParams = $stateParams.cacheParams || {};
 			$scope.parentGroup = $scope.cacheParams.parentGroup||{id:0};
 			$scope.queryParams = $scope.cacheParams.queryParams||{};
@@ -85,7 +85,7 @@
 			$scope.queryGroupUser = function(id) {
 				$scope.tableModal({
 					service : function(){
-						return $scope.IdmService($scope.restUrl.groups+'/'+id+'/users');
+						return $scope.IdmService($scope.restUrl.idmGroups+'/'+id+'/users');
 					},
 					colModels : function(){
 						return [

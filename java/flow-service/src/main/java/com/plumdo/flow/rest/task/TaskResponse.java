@@ -2,7 +2,8 @@ package com.plumdo.flow.rest.task;
 
 import java.util.Date;
 
-import org.flowable.engine.task.DelegationState;
+import org.flowable.task.api.DelegationState;
+
 
 public class TaskResponse {
 	protected String id;

@@ -24,7 +24,7 @@ public class ModelDeployResource extends BaseModelResource{
 	@Autowired
 	private ManagementService managementService;
 	
-	@RequestMapping(value = "/model/{modelId}/deploy", method = RequestMethod.POST, produces = "application/json", name="模型部署")
+	@RequestMapping(value = "/models/{modelId}/deploy", method = RequestMethod.POST, produces = "application/json", name="模型部署")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public ProcessDefinitionResponse deployModel(@PathVariable String modelId) {

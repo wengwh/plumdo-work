@@ -82,7 +82,7 @@ public class ModelRequest {
 		this.clearDeployId = clearDeployId;
 		clearDeployChanged = true;
 	}
-	
+
 	@JsonIgnore
 	public boolean isCategoryChanged() {
 		return categoryChanged;

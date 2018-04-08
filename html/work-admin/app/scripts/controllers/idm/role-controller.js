@@ -9,8 +9,8 @@
 
 	angular.module('adminApp').controller('RoleController',
 		function($scope,$q) {
-			$scope.roleService = $scope.IdmService($scope.restUrl.roles);
-			$scope.menuService = $scope.IdmService($scope.restUrl.menus);
+			$scope.roleService = $scope.IdmService($scope.restUrl.idmRoles);
+			$scope.menuService = $scope.IdmService($scope.restUrl.idmMenus);
 			$scope.queryResult = {};
 			$scope.queryParams = {};
 
@@ -79,7 +79,7 @@
 			$scope.queryRoleUser = function(id) {
 				$scope.tableModal({
 					service : function(){
-						return $scope.IdmService($scope.restUrl.roles+'/'+id+'/users');
+						return $scope.IdmService($scope.restUrl.idmRoles+'/'+id+'/users');
 					},
 					colModels : function(){
 						return [

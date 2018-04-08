@@ -8,7 +8,7 @@
 
   angular.module('adminApp').controller('UserController', 
   		function($scope, $q) {
-    $scope.userService = $scope.IdmService($scope.restUrl.users);
+    $scope.userService = $scope.IdmService($scope.restUrl.idmUsers);
 		$scope.queryResult = {};
 		$scope.queryParams = {};
 

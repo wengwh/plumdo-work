@@ -6,7 +6,7 @@ import java.util.Map;
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.common.api.query.Query;
 import org.flowable.engine.common.api.query.QueryProperty;
-import org.flowable.engine.impl.AbstractQuery;
+import org.flowable.engine.common.impl.AbstractQuery;
 
 public abstract class AbstractPaginateList {
 

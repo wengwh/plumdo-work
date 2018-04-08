@@ -9,8 +9,9 @@ import org.flowable.editor.language.json.converter.BpmnJsonConverter;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.common.api.FlowableException;
 import org.flowable.engine.common.api.FlowableObjectNotFoundException;
-import org.flowable.engine.impl.interceptor.Command;
-import org.flowable.engine.impl.interceptor.CommandContext;
+import org.flowable.engine.common.impl.interceptor.Command;
+import org.flowable.engine.common.impl.interceptor.CommandContext;
+import org.flowable.engine.impl.util.CommandContextUtil;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.DeploymentBuilder;
 import org.flowable.engine.repository.Model;
@@ -35,13 +36,14 @@ public class DeployModelCmd implements Command<Deployment>, Serializable  {
 	
 	public Deployment execute(CommandContext commandContext) {
 		Deployment deployment = null;
-    	RepositoryService repositoryService = commandContext.getProcessEngineConfiguration().getRepositoryService();
+		
+		RepositoryService repositoryService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getRepositoryService();
     	Model model = repositoryService.getModel(modelId);
     	if(model == null) {
     		throw new FlowableObjectNotFoundException("Could not find a model with id '" + modelId + "'.",Model.class);
  	    }
     	
-	    byte[] editorSource =  commandContext.getModelEntityManager().findEditorSourceByModelId(modelId);
+	    byte[] editorSource =  CommandContextUtil.getProcessEngineConfiguration(commandContext).getModelEntityManager().findEditorSourceByModelId(modelId);
 	    if(editorSource == null) {
 	      throw new FlowableObjectNotFoundException("Model with id '" + modelId + "' does not have source available.", String.class);
 	    }

@@ -3,8 +3,7 @@ package com.plumdo.flow.rest.task.resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.flowable.engine.history.HistoricTaskInstance;
-import org.flowable.engine.task.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

@@ -9,7 +9,7 @@
 
 	angular.module('adminApp').controller('MenuController',
 		function($scope,$stateParams) {
-			$scope.menuService = $scope.IdmService($scope.restUrl.menus);
+			$scope.menuService = $scope.IdmService($scope.restUrl.idmMenus);
 			$scope.cacheParams = $stateParams.cacheParams || {};
 			$scope.parentMenu = $scope.cacheParams.parentMenu||{id:0};
 			$scope.queryParams = $scope.cacheParams.queryParams||{};
@@ -88,7 +88,7 @@
 			$scope.queryMenuRole = function(id) {
 				$scope.tableModal({
 					service : function(){
-						return $scope.IdmService($scope.restUrl.menus+'/'+id+'/roles');
+						return $scope.IdmService($scope.restUrl.idmMenus+'/'+id+'/roles');
 					},
 					colModels : function(){
 						return [

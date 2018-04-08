@@ -27,7 +27,7 @@ BEGIN
 		VALUES(user_id_, role_id_,0,now(),now()); 
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
-		VALUES('人员权限管理', 'fa-slideshare', '0', '0',1 , 'main.idm', 0, now(),now()); 
+		VALUES('人员权限管理', 'fa-slideshare', '0', '0', 1 , 'main.idm', 0, now(),now()); 
 		SELECT LAST_INSERT_ID() into menu_id_;
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
@@ -41,6 +41,17 @@ BEGIN
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
 		VALUES('角色管理', 'fa-address-card', '1', menu_id_ , 4 , 'main.idm.role', 0, now(),now()); 
+		
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
+		VALUES('设计器管理', 'fa-modx', '0', '0', 2 , 'main.modeler', 0, now(),now()); 
+		SELECT LAST_INSERT_ID() into menu_id_;
+		
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
+		VALUES('表单设计器', 'fa-wpforms', '1', menu_id_ , 1 , 'main.modeler.form', 0, now(),now()); 
+		
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
+		VALUES('表单设计器', 'fa-sitemap', '1', menu_id_ , 2 , 'main.modeler.flow', 0, now(),now()); 
+		
 		
 		OPEN menu_cur;  
 		read_loop: LOOP

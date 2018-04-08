@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.flowable.engine.common.api.query.QueryProperty;
-import org.flowable.engine.impl.HistoricTaskInstanceQueryProperty;
-import org.flowable.engine.task.Task;
-import org.flowable.engine.task.TaskQuery;
+import org.flowable.task.api.TaskQuery;
+import org.flowable.task.service.impl.HistoricTaskInstanceQueryProperty;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

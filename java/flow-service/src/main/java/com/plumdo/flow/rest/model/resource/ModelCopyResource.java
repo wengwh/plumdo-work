@@ -19,7 +19,7 @@ import com.plumdo.flow.rest.model.ModelResponse;
 @RestController
 public class ModelCopyResource extends BaseModelResource {
 
-	@RequestMapping(value = "/model/{modelId}/copy", method = RequestMethod.POST, produces = "application/json", name="模型复制")
+	@RequestMapping(value = "/models/{modelId}/copy", method = RequestMethod.POST, produces = "application/json", name="模型复制")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public ModelResponse copyModel(@PathVariable String modelId,@RequestBody(required=false) ModelRequest modelRequest) {
