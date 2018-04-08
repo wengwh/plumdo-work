@@ -12,9 +12,9 @@
 	<appender name="rollFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_FILE_PATH}/info/${LOG_FILE_NAME}.log</file>
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">   
-      		<level>INFO</level>   
-    	</filter>   
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
 			<fileNamePattern>${LOG_FILE_PATH}/info/${LOG_FILE_NAME}.log.%i
 			</fileNamePattern>
@@ -31,15 +31,21 @@
 			<charset class="java.nio.charset.Charset">${CHARSET}</charset>
 		</encoder>
 	</appender>
-	
-	<appender name="debugFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+	<appender name="debugFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${LOG_FILE_PATH}/debug/${LOG_FILE_NAME}.log</file>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>TRACE</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>NEUTRAL</onMismatch>
+		</filter>
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>DEBUG</level>
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
-		
+
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
 			<fileNamePattern>${LOG_FILE_PATH}/debug/${LOG_FILE_NAME}.log.%i
 			</fileNamePattern>
@@ -57,13 +63,13 @@
 		</encoder>
 	</appender>
 
-	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>${PATTERN}</pattern>
-			<charset class="java.nio.charset.Charset">${CHARSET}</charset>
-		</encoder>
-	</appender>
+	<logger name="org.hibernate.SQL" level="debug" additivity="false">
+		<appender-ref ref="debugFile" />
+	</logger>
 
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" additivity="false">
+		<appender-ref ref="debugFile" />
+	</logger>
 
 	<logger name="com.plumdo" level="debug" additivity="false">
 		<appender-ref ref="rollFile" />
@@ -72,7 +78,6 @@
 
 	<root level="warn">
 		<appender-ref ref="rollFile" />
-		<appender-ref ref="console" />
 	</root>
 
 </configuration>

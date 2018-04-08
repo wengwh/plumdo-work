@@ -1,11 +1,10 @@
 package com.plumdo.identity.response;
 
-
 import com.plumdo.common.model.ObjectMap;
 import com.plumdo.identity.domain.User;
 
 /**
- * TODO
+ * 人员数据转换类
  *
  * @author wengwenhui
  * @date 2018年3月28日
@@ -20,7 +19,5 @@ public class UserConverter {
 		result.put("token", token);
 		return result;
 	}
-
-	
 
 }

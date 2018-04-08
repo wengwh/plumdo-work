@@ -9,7 +9,7 @@ import com.plumdo.identity.constant.TableConstant;
 import com.plumdo.identity.domain.Group;
 
 /**
- * TODO
+ * 群组数据转换类
  *
  * @author wengwenhui
  * @date 2018年3月28日

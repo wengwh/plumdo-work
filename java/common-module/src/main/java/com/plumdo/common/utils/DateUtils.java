@@ -5,6 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 时间工具类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 public class DateUtils {
 	public static final String FORMAT_DATE = "yyyy-MM-dd";
 	public static final String FORMAT_TIME = "HH:mm:ss";
@@ -192,7 +198,7 @@ public class DateUtils {
 		now.setTime(date);
 		return now.get(Calendar.YEAR);
 	}
-	
+
 	public static Date getYesterdayOutWeek() {
 		if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) != 2) {
 			return newDateByDay(getCurrentDay(), -1);

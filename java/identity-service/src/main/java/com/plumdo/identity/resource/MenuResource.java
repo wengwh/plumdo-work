@@ -28,6 +28,12 @@ import com.plumdo.identity.repository.MenuRepository;
 import com.plumdo.identity.repository.RoleMenuRepository;
 import com.plumdo.identity.repository.RoleRepository;
 
+/**
+ * 菜单资源控制类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 @RestController
 public class MenuResource extends BaseResource {
 	@Autowired

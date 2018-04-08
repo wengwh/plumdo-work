@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 
 import com.plumdo.common.constant.CoreConstant;
+import com.plumdo.common.model.ErrorInfo;
 
 /**
  * 异常工厂类

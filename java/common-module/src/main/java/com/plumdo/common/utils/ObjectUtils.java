@@ -11,12 +11,11 @@ import java.util.Map;
 
 import com.plumdo.common.model.ObjectMap;
 
-
 /**
  * Object转换类，都给予默认值
- * 
- * @author wengwenhui
  *
+ * @author wengwenhui
+ * @date 2018年4月8日
  */
 public class ObjectUtils {
 
@@ -119,7 +118,7 @@ public class ObjectUtils {
 	public static Short convertToShort(Object obj) {
 		return convertToShort(obj, (short) 0);
 	}
-	
+
 	public static Byte convertToByte(Object obj, Byte defaultVal) {
 		try {
 			return (obj != null) ? Byte.parseByte(convertToString(obj)) : defaultVal;

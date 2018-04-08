@@ -1,6 +1,5 @@
 package com.plumdo.identity.repository;
 
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.plumdo.common.repository.BaseRepository;
@@ -12,5 +11,5 @@ public interface UserRoleRepository extends BaseRepository<UserRole, Integer> {
 
 	@Transactional
 	int deleteByRoleIdAndUserId(int roleId, int userId);
-	
+
 }

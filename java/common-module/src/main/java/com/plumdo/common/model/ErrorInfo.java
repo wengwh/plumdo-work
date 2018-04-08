@@ -1,8 +1,12 @@
-package com.plumdo.common.exception;
+package com.plumdo.common.model;
 
-
+/**
+ * 错误返回类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 public class ErrorInfo {
-
 	private String ret;
 	private String msg;
 

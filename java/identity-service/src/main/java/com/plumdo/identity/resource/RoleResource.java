@@ -37,6 +37,12 @@ import com.plumdo.identity.repository.UserRepository;
 import com.plumdo.identity.repository.UserRoleRepository;
 import com.plumdo.identity.response.ConvertFactory;
 
+/**
+ * 角色资源控制类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 @RestController
 public class RoleResource extends BaseResource {
 	@Autowired

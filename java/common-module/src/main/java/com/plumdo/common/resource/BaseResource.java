@@ -16,6 +16,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plumdo.common.exception.ExceptionFactory;
 import com.plumdo.common.utils.ObjectUtils;
 
+/**
+ * 资源基类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 public abstract class BaseResource {
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired

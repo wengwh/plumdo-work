@@ -36,6 +36,12 @@ import com.plumdo.identity.repository.UserRepository;
 import com.plumdo.identity.repository.UserRoleRepository;
 import com.plumdo.identity.response.ConvertFactory;
 
+/**
+ * 人员资源控制类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 @RestController
 public class UserResource extends BaseResource {
 	@Autowired
@@ -103,9 +109,9 @@ public class UserResource extends BaseResource {
 	public User createUser(@RequestBody ObjectMap userRequest) {
 		String account = userRequest.getAsString("account");
 		User user = userRepository.findByAccount(account);
-		logger.info("accountaccount:"+account);
-		logger.info("user:"+user);
-		if(user != null) {
+		logger.info("accountaccount:" + account);
+		logger.info("user:" + user);
+		if (user != null) {
 			exceptionFactory.throwConflict(ErrorConstant.USER_ACCOUNT_REPEAT);
 		}
 		return saveUserAndGroupAndRole(null, userRequest);

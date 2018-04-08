@@ -9,14 +9,14 @@ import com.plumdo.identity.constant.TableConstant;
 import com.plumdo.identity.domain.Menu;
 
 /**
- * TODO
+ * 菜单数据转换类
  *
  * @author wengwenhui
  * @date 2018年3月28日
  */
 public class MenuConverter {
 
-	public static List<ObjectMap> convertMultiSelect(List<Menu> menus,List<Menu> roleMenus) {
+	public static List<ObjectMap> convertMultiSelect(List<Menu> menus, List<Menu> roleMenus) {
 		List<ObjectMap> menuList = new ArrayList<>();
 		for (Menu menu : menus) {
 			if (menu.getType() == TableConstant.MENU_TYPE_CHILD) {
@@ -25,14 +25,14 @@ public class MenuConverter {
 			List<ObjectMap> children = new ArrayList<>();
 			for (Menu childMenu : menus) {
 				if (menu.getId().equals(childMenu.getParentId())) {
-					if(ObjectUtils.isNotEmpty(roleMenus) && roleMenus.contains(childMenu)) {
-						children.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(),"selected", true));
-					}else {
-						children.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(),"selected", false));
+					if (ObjectUtils.isNotEmpty(roleMenus) && roleMenus.contains(childMenu)) {
+						children.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(), "selected", true));
+					} else {
+						children.add(ObjectMap.of("id", childMenu.getId(), "name", childMenu.getName(), "selected", false));
 					}
 				}
 			}
-			if(ObjectUtils.isNotEmpty(children)) {
+			if (ObjectUtils.isNotEmpty(children)) {
 				menuList.add(ObjectMap.of("id", menu.getId(), "name", menu.getName(), "group", true));
 				menuList.addAll(children);
 				menuList.add(ObjectMap.of("group", false));
@@ -40,9 +40,8 @@ public class MenuConverter {
 		}
 		return menuList;
 	}
-	
-	
-	public static List<ObjectMap> convertUserMenus(List<Menu> parentMenus,List<Menu> childMenus) {
+
+	public static List<ObjectMap> convertUserMenus(List<Menu> parentMenus, List<Menu> childMenus) {
 		List<ObjectMap> menuList = new ArrayList<>();
 		for (Menu menu : parentMenus) {
 			List<ObjectMap> childList = new ArrayList<>();
@@ -51,7 +50,7 @@ public class MenuConverter {
 					childList.add(convertMenuMap(childMenu));
 				}
 			}
-			if(ObjectUtils.isNotEmpty(childList)) {
+			if (ObjectUtils.isNotEmpty(childList)) {
 				ObjectMap menuMap = convertMenuMap(menu);
 				menuMap.put("children", childList);
 				menuList.add(menuMap);
@@ -59,7 +58,7 @@ public class MenuConverter {
 		}
 		return menuList;
 	}
-	
+
 	private static ObjectMap convertMenuMap(Menu menu) {
 		ObjectMap objectMap = new ObjectMap();
 		objectMap.put("id", menu.getId());

@@ -1,6 +1,5 @@
 package com.plumdo.identity.resource;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +28,12 @@ import com.plumdo.identity.repository.GroupRepository;
 import com.plumdo.identity.repository.UserGroupRepository;
 import com.plumdo.identity.repository.UserRepository;
 
+/**
+ * 群组资源控制类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 @RestController
 public class GroupResource extends BaseResource {
 	@Autowired
@@ -36,7 +41,7 @@ public class GroupResource extends BaseResource {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private UserGroupRepository userGroupRepository; 
+	private UserGroupRepository userGroupRepository;
 
 	private Group getGroupFromRequest(Integer id) {
 		Group group = groupRepository.findOne(id);
@@ -83,7 +88,7 @@ public class GroupResource extends BaseResource {
 		group.setTenantId(groupRequest.getTenantId());
 		return groupRepository.save(group);
 	}
-	
+
 	@PutMapping(value = "/groups/{id}/switch")
 	@ResponseStatus(value = HttpStatus.OK)
 	public Group switchStatus(@PathVariable Integer id) {
@@ -107,20 +112,20 @@ public class GroupResource extends BaseResource {
 	public void deleteGroupUser(@PathVariable Integer id, @PathVariable(value = "userId") Integer userId) {
 		userGroupRepository.deleteByGroupIdAndUserId(id, userId);
 	}
-	
+
 	@DeleteMapping(value = "/groups/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteGroup(@PathVariable Integer id) {
 		Group group = getGroupFromRequest(id);
-		if(group.getType() == TableConstant.GROUP_TYPE_PARENT) {
+		if (group.getType() == TableConstant.GROUP_TYPE_PARENT) {
 			List<Group> children = groupRepository.findByParentId(group.getId());
 			if (ObjectUtils.isNotEmpty(children)) {
 				exceptionFactory.throwForbidden(ErrorConstant.GROUP_HAVE_CHILDREN);
 			}
-		}else {
+		} else {
 			List<User> users = userRepository.findByGroupId(group.getId());
 			if (ObjectUtils.isNotEmpty(users)) {
-				exceptionFactory.throwForbidden(ErrorConstant.Group_ALREADY_USER_USE,users.get(0).getName());
+				exceptionFactory.throwForbidden(ErrorConstant.Group_ALREADY_USER_USE, users.get(0).getName());
 			}
 		}
 		groupRepository.delete(group);

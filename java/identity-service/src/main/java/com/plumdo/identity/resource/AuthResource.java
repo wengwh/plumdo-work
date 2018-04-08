@@ -28,6 +28,12 @@ import com.plumdo.identity.response.ConvertFactory;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/**
+ * 授权控制类
+ *
+ * @author wengwenhui
+ * @date 2018年4月8日
+ */
 @RestController
 public class AuthResource extends BaseResource {
 	@Autowired
@@ -71,21 +77,21 @@ public class AuthResource extends BaseResource {
 		String confirmPassword = changeRequest.getAsString("confirmPassword");
 		String oldPassword = changeRequest.getAsString("oldPassword");
 		Integer userId = changeRequest.getAsInteger("userId");
-		if(!newPassword.equals(confirmPassword)) {
+		if (!newPassword.equals(confirmPassword)) {
 			exceptionFactory.throwConflict(ErrorConstant.USER_PASSWORD_CONFIRM_ERROR);
 		}
-		
+
 		User user = userRepository.findOne(userId);
 		if (user == null) {
 			exceptionFactory.throwObjectNotFound(ErrorConstant.USER_NOT_FOUND);
 		}
-		
-		if(!user.getPwd().equals(oldPassword)) {
+
+		if (!user.getPwd().equals(oldPassword)) {
 			exceptionFactory.throwConflict(ErrorConstant.USER_OLD_PASSWORD_WRONG);
 		}
-		
+
 		user.setPwd(newPassword);
-		
+
 		return userRepository.save(user);
 	}
 

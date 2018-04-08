@@ -12,9 +12,9 @@ import com.plumdo.common.utils.ObjectUtils;
 
 /**
  * 转换map
- * 
- * @author wengwenhui
  *
+ * @author wengwenhui
+ * @date 2018年4月8日
  */
 public class ObjectMap extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
