@@ -53,7 +53,7 @@ public class MenuResource extends BaseResource {
 
 	@GetMapping(value = "/menus")
 	@ResponseStatus(value = HttpStatus.OK)
-	public PageResponse<Menu> getMenus(@RequestParam Map<String, String> requestParams) {
+	public PageResponse getMenus(@RequestParam Map<String, String> requestParams) {
 		Criteria<Menu> criteria = new Criteria<Menu>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id")));
 		criteria.add(Restrictions.eq("parentId", requestParams.get("parentId")));

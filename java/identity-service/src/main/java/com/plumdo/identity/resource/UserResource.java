@@ -65,7 +65,7 @@ public class UserResource extends BaseResource {
 
 	@GetMapping(value = "/users")
 	@ResponseStatus(value = HttpStatus.OK)
-	public PageResponse<User> getUsers(@RequestParam Map<String, String> requestParams) {
+	public PageResponse getUsers(@RequestParam Map<String, String> requestParams) {
 		Criteria<User> criteria = new Criteria<User>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id")));
 		criteria.add(Restrictions.like("phone", requestParams.get("phone")));

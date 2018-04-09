@@ -63,3 +63,193 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 
 
  
+.image-thumbnails {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.image-thumbnails > li {
+  float: left;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #999;
+  background-color: #ffffff;
+}
+.image-thumbnails > li > :first-child {
+  display: block;
+  position: relative;
+}
+.image-thumbnails > li > :first-child:focus {
+  outline: none;
+}
+.image-thumbnails > li img {
+	width: 300px;
+	height: 150px;
+	
+}
+.image-thumbnails > li .tags {
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  overflow: visible;
+  direction: rtl;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  width: auto;
+  background-color: transparent;
+  border-width: 0;
+  vertical-align: inherit;
+}
+.image-thumbnails > li .tags > .label-holder {
+  opacity: 0.92;
+  filter: alpha(opacity=92);
+  display: table;
+  margin: 1px 0 0 0;
+  direction: ltr;
+  text-align: left;
+}
+.image-thumbnails > li .tags > .label-holder:hover {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.image-thumbnails > li > .tools {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -30px;
+  width: 24px;
+  background-color: rgba(0, 0, 0, 0.55);
+  text-align: center;
+  vertical-align: middle;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.image-thumbnails > li > .tools.tools-right {
+  left: auto;
+  right: -30px;
+}
+.image-thumbnails > li > .tools.tools-bottom {
+  width: auto;
+  height: 28px;
+  left: 0;
+  right: 0;
+  top: auto;
+  bottom: -30px;
+}
+.image-thumbnails > li > .tools.tools-top {
+  width: auto;
+  height: 28px;
+  left: 0;
+  right: 0;
+  top: -30px;
+  bottom: auto;
+}
+.image-thumbnails > li:hover > .tools {
+  left: 0;
+  right: 0;
+}
+.image-thumbnails > li:hover > .tools.tools-bottom {
+  top: auto;
+  bottom: 0;
+}
+.image-thumbnails > li:hover > .tools.tools-top {
+  bottom: auto;
+  top: 0;
+}
+.image-thumbnails > li:hover > .tools.tools-right {
+  left: auto;
+  right: 0;
+}
+.image-thumbnails > li > .in.tools {
+  left: 0;
+  right: 0;
+}
+.image-thumbnails > li > .in.tools.tools-bottom {
+  top: auto;
+  bottom: 0;
+}
+.image-thumbnails > li > .in.tools.tools-top {
+  bottom: auto;
+  top: 0;
+}
+.image-thumbnails > li > .in.tools.tools-right {
+  left: auto;
+  right: 0;
+}
+.image-thumbnails > li > .tools > a,
+.image-thumbnails > li > :first-child .inner a {
+  display: inline-block;
+  color: #FFF;
+  font-size: 18px;
+  font-weight: normal;
+  padding: 0 4px;
+}
+.image-thumbnails > li > .tools > a:hover,
+.image-thumbnails > li > :first-child .inner a:hover {
+  text-decoration: none;
+  color: #C9E2EA;
+}
+.image-thumbnails > li .tools.tools-bottom > a,
+.image-thumbnails > li .tools.tools-top > a {
+  display: inline-block;
+}
+.image-thumbnails > li > :first-child > .text {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  text-align: center;
+  color: #FFF;
+  background-color: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.image-thumbnails > li > :first-child > .text:before {
+  /* makes the inner text become vertically centered*/
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: 0;
+  /* Adjusts for spacing */
+}
+.image-thumbnails > li > :first-child > .text > .inner {
+  padding: 4px 0;
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 90%;
+}
+.image-thumbnails > li:hover > :first-child > .text {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+@media only screen and (max-width: 480px) {
+  .image-thumbnails {
+    text-align: center;
+  }
+  .image-thumbnails > li {
+    float: none;
+    display: inline-block;
+  }
+}
+
+.card .content hr{
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+
+.right-split {
+	padding-right: 5px;
+	border-right: 1px solid #a4acb9;
+	margin-right: 5px;
+}

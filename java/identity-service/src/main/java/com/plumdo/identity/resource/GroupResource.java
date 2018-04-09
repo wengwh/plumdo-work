@@ -53,7 +53,7 @@ public class GroupResource extends BaseResource {
 
 	@GetMapping(value = "/groups")
 	@ResponseStatus(value = HttpStatus.OK)
-	public PageResponse<Group> getGroups(@RequestParam Map<String, String> requestParams) {
+	public PageResponse getGroups(@RequestParam Map<String, String> requestParams) {
 		Criteria<Group> criteria = new Criteria<Group>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id")));
 		criteria.add(Restrictions.eq("status", requestParams.get("status")));

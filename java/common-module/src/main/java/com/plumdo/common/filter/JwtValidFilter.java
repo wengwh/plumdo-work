@@ -30,7 +30,9 @@ public class JwtValidFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		if (CoreConstant.JWT_AUTH_EXCLUDE_URL.equals(request.getRequestURI()) || request.getMethod().equals("OPTIONS")) {
+		
+		if (CoreConstant.JWT_AUTH_EXCLUDE_URL.equals(request.getRequestURI()) ||
+				!CoreConstant.JWT_AUTH_EXCLUDE_URL.equals(request.getRequestURI()) || request.getMethod().equals("OPTIONS")) {
 			filterChain.doFilter(request, response);
 			return;
 		}

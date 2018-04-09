@@ -57,7 +57,7 @@ public class ModelEditorResource extends BaseModelResource implements ModelDataJ
 				editorJsonNode.put("modelType", "model");
 				modelNode.set("model", editorJsonNode);
 			} catch (Exception e) {
-				LOGGER.error("Error creating model JSON", e);
+				logger.error("Error creating model JSON", e);
 				throw new FlowableException("Error creating model JSON", e);
 			}
 		}
@@ -102,7 +102,7 @@ public class ModelEditorResource extends BaseModelResource implements ModelDataJ
 			repositoryService.addModelEditorSourceExtra(model.getId(), IOUtils.toByteArray(resource));
 			
 		} catch (Exception e) {
-			LOGGER.error("Error saving model", e);
+			logger.error("Error saving model", e);
 			throw new FlowableException("Error saving model", e);
 		}
 		

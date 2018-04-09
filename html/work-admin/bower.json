@@ -14,7 +14,8 @@
     "iCheck": "jquery-icheck#^1.0.2",
     "bootstrap-iconpicker": "^1.9.0",
     "isteven-angular-multiselect": "angular-multi-select#^4.0.0",
-    "angular-bootstrap-toggle-switch": "^0.5.6"
+    "angular-bootstrap-toggle-switch": "^0.5.6",
+    "jquery-colorbox": "colorbox#^1.6.4"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.11"

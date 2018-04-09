@@ -59,7 +59,8 @@
         templateUrl: 'views/test2.html'
       }).state('main.modeler.flow', {
         url: '/flow',
-        templateUrl: 'views/test2.html'
+        controller: 'FlowController',
+        templateUrl: 'views/modeler/flow.html'
       }).state('main.modeler.report', {
         url: '/report',
         templateUrl: 'views/test2.html'

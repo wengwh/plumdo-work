@@ -66,7 +66,7 @@ public class RoleResource extends BaseResource {
 
 	@GetMapping(value = "/roles")
 	@ResponseStatus(value = HttpStatus.OK)
-	public PageResponse<Role> getRoles(@ApiIgnore @RequestParam Map<String, String> requestParams) {
+	public PageResponse getRoles(@ApiIgnore @RequestParam Map<String, String> requestParams) {
 		Criteria<Role> criteria = new Criteria<Role>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id")));
 		criteria.add(Restrictions.like("name", requestParams.get("name")));

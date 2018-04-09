@@ -9,8 +9,8 @@
   angular.module('adminApp')
     .constant('contextRoot', {
     	formService:'http://119.29.96.227/form-service',
-    	identityService:'http://119.29.96.227/identity-service',
-    	flowService:'http://localhost:8081'
+    	identityService:'http://localhost:8088',
+    	flowService:'http://localhost:8082'
     })
     .constant('restUrl', {
     	formModels: '/form-models',
@@ -25,6 +25,9 @@
 	    },
 	    formPreview : function(modelId) {
 	      return 'http://119.29.96.227/form-modeler/#/watch?modelId=' + modelId;
+	    },
+	    flowDesign : function(modelId) {
+	      return 'http://localhost:9004/#/editor/' + modelId;
 	    }
   });
 

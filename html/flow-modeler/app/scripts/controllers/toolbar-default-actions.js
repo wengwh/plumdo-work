@@ -377,6 +377,8 @@ angular.module('flowableModeler').controller('SaveModelCtrl', [ '$rootScope', '$
 			data : params,
 			ignoreErrors : true,
 			headers : {
+				'Token':'Bearer ' + editorManager.getToken(),
+				'User-ID':editorManager.getUserId(),
 				'Accept' : 'application/json',
 				'Content-Type' : 'application/json; charset=UTF-8'
 			},

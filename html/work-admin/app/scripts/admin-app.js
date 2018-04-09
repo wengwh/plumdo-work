@@ -11,6 +11,7 @@
 		.run(function($rootScope, notify, $state, $timeout, $uibModal, RestService, contextRoot, restUrl) {
 			$rootScope.contextRoot = contextRoot;
 			$rootScope.restUrl = restUrl;
+			$rootScope.FlowService = RestService(contextRoot.flowService);
 			$rootScope.FormService = RestService(contextRoot.formService);
 			$rootScope.IdmService = RestService(contextRoot.identityService);
 			$rootScope.$state = $state;

@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.plumdo.common.resource.PageResponse;
 import com.plumdo.flow.exception.FlowableConflictException;
-import com.plumdo.flow.rest.DataResponse;
 import com.plumdo.flow.rest.model.ModelRequest;
 import com.plumdo.flow.rest.model.ModelResponse;
 import com.plumdo.flow.rest.model.ModelsPaginateList;
@@ -48,7 +48,7 @@ public class ModelResource extends BaseModelResource {
 	}
 
 	@RequestMapping(value = "/models", method = RequestMethod.GET, produces = "application/json", name="模型查询")
-	public DataResponse getModels(@RequestParam Map<String, String> allRequestParams) {
+	public PageResponse getModels(@RequestParam Map<String, String> allRequestParams) {
 		ModelQuery modelQuery = repositoryService.createModelQuery();
 
 		if (allRequestParams.containsKey("id")) {
@@ -93,8 +93,9 @@ public class ModelResource extends BaseModelResource {
 				modelQuery.modelWithoutTenantId();
 			}
 		}
-		return new ModelsPaginateList(restResponseFactory).paginateList(allRequestParams, modelQuery, "id", allowedSortProperties);
+		return new ModelsPaginateList(restResponseFactory).paginateList(getPageable(allRequestParams), modelQuery,  allowedSortProperties);
 	}
+	
 	@RequestMapping(value = "/models/{modelId}", method = RequestMethod.GET, produces = "application/json", name="根据ID模型查询")
 	public ModelResponse getModel(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);

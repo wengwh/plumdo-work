@@ -181,6 +181,22 @@
         element.iconpicker(config);
       }
     };
-  }]);
+  }]).directive('colorbox', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element) {
+    		var colorbox_params = {
+    			rel: 'colorbox',
+    			reposition:true,
+    			scalePhotos:true,
+    			scrolling:false,
+    			current:'{current} of {total}',
+    			maxWidth:'100%',
+    			maxHeight:'100%'
+    		};
+    		$(element).colorbox(colorbox_params);
+      }
+    };
+  });
 
 })();

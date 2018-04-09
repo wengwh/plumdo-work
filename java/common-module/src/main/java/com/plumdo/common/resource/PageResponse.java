@@ -8,15 +8,16 @@ import java.util.List;
  * @author wengwenhui
  * @date 2018年4月8日
  */
-public class PageResponse<T> {
-	protected List<T> data;
+@SuppressWarnings("rawtypes")
+public class PageResponse {
+	protected List data;
 	protected long total;
 
-	public List<T> getData() {
+	public List getData() {
 		return data;
 	}
 
-	public void setData(List<T> data) {
+	public void setData(List data) {
 		this.data = data;
 	}
 

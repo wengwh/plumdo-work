@@ -56,8 +56,9 @@ public abstract class BaseResource {
 		}
 	}
 
-	protected <T> PageResponse<T> createPageResponse(Page<T> page) {
-		PageResponse<T> pageResponse = new PageResponse<T>();
+	@SuppressWarnings("rawtypes")
+	protected PageResponse createPageResponse(Page page) {
+		PageResponse pageResponse = new PageResponse();
 		pageResponse.setData(page.getContent());
 		pageResponse.setTotal(page.getTotalElements());
 		return pageResponse;
