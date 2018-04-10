@@ -1,6 +1,8 @@
 package com.plumdo.flow.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ModelRequest {
 
@@ -8,7 +10,7 @@ public class ModelRequest {
 	protected String key;
 	protected String category;
 	protected Integer version;
-	protected String metaInfo;
+	protected String description;
 	protected String tenantId;
 	protected Boolean clearDeployId = false;
 
@@ -16,7 +18,7 @@ public class ModelRequest {
 	protected boolean keyChanged;
 	protected boolean categoryChanged;
 	protected boolean versionChanged;
-	protected boolean metaInfoChanged;
+	protected boolean descriptionChanged;
 	protected boolean tenantChanged;
 	protected boolean clearDeployChanged;
 
@@ -56,13 +58,13 @@ public class ModelRequest {
 		this.versionChanged = true;
 	}
 
-	public String getMetaInfo() {
-		return metaInfo;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setMetaInfo(String metaInfo) {
-		this.metaInfo = metaInfo;
-		this.metaInfoChanged = true;
+	public void setDescription(String description) {
+		this.description = description;
+		this.descriptionChanged = true;
 	}
 
 	public void setTenantId(String tenantId) {
@@ -83,6 +85,15 @@ public class ModelRequest {
 		clearDeployChanged = true;
 	}
 
+	public String getMetaInfo() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectNode metaInfo = objectMapper.createObjectNode();
+		metaInfo.put("name", name);
+		metaInfo.put("version", version);
+		metaInfo.put("description", description);
+		return metaInfo.toString();
+	}
+	
 	@JsonIgnore
 	public boolean isCategoryChanged() {
 		return categoryChanged;
@@ -95,7 +106,7 @@ public class ModelRequest {
 
 	@JsonIgnore
 	public boolean isMetaInfoChanged() {
-		return metaInfoChanged;
+		return descriptionChanged || nameChanged || versionChanged;
 	}
 
 	@JsonIgnore

@@ -15,53 +15,52 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plumdo.flow.rest.model.ModelRequest;
 import com.plumdo.flow.rest.model.ModelResponse;
 
-
 @RestController
 public class ModelCopyResource extends BaseModelResource {
 
-	@RequestMapping(value = "/models/{modelId}/copy", method = RequestMethod.POST, produces = "application/json", name="模型复制")
+	@RequestMapping(value = "/models/{modelId}/copy", method = RequestMethod.POST, produces = "application/json", name = "模型复制")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Transactional(propagation = Propagation.REQUIRED)
-	public ModelResponse copyModel(@PathVariable String modelId,@RequestBody(required=false) ModelRequest modelRequest) {
+	public ModelResponse copyModel(@PathVariable String modelId, @RequestBody(required = false) ModelRequest modelRequest) {
 		Model model = getModelFromRequest(modelId);
 		try {
 			Model modelData = repositoryService.newModel();
-		
-			if(modelRequest!=null && modelRequest.isKeyChanged()){
+
+			if (modelRequest != null && modelRequest.isKeyChanged()) {
 				modelData.setKey(modelRequest.getKey());
-			}else{
+			} else {
 				modelData.setKey(model.getKey());
 			}
-			if(modelRequest!=null && modelRequest.isNameChanged()){
+			if (modelRequest != null && modelRequest.isNameChanged()) {
 				modelData.setName(modelRequest.getName());
-			}else{
+			} else {
 				modelData.setName(model.getName());
 			}
-			if(modelRequest!=null && modelRequest.isCategoryChanged()){
+			if (modelRequest != null && modelRequest.isCategoryChanged()) {
 				modelData.setCategory(modelRequest.getCategory());
-			}else{
+			} else {
 				modelData.setCategory(model.getCategory());
 			}
-			if (modelRequest!=null && modelRequest.isMetaInfoChanged()) {
+			if (modelRequest != null && modelRequest.isCategoryChanged()) {
 				modelData.setMetaInfo(modelRequest.getMetaInfo());
-			}else{
+			} else {
 				modelData.setMetaInfo(model.getMetaInfo());
 			}
-			if (modelRequest!=null && modelRequest.isVersionChanged()) {
+			if (modelRequest != null && modelRequest.isVersionChanged()) {
 				modelData.setVersion(modelRequest.getVersion());
-			}else{
+			} else {
 				modelData.setVersion(model.getVersion());
 			}
-			if (modelRequest!=null && modelRequest.isTenantIdChanged()) {
+			if (modelRequest != null && modelRequest.isTenantIdChanged()) {
 				modelData.setTenantId(modelRequest.getTenantId());
-			}else{
+			} else {
 				modelData.setTenantId(model.getTenantId());
 			}
 
 			repositoryService.saveModel(modelData);
 
-			repositoryService.addModelEditorSource(modelData.getId(),repositoryService.getModelEditorSource(modelId));
-			repositoryService.addModelEditorSourceExtra(modelData.getId(),repositoryService.getModelEditorSourceExtra(modelId));
+			repositoryService.addModelEditorSource(modelData.getId(), repositoryService.getModelEditorSource(modelId));
+			repositoryService.addModelEditorSourceExtra(modelData.getId(), repositoryService.getModelEditorSourceExtra(modelId));
 			return restResponseFactory.createModelResponse(modelData);
 		} catch (Exception e) {
 			throw new FlowableException("Error copy model", e);

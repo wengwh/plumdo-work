@@ -3,8 +3,6 @@ package com.plumdo.flow.rest.model.resource;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.common.api.FlowableObjectNotFoundException;
 import org.flowable.engine.repository.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.plumdo.common.resource.BaseResource;

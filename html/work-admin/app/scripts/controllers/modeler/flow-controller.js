@@ -13,7 +13,8 @@
 		$scope.queryResult = {};
 		$scope.queryParams = {};
 		$scope.selectedItem = null;
-		
+
+  	console.info($scope.modelService.url)
     $scope.queryModel = function() {
       $scope.modelService.get({
         params : $scope.queryParams
@@ -37,6 +38,29 @@
   			}
   		});
   	};
+  	console.info($scope.modelService.url)
+    $scope.deployModel = function(id){
+  		$scope.confirmModal({
+  			title:'确认部署模型',
+  			confirm:function(isConfirm){
+  				if(isConfirm){
+  					$scope.modelService.post({
+  	          urlPath : '/' + id +'/deploy'
+  	        }, function() {
+  	          $scope.showSuccessMsg('部署模型成功');
+  	        });
+  				}
+  			}
+  		});
+  	};
+  	
+  	$scope.importModel = function(id){
+  		$scope.modelService.get({
+        urlPath : '/' + id +'/xml'
+      }, function(response) {
+      	$scope.windowExportFile(response,'xml.xml')
+      });
+  	};
   	
   	$scope.editModel = function(id) {
 			$scope.editModal({
@@ -49,6 +73,19 @@
 			});
 		};
 		
+		
+		$scope.copyModel = function(id) {
+			$scope.editModal({
+				id : function() { return id; },
+				data : {},
+				service : $scope.modelService,
+				url : function() { return 'flow-model-edit.html'; },
+				title : function() { return '模型'; },
+				complete : function() { return $scope.queryModel; }
+			});
+		};
+		
+		
 		$scope.modelDetail = function(item){
 			$scope.selectedItem = item;
 		};
@@ -59,9 +96,14 @@
 		};
 	
 
-    $scope.designModel = function(modelId){
-      $window.open($scope.restUrl.flowDesign(modelId));
+    $scope.designModel = function(id){
+      $window.open($scope.restUrl.flowDesign(id));
     };
+    
+
+    $scope.getImageUrl = function(id){
+    	return $scope.modelService.url +'/'+id+'/image.jpg';
+    }
     
     
     $scope.queryModel();

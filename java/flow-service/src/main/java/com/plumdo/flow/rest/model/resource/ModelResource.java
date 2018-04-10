@@ -1,41 +1,42 @@
 package com.plumdo.flow.rest.model.resource;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.flowable.editor.constants.EditorJsonConstants;
-import org.flowable.editor.constants.StencilConstants;
+import org.flowable.engine.ManagementService;
 import org.flowable.engine.common.api.query.QueryProperty;
 import org.flowable.engine.impl.ModelQueryProperty;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ModelQuery;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.common.resource.PageResponse;
-import com.plumdo.flow.exception.FlowableConflictException;
+import com.plumdo.flow.cmd.SaveModelEditorCmd;
 import com.plumdo.flow.rest.model.ModelRequest;
 import com.plumdo.flow.rest.model.ModelResponse;
 import com.plumdo.flow.rest.model.ModelsPaginateList;
 
-
 @RestController
 public class ModelResource extends BaseModelResource {
+	@Autowired
+	private ManagementService managementService;
 
 	private static Map<String, QueryProperty> allowedSortProperties = new HashMap<String, QueryProperty>();
-	
+
 	static {
 		allowedSortProperties.put("id", ModelQueryProperty.MODEL_ID);
 		allowedSortProperties.put("category", ModelQueryProperty.MODEL_CATEGORY);
@@ -47,7 +48,7 @@ public class ModelResource extends BaseModelResource {
 		allowedSortProperties.put("tenantId", ModelQueryProperty.MODEL_TENANT_ID);
 	}
 
-	@RequestMapping(value = "/models", method = RequestMethod.GET, produces = "application/json", name="模型查询")
+	@GetMapping(value = "/models", name = "模型查询")
 	public PageResponse getModels(@RequestParam Map<String, String> allRequestParams) {
 		ModelQuery modelQuery = repositoryService.createModelQuery();
 
@@ -86,65 +87,78 @@ public class ModelResource extends BaseModelResource {
 		if (allRequestParams.containsKey("tenantId")) {
 			modelQuery.modelTenantIdLike(allRequestParams.get("tenantId"));
 		}
-		
+
 		if (allRequestParams.containsKey("withoutTenantId")) {
 			boolean withoutTenantId = Boolean.valueOf(allRequestParams.get("withoutTenantId"));
 			if (withoutTenantId) {
 				modelQuery.modelWithoutTenantId();
 			}
 		}
-		return new ModelsPaginateList(restResponseFactory).paginateList(getPageable(allRequestParams), modelQuery,  allowedSortProperties);
+		return new ModelsPaginateList(restResponseFactory).paginateList(getPageable(allRequestParams), modelQuery, allowedSortProperties);
 	}
-	
-	@RequestMapping(value = "/models/{modelId}", method = RequestMethod.GET, produces = "application/json", name="根据ID模型查询")
+
+	@GetMapping(value = "/models/{modelId}", name = "根据ID模型查询")
 	public ModelResponse getModel(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);
 		return restResponseFactory.createModelResponse(model);
 	}
-	
-	@RequestMapping(value = "/models", method = RequestMethod.POST, produces = "application/json", name="模型创建")
+
+	@PostMapping(value = "/models", name = "模型创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
-	public ModelResponse createModel(@RequestBody ModelRequest modelRequest){
-		
+	public ModelResponse createModel(@RequestBody ModelRequest modelRequest) {
 		Model model = repositoryService.newModel();
 		model.setCategory(modelRequest.getCategory());
 		model.setKey(modelRequest.getKey());
-		model.setMetaInfo(modelRequest.getMetaInfo());
 		model.setName(modelRequest.getName());
 		model.setVersion(modelRequest.getVersion());
+		model.setMetaInfo(modelRequest.getMetaInfo());
 		model.setTenantId(modelRequest.getTenantId());
-
 		repositoryService.saveModel(model);
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		ObjectNode editorNode = objectMapper.createObjectNode();
-		editorNode.put(EditorJsonConstants.EDITOR_STENCIL_ID, "canvas");
-		
-		editorNode.put(EditorJsonConstants.EDITOR_SHAPE_ID, "canvas");
-		//设置流程定义初始化的key和name
-		ObjectNode propertieNode = objectMapper.createObjectNode();
-		if(StringUtils.isNotEmpty(model.getKey())){
-			propertieNode.put(StencilConstants.PROPERTY_PROCESS_ID, model.getKey());
-		}else{
-			propertieNode.put(StencilConstants.PROPERTY_PROCESS_ID, "model_"+model.getId());
-		}
-		propertieNode.put(StencilConstants.PROPERTY_NAME, model.getName());
-		editorNode.set(EditorJsonConstants.EDITOR_SHAPE_PROPERTIES, propertieNode);
-		ObjectNode stencilSetNode = objectMapper.createObjectNode();
-		stencilSetNode.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
-		editorNode.set("stencilset", stencilSetNode);
-		try {
-			repositoryService.addModelEditorSource(model.getId(), editorNode.toString().getBytes("utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			throw new FlowableConflictException("create model exception :"+e.getMessage());
-		}
-	      
+
+		managementService.executeCommand(new SaveModelEditorCmd(model.getId(), createModelJson(model)));
+
 		return restResponseFactory.createModelResponse(model);
 	}
 
-	@RequestMapping(value = "/models/{modelId}", method = RequestMethod.PUT, produces = "application/json", name="模型修改")
-	public ModelResponse updateModel(@PathVariable String modelId,@RequestBody ModelRequest modelRequest) {
+	private String createModelJson(Model model) {
+		ObjectNode editorNode = objectMapper.createObjectNode();
+		editorNode.put("id", "canvas");
+		editorNode.put("resourceId", "canvas");
+		ObjectNode stencilSetNode = objectMapper.createObjectNode();
+		stencilSetNode.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
+		editorNode.set("stencilset", stencilSetNode);
+		ObjectNode propertiesNode = objectMapper.createObjectNode();
+		propertiesNode.put("process_id", model.getKey());
+		propertiesNode.put("name", model.getName());
+		editorNode.set("properties", propertiesNode);
+
+		ArrayNode childShapeArray = objectMapper.createArrayNode();
+		editorNode.set("childShapes", childShapeArray);
+		ObjectNode childNode = objectMapper.createObjectNode();
+		childShapeArray.add(childNode);
+		ObjectNode boundsNode = objectMapper.createObjectNode();
+		childNode.set("bounds", boundsNode);
+		ObjectNode lowerRightNode = objectMapper.createObjectNode();
+		boundsNode.set("lowerRight", lowerRightNode);
+		lowerRightNode.put("x", 130);
+		lowerRightNode.put("y", 193);
+		ObjectNode upperLeftNode = objectMapper.createObjectNode();
+		boundsNode.set("upperLeft", upperLeftNode);
+		upperLeftNode.put("x", 100);
+		upperLeftNode.put("y", 163);
+		childNode.set("childShapes", objectMapper.createArrayNode());
+		childNode.set("dockers", objectMapper.createArrayNode());
+		childNode.set("outgoing", objectMapper.createArrayNode());
+		childNode.put("resourceId", "startEvent1");
+		ObjectNode stencilNode = objectMapper.createObjectNode();
+		childNode.set("stencil", stencilNode);
+		stencilNode.put("id", "StartNoneEvent");
+		return editorNode.toString();
+	}
+
+	@PutMapping(value = "/models/{modelId}", name = "模型修改")
+	public ModelResponse updateModel(@PathVariable String modelId, @RequestBody ModelRequest modelRequest) {
 		Model model = getModelFromRequest(modelId);
 
 		if (modelRequest.isCategoryChanged()) {
@@ -153,30 +167,33 @@ public class ModelResource extends BaseModelResource {
 		if (modelRequest.isKeyChanged()) {
 			model.setKey(modelRequest.getKey());
 		}
-		if (modelRequest.isMetaInfoChanged()) {
-			model.setMetaInfo(modelRequest.getMetaInfo());
-		}
+
 		if (modelRequest.isNameChanged()) {
 			model.setName(modelRequest.getName());
 		}
 		if (modelRequest.isVersionChanged()) {
 			model.setVersion(modelRequest.getVersion());
 		}
+
+		if (modelRequest.isMetaInfoChanged()) {
+			model.setMetaInfo(modelRequest.getMetaInfo());
+		}
+
 		if (modelRequest.isTenantIdChanged()) {
 			model.setTenantId(modelRequest.getTenantId());
 		}
-		
+
 		if (modelRequest.isClearDeployChanged()) {
-			if(modelRequest.getClearDeployId()){
+			if (modelRequest.getClearDeployId()) {
 				model.setDeploymentId(null);
 			}
 		}
-	
+
 		repositoryService.saveModel(model);
 		return restResponseFactory.createModelResponse(model);
 	}
 
-	@RequestMapping(value = "/models/{modelId}", method = RequestMethod.DELETE, name="模型删除")
+	@DeleteMapping(value = "/models/{modelId}", name = "模型删除")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteModel(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);

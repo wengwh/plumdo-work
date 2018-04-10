@@ -109,6 +109,23 @@
 			    search          : "搜索",
 			    nothingSelected : "没有选项被选中" 
 			};
+			
+			$rootScope.windowExportFile = function(data,fileName){
+	    	$rootScope.showProgress();
+				// 加入定时跳出angular本身的检查
+	    	$timeout(function() {
+					var fileName = decodeURI(fileName);
+					var url = URL.createObjectURL(new Blob([ data ]));
+					var a = document.createElement('a');
+					document.body.appendChild(a); // 此处增加了将创建的添加到body当中
+					a.href = url;
+					a.download = fileName;
+					a.target = '_blank';
+					a.click();
+					a.remove(); // 将a标签移除
+					$rootScope.hideProgress();
+				}, 1000);
+	    };
 
 	}).filter('to_trusted', [ '$sce', function($sce) {
 			return function(text) {
