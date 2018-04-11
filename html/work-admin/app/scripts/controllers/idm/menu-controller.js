@@ -27,15 +27,13 @@
 			$scope.deleteMenu = function(id) {
 				$scope.confirmModal({
 					title : '确认删除菜单',
-					confirm : function(isConfirm) {
-						if (isConfirm) {
-							$scope.menuService.delete({
-								urlPath : '/' + id
-							}, function() {
-								$scope.showSuccessMsg('删除菜单成功');
-								$scope.queryMenu();
-							});
-						}
+					confirm : function() {
+						$scope.menuService.delete({
+							urlPath : '/' + id
+						}, function() {
+							$scope.showSuccessMsg('删除菜单成功');
+							$scope.queryMenu();
+						});
 					}
 				});
 			};
@@ -43,23 +41,17 @@
 			$scope.editMenu = function(id) {
 				$scope.editModal({
 						id : id,
-						data : function() {
+						formUrl : 'menu-edit.html',
+						title : '菜单',
+						formData : (function() {
 							if($scope.parentMenu.id!==0){
 								return {type:1, parentId:$scope.parentMenu.id, parentName:$scope.parentMenu.name};
 							}else{
 								return {type:0, parentId:0};
 							}
-						},
+						})(),
 						service : $scope.menuService,
-						url : function() {
-							return angular.copy('menu-edit.html');
-						},
-						title : function() {
-							return angular.copy('菜单');
-						},
-						complete : function() {
-							return $scope.queryMenu;
-						}
+						complete : $scope.queryMenu
 				});
 			};
 			
@@ -87,20 +79,16 @@
 			
 			$scope.queryMenuRole = function(id) {
 				$scope.tableModal({
-					service : function(){
-						return $scope.IdmService($scope.restUrl.idmMenus+'/'+id+'/roles');
-					},
-					colModels : function(){
-						return [
-							{name:'名称',index:'name'},
-							{name:'状态',index:'status',
-								formatter:function(){
-			  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
-	  								 '<span class="label label-danger" ng-if="row.status==1">停用</span>';
-	  						}
-							}
-						];
-					}
+					service : $scope.IdmService($scope.restUrl.idmMenus+'/'+id+'/roles'),
+					colModels : [
+						{name:'名称',index:'name'},
+						{name:'状态',index:'status',
+							formatter:function(){
+		  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
+  								 '<span class="label label-danger" ng-if="row.status==1">停用</span>';
+  						}
+						}
+					]
 				});
 			};
 			

@@ -8,6 +8,7 @@ public class ModelResponse extends ModelRequest {
 	protected Date createTime;
 	protected Date lastUpdateTime;
 	protected Boolean deployed;
+	protected Integer version;
 
 	public String getId() {
 		return id;
@@ -41,5 +42,12 @@ public class ModelResponse extends ModelRequest {
 		this.deployed = deployed;
 	}
 
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
 }

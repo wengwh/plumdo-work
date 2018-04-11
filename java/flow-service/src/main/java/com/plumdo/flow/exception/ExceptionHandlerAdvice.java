@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author wengwh
  *
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionHandlerAdvice {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionHandlerAdvice.class);

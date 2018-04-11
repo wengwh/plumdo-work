@@ -6,16 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 
-import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.editor.constants.ModelDataJsonConstants;
+import org.flowable.bpmn.model.Process;
 import org.flowable.editor.language.json.converter.BpmnJsonConverter;
-import org.flowable.engine.ManagementService;
-import org.flowable.engine.common.api.FlowableException;
-import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.repository.Model;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +24,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.flow.cmd.SaveModelEditorCmd;
-import com.plumdo.flow.exception.FlowableForbiddenException;
+import com.plumdo.flow.constant.ErrorConstant;
 
+/**
+ * 模型导入
+ *
+ * @author wengwenhui
+ * @date 2018年4月11日
+ */
 @RestController
 public class ModelImportResource extends BaseModelResource {
-	@Autowired
-	private ManagementService managementService;
-
 	private BpmnXMLConverter bpmnXmlConverter = new BpmnXMLConverter();
 	private BpmnJsonConverter bpmnJsonConverter = new BpmnJsonConverter();
 
@@ -43,59 +41,48 @@ public class ModelImportResource extends BaseModelResource {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void importModel(HttpServletRequest request) {
-
 		if (request instanceof MultipartHttpServletRequest == false) {
-			throw new FlowableIllegalArgumentException("Multipart request is required");
+			exceptionFactory.throwIllegalArgument(ErrorConstant.REQUEST_NOT_MULTIPART);
 		}
 
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
 		if (multipartRequest.getFileMap().size() == 0) {
-			throw new FlowableIllegalArgumentException("Multipart request with file content is required");
+			exceptionFactory.throwIllegalArgument(ErrorConstant.MULTIPART_CONTENT_EMPTY);
 		}
 
 		MultipartFile file = multipartRequest.getFileMap().values().iterator().next();
 
 		String fileName = file.getOriginalFilename();
-		if (fileName != null && (fileName.endsWith(".bpmn") || fileName.endsWith(".bpmn20.xml"))) {
-			try {
-				XMLInputFactory xif = XMLInputFactory.newInstance();
-				InputStreamReader xmlIn = new InputStreamReader(file.getInputStream(), "UTF-8");
-				XMLStreamReader xtr = xif.createXMLStreamReader(xmlIn);
-				BpmnModel bpmnModel = bpmnXmlConverter.convertToBpmnModel(xtr);
-				if (ObjectUtils.isEmpty(bpmnModel.getProcesses())) {
-					throw new FlowableForbiddenException("No process found in definition " + fileName);
-				}
-
-				ObjectNode modelNode = bpmnJsonConverter.convertToJson(bpmnModel);
-
-				org.flowable.bpmn.model.Process process = bpmnModel.getMainProcess();
-				String name = process.getId();
-				if (StringUtils.isNotEmpty(process.getName())) {
-					name = process.getName();
-				}
-				String description = process.getDocumentation();
-
-				Model modelData = repositoryService.newModel();
-				modelData.setKey(process.getId());
-				modelData.setName(name);
-
-				ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
-				modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, name);
-				modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, 1);
-				modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, description);
-				modelData.setMetaInfo(modelObjectNode.toString());
-
-				repositoryService.saveModel(modelData);
-
-				managementService.executeCommand(new SaveModelEditorCmd(modelData.getId(), modelNode.toString()));
-
-			} catch (Exception e) {
-				logger.error("Import failed for {}", fileName, e);
-				throw new FlowableException("Import failed for " + fileName + ", error message " + e.getMessage());
-			}
-		} else {
-			throw new FlowableIllegalArgumentException("Invalid file name, only .bpmn and .bpmn20.xml files are supported not " + fileName);
+		if (fileName == null || (!fileName.endsWith(".bpmn") && !fileName.endsWith(".bpmn20.xml"))) {
+			exceptionFactory.throwIllegalArgument(ErrorConstant.FILE_NOT_BPMN, fileName);
 		}
+		try {
+			XMLInputFactory xif = XMLInputFactory.newInstance();
+			InputStreamReader xmlIn = new InputStreamReader(file.getInputStream(), "UTF-8");
+			XMLStreamReader xtr = xif.createXMLStreamReader(xmlIn);
+			BpmnModel bpmnModel = bpmnXmlConverter.convertToBpmnModel(xtr);
+			if (ObjectUtils.isEmpty(bpmnModel.getProcesses())) {
+				exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_NOT_FOUND_PROCESS, fileName);
+			}
+			Process process = bpmnModel.getMainProcess();
+			Model modelData = repositoryService.newModel();
+			modelData.setKey(process.getId());
+			if (ObjectUtils.isNotEmpty(process.getName())) {
+				modelData.setName(process.getName());
+			}else {
+				modelData.setName(process.getId());
+			}
+			ObjectNode metaInfo = new ObjectMapper().createObjectNode();
+			metaInfo.put("name", modelData.getName());
+			metaInfo.put("description", process.getDocumentation());
+			modelData.setMetaInfo(metaInfo.toString());
+			repositoryService.saveModel(modelData);
+			managementService.executeCommand(new SaveModelEditorCmd(modelData.getId(), bpmnJsonConverter.convertToJson(bpmnModel).toString()));
+		} catch (Exception e) {
+			logger.error("导入流程文件异常", e);
+			exceptionFactory.throwDefinedException(ErrorConstant.MODEL_IMPORT_FILE_ERROR, fileName, e.getMessage());
+		}
+
 	}
 }

@@ -27,35 +27,25 @@
 			$scope.deleteGroup = function(id) {
 				$scope.confirmModal({
 					title : '确认删除群组',
-					confirm : function(isConfirm) {
-						if (isConfirm) {
-							$scope.groupService.delete({
-								urlPath : '/' + id
-							}, function() {
-								$scope.showSuccessMsg('删除群组成功');
-								$scope.queryGroup();
-							});
-						}
+					confirm : function() {
+						$scope.groupService.delete({
+							urlPath : '/' + id
+						}, function() {
+							$scope.showSuccessMsg('删除群组成功');
+							$scope.queryGroup();
+						});
 					}
 				});
 			};
 
 			$scope.editGroup = function(id) {
 				$scope.editModal({
-						id : id,
-						data : function() {
-								return {parentId:$scope.parentGroup.id, parentName:$scope.parentGroup.name};
-						},
-						service : $scope.groupService,
-						url : function() {
-							return angular.copy('group-edit.html');
-						},
-						title : function() {
-							return angular.copy('群组');
-						},
-						complete : function() {
-							return $scope.queryGroup;
-						}
+					id : id,
+					formUrl : 'group-edit.html',
+					title : '群组',
+					formData : {parentId:$scope.parentGroup.id, parentName:$scope.parentGroup.name},
+					service : $scope.groupService,
+					complete :  $scope.queryGroup
 				});
 			};
 			
@@ -84,21 +74,17 @@
 
 			$scope.queryGroupUser = function(id) {
 				$scope.tableModal({
-					service : function(){
-						return $scope.IdmService($scope.restUrl.idmGroups+'/'+id+'/users');
-					},
-					colModels : function(){
-						return [
-							{name:'名称',index:'name'},
-							{name:'电话',index:'phone'},
-							{name:'状态',index:'status',
-								formatter:function(){
-			  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
-										'<span class="label label-danger" ng-if="row.status==1">停用</span>';
-								}
+					service :  $scope.IdmService($scope.restUrl.idmGroups+'/'+id+'/users'),
+					colModels : [
+						{name:'名称',index:'name'},
+						{name:'电话',index:'phone'},
+						{name:'状态',index:'status',
+							formatter:function(){
+		  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
+									'<span class="label label-danger" ng-if="row.status==1">停用</span>';
 							}
-						];
-					}
+						}
+					]
 				});
 			};
 

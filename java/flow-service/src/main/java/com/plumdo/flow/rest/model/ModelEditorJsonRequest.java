@@ -1,34 +1,50 @@
 package com.plumdo.flow.rest.model;
 
-
 public class ModelEditorJsonRequest {
 	private String name;
+	private String key;
 	private String description;
-	private String json_xml;
-	private boolean addVersion;
+	private String jsonXml;
+	private boolean newVersion;
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getJson_xml() {
-		return json_xml;
+
+	public String getJsonXml() {
+		return jsonXml;
 	}
-	public void setJson_xml(String json_xml) {
-		this.json_xml = json_xml;
+
+	public void setJsonXml(String jsonXml) {
+		this.jsonXml = jsonXml;
 	}
-	public boolean isAddVersion() {
-		return addVersion;
+
+	public boolean isNewVersion() {
+		return newVersion;
 	}
-	public void setAddVersion(boolean addVersion) {
-		this.addVersion = addVersion;
+
+	public void setNewVersion(boolean newVersion) {
+		this.newVersion = newVersion;
 	}
-	
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
 }

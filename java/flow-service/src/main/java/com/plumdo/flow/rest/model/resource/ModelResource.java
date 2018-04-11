@@ -1,14 +1,13 @@
 package com.plumdo.flow.rest.model.resource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.flowable.engine.ManagementService;
 import org.flowable.engine.common.api.query.QueryProperty;
 import org.flowable.engine.impl.ModelQueryProperty;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ModelQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,16 +24,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.common.resource.PageResponse;
+import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.flow.cmd.SaveModelEditorCmd;
+import com.plumdo.flow.cmd.UpdateModelKeyCmd;
+import com.plumdo.flow.constant.ErrorConstant;
+import com.plumdo.flow.constant.TableConstant;
 import com.plumdo.flow.rest.model.ModelRequest;
 import com.plumdo.flow.rest.model.ModelResponse;
 import com.plumdo.flow.rest.model.ModelsPaginateList;
 
+/**
+ * 模型资源类
+ *
+ * @author wengwenhui
+ * @date 2018年4月11日
+ */
 @RestController
 public class ModelResource extends BaseModelResource {
-	@Autowired
-	private ManagementService managementService;
-
 	private static Map<String, QueryProperty> allowedSortProperties = new HashMap<String, QueryProperty>();
 
 	static {
@@ -49,52 +55,52 @@ public class ModelResource extends BaseModelResource {
 	}
 
 	@GetMapping(value = "/models", name = "模型查询")
-	public PageResponse getModels(@RequestParam Map<String, String> allRequestParams) {
+	public PageResponse getModels(@RequestParam Map<String, String> requestParams) {
 		ModelQuery modelQuery = repositoryService.createModelQuery();
 
-		if (allRequestParams.containsKey("id")) {
-			modelQuery.modelId(allRequestParams.get("id"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("id"))) {
+			modelQuery.modelId(requestParams.get("id"));
 		}
-		if (allRequestParams.containsKey("category")) {
-			modelQuery.modelCategoryLike(allRequestParams.get("category"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("category"))) {
+			modelQuery.modelCategoryLike(requestParams.get("category"));
 		}
-		if (allRequestParams.containsKey("name")) {
-			modelQuery.modelNameLike(allRequestParams.get("name"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("name"))) {
+			modelQuery.modelNameLike(requestParams.get("name"));
 		}
-		if (allRequestParams.containsKey("key")) {
-			modelQuery.modelKey(allRequestParams.get("key"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("key"))) {
+			modelQuery.modelKey(requestParams.get("key"));
 		}
-		if (allRequestParams.containsKey("version")) {
-			modelQuery.modelVersion(Integer.valueOf(allRequestParams.get("version")));
+		if (ObjectUtils.isNotEmpty(requestParams.get("version"))) {
+			modelQuery.modelVersion(ObjectUtils.convertToInteger(requestParams.get("version")));
 		}
-		if (allRequestParams.containsKey("latestVersion")) {
-			boolean isLatestVersion = Boolean.valueOf(allRequestParams.get("latestVersion"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("latestVersion"))) {
+			boolean isLatestVersion = ObjectUtils.convertToBoolean(requestParams.get("latestVersion"));
 			if (isLatestVersion) {
 				modelQuery.latestVersion();
 			}
 		}
-		if (allRequestParams.containsKey("deploymentId")) {
-			modelQuery.deploymentId(allRequestParams.get("deploymentId"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("deploymentId"))) {
+			modelQuery.deploymentId(requestParams.get("deploymentId"));
 		}
-		if (allRequestParams.containsKey("deployed")) {
-			boolean isDeployed = Boolean.valueOf(allRequestParams.get("deployed"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("deployed"))) {
+			boolean isDeployed = ObjectUtils.convertToBoolean(requestParams.get("deployed"));
 			if (isDeployed) {
 				modelQuery.deployed();
 			} else {
 				modelQuery.notDeployed();
 			}
 		}
-		if (allRequestParams.containsKey("tenantId")) {
-			modelQuery.modelTenantIdLike(allRequestParams.get("tenantId"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("tenantId"))) {
+			modelQuery.modelTenantIdLike(requestParams.get("tenantId"));
 		}
 
-		if (allRequestParams.containsKey("withoutTenantId")) {
-			boolean withoutTenantId = Boolean.valueOf(allRequestParams.get("withoutTenantId"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("withoutTenantId"))) {
+			boolean withoutTenantId = ObjectUtils.convertToBoolean(requestParams.get("withoutTenantId"));
 			if (withoutTenantId) {
 				modelQuery.modelWithoutTenantId();
 			}
 		}
-		return new ModelsPaginateList(restResponseFactory).paginateList(getPageable(allRequestParams), modelQuery, allowedSortProperties);
+		return new ModelsPaginateList(restResponseFactory).paginateList(getPageable(requestParams), modelQuery, allowedSortProperties);
 	}
 
 	@GetMapping(value = "/models/{modelId}", name = "根据ID模型查询")
@@ -103,15 +109,26 @@ public class ModelResource extends BaseModelResource {
 		return restResponseFactory.createModelResponse(model);
 	}
 
+	@GetMapping(value = "/models/{modelkey}/{modelVersion}", name = "根据标识,版本模型查询")
+	public ModelResponse getModel(@PathVariable String modelkey, @PathVariable Integer modelVersion) {
+		Model model = repositoryService.createModelQuery().modelKey(modelkey).modelVersion(modelVersion).singleResult();
+		if (model == null) {
+			exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_KEY_NOT_FOUND, modelkey, modelVersion);
+		}
+		return restResponseFactory.createModelResponse(model);
+	}
+
 	@PostMapping(value = "/models", name = "模型创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public ModelResponse createModel(@RequestBody ModelRequest modelRequest) {
+		checkModelKeyExists(modelRequest.getKey());
+
 		Model model = repositoryService.newModel();
 		model.setCategory(modelRequest.getCategory());
 		model.setKey(modelRequest.getKey());
 		model.setName(modelRequest.getName());
-		model.setVersion(modelRequest.getVersion());
+		model.setVersion(TableConstant.MODEL_VESION_START);
 		model.setMetaInfo(modelRequest.getMetaInfo());
 		model.setTenantId(modelRequest.getTenantId());
 		repositoryService.saveModel(model);
@@ -158,45 +175,35 @@ public class ModelResource extends BaseModelResource {
 	}
 
 	@PutMapping(value = "/models/{modelId}", name = "模型修改")
+	@Transactional(propagation = Propagation.REQUIRED)
 	public ModelResponse updateModel(@PathVariable String modelId, @RequestBody ModelRequest modelRequest) {
 		Model model = getModelFromRequest(modelId);
-
-		if (modelRequest.isCategoryChanged()) {
-			model.setCategory(modelRequest.getCategory());
+		model.setCategory(modelRequest.getCategory());
+		if (!modelRequest.getKey().equals(model.getKey())) {
+			checkModelKeyExists(modelRequest.getKey());
+			managementService.executeCommand(new UpdateModelKeyCmd(modelId, modelRequest.getKey()));
 		}
-		if (modelRequest.isKeyChanged()) {
-			model.setKey(modelRequest.getKey());
+		model.setKey(modelRequest.getKey());
+		model.setName(modelRequest.getName());
+		model.setMetaInfo(modelRequest.getMetaInfo());
+		model.setTenantId(modelRequest.getTenantId());
+		if (modelRequest.getClearDeployId()) {
+			model.setDeploymentId(null);
 		}
-
-		if (modelRequest.isNameChanged()) {
-			model.setName(modelRequest.getName());
-		}
-		if (modelRequest.isVersionChanged()) {
-			model.setVersion(modelRequest.getVersion());
-		}
-
-		if (modelRequest.isMetaInfoChanged()) {
-			model.setMetaInfo(modelRequest.getMetaInfo());
-		}
-
-		if (modelRequest.isTenantIdChanged()) {
-			model.setTenantId(modelRequest.getTenantId());
-		}
-
-		if (modelRequest.isClearDeployChanged()) {
-			if (modelRequest.getClearDeployId()) {
-				model.setDeploymentId(null);
-			}
-		}
-
 		repositoryService.saveModel(model);
+		
+		
 		return restResponseFactory.createModelResponse(model);
 	}
 
 	@DeleteMapping(value = "/models/{modelId}", name = "模型删除")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void deleteModel(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);
-		repositoryService.deleteModel(model.getId());
+		List<Model> models = repositoryService.createModelQuery().modelKey(model.getKey()).list();
+		for(Model deleteModel : models) {
+			repositoryService.deleteModel(deleteModel.getId());
+		}
 	}
 }

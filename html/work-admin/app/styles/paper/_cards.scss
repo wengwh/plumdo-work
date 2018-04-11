@@ -155,7 +155,7 @@
 }
 .card-query{
 	.input-group-btn{
-		button:last-child{
+		button:not(:first-child){
 			margin-left:3px;
 		}
 	}

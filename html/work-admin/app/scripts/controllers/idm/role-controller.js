@@ -25,44 +25,34 @@
 			$scope.deleteRole = function(id) {
 				$scope.confirmModal({
 					title : '确认删除角色',
-					confirm : function(isConfirm) {
-						if (isConfirm) {
-							$scope.roleService.delete({
-								urlPath : '/' + id
-							}, function() {
-								$scope.showSuccessMsg('删除角色成功');
-								$scope.queryRole();
-							});
-						}
+					confirm : function() {
+						$scope.roleService.delete({
+							urlPath : '/' + id
+						}, function() {
+							$scope.showSuccessMsg('删除角色成功');
+							$scope.queryRole();
+						});
 					}
 				});
 			};
 
 			$scope.editRole = function(id) {
-				var data = {};
+				var formData = {};
 	  		var menusPromise = $scope.roleService.get({
 					urlPath : '/menus',
 					params : {id:id}
 				}, function(response) {
-					data.menus = response;
+					formData.menus = response;
 				});
 	  		
 	  		$q.all([menusPromise]).then(function() {  
 		  		$scope.editModal({
 						id : id,
+						formUrl : 'role-edit.html',
+						title : '角色',
+						formData : formData,
 						service : $scope.roleService,
-						data : function(){
-							return data;
-						},
-						url : function() {
-							return angular.copy('role-edit.html');
-						},
-						title : function() {
-							return angular.copy('角色');
-						},
-						complete : function() {
-							return $scope.queryRole;
-						}
+						complete : $scope.queryRole
 					});
 	  		});
 			};
@@ -78,21 +68,17 @@
 
 			$scope.queryRoleUser = function(id) {
 				$scope.tableModal({
-					service : function(){
-						return $scope.IdmService($scope.restUrl.idmRoles+'/'+id+'/users');
-					},
-					colModels : function(){
-						return [
-							{name:'名称',index:'name'},
-							{name:'电话',index:'phone'},
-							{name:'状态',index:'status',
-								formatter:function(){
-			  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
-			  						'<span class="label label-danger" ng-if="row.status==1">停用</span>';
-								}
+					service : $scope.IdmService($scope.restUrl.idmRoles+'/'+id+'/users'),
+					colModels : [
+						{name:'名称',index:'name'},
+						{name:'电话',index:'phone'},
+						{name:'状态',index:'status',
+							formatter:function(){
+		  					return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
+		  						'<span class="label label-danger" ng-if="row.status==1">停用</span>';
 							}
-						];
-					}
+						}
+					]
 				});
 			};
 			

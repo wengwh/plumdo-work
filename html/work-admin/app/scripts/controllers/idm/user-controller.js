@@ -23,51 +23,41 @@
     $scope.deleteUser = function(id){
   		$scope.confirmModal({
   			title:'确认删除用户',
-  			confirm:function(isConfirm){
-  				if(isConfirm){
-  					$scope.userService.delete({
-  	          urlPath : '/' + id
-  	        }, function() {
-  	          $scope.showSuccessMsg('删除用户成功');
-  	          $scope.queryUser();
-  	        });
-  				}
+  			confirm:function(){
+					$scope.userService.delete({
+	          urlPath : '/' + id
+	        }, function() {
+	          $scope.showSuccessMsg('删除用户成功');
+	          $scope.queryUser();
+	        });
   			}
   		});
   	};
   	
   	$scope.editUser = function(id) {
-  		var data = {};
+  		var formData = {};
   		var rolesPromise = $scope.userService.get({
 				urlPath : '/roles',
 				params : {id:id}
 			}, function(response) {
-				data.roles = response;
+				formData.roles = response;
 			});
   		
   		var groupsPromise = $scope.userService.get({
 				urlPath : '/groups',
 				params : {id:id}
 			}, function(response) {
-				data.groups = response;
+				formData.groups = response;
 			});
 
   		$q.all([rolesPromise,groupsPromise]).then(function() {  
   			$scope.editModal({
 					id : id,
-					data : function() {
-							return data;
-					},
+					formUrl : 'user-edit.html',
+					title : '用户',
+					formData : formData,
 					service : $scope.userService,
-					url : function() {
-						return angular.copy('user-edit.html');
-					},
-					title : function() {
-						return angular.copy('用户');
-					},
-					complete : function() {
-						return $scope.queryUser;
-					}
+					complete : $scope.queryUser
   			});
   		});
 		};

@@ -1,44 +1,45 @@
 /**
- * 编辑框控制
- * 
- * @author wengwh
+ * 弹出框默认的增加和修改操作
+ *
+ * @author wengwenhui
+ * @date 2018年4月11日
  */
 (function() {
 	'use strict';
 
 	angular.module('adminApp').controller('EditModalController',
-		function($scope, $uibModalInstance, id, service, complete, title, url, data) {
-			$scope.formUrl = url;
-			$scope.formData = data || {};
-			if (id) {
-				$scope.modalTitle = "修改" + title;
+		function($scope, $uibModalInstance) {
+			$scope.formData = $scope.formData || {};
+			
+			if ($scope.id) {
+				$scope.modalTitle = "修改" + $scope.title;
 
-				service.get({
-					urlPath : '/' + id
+				$scope.service.get({
+					urlPath : '/' + $scope.id
 				}, function(data) {
 					$scope.formData = angular.extend($scope.formData, data);
 				});
 
 				$scope.ok = function() {
-					service.put({
-						urlPath : '/' + id,
+					$scope.service.put({
+						urlPath : '/' + $scope.id,
 						data : $scope.formData
 					}, function() {
 						$uibModalInstance.close();
-						$scope.showSuccessMsg('修改' + title + '成功');
-						complete();
+						$scope.showSuccessMsg($scope.modalTitle + '成功');
+						$scope.complete();
 					});
 				};
 
 			} else {
-				$scope.modalTitle = '添加' + title;
+				$scope.modalTitle = '添加' + $scope.title;
 				$scope.ok = function() {
-					service.post({
+					$scope.service.post({
 						data : $scope.formData
 					}, function() {
 						$uibModalInstance.close();
-						$scope.showSuccessMsg('添加' + title + '成功');
-						complete();
+						$scope.showSuccessMsg($scope.modalTitle + '成功');
+						$scope.complete();
 					});
 				};
 			}

@@ -355,11 +355,11 @@ angular.module('flowableModeler').controller('SaveModelCtrl', [ '$rootScope', '$
 
 		var params = {
 			modeltype : modelMetaData.model.modelType,
-			json_xml : JSON.stringify(json),
+			jsonXml : JSON.stringify(json),
 			name : $scope.saveDialog.name,
 			key : $scope.saveDialog.key,
 			description : $scope.saveDialog.description,
-			newversion : $scope.saveDialog.newVersion,
+			newVersion : $scope.saveDialog.newVersion,
 			comment : $scope.saveDialog.comment,
 			lastUpdated : modelMetaData.lastUpdated
 		};

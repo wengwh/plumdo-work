@@ -87,7 +87,7 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
   outline: none;
 }
 .image-thumbnails > li img {
-	width: 300px;
+	width: 351px;
 	height: 150px;
 	
 }
@@ -105,6 +105,12 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
   background-color: transparent;
   border-width: 0;
   vertical-align: inherit;
+}
+
+.image-thumbnails > li .tags.tags-top{
+	top: 0;
+	left: 10px;
+	right: inherit;
 }
 .image-thumbnails > li .tags > .label-holder {
   opacity: 0.92;

@@ -39,10 +39,6 @@
            				{{'MODEL.SAVE.NEWVERSION' | translate}}
            		</label>
         	</div>
-        	<div class="form-group" ng-if="saveDialog.newVersion">
-           		<label for="commentTextArea">{{'MODEL.SAVE.COMMENT' | translate}}</label>
-           		<textarea id="commentTextArea" class="form-control" ng-model="saveDialog.comment" ng-disabled="status.loading"></textarea>
-        	</div>
         	
         	<div ng-if="saveDialog.validationErrors" class="alert error" style="font-size: 14px; margin-top:20px">
         

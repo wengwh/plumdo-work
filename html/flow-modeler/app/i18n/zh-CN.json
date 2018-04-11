@@ -335,6 +335,7 @@
  	"MODEL.SAVE.TITLE": "保存模型",
     "MODEL.VALIDATE.TITLE" : "验证结果",
     "MODEL.NAME": "名称",
+    "MODEL.KEY": "标识",
     "MODEL.DESCRIPTION": "描述",
     "MODEL.SAVE.NEWVERSION": "将它保存为一个新的版本吗？这意味着你可以随时回到以前的版本",
     "MODEL.SAVE.COMMENT": "评论",

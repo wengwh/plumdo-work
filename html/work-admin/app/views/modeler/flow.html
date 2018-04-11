@@ -16,6 +16,7 @@
                 <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入名称">
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-info" ng-click="queryModel()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="importModel()">导入</button>
                   <button type="button" class="btn btn-info" ng-click="editModel()">创建</button>
                 </span>
               </div>
@@ -36,6 +37,11 @@
             <img ng-src="{{getImageUrl(item.id)}}" />
             <div class="tags tags-top">
               <span class="label-holder">
+                <span class="badge">v{{item.version}}</span> 
+              </span>
+            </div>
+            <div class="tags">
+              <span class="label-holder">
                 <span class="label label-info"><i class="fa fa-sitemap"></i> {{item.name}}-{{item.key}}</span>
               </span>
               <span class="label-holder">
@@ -44,7 +50,7 @@
             </div>
           </a>
           <div class="tools tools-top">
-            <a href=""  ng-click="modelDetail(item)">
+            <a href=""  ng-click="queryDetail(item.id)">
               <i class="fa fa-pencil">流程编辑</i>
             </a>
           </div>
@@ -61,7 +67,7 @@
       <div class="card">
         <div class="header">
           <h4 class="title">
-            <span class="text-info right-split">版本:{{selectedItem.version}}</span>{{selectedItem.name}}
+            <span class="text-info right-split">v{{selectedItem.version}}</span>{{selectedItem.name}}
             <button type="button" class="btn btn-warning pull-right" ng-click="returnList()">返回上一级</button>
           </h4>
         </div>
@@ -69,32 +75,35 @@
           <hr>
           <div class="row">
             <div class="col-md-4">
-              <span class="label label-info pull-left">创建人：管理员</span><br/>
+              <span class="label label-success pull-left">标识：{{selectedItem.key}}</span><br/>
+              <span class="label label-success pull-left">创建人：管理员</span><br/>
+              <span class="label label-success pull-left">备注：{{selectedItem.description}}</span><br/>
               <span class="label label-success pull-left">最后修改时间：{{selectedItem.lastUpdateTime}}</span>
             </div>
             <div class="col-md-8 text-right">
               <div class="btn-group">
                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                                            版本 <span class="badge">2.0</span> <span class="caret"></span>
+                                            版本 <span class="badge">{{selectedItem.version}}</span> <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="#">版本号1.0</a></li>
+                  <li ng-repeat="num in versionArray()"><a href="" ng-click="queryHistory(selectedItem.key,num)">版本：{{num}}</a></li>
                 </ul>
               </div>
               <div class="btn-group">
-                  <button type="button" class="btn btn-info" ng-click="editModel(selectedItem.id)">编辑</button>
-                  <button type="button" class="btn btn-info" ng-click="copyModel(selectedItem.id)">复制</button>
-                  <button type="button" class="btn btn-info" ng-click="deleteModel(selectedItem.id)">删除</button>
+                  <button type="button" class="btn btn-info" ng-click="editModel(selectedItem.id)" ng-disabled="!lastVersion">编辑</button>
+                  <button type="button" class="btn btn-info" ng-click="copyModel(selectedItem)">复制</button>
+                  <button type="button" class="btn btn-info" ng-click="deleteModel(selectedItem.id)" ng-disabled="!lastVersion">删除</button>
               </div>
               <div class="btn-group">
-                  <button type="button" class="btn btn-info" ng-click="deployModel(selectedItem.id)">部署</button>
-                  <button type="button" class="btn btn-info" ng-click="importModel(selectedItem.id)">导出</button>
+                  <button type="button" class="btn btn-info" ng-click="deployModel(selectedItem.id)" ng-disabled="!lastVersion">部署</button>
+                  <button type="button" class="btn btn-info" ng-click="exportModel(selectedItem)">导出</button>
               </div>
-              <button type="button" class="btn btn-info" ng-click="designModel(selectedItem.id)">模型设计</button>
+              <button type="button" class="btn btn-info" ng-click="designModel(selectedItem.id)" ng-show="lastVersion">模型设计</button>
+              <button type="button" class="btn btn-info" ng-click="newestModel(selectedItem)" ng-show="!lastVersion">变成新版本</button>
             </div>
           </div>
           <div class="row">
-            <img ng-src="{{getImageUrl(selectedItem.id)}}"  />
+            <img ng-src="{{getImageUrl(selectedItem.id)}}" />
           </div>
         </div>
       </div>

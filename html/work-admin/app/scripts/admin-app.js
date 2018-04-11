@@ -59,11 +59,10 @@
 						$scope.modalTitle = angular.copy(args.title);
 						$scope.cancel = function() {
 							$uibModalInstance.dismiss('cancel');
-							args.confirm(false);
 						};
 						$scope.ok = function() {
 							$uibModalInstance.close();
-							args.confirm(true);
+							args.confirm();
 						};
 					}
 				});
@@ -73,7 +72,7 @@
 				$uibModal.open({
 					templateUrl : 'views/common/edit-modal.html',
 					controller : 'EditModalController',
-					resolve : args
+					scope : angular.extend($rootScope.$new(),args)
 				});
 			};
 			
@@ -98,7 +97,7 @@
 				$uibModal.open({
 					template : '<div class="modal-body"><table ng-table="tableOptions" class="table table-striped ng-table"></table></div>',
 					controller : 'TableModalController',
-					resolve : args
+					scope : angular.extend($rootScope.$new(),args)
 				});
 			};
 			
@@ -112,17 +111,16 @@
 			
 			$rootScope.windowExportFile = function(data,fileName){
 	    	$rootScope.showProgress();
-				// 加入定时跳出angular本身的检查
 	    	$timeout(function() {
-					var fileName = decodeURI(fileName);
+					fileName = decodeURI(fileName);
 					var url = URL.createObjectURL(new Blob([ data ]));
 					var a = document.createElement('a');
-					document.body.appendChild(a); // 此处增加了将创建的添加到body当中
+					document.body.appendChild(a); 
 					a.href = url;
 					a.download = fileName;
 					a.target = '_blank';
 					a.click();
-					a.remove(); // 将a标签移除
+					a.remove();
 					$rootScope.hideProgress();
 				}, 1000);
 	    };
