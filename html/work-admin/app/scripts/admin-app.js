@@ -80,9 +80,12 @@
 				$uibModal.open({
 	        templateUrl: 'views/common/edit-modal.html',
 	        controller: function ($scope, $uibModalInstance) {
+	        	angular.extend($scope,args.property);
+	        	
 	          $scope.modalTitle = angular.copy(args.title);
 	          $scope.formData = angular.copy(args.formData) || {};
 	          $scope.formUrl = angular.copy(args.formUrl);
+	          $scope.hideFooter = angular.copy(args.hideFooter);
 	          $scope.cancel = function () {
 	    				$uibModalInstance.dismiss('cancel');
 	          };

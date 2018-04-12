@@ -116,7 +116,7 @@
       }
       
       if($scope.menuTitle === null){
-        $scope.$state.go('main.blank');
+//        $scope.$state.go('main.blank');
       }
       
 		};

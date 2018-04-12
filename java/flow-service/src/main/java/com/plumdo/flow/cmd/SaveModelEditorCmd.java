@@ -1,10 +1,16 @@
 package com.plumdo.flow.cmd;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.Collections;
 
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.commons.io.IOUtils;
+import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.editor.language.json.converter.BpmnJsonConverter;
 import org.flowable.engine.ProcessEngineConfiguration;
@@ -19,11 +25,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.flow.exception.FlowableConflictException;
 
 /**
- * 部署模型
- * @author wengwh
+ * 保存模型，同时生成图片
  *
+ * @author wengwenhui
+ * @date 2018年4月12日
  */
-
 public class SaveModelEditorCmd implements Command<Void>, Serializable  {
 
 	private static final long serialVersionUID = 1L;
@@ -44,7 +50,13 @@ public class SaveModelEditorCmd implements Command<Void>, Serializable  {
 			repositoryService.addModelEditorSource(modelId, bytes);
 			ObjectNode modelNode = (ObjectNode) new ObjectMapper().readTree(bytes);
 			BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(modelNode);
-	
+			BpmnXMLConverter xmlConverter = new BpmnXMLConverter();
+			byte[] bpmnBytes = xmlConverter.convertToXML(bpmnModel);
+			XMLInputFactory xif = XMLInputFactory.newInstance();
+			InputStreamReader xmlIn = new InputStreamReader(new ByteArrayInputStream(bpmnBytes), "UTF-8");
+			XMLStreamReader xtr = xif.createXMLStreamReader(xmlIn);
+			bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
+			
 			ProcessDiagramGenerator diagramGenerator = processEngineConfiguration.getProcessDiagramGenerator();
 			InputStream resource = diagramGenerator.generateDiagram(bpmnModel,"png", 
 						Collections.<String> emptyList(), Collections.<String> emptyList(), 

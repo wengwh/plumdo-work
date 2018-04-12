@@ -11,10 +11,11 @@
 		function($scope,$stateParams) {
 			$scope.groupService = $scope.IdmService($scope.restUrl.idmGroups);
 			$scope.cacheParams = $stateParams.cacheParams || {};
-			$scope.parentGroup = $scope.cacheParams.parentGroup||{id:0};
+//			$scope.parentGroup = $scope.cacheParams.parentGroup||{id:0};
 			$scope.queryParams = $scope.cacheParams.queryParams||{};
-			$scope.queryParams.parentId = $scope.parentGroup.id;
+			
 			$scope.queryResult = {};
+			
 			
 			$scope.queryGroup = function() {
 				$scope.groupService.get({
@@ -63,13 +64,13 @@
 				$scope.cacheParams.queryParams={};
 				$scope.cacheParams.parentGroupArray.push($scope.cacheParams.parentGroup);
 				$scope.cacheParams.parentGroup=item;
-				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams},{reload:$scope.$state.current});
+				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams,id:item.id},{reload:$scope.$state.current});
 			};
 			
 			$scope.returnParent = function() {
 				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
 				$scope.cacheParams.parentGroup=$scope.cacheParams.parentGroupArray.pop();
-				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams},{reload:$scope.$state.current});
+				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams,id:$scope.parentGroup.parentId},{reload:$scope.$state.current});
 			};
 
 			$scope.queryGroupUser = function(id) {
@@ -127,6 +128,19 @@
 	  		queryParams : $scope.queryParams
 	  	};
 			
-			$scope.queryGroup();
+			if($stateParams.id && $stateParams.id!=0){
+				$scope.groupService.get({
+					urlPath : '/'+$stateParams.id
+				}, function(response) {
+						$scope.parentGroup = response;
+						$scope.queryParams.parentId = $scope.parentGroup.id;
+						$scope.queryGroup();
+				});
+			}else{
+				$scope.parentGroup ={id:0};
+				$scope.queryParams.parentId = $scope.parentGroup.id;
+				$scope.queryGroup();
+			}
+			
 		});
 })();

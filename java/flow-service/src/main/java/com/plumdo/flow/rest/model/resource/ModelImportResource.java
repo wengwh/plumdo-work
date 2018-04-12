@@ -25,6 +25,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.flow.cmd.SaveModelEditorCmd;
 import com.plumdo.flow.constant.ErrorConstant;
+import com.plumdo.flow.constant.TableConstant;
+import com.plumdo.flow.rest.model.ModelResponse;
 
 /**
  * 模型导入
@@ -40,7 +42,7 @@ public class ModelImportResource extends BaseModelResource {
 	@PostMapping(value = "/models/import", name = "流程模型导入")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void importModel(HttpServletRequest request) {
+	public ModelResponse importModel(HttpServletRequest request) {
 		if (request instanceof MultipartHttpServletRequest == false) {
 			exceptionFactory.throwIllegalArgument(ErrorConstant.REQUEST_NOT_MULTIPART);
 		}
@@ -68,6 +70,12 @@ public class ModelImportResource extends BaseModelResource {
 			Process process = bpmnModel.getMainProcess();
 			Model modelData = repositoryService.newModel();
 			modelData.setKey(process.getId());
+			Model lastModel = repositoryService.createModelQuery().modelKey(modelData.getKey()).latestVersion().singleResult();
+			if (lastModel == null) {
+				modelData.setVersion(TableConstant.MODEL_VESION_START);
+			} else {
+				modelData.setVersion(lastModel.getVersion() + 1);
+			}
 			if (ObjectUtils.isNotEmpty(process.getName())) {
 				modelData.setName(process.getName());
 			}else {
@@ -79,10 +87,11 @@ public class ModelImportResource extends BaseModelResource {
 			modelData.setMetaInfo(metaInfo.toString());
 			repositoryService.saveModel(modelData);
 			managementService.executeCommand(new SaveModelEditorCmd(modelData.getId(), bpmnJsonConverter.convertToJson(bpmnModel).toString()));
+			return restResponseFactory.createModelResponse(modelData);
 		} catch (Exception e) {
 			logger.error("导入流程文件异常", e);
 			exceptionFactory.throwDefinedException(ErrorConstant.MODEL_IMPORT_FILE_ERROR, fileName, e.getMessage());
 		}
-
+		return null;
 	}
 }

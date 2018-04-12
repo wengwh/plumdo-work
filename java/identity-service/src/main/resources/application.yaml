@@ -22,7 +22,11 @@ spring:
     time-zone : GMT+8
     date-format : yyyy-MM-dd HH:mm:ss
 
-   
+
+logging:
+  name: identity-service
+  config: classpath:logback-spring.xml
+     
 server:
   port: 8088
   
@@ -32,8 +36,6 @@ server:
 spring:
   profiles: pro
   
-logging:
-  config: classpath:logback-pro.xml
   
 ---
 
@@ -41,7 +43,5 @@ logging:
 spring:
   profiles: dev
   
-logging:
-  config: classpath:logback-dev.xml
 
   

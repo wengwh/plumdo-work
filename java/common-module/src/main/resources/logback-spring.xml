@@ -2,12 +2,12 @@
 <configuration>
 	<!-- 文件输出格式 -->
 	<property name="PATTERN"
-		value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%level] [%thread] %c : %replace(%msg){'^(.{6000}).*$', '$1'}%n" />
+		value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%level] [%thread] %c : %msg%n" />
 
 	<!-- log文件路径 -->
 	<property name="LOG_FILE_PATH" value="./log/" />
 	<property name="CHARSET" value="UTF-8" />
-	<property name="LOG_FILE_NAME" value="flow-service" />
+	<springProperty scope="context" name="LOG_FILE_NAME" source="logging.name"/>
 
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>

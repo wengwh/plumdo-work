@@ -20,7 +20,6 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import com.plumdo.common.utils.DateUtils;
 import com.plumdo.common.utils.ObjectUtils;
 
-
 /**
  * 打印请求过滤器
  * 
@@ -38,20 +37,29 @@ public class RequestLogFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		long begintime = DateUtils.currentTimeMillis();
-		JsonContentCachingRequestWrapper requestWrapper = new JsonContentCachingRequestWrapper(request);
-		ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-		filterChain.doFilter(requestWrapper, responseWrapper);
-		long timecost = DateUtils.getTimeMillisConsume(begintime);
+		long timecost = 0;
 		String requestURI = request.getRequestURI();
+		String method = request.getMethod();
 		String ip = request.getRemoteAddr();
-		String requestParam = convertString(requestWrapper.getContentAsByteArray());
-		updateResponse(requestURI, responseWrapper);
-		if (isNotJsonContentType(responseWrapper.getContentType())) {
-			logger.debug("ip:{} 调用接口,请求地址为:{}, 请求参数为:{},[{}]ms", ip, requestURI, requestParam, timecost);
-		} else {
-			String result = convertString(responseWrapper.getContentAsByteArray());
-			logger.debug("ip:{} 调用接口,请求地址为:{}, 请求参数为:{},返回值是{},[{}]ms", ip, requestURI, requestParam, result, timecost);
+		if (isNotJsonContentType(request.getContentType())) {
+			filterChain.doFilter(request, response);
+			timecost = DateUtils.getTimeMillisConsume(begintime);
+			logger.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},[{}]ms", ip, requestURI, method, request.getQueryString(), timecost);
+		}else {
+			JsonContentCachingRequestWrapper requestWrapper = new JsonContentCachingRequestWrapper(request);
+			ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
+			filterChain.doFilter(requestWrapper, responseWrapper);
+			timecost = DateUtils.getTimeMillisConsume(begintime);
+			String requestParam = convertString(requestWrapper.getContentAsByteArray());
+			updateResponse(requestURI, responseWrapper);
+			if (isNotJsonContentType(responseWrapper.getContentType())) {
+				logger.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},[{}]ms", ip, requestURI, method, requestParam, timecost);
+			} else {
+				String result = convertString(responseWrapper.getContentAsByteArray());
+				logger.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},返回值是{},[{}]ms", ip, requestURI, method, requestParam, result, timecost);
+			}
 		}
+		
 	}
 
 	private boolean isNotJsonContentType(String contentType) {

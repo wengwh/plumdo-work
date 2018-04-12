@@ -38,7 +38,7 @@ public class JwtValidFilter extends OncePerRequestFilter {
 		}
 		String token = request.getHeader("Token");
 		String userId = request.getHeader("User-ID");
-		if (ObjectUtils.isEmpty(userId) ||ObjectUtils.isEmpty(token) || !token.startsWith("Bearer ")) {
+		if (ObjectUtils.isEmpty(userId) || ObjectUtils.isEmpty(token) || !token.startsWith("Bearer ")) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}

@@ -7,16 +7,12 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('FlowController', 
+  angular.module('adminApp').controller('FlowListController', 
   		function($scope,$window) {
     $scope.modelService = $scope.FlowService($scope.restUrl.flowModels);
 		$scope.queryResult = {};
 		$scope.queryParams = {latestVersion:true};
-		$scope.selectedItem = null;
-		$scope.lastVersion = false;
-		$scope.versionNum = 0;
 
-  	console.info($scope.modelService.url)
     $scope.queryModel = function() {
       $scope.modelService.get({
         params : $scope.queryParams
@@ -24,6 +20,51 @@
 				$scope.queryResult = response;
       });
     };
+
+  	$scope.importModel = function() {
+    	$scope.editConfirmModal({
+    		formUrl: 'flow-model-import.html',
+        title: '导入模型',
+        hideFooter: true,
+        property:{
+        	fileOptions:{
+        		fileuploaded : function(){$scope.queryModel();},
+        		uploadUrl: $scope.modelService.url+'/import',
+        		allowedFileExtensions:['bpmn','bpmn20.xml']
+        	}
+        }
+      });
+		};
+		
+		$scope.editModel = function() {
+			$scope.editModal({
+				formUrl: 'flow-model-edit.html',
+				title : '模型',
+				service : $scope.modelService,
+				complete : function(){
+					$scope.queryModel();
+				}
+			});
+		};
+		
+		$scope.queryDetail = function(id){
+			$scope.$state.go('main.modeler.flow.detail',{id:id})
+		};
+		
+    $scope.getImageUrl = function(id){
+    	return $scope.modelService.url +'/'+id+'/image.png';
+    }
+    
+    $scope.queryModel();
+  });
+  
+  
+  angular.module('adminApp').controller('FlowDetailController', 
+  		function($scope,$window,$stateParams) {
+    $scope.modelService = $scope.FlowService($scope.restUrl.flowModels);
+		$scope.selectedItem = null;
+		$scope.lastVersion = false;
+		$scope.versionNum = 0;
 
     $scope.deleteModel = function(id){
   		$scope.confirmModal({
@@ -67,11 +108,7 @@
 				title : '模型',
 				service : $scope.modelService,
 				complete : function(){
-					if(id){
-		  			$scope.queryDetail(id);
-		  		}else{
-						$scope.queryModel();
-		  		}
+	  			$scope.queryDetail(id);
 				}
 			});
 		};
@@ -129,7 +166,7 @@
 		
 		$scope.queryDetail = function(id){
 			$scope.modelService.get({
-        urlPath : '/' + id 
+        urlPath : '/' + id
       }, function(response) {
   			$scope.selectedItem = response;
   			$scope.lastVersion = true;
@@ -138,8 +175,7 @@
 		};
 		
 		$scope.returnList = function(){
-			$scope.selectedItem = null;
-	    $scope.queryModel();
+			$scope.$state.go('main.modeler.flow.list')
 		};
 	
     $scope.designModel = function(id){
@@ -147,7 +183,7 @@
     };
 
     $scope.getImageUrl = function(id){
-    	return $scope.modelService.url +'/'+id+'/image.jpg';
+    	return $scope.modelService.url +'/'+id+'/image.png';
     }
     
     $scope.versionArray = function(){
@@ -158,6 +194,6 @@
     	return numArray;
     }
     
-    $scope.queryModel();
+    $scope.queryDetail($stateParams.id);
   });
 })();

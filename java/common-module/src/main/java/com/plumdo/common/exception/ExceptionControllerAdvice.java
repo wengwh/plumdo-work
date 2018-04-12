@@ -33,6 +33,14 @@ public class ExceptionControllerAdvice {
 		return new ErrorInfo(e.getRet(), e.getMessage());
 	}
 
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(AuthErrorException.class)
+	@ResponseBody
+	public ErrorInfo handleAuthError(AuthErrorException e) {
+		logger.error("授权验证异常", e);
+		return new ErrorInfo(e.getRet(), e.getMessage());
+	}
+	
 	@ResponseStatus(value = HttpStatus.FORBIDDEN)
 	@ExceptionHandler(ForbiddenException.class)
 	@ResponseBody

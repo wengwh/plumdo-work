@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plumdo.common.annotation.NotAuth;
 import com.plumdo.common.constant.CoreConstant;
 import com.plumdo.common.model.ObjectMap;
 import com.plumdo.common.resource.BaseResource;
@@ -43,6 +44,7 @@ public class AuthResource extends BaseResource {
 
 	@PostMapping("/auths/login")
 	@ResponseStatus(HttpStatus.OK)
+	@NotAuth
 	public ObjectMap login(@RequestBody ObjectMap loginRequest) {
 		String account = loginRequest.getAsString("account");
 		String password = loginRequest.getAsString("password");

@@ -46,7 +46,7 @@ public class GroupResource extends BaseResource {
 	private Group getGroupFromRequest(Integer id) {
 		Group group = groupRepository.findOne(id);
 		if (group == null) {
-			exceptionFactory.throwDefinedException(ErrorConstant.OBJECT_NOT_FOUND);
+			exceptionFactory.throwDefinedException(ErrorConstant.GROUP_NOT_FOUND);
 		}
 		return group;
 	}

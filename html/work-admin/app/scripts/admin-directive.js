@@ -197,6 +197,44 @@
     		$(element).colorbox(colorbox_params);
       }
     };
+  }).directive('fileInput', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.fileinput({
+          language: 'zh',
+          uploadUrl: '#'
+        });
+        
+        scope.$watch(attrs.ngDisabled, function (ngDisabled) {
+          if (ngDisabled) {
+            element.fileinput('disable');
+          } else {
+            element.fileinput('enable');
+          }
+        });
+       
+        scope.$watch(attrs.fileInput, function (fileInput) {
+          if (angular.isDefined(fileInput)) {
+            fileInput = angular.copy(fileInput);
+            if(angular.isDefined(fileInput.allowedFileTypes)){
+            	if (fileInput.allowedFileTypes.indexOf("all") >= 0 || fileInput.allowedFileTypes.length === 0) {
+                fileInput.allowedFileTypes = null;
+              }
+            }
+            if(angular.isDefined(fileInput.allowedFileExtensions)){
+	            if (fileInput.allowedFileExtensions.indexOf("all") >= 0 || fileInput.allowedFileExtensions.length === 0) {
+	              fileInput.allowedFileExtensions = null;
+	            }
+            }
+            if(angular.isDefined(fileInput.fileuploaded)){
+              element.on('fileuploaded', fileInput.fileuploaded);
+            }
+            element.fileinput('refresh', fileInput);
+          }
+        }, true);
+      }
+    };
   });
 
 })();

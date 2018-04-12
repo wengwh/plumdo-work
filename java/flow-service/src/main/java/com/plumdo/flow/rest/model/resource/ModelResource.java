@@ -65,7 +65,7 @@ public class ModelResource extends BaseModelResource {
 			modelQuery.modelCategoryLike(requestParams.get("category"));
 		}
 		if (ObjectUtils.isNotEmpty(requestParams.get("name"))) {
-			modelQuery.modelNameLike(requestParams.get("name"));
+			modelQuery.modelNameLike("%"+requestParams.get("name")+"%");
 		}
 		if (ObjectUtils.isNotEmpty(requestParams.get("key"))) {
 			modelQuery.modelKey(requestParams.get("key"));
@@ -187,11 +187,7 @@ public class ModelResource extends BaseModelResource {
 		model.setName(modelRequest.getName());
 		model.setMetaInfo(modelRequest.getMetaInfo());
 		model.setTenantId(modelRequest.getTenantId());
-		if (modelRequest.getClearDeployId()) {
-			model.setDeploymentId(null);
-		}
 		repositoryService.saveModel(model);
-		
 		
 		return restResponseFactory.createModelResponse(model);
 	}

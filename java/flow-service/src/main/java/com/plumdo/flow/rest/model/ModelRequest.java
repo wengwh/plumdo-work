@@ -9,7 +9,6 @@ public class ModelRequest {
 	protected String category;
 	protected String description;
 	protected String tenantId;
-	protected Boolean clearDeployId = false;
 
 	public String getName() {
 		return name;
@@ -49,14 +48,6 @@ public class ModelRequest {
 
 	public String getTenantId() {
 		return tenantId;
-	}
-
-	public Boolean getClearDeployId() {
-		return clearDeployId;
-	}
-
-	public void setClearDeployId(Boolean clearDeployId) {
-		this.clearDeployId = clearDeployId;
 	}
 
 	public String getMetaInfo() {

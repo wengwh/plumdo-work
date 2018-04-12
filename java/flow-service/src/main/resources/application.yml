@@ -26,10 +26,11 @@ flowable:
   databaseSchema : plumdo_flow
 
 
+  
 logging:
+  name: flow-service
   config: classpath:logback-spring.xml
 
 server:
   port : 8082
     
-         

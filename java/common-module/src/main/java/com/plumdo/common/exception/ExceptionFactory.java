@@ -39,7 +39,11 @@ public class ExceptionFactory {
 	public void throwDefinedException(String code, Object... args) {
 		throw new BaseException(code, getResource(code, args));
 	}
-
+	
+	public void throwAuthError(String code, Object... args) {
+		throw new AuthErrorException(code, getResource(code, args));
+	}
+	
 	public void throwObjectNotFound(String code, Object... args) {
 		throw new ObjectNotFoundException(code, getResource(code, args));
 	}

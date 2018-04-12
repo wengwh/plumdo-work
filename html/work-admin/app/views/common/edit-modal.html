@@ -6,7 +6,7 @@
     <div ng-include="formUrl"></div>
   </form>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" ng-if="!hideFooter">
   <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
   <button type="button" class="btn btn-success" ng-disabled="editForm.$invalid" ng-click="ok()">确定</button>
 </div>
