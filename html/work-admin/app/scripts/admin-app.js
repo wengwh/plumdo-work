@@ -16,6 +16,7 @@
 			$rootScope.IdmService = RestService(contextRoot.identityService);
 			$rootScope.$state = $state;
 			$rootScope.progressNum = 0;
+			$rootScope.cacheParams = {};
 
 			$rootScope.showProgress = function(msg) {
 				$rootScope.progressNum++;

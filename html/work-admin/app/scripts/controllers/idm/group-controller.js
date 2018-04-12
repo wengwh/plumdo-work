@@ -8,14 +8,22 @@
 	'use strict';
 
 	angular.module('adminApp').controller('GroupController',
-		function($scope,$stateParams) {
+		function($scope,$stateParams,$q) {
 			$scope.groupService = $scope.IdmService($scope.restUrl.idmGroups);
-			$scope.cacheParams = $stateParams.cacheParams || {};
-//			$scope.parentGroup = $scope.cacheParams.parentGroup||{id:0};
-			$scope.queryParams = $scope.cacheParams.queryParams||{};
-			
+			$scope.parentId = parseInt($stateParams.id || 0);
+			$scope.queryParams = $scope.cacheParams[$scope.parentId] || {};
+			$scope.queryParams.parentId = $scope.parentId;
+      $scope.parentGroup = {id:$scope.parentId};
 			$scope.queryResult = {};
-			
+
+			var queryPromise = null;
+			if($scope.parentId !== 0){
+        queryPromise = $scope.groupService.get({
+          urlPath : '/'+$scope.parentId
+        }, function(response) {
+            $scope.parentGroup = response;
+        });
+      }
 			
 			$scope.queryGroup = function() {
 				$scope.groupService.get({
@@ -60,17 +68,13 @@
 			};
 			
 			$scope.queryChild = function(item) {
-				$scope.cacheParams.queryParamsArray.push($scope.queryParams);
-				$scope.cacheParams.queryParams={};
-				$scope.cacheParams.parentGroupArray.push($scope.cacheParams.parentGroup);
-				$scope.cacheParams.parentGroup=item;
-				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams,id:item.id},{reload:$scope.$state.current});
+				$scope.cacheParams[$scope.parentId]=$scope.queryParams;
+        $scope.cacheParams[item.id]={};
+				$scope.$state.go($scope.$state.current, {id:item.id});
 			};
 			
 			$scope.returnParent = function() {
-				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
-				$scope.cacheParams.parentGroup=$scope.cacheParams.parentGroupArray.pop();
-				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams,id:$scope.parentGroup.parentId},{reload:$scope.$state.current});
+				$scope.$state.go($scope.$state.current, {id:$scope.parentGroup.parentId});
 			};
 
 			$scope.queryGroupUser = function(id) {
@@ -128,19 +132,9 @@
 	  		queryParams : $scope.queryParams
 	  	};
 			
-			if($stateParams.id && $stateParams.id!=0){
-				$scope.groupService.get({
-					urlPath : '/'+$stateParams.id
-				}, function(response) {
-						$scope.parentGroup = response;
-						$scope.queryParams.parentId = $scope.parentGroup.id;
-						$scope.queryGroup();
-				});
-			}else{
-				$scope.parentGroup ={id:0};
-				$scope.queryParams.parentId = $scope.parentGroup.id;
-				$scope.queryGroup();
-			}
+			$q.all([queryPromise]).then(function() {  
+			   $scope.queryGroup();
+			});
 			
-		});
+  });
 })();

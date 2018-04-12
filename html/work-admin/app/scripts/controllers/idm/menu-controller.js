@@ -8,13 +8,22 @@
 	'use strict';
 
 	angular.module('adminApp').controller('MenuController',
-		function($scope,$stateParams) {
+		function($scope,$stateParams,$q) {
 			$scope.menuService = $scope.IdmService($scope.restUrl.idmMenus);
-			$scope.cacheParams = $stateParams.cacheParams || {};
-			$scope.parentMenu = $scope.cacheParams.parentMenu||{id:0};
-			$scope.queryParams = $scope.cacheParams.queryParams||{};
-			$scope.queryParams.parentId = $scope.parentMenu.id;
+      $scope.parentId = parseInt($stateParams.id || 0);
+      $scope.queryParams = $scope.cacheParams[$scope.parentId] || {};
+      $scope.queryParams.parentId = $scope.parentId;
+      $scope.parentMenu = {id:$scope.parentId};
 			$scope.queryResult = {};
+			
+			var queryPromise = null;
+      if($scope.parentId !== 0){
+        queryPromise = $scope.menuService.get({
+          urlPath : '/'+$scope.parentId
+        }, function(response) {
+            $scope.parentMenu = response;
+        });
+      }
 			
 			$scope.queryMenu = function() {
 				$scope.menuService.get({
@@ -65,16 +74,13 @@
 			};
 			
 			$scope.queryChild = function(item) {
-				$scope.cacheParams.queryParamsArray.push($scope.queryParams);
-				$scope.cacheParams.queryParams={};
-				$scope.cacheParams.parentMenu=item;
-				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams},{reload:$scope.$state.current});
+        $scope.cacheParams[$scope.parentId]=$scope.queryParams;
+        $scope.cacheParams[item.id]={};
+        $scope.$state.go($scope.$state.current, {id:item.id});
 			};
 			
 			$scope.returnParent = function() {
-				$scope.cacheParams.queryParams=$scope.cacheParams.queryParamsArray.pop();
-				$scope.cacheParams.parentMenu=null;
-				$scope.$state.go($scope.$state.current, {cacheParams: $scope.cacheParams},{reload:$scope.$state.current});
+        $scope.$state.go($scope.$state.current, {id:$scope.parentMenu.parentId});
 			};
 			
 			$scope.queryMenuRole = function(id) {
@@ -132,7 +138,9 @@
 	  		sortOrder : 'asc'
 	  	};
 
-			$scope.queryMenu();
+      $q.all([queryPromise]).then(function() {  
+        $scope.queryMenu();
+     });
 	});
 
 })();

@@ -86,12 +86,10 @@
       }).state('main.idm.group', {
         url: '/group/?:id',
         controller: 'GroupController',
-        params:{cacheParams:{parentGroupArray:[],queryParamsArray:[]}},
         templateUrl: 'views/idm/group.html'
       }).state('main.idm.menu', {
-        url: '/menu',
+        url: '/menu/?:id',
         controller: 'MenuController',
-        params:{cacheParams:{queryParamsArray:[]}},
         templateUrl: 'views/idm/menu.html'
       }).state('main.idm.role', {
         url: '/role',
