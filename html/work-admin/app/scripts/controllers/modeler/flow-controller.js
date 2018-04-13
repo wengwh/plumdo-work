@@ -51,17 +51,6 @@
       });
     };
     
-    $scope.editModel = function() {
-      $scope.editModal({
-        formUrl: 'flow-model-edit.html',
-        title : '模型',
-        service : $scope.modelService,
-        complete : function(){
-          $scope.queryModel();
-        }
-      });
-    };
-    
     $scope.deleteModel = function(id){
       $scope.confirmModal({
         title:'确认删除模型',
@@ -70,7 +59,7 @@
             urlPath : '/' + id
           }, function() {
             $scope.showSuccessMsg('删除模型成功');
-            $scope.returnList();
+            $scope.gotoList();
           });
         }
       });
@@ -104,7 +93,11 @@
         title : '模型',
         service : $scope.modelService,
         complete : function(){
-          $scope.queryDetail(id);
+          if(angular.isDefined(id)){
+            $scope.queryDetail(id);
+          }else{
+            $scope.queryModel();
+          }
         }
       });
     };
