@@ -32,11 +32,11 @@
         // 请求发生了错误，如果能从错误中恢复，可以返回一个新的响应或promise
         console.info('response error- rejection:' + rejection);
         if(rejection.status === 401){
-					$window.localStorage.token = null;
-					$rootScope.$state.go('login');
-					$rootScope.hideProgress('用户校验过期',true);
+          $window.localStorage.token = null;
+          $rootScope.$state.go('login');
+          $rootScope.hideProgress('用户校验过期',true);
         }else if(rejection.data && rejection.data.msg){
-        	$rootScope.hideProgress(rejection.data.msg, true);
+          $rootScope.hideProgress(rejection.data.msg, true);
         }else{
           $rootScope.hideProgress('HTTP请求异常', true);
         }

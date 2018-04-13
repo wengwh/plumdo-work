@@ -58,17 +58,9 @@
         url: '/button',
         templateUrl: 'views/test2.html'
       }).state('main.modeler.flow', {
-        url: '/flow',
-        abstract: true,
-        template: '<div ui-view></div>'
-      }).state('main.modeler.flow.list', {
-        url: '',
-        controller: 'FlowListController',
-        templateUrl: 'views/modeler/flow-list.html'
-      }).state('main.modeler.flow.detail', {
-        url: '/:id',
-        controller: 'FlowDetailController',
-        templateUrl: 'views/modeler/flow-detail.html'
+        url: '/flow/?:id',
+        controller: 'FlowController',
+        templateUrl: 'views/modeler/flow.html'
       }).state('main.modeler.report', {
         url: '/report',
         templateUrl: 'views/test2.html'

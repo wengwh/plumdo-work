@@ -10,43 +10,44 @@
   angular.module('adminApp').directive('viewLoad', function () {
     return {
       restrict: 'A',
-			templateUrl: 'views/common/view-load.html',
+      templateUrl: 'views/common/view-load.html',
       link: function (scope, element) {
         $(element).fadeIn(300);
       }
     };
   }).directive('ngPagination', [ function() {
-		return {
-			restrict : 'A',
-			templateUrl: 'views/common/pagination.html',
+    return {
+      restrict : 'A',
+      templateUrl: 'views/common/pagination.html',
       require: 'ngModel',
       scope: {
-      	total: '=ngModel' ,
-      	param: '=' ,
+        total: '=ngModel' ,
+        param: '=' ,
         changed: '=' 
       },
-			controller : function($scope) {
-				$scope.pageList= [5, 10, 20, 50, 100, 500];
-				$scope.param = $scope.param || {};
-				$scope.param.pageNum = $scope.param.pageNum || 1;
-				$scope.param.pageSize = $scope.param.pageSize || 10;
+      controller : function($scope) {
+        $scope.pageList= [5, 10, 20, 50, 100, 500];
+        $scope.param = $scope.param || {};
+        $scope.param.pageNum = $scope.param.pageNum || 1;
+        $scope.param.pageSize = $scope.param.pageSize || 10;
+        $scope.total = $scope.total || 9999999;
 
-				$scope.pageNumChange = function() {
-					$scope.changed();
-				};
+        $scope.pageNumChange = function() {
+          $scope.changed();
+        };
 
-				$scope.pageSizeChange = function() {
-					$scope.param.pageNum = 1;
-					$scope.changed();
-				};
-
-			}
-		};
-	} ]).directive('ngIcheck', ['$timeout',function($timeout) {
+        $scope.pageSizeChange = function() {
+          $scope.param.pageNum = 1;
+          $scope.changed();
+        };
+        
+      }
+    };
+  } ]).directive('ngIcheck', ['$timeout',function($timeout) {
     return {
       require: 'ngModel',
       link: function($scope, element, $attrs, ngModel) {
-      	return $timeout(function() {
+        return $timeout(function() {
           $scope.$watch($attrs.ngModel, function () {
               $(element).iCheck('update');
           });
@@ -70,78 +71,84 @@
         });
       }
     };
-	}]).directive('ngTable', [ '$compile', function($compile) {
-		return {
-			restrict : 'A',
-			link : function(scope, element, attrs) {
-				var conf = scope[attrs.ngTable];
-				var tableId = conf.id;
-				scope[tableId] = scope[tableId] || {};
-				scope[tableId].loadFunction = conf.loadFunction || function() {};
-				scope[tableId].queryParams = conf.queryParams || {};
-				scope[tableId].queryParams.sortName = conf.sortName || "";
-				scope[tableId].queryParams.sortOrder = conf.sortOrder || "desc";
-				if(conf.isPage === false){
-					scope[tableId].isPage = false;
-				}else{
-					scope[tableId].isPage = true;
-				}
+  }]).directive('ngTable', [ '$compile', function($compile) {
+    return {
+      restrict : 'A',
+      link : function(scope, element, attrs) {
+        var conf = scope[attrs.ngTable];
+        var tableId = conf.id;
+        scope[tableId] = scope[tableId] || {};
+        scope[tableId].loadFunction = conf.loadFunction || function() {};
+        scope[tableId].queryParams = conf.queryParams || {};
+        
+        if(angular.isUndefined(scope[tableId].queryParams.sortName)){
+          scope[tableId].queryParams.sortName = conf.sortName || "";
+        }
+        if(angular.isUndefined(scope[tableId].queryParams.sortOrder)){
+          scope[tableId].queryParams.sortOrder = conf.sortOrder || "desc";
+        }
+        
+        if(conf.isPage === false){
+          scope[tableId].isPage = false;
+        }else{
+          scope[tableId].isPage = true;
+        }
 
-				scope[tableId].sortChange = scope[tableId].sortChange || function(sortName) {
-					if (scope[tableId].queryParams.sortName !== sortName) {
-						scope[tableId].queryParams.sortName = sortName;
-						scope[tableId].queryParams.sortOrder = "desc";
-					} else {
-						if (scope[tableId].queryParams.sortOrder === "desc") {
-							scope[tableId].queryParams.sortOrder = "asc";
-						} else {
-							scope[tableId].queryParams.sortOrder = "desc";
-						}
-					}
-					scope[tableId].loadFunction();
-				};
-				
-				var headThStr = '';
-				var bodyThStr = '';
-				for (var i in conf.colModels) {
-					var sortHtml = '';
-					if (conf.colModels[i].sortable) {
-						sortHtml = 'ng-class="{\'sorting\':' + tableId + '.queryParams.sortName!=\'' + conf.colModels[i].index + '\',' +
-						 '\'sorting_asc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'asc\',' +
-						 '\'sorting_desc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'desc\'}" '+ 
-						 'ng-click="' + tableId + '.sortChange(\'' + conf.colModels[i].index + '\')"';
-					}
-					var widthHtml = '';
-					if (conf.colModels[i].width) {
-						widthHtml = 'width=' + conf.colModels[i].width;
-					}
-					headThStr = headThStr + '<th ' + widthHtml + ' ' + sortHtml + ' >' + conf.colModels[i].name + '</th>\n';
+        scope[tableId].sortChange = scope[tableId].sortChange || function(sortName) {
+          if (scope[tableId].queryParams.sortName !== sortName) {
+            scope[tableId].queryParams.sortName = sortName;
+            scope[tableId].queryParams.sortOrder = "desc";
+          } else {
+            if (scope[tableId].queryParams.sortOrder === "desc") {
+              scope[tableId].queryParams.sortOrder = "asc";
+            } else {
+              scope[tableId].queryParams.sortOrder = "desc";
+            }
+          }
+          scope[tableId].loadFunction();
+        };
+        
+        var headThStr = '';
+        var bodyThStr = '';
+        for (var i in conf.colModels) {
+          var sortHtml = '';
+          if (conf.colModels[i].sortable) {
+            sortHtml = 'ng-class="{\'sorting\':' + tableId + '.queryParams.sortName!=\'' + conf.colModels[i].index + '\',' +
+             '\'sorting_asc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'asc\',' +
+             '\'sorting_desc\':' + tableId + '.queryParams.sortName==\'' + conf.colModels[i].index + '\'&&' + tableId + '.queryParams.sortOrder==\'desc\'}" '+ 
+             'ng-click="' + tableId + '.sortChange(\'' + conf.colModels[i].index + '\')"';
+          }
+          var widthHtml = '';
+          if (conf.colModels[i].width) {
+            widthHtml = 'width=' + conf.colModels[i].width;
+          }
+          headThStr = headThStr + '<th ' + widthHtml + ' ' + sortHtml + ' >' + conf.colModels[i].name + '</th>\n';
 
-					if (conf.colModels[i].formatter) {
-						bodyThStr = bodyThStr + '<td>' + conf.colModels[i].formatter() + '</td>\n';
-					} else {
-						bodyThStr = bodyThStr + '<td>{{row.' + conf.colModels[i].index + '}}</td>\n';
-					}
-				}
+          if (conf.colModels[i].formatter) {
+            bodyThStr = bodyThStr + '<td>' + conf.colModels[i].formatter() + '</td>\n';
+          } else {
+            bodyThStr = bodyThStr + '<td>{{row.' + conf.colModels[i].index + '}}</td>\n';
+          }
+        }
 
-				var trHtml = null;
-				if(scope[tableId].isPage){
-					trHtml = '<tr ng-repeat="row in ' + conf.data + '.data ">';
-				}else{
-					trHtml = '<tr ng-repeat="row in ' + conf.data +'">';
-				}
-				
-				var tableHtml = '<thead><tr>' + headThStr + '</tr></thead><tbody>'+ trHtml+ bodyThStr + '</tr></tbody>';
-				
-				element.html('').append($compile(tableHtml)(scope));
-				
-				if(scope[tableId].isPage){
-					var pageHtml = '<div ng-pagination ng-model="'+ conf.data +'.total" changed="'+ tableId +'.loadFunction" param="' + tableId + '.queryParams"></div>';
-					element.after($compile(pageHtml)(scope));
-				}
-			}
-		};
-	} ]).directive('ngIconpicker', ['$timeout',function ($timeout) {
+        var trHtml = null;
+        if(scope[tableId].isPage){
+          trHtml = '<tr ng-repeat="row in ' + conf.data + '.data ">';
+        }else{
+          trHtml = '<tr ng-repeat="row in ' + conf.data +'">';
+        }
+        
+        var tableHtml = '<thead><tr>' + headThStr + '</tr></thead><tbody>'+ trHtml+ bodyThStr + '</tr></tbody>';
+        
+        element.html('').append($compile(tableHtml)(scope));
+        
+        if(scope[tableId].isPage){
+          var pageHtml = '<div ng-pagination ng-model="'+ conf.data +'.total" changed="'+ tableId +'.loadFunction" param="' + tableId + '.queryParams"></div>';
+          element.after($compile(pageHtml)(scope));
+        }
+      }
+    };
+  } ]).directive('ngIconpicker', ['$timeout',function ($timeout) {
     return {
       restrict: 'A',
       require: 'ngModel',
@@ -168,14 +175,14 @@
         };
         
         scope.$watch("data", function(newValue) {
-        	if(newValue){
+          if(newValue){
             element.iconpicker('setIcon', newValue);
-        	}
+          }
         });
         
         element.on('change', function(e) {
-        	$timeout(function() {
-        		scope.data = e.icon;
+          $timeout(function() {
+            scope.data = e.icon;
           });
         });
         element.iconpicker(config);
@@ -185,16 +192,16 @@
     return {
       restrict: 'A',
       link: function (scope, element) {
-    		var colorbox_params = {
-    			rel: 'colorbox',
-    			reposition:true,
-    			scalePhotos:true,
-    			scrolling:false,
-    			current:'{current} of {total}',
-    			maxWidth:'100%',
-    			maxHeight:'100%'
-    		};
-    		$(element).colorbox(colorbox_params);
+        var colorbox_params = {
+          rel: 'colorbox',
+          reposition:true,
+          scalePhotos:true,
+          scrolling:false,
+          current:'{current} of {total}',
+          maxWidth:'100%',
+          maxHeight:'100%'
+        };
+        $(element).colorbox(colorbox_params);
       }
     };
   }).directive('fileInput', function () {
@@ -218,14 +225,14 @@
           if (angular.isDefined(fileInput)) {
             fileInput = angular.copy(fileInput);
             if(angular.isDefined(fileInput.allowedFileTypes)){
-            	if (fileInput.allowedFileTypes.indexOf("all") >= 0 || fileInput.allowedFileTypes.length === 0) {
+              if (fileInput.allowedFileTypes.indexOf("all") >= 0 || fileInput.allowedFileTypes.length === 0) {
                 fileInput.allowedFileTypes = null;
               }
             }
             if(angular.isDefined(fileInput.allowedFileExtensions)){
-	            if (fileInput.allowedFileExtensions.indexOf("all") >= 0 || fileInput.allowedFileExtensions.length === 0) {
-	              fileInput.allowedFileExtensions = null;
-	            }
+              if (fileInput.allowedFileExtensions.indexOf("all") >= 0 || fileInput.allowedFileExtensions.length === 0) {
+                fileInput.allowedFileExtensions = null;
+              }
             }
             if(angular.isDefined(fileInput.fileuploaded)){
               element.on('fileuploaded', fileInput.fileuploaded);

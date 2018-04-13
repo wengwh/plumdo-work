@@ -22,10 +22,10 @@
         urlPath : '/login',
         data : $scope.user
       }, function(response) {
-      	$window.localStorage.token = response.token;
-      	$window.localStorage.userId = response.id;
-      	$window.localStorage.userName = response.name;
-      	$window.localStorage.userAvatar = response.avatar;
+        $window.localStorage.token = response.token;
+        $window.localStorage.userId = response.id;
+        $window.localStorage.userName = response.name;
+        $window.localStorage.userAvatar = response.avatar;
         $scope.$state.go('main.home');
       });
     };

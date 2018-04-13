@@ -12,6 +12,7 @@
     $scope.userAvatar = $window.localStorage.userAvatar;
     $scope.userId = $window.localStorage.userId;
     $scope.menuTitle = null;
+    $scope.currentState = null;
     
     $scope.sidebarBackground='black';
     $scope.switchSidebarBackground = function(color) {
@@ -62,37 +63,38 @@
     };
     
     $scope.signOut= function(){
-    	$window.localStorage.token = null;
-    	$scope.$state.go('login');
+      $window.localStorage.token = null;
+      $scope.$state.go('login');
     };
     
     $scope.changePwd = function() {
-    	$scope.editConfirmModal({
-    		formUrl: 'change-password.html',
+      $scope.editConfirmModal({
+        formUrl: 'change-password.html',
         title: '修改密码',
         confirm: function (formData,modalInstance) {
-        	if(formData.newPassword !== formData.confirmPassword){
-        		$scope.showErrorMsg('新密码重复输入不一致');
-        	}else{
-        		$scope.authService.put({
-            	urlPath : '/password/change',
+          if(formData.newPassword !== formData.confirmPassword){
+            $scope.showErrorMsg('新密码重复输入不一致');
+          }else{
+            $scope.authService.put({
+              urlPath : '/password/change',
               data: angular.extend(formData,{userId:$scope.userId})
             }, function () {
               $scope.showSuccessMsg('修改密码成功');
               modalInstance.close();
             });
-        	}
+          }
         }
       });
-		};
-		
-		
-		$scope.setMenuTitle = function(statePath){
-		  if($window.localStorage.token === null || $window.localStorage.token === 'null' || $window.localStorage.token === ''){
+    };
+    
+    
+    $scope.setMenuTitle = function(statePath){
+      if($window.localStorage.token === null || $window.localStorage.token === 'null' || $window.localStorage.token === ''){
         $scope.$state.go('login');
         return;
-		  }
-		  $scope.menuTitle = null;
+      }
+      $scope.currentState = statePath;
+      $scope.menuTitle = null;
       var pathArray = statePath.split('.');
       if(pathArray[0]!=='main'){
         return;
@@ -119,10 +121,10 @@
         $scope.$state.go('main.blank');
       }
       
-		};
-		
-		
-		var menusPromise = $scope.authService.get({
+    };
+    
+    
+    var menusPromise = $scope.authService.get({
       urlPath : '/menus',
       params : {userId:$scope.userId}
     }, function(response) {
@@ -133,10 +135,11 @@
       $scope.setMenuTitle($scope.$state.current.name);
     });
     
-    
-    
     $scope.$on('$stateChangeSuccess', function(toState, toParams) {
-      $scope.setMenuTitle(toParams.name);
+      if($scope.currentState !== toParams.name){
+        $scope.clearCacheParams();
+        $scope.setMenuTitle(toParams.name);
+      }
     });
     
     /*$scope.menuItems=[
