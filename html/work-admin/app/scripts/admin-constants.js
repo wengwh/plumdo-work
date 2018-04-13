@@ -15,6 +15,7 @@
     .constant('restUrl', {
       formModels: '/form-models',
       flowModels: '/models',
+      flowDefinitions: '/process-definitions',
       idmAuths: '/auths',
       idmUsers: '/users',
       idmGroups: '/groups',

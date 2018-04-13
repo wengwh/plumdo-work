@@ -28,7 +28,7 @@ public abstract class AbstractPaginateList {
 				if (qp == null) {
 					throw new FlowableIllegalArgumentException("Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
 				}
-				((AbstractQuery) query).orderBy(qp);
+				query.orderBy(qp);
 				if(order.getDirection()==Direction.ASC) {
 					query.asc();
 				}else {

@@ -1,0 +1,88 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-query">
+        <div class="content">
+          <div class="row">
+            <div class="col-md-3">
+              <h4 class="title">状态</h4>
+              <div class="form-group">
+                <select class="form-control" ng-model="queryParams.suspended">
+                  <option value="">全部</option>
+                  <option value="false">激活</option>
+                  <option value="true">挂起</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <h4 class="title">名称</h4>
+              <div class="input-group">
+                <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入定义名称">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info" ng-click="queryDefinition()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="editDefinition()">创建</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="content">
+          <table ng-table="tableOptions" class="table table-striped ng-table">
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+<script type="text/ng-template" id="definition-edit.html">
+  <div class="form-group" ng-show="formData.parentId!=0">
+    <label class="control-label">父级</label> 
+  	<input type="text" readonly class="form-control" ng-model="formData.parentName"></input>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
+    <label class="control-label">名称</label> 
+  	<input type="text" class="form-control" name="name" ng-model="formData.name" required></input>
+  </div>
+  <div class="form-group">
+    <label class="control-label">路径</label> 
+    <input type="text" class="form-control" ng-model="formData.route"></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">状态</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.status" ng-value="0" ng-checked="true" /> 启用
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.status" ng-value="1" /> 停用
+		</label>
+	</div>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.icon.$error.required}">
+    <label class="control-label">图标</label> 
+	<div class="input-group">
+    <input type="text" class="form-control"  name="icon" ng-model="formData.icon" readonly required>
+    <span class="input-group-btn">
+        <button class="btn btn-default" ng-iconpicker ng-model="formData.icon" role="iconpicker"></button>
+    </span>
+	</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">排序</label> 
+    <input type="number" class="form-control" ng-model="formData.order"></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">描述</label> 
+	<textarea class="form-control" ng-model="formData.remark" rows="3"></textarea>
+  </div>
+</script>
+

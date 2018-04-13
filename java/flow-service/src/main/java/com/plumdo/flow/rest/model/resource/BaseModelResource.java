@@ -9,14 +9,13 @@ import com.plumdo.common.resource.BaseResource;
 import com.plumdo.flow.constant.ErrorConstant;
 import com.plumdo.flow.rest.RestResponseFactory;
 
-
 /**
  * 模型资源基类
  *
  * @author wengwenhui
  * @date 2018年4月11日
  */
-public class BaseModelResource extends BaseResource{
+public class BaseModelResource extends BaseResource {
 	@Autowired
 	protected RestResponseFactory restResponseFactory;
 	@Autowired
@@ -31,7 +30,7 @@ public class BaseModelResource extends BaseResource{
 		}
 		return model;
 	}
-	
+
 	protected void checkModelKeyExists(String modelKey) {
 		long countNum = repositoryService.createModelQuery().modelKey(modelKey).count();
 		if (countNum > 0) {

@@ -18,6 +18,7 @@ import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.plumdo.common.resource.PageResponse;
 import com.plumdo.flow.exception.FlowableForbiddenException;
-import com.plumdo.flow.rest.DataResponse;
 import com.plumdo.flow.rest.definition.ProcessDefinitionResponse;
 import com.plumdo.flow.rest.definition.ProcessDefinitionsPaginateList;
 
@@ -38,39 +39,39 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
 	@Autowired
 	protected RuntimeService runtimeService;
 	
-	private static final Map<String, QueryProperty> properties = new HashMap<String, QueryProperty>();
+	private static final Map<String, QueryProperty> allowedSortProperties = new HashMap<String, QueryProperty>();
   
 	static {
-		properties.put("id",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_ID);
-		properties.put("key",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_KEY);
-		properties.put("category",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_CATEGORY);
-		properties.put("name",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_NAME);
-		properties.put("version",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_VERSION);
-		properties.put("tenantId",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_TENANT_ID);
+		allowedSortProperties.put("id",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_ID);
+		allowedSortProperties.put("key",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_KEY);
+		allowedSortProperties.put("category",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_CATEGORY);
+		allowedSortProperties.put("name",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_NAME);
+		allowedSortProperties.put("version",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_VERSION);
+		allowedSortProperties.put("tenantId",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_TENANT_ID);
 	}
 	
-	@RequestMapping(value = "/process-definition", method = RequestMethod.GET, produces = "application/json", name="流程定义查询")
-	public DataResponse getProcessDefinitions(@RequestParam Map<String, String> allRequestParams) {
+	@GetMapping(value = "/process-definitions", name="流程定义查询")
+	public PageResponse getProcessDefinitions(@RequestParam Map<String, String> requestParams) {
 		ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
 
-		if (allRequestParams.containsKey("id")) {
-			processDefinitionQuery.processDefinitionId(allRequestParams.get("id"));
+		if (requestParams.containsKey("id")) {
+			processDefinitionQuery.processDefinitionId(requestParams.get("id"));
 		}
 		
-		if (allRequestParams.containsKey("category")) {
-			processDefinitionQuery.processDefinitionCategoryLike(allRequestParams.get("category"));
+		if (requestParams.containsKey("category")) {
+			processDefinitionQuery.processDefinitionCategoryLike(requestParams.get("category"));
 		}
-		if (allRequestParams.containsKey("key")) {
-			processDefinitionQuery.processDefinitionKeyLike(allRequestParams.get("key"));
+		if (requestParams.containsKey("key")) {
+			processDefinitionQuery.processDefinitionKeyLike(requestParams.get("key"));
 		}
-		if (allRequestParams.containsKey("name")) {
-			processDefinitionQuery.processDefinitionNameLike(allRequestParams.get("name"));
+		if (requestParams.containsKey("name")) {
+			processDefinitionQuery.processDefinitionNameLike(requestParams.get("name"));
 		}
-		if (allRequestParams.containsKey("version")) {
-			processDefinitionQuery.processDefinitionVersion(Integer.valueOf(allRequestParams.get("version")));
+		if (requestParams.containsKey("version")) {
+			processDefinitionQuery.processDefinitionVersion(Integer.valueOf(requestParams.get("version")));
 		}
-		if (allRequestParams.containsKey("suspended")) {
-			Boolean suspended = Boolean.valueOf(allRequestParams.get("suspended"));
+		if (requestParams.containsKey("suspended")) {
+			Boolean suspended = Boolean.valueOf(requestParams.get("suspended"));
 			if (suspended != null) {
 				if (suspended) {
 					processDefinitionQuery.suspended();
@@ -79,23 +80,23 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
 				}
 			}
 		}
-		if (allRequestParams.containsKey("latestVersion")) {
-			Boolean latest = Boolean.valueOf(allRequestParams.get("latestVersion"));
+		if (requestParams.containsKey("latestVersion")) {
+			Boolean latest = Boolean.valueOf(requestParams.get("latestVersion"));
 			if (latest != null && latest) {
 				processDefinitionQuery.latestVersion();
 			}
 		}
-		if (allRequestParams.containsKey("startableByUser")) {
-			processDefinitionQuery.startableByUser(allRequestParams.get("startableByUser"));
+		if (requestParams.containsKey("startableByUser")) {
+			processDefinitionQuery.startableByUser(requestParams.get("startableByUser"));
 		}
-		if (allRequestParams.containsKey("tenantId")) {
-			processDefinitionQuery.processDefinitionTenantIdLike(allRequestParams.get("tenantId"));
+		if (requestParams.containsKey("tenantId")) {
+			processDefinitionQuery.processDefinitionTenantIdLike(requestParams.get("tenantId"));
 		}
 
-		return new ProcessDefinitionsPaginateList(restResponseFactory).paginateList(allRequestParams, processDefinitionQuery, "name",properties);
+		return new ProcessDefinitionsPaginateList(restResponseFactory).paginateList(getPageable(requestParams), processDefinitionQuery, allowedSortProperties);
 	}
   
-	@RequestMapping(value = "/process-definition", method = RequestMethod.POST, produces = "application/json", name="流程定义创建")
+	@RequestMapping(value = "/process-definitions", method = RequestMethod.POST, produces = "application/json", name="流程定义创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ProcessDefinitionResponse createProcessDefinition(@RequestParam(value = "tenantId", required = false) String tenantId,HttpServletRequest request) {
 
@@ -146,7 +147,7 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
 		}
 	}
 	
-	@RequestMapping(value="/process-definition/{processDefinitionId}", method = RequestMethod.DELETE, produces = "application/json", name="流程定义删除")
+	@RequestMapping(value="/process-definitions/{processDefinitionId}", method = RequestMethod.DELETE, produces = "application/json", name="流程定义删除")
   	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteProcessDefinition(@PathVariable String processDefinitionId, 
 			@RequestParam(value="cascade", required=false, defaultValue="false") Boolean cascade) {

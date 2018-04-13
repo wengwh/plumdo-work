@@ -7,7 +7,7 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('FlowController', 
+  angular.module('adminApp').controller('ModelerFlowController', 
       function($scope,$window,$stateParams) {
     $scope.modelService = $scope.FlowService($scope.restUrl.flowModels);
     $scope.detailId = parseInt($stateParams.id || 0);
