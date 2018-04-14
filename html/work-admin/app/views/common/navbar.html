@@ -1,0 +1,63 @@
+<nav class="navbar navbar-default ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" ng-click="sidebarToggle(this)">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar bar1"></span>
+        <span class="icon-bar bar2"></span>
+        <span class="icon-bar bar3"></span>
+      </button>
+      <a class="navbar-brand" href="">{{menuTitle}}</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="javascript:void(0)"  style="background-color: #2c7659;">
+            <i class="fa fa-commenting-o"></i>
+            <p>通知</p>
+          </a>
+        </li>
+        <li>
+          <a href="javascript:void(0)"  style="background-color: #762c59;">
+            <i class="fa fa-lock"></i>
+            <p>锁屏</p>
+          </a>
+        </li>
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            <img class="nav-user-photo" src="{{userAvatar}}" >
+            <span class="user-info">
+               {{userName}}<br/>欢迎使用
+            </span> 
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="javascript:void(0)">个人信息</a></li>
+            <li><a href="javascript:void(0)" ng-click="changePwd()">修改密码</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="javascript:void(0)" ng-click="signOut()">注销</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<script type="text/ng-template" id="change-password.html">
+  <div class="form-group" ng-class="{'has-error':editForm.oldPassword.$error.required}">
+    <label class="control-label">原密码</label> 
+    <input type="password" class="form-control" name="oldPassword" ng-model="formData.oldPassword" required></input>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.newPassword.$error.required}">
+    <label class="control-label">新密码</label> 
+    <input type="password" class="form-control" name="newPassword" ng-model="formData.newPassword" required></input>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.confirmPassword.$error.required}">
+    <label class="control-label">确认新密码</label> 
+    <input type="password" class="form-control" name="confirmPassword" ng-model="formData.confirmPassword" required></input>
+  </div>
+ 
+</script>

@@ -1,0 +1,130 @@
+<div class="container-fluid" ng-show="detailId==0">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-query">
+        <div class="content">
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="title">模型标识</h4>
+              <div class="form-group">
+                <input type="text" ng-model="queryParams.key" class="form-control" placeholder="输入标识">
+              </div>
+            </div>
+            <div class="col-md-8">
+              <h4 class="title">模型名称</h4>
+              <div class="input-group">
+                <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入名称">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info" ng-click="queryModel()">搜索</button>
+                  <button type="button" class="btn btn-info" ng-click="importModel()">导入</button>
+                  <button type="button" class="btn btn-info" ng-click="editModel()">创建</button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div ng-pagination ng-model="queryResult.total" changed="queryModel" param="queryParams"></div>  
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div>
+        <ul class="image-thumbnails">
+          <li ng-repeat="item in queryResult.data">
+          <a href="{{getImageUrl(item.id)}}" title="{{item.name}}" data-rel="colorbox" colorbox>
+            <img ng-src="{{getImageUrl(item.id)}}" />
+            <div class="tags tags-top">
+              <span class="label-holder">
+                <span class="badge">v{{item.version}}</span> 
+              </span>
+            </div>
+            <div class="tags">
+              <span class="label-holder">
+                <span class="label label-info"><i class="fa fa-sitemap"></i> {{item.name}}-{{item.key}}</span>
+              </span>
+              <span class="label-holder">
+                <span class="label label-danger"><i class="fa fa-calendar-times-o"></i> {{item.lastUpdateTime}}</span>
+              </span>
+            </div>
+          </a>
+          <div class="tools tools-top">
+            <a href=""  ng-click="gotoDetail(item.id)">
+              <i class="fa fa-pencil">流程编辑</i>
+            </a>
+          </div>
+        </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" ng-if="detailId!=0">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <h4 class="title">
+            <span class="text-info right-split">v{{selectedItem.version}}</span>{{selectedItem.name}}
+            <button type="button" class="btn btn-warning pull-right" ng-click="gotoList()">返回上一级</button>
+          </h4>
+        </div>
+        <div class="content">
+          <hr>
+          <div class="row">
+            <div class="col-md-4">
+              <span class="label label-success pull-left">标识：{{selectedItem.key}}</span><br/>
+              <span class="label label-success pull-left">备注：{{selectedItem.description}}</span><br/>
+              <span class="label label-success pull-left">最后修改时间：{{selectedItem.lastUpdateTime}}</span>
+            </div>
+            <div class="col-md-8 text-right">
+              <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                            版本 <span class="badge">{{selectedItem.version}}</span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li ng-repeat="num in versionArray()"><a href="" ng-click="queryHistory(selectedItem.key,num)">版本：{{num}}</a></li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                  <button type="button" class="btn btn-info" ng-click="editModel(selectedItem.id)" ng-disabled="!lastVersion">编辑</button>
+                  <button type="button" class="btn btn-info" ng-click="copyModel(selectedItem)">复制</button>
+                  <button type="button" class="btn btn-info" ng-click="deleteModel(selectedItem.id)" ng-disabled="!lastVersion">删除</button>
+              </div>
+              <div class="btn-group">
+                  <button type="button" class="btn btn-info" ng-click="deployModel(selectedItem.id)" ng-disabled="!lastVersion">部署</button>
+                  <button type="button" class="btn btn-info" ng-click="exportModel(selectedItem)">导出</button>
+              </div>
+              <button type="button" class="btn btn-info" ng-click="designModel(selectedItem.id)" ng-show="lastVersion">模型设计</button>
+              <button type="button" class="btn btn-info" ng-click="newestModel(selectedItem)" ng-show="!lastVersion">变成新版本</button>
+            </div>
+          </div>
+          <div class="row">
+            <img ng-src="{{getImageUrl(selectedItem.id)}}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+  
+<script type="text/ng-template" id="flow-model-edit.html">
+  <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
+    <label class="control-label">模型名称</label> 
+    <input type="text" placeholder="模型名称" class="form-control" name="name" ng-model="formData.name" required></input>
+  </div>
+	<div class="form-group" ng-class="{'has-error':editForm.key.$error.required}">
+    <label class="control-label">模型标识</label> 
+    <input type="text" placeholder="模型标识" class="form-control" name="key" ng-model="formData.key" required></input>
+  </div>
+  <div class="form-group">
+    <label class="control-label">备注</label>
+    <textarea placeholder="备注" class="form-control" ng-model="formData.description" rows="3"></textarea>
+  </div>
+</script>
+
+<script type="text/ng-template" id="flow-model-import.html">
+  <input type="file" class="form-control" multiple file-input="fileOptions" ng-model="formData.file" >
+</script>

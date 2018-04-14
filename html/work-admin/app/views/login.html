@@ -1,0 +1,39 @@
+<div class="full-page login-page" data-color="" data-image="images/background-2.jpg">
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+          <form role="form" novalidate name="editForm">
+            <div class="card card-login">
+              <div class="header text-center">
+                <h3 class="title">工作流平台</h3>
+              </div>
+              <div class="content">
+                <div class="form-group">
+                  <label>账号</label> 
+                  <input type="text" placeholder="输入账号"  ng-model="user.account" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label>密码</label> 
+                  <input type="password" placeholder="输入密码" ng-model="user.password" class="form-control" required>
+                </div>
+              </div>
+              <div class="footer text-center">
+                <button ng-click="login()" ng-disabled="editForm.$invalid" class="btn">登录</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer footer-transparent">
+    <div class="container">
+      <div class="copyright">
+        © 2018, made with <i class="fa fa-heart heart"></i> by <a href="http://www.plumdo.com">plumdo</a>
+      </div>
+    </div>
+  </footer>
+  <div class="full-page-background" style="background-image: url(images/background-2.jpg)"></div>
+</div>

@@ -1,0 +1,68 @@
+
+
+.sidebar .sidebar-wrapper  .nav li > a,
+.off-canvas-sidebar .sidebar-wrapper  .nav li > a {
+  margin: 10px 0px 0px;
+  padding-left: 25px;
+  padding-right: 25px;
+  opacity: .7;
+  white-space: nowrap;
+}
+.sidebar .sidebar-wrapper  .nav p,
+.off-canvas-sidebar .sidebar-wrapper  .nav p {
+  margin: 0;
+  line-height: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  position: relative;
+  -webkit-transform: translate3d(0px, 0, 0);
+  -moz-transform: translate3d(0px, 0, 0);
+  -o-transform: translate3d(0px, 0, 0);
+  -ms-transform: translate3d(0px, 0, 0);
+  transform: translate3d(0px, 0, 0);
+  opacity: 1;
+  display: block;
+  height: auto;
+  white-space: nowrap;
+}
+.sidebar-wrapper .nav .caret {
+  margin-top: 12px;
+  position: absolute;
+  right: 1px;
+}
+.sidebar .sidebar-wrapper  .nav [data-toggle="collapse"] ~ div > ul > li > a,
+.off-canvas-sidebar .sidebar-wrapper  .nav [data-toggle="collapse"] ~ div > ul > li > a {
+  margin: 0;
+}
+
+a[data-toggle="collapse"][aria-expanded="true"] .caret,
+.btn[data-toggle="collapse"][aria-expanded="true"] .caret,
+a.dropdown-toggle[aria-expanded="true"] .caret {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.sidebar .nav li.active > a[data-toggle]:after,
+.sidebar .nav li.active > a[data-toggle]:before,
+.off-canvas-sidebar .nav li.active > a[data-toggle]:after {
+  display: none;
+}
+
+.sidebar .nav.child{
+	margin-top: 0px;
+    margin-bottom: 0px;
+	margin-left: 20px;
+}
+
+.sidebar .scroller {
+  position: relative;
+}
+
+.right-split {
+	padding-right: 5px;
+	border-right: 1px solid #a4acb9;
+	margin-right: 5px;
+}
