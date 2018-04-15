@@ -34,30 +34,30 @@ import com.plumdo.flow.rest.definition.ProcessDefinitionResponse;
 import com.plumdo.flow.rest.definition.ProcessDefinitionsPaginateList;
 
 @RestController
-public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
+public class ProcessDefinitionResource extends BaseProcessDefinitionResource {
 
 	@Autowired
 	protected RuntimeService runtimeService;
-	
+
 	private static final Map<String, QueryProperty> allowedSortProperties = new HashMap<String, QueryProperty>();
-  
+
 	static {
-		allowedSortProperties.put("id",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_ID);
-		allowedSortProperties.put("key",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_KEY);
-		allowedSortProperties.put("category",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_CATEGORY);
-		allowedSortProperties.put("name",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_NAME);
-		allowedSortProperties.put("version",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_VERSION);
-		allowedSortProperties.put("tenantId",ProcessDefinitionQueryProperty.PROCESS_DEFINITION_TENANT_ID);
+		allowedSortProperties.put("id", ProcessDefinitionQueryProperty.PROCESS_DEFINITION_ID);
+		allowedSortProperties.put("key", ProcessDefinitionQueryProperty.PROCESS_DEFINITION_KEY);
+		allowedSortProperties.put("category", ProcessDefinitionQueryProperty.PROCESS_DEFINITION_CATEGORY);
+		allowedSortProperties.put("name", ProcessDefinitionQueryProperty.PROCESS_DEFINITION_NAME);
+		allowedSortProperties.put("version", ProcessDefinitionQueryProperty.PROCESS_DEFINITION_VERSION);
+		allowedSortProperties.put("tenantId", ProcessDefinitionQueryProperty.PROCESS_DEFINITION_TENANT_ID);
 	}
-	
-	@GetMapping(value = "/process-definitions", name="流程定义查询")
+
+	@GetMapping(value = "/process-definitions", name = "流程定义查询")
 	public PageResponse getProcessDefinitions(@RequestParam Map<String, String> requestParams) {
 		ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
 
 		if (requestParams.containsKey("id")) {
 			processDefinitionQuery.processDefinitionId(requestParams.get("id"));
 		}
-		
+
 		if (requestParams.containsKey("category")) {
 			processDefinitionQuery.processDefinitionCategoryLike(requestParams.get("category"));
 		}
@@ -93,12 +93,14 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
 			processDefinitionQuery.processDefinitionTenantIdLike(requestParams.get("tenantId"));
 		}
 
-		return new ProcessDefinitionsPaginateList(restResponseFactory).paginateList(getPageable(requestParams), processDefinitionQuery, allowedSortProperties);
+		return new ProcessDefinitionsPaginateList(restResponseFactory).paginateList(getPageable(requestParams),
+				processDefinitionQuery, allowedSortProperties);
 	}
-  
-	@RequestMapping(value = "/process-definitions", method = RequestMethod.POST, produces = "application/json", name="流程定义创建")
+
+	@RequestMapping(value = "/process-definitions", method = RequestMethod.POST, produces = "application/json", name = "流程定义创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public ProcessDefinitionResponse createProcessDefinition(@RequestParam(value = "tenantId", required = false) String tenantId,HttpServletRequest request) {
+	public ProcessDefinitionResponse createProcessDefinition(
+			@RequestParam(value = "tenantId", required = false) String tenantId, HttpServletRequest request) {
 
 		if (request instanceof MultipartHttpServletRequest == false) {
 			throw new FlowableIllegalArgumentException("Multipart request is required");
@@ -115,17 +117,14 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
 		try {
 			DeploymentBuilder deploymentBuilder = repositoryService.createDeployment();
 			String fileName = file.getOriginalFilename();
-			if (StringUtils.isEmpty(fileName)
-					|| !(fileName.endsWith(".bpmn20.xml")
-							|| fileName.endsWith(".bpmn")
-							|| fileName.toLowerCase().endsWith(".bar")
-							|| fileName.toLowerCase().endsWith(".zip"))) {
+			if (StringUtils.isEmpty(fileName) || !(fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn")
+					|| fileName.toLowerCase().endsWith(".bar") || fileName.toLowerCase().endsWith(".zip"))) {
 				fileName = file.getName();
 			}
-			
+
 			if (fileName.endsWith(".bpmn20.xml") || fileName.endsWith(".bpmn")) {
 				deploymentBuilder.addInputStream(fileName, file.getInputStream());
-			} else if (fileName.toLowerCase().endsWith(".bar")|| fileName.toLowerCase().endsWith(".zip")) {
+			} else if (fileName.toLowerCase().endsWith(".bar") || fileName.toLowerCase().endsWith(".zip")) {
 				deploymentBuilder.addZipInputStream(new ZipInputStream(file.getInputStream()));
 			} else {
 				throw new FlowableIllegalArgumentException("File must be of type .bpmn20.xml, .bpmn, .bar or .zip");
@@ -137,7 +136,8 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
 			}
 
 			String deploymentId = deploymentBuilder.deploy().getId();
-			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
+			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+					.deploymentId(deploymentId).singleResult();
 			return restResponseFactory.createProcessDefinitionResponse(processDefinition);
 		} catch (Exception e) {
 			if (e instanceof FlowableException) {
@@ -146,26 +146,26 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource{
 			throw new FlowableException(e.getMessage(), e);
 		}
 	}
-	
-	@RequestMapping(value="/process-definitions/{processDefinitionId}", method = RequestMethod.DELETE, produces = "application/json", name="流程定义删除")
-  	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteProcessDefinition(@PathVariable String processDefinitionId, 
-			@RequestParam(value="cascade", required=false, defaultValue="false") Boolean cascade) {
-  		
-  		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
-	  	
-  		if(processDefinition.getDeploymentId()==null){
-		  	throw new FlowableObjectNotFoundException("No found deployment ");
-	  	}
-  		
-	  	if (cascade) {
-		  	repositoryService.deleteDeployment(processDefinition.getDeploymentId(), true);
-	  	}else {
-	  		long count = runtimeService.createProcessInstanceQuery().processDefinitionId(processDefinitionId).count();
-	  		if(count!=0){
-	  			throw new FlowableForbiddenException("Cannot delete a process-definition that have process-instance");
-	  		}
-	  		repositoryService.deleteDeployment(processDefinition.getDeploymentId());
-	  	}
-  	}
+
+	@RequestMapping(value = "/process-definitions/{processDefinitionId}", method = RequestMethod.DELETE, produces = "application/json", name = "流程定义删除")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteProcessDefinition(@PathVariable String processDefinitionId,
+			@RequestParam(value = "cascade", required = false, defaultValue = "false") Boolean cascade) {
+
+		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
+
+		if (processDefinition.getDeploymentId() == null) {
+			throw new FlowableObjectNotFoundException("No found deployment ");
+		}
+
+		if (cascade) {
+			repositoryService.deleteDeployment(processDefinition.getDeploymentId(), true);
+		} else {
+			long count = runtimeService.createProcessInstanceQuery().processDefinitionId(processDefinitionId).count();
+			if (count != 0) {
+				throw new FlowableForbiddenException("Cannot delete a process-definition that have process-instance");
+			}
+			repositoryService.deleteDeployment(processDefinition.getDeploymentId());
+		}
+	}
 }

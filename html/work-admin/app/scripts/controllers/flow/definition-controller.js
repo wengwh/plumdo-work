@@ -56,12 +56,23 @@
         });
       };
       
-      $scope.switchStaus = function(id){
-        $scope.definitionService.put({
-          urlPath : '/' + id +'/switch'
-        }, function() {
-          $scope.showSuccessMsg('修改状态成功');
-          $scope.queryDefinition();
+      $scope.switchStaus = function(item,suspended){
+        var title = suspended?'激活流程':'挂起流程';
+        var action = suspended?'activate':'suspend';
+        $scope.editConfirmModal({
+          formUrl: 'definition-status-edit.html',
+          title: title,
+          formData: item,
+          confirm: function (formData,modalInstance) {
+            $scope.definitionService.put({
+              urlPath : '/' + item.id +'/'+action,
+              data: formData
+            }, function () {
+              $scope.showSuccessMsg(title+'成功');
+              $scope.queryDefinition();
+              modalInstance.close();
+            });
+          }
         });
       };
 
@@ -91,20 +102,13 @@
           {name:'状态',index:'suspended',width:'11%',
             formatter:function(){
               return '<toggle-switch ng-init="switch=(!row.suspended)" ng-model="switch" class="switch-small switch-info" '+
-                'on-label="激活" off-label="挂起" on-change="switchStaus(row.id)"></toggle-switch>';
+                'on-label="激活" off-label="挂起" on-change="switchStaus(row,switch)"></toggle-switch>';
             }
           },
           {name:'备注',index:'description',width:'12%'},
-          {name:'操作',index:'',width:'15%',
+          {name:'操作',index:'',width:'10%',
             formatter:function(){
-              return '<div class="th-btn-group">'+
-                '<button type="button" class="btn btn-info btn-xs" ng-click=editDefinition(row.id)>'+
-                '<i class="fa fa-pencil"></i>&nbsp;编辑</button>'+
-                '<button type="button" class="btn btn-xs btn-success" ng-click=queryDefinitionUser(row.id)>'+
-                '<i class="fa fa-list"></i>&nbsp;关联用户</button>'+
-                '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteDefinition(row.id)>'+
-                '<i class="fa fa-trash-o"></i>&nbsp;删除</button>'+
-                '</div>';
+              return '<button type="button" class="btn btn-info btn-xs" ng-click=editDefinition(row.id)><i class="fa fa-pencil"></i>&nbsp;明细</button>';
             }
           }
         ],

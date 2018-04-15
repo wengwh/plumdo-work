@@ -12,24 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plumdo.flow.exception.FlowableConflictException;
 import com.plumdo.flow.rest.definition.ProcessDefinitionActionRequest;
 
-
 @RestController
 public class ProcessDefinitionSuspendResource extends BaseProcessDefinitionResource {
 
-	@RequestMapping(value = "/process-definition/{processDefinitionId}/suspend", method = RequestMethod.PUT, produces = "application/json", name="流程定义挂起")
+	@RequestMapping(value = "/process-definitions/{processDefinitionId}/suspend", method = RequestMethod.PUT, produces = "application/json", name = "流程定义挂起")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void suspendProcessDefinition(@PathVariable String processDefinitionId,@RequestBody(required=false) ProcessDefinitionActionRequest actionRequest) {
+	public void suspendProcessDefinition(@PathVariable String processDefinitionId,
+			@RequestBody(required = false) ProcessDefinitionActionRequest actionRequest) {
 
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 
 		if (processDefinition.isSuspended()) {
-			throw new FlowableConflictException("Process definition with id '" + processDefinition.getId() + " ' is already suspend");
+			throw new FlowableConflictException(
+					"Process definition with id '" + processDefinition.getId() + " ' is already suspend");
 		}
-		
+
 		if (actionRequest == null) {
 			repositoryService.suspendProcessDefinitionById(processDefinitionId);
-		}else{
-			repositoryService.suspendProcessDefinitionById(processDefinition.getId(), actionRequest.isIncludeProcessInstances(),actionRequest.getDate());
+		} else {
+			repositoryService.suspendProcessDefinitionById(processDefinition.getId(), actionRequest.isIncludeProcessInstances(), actionRequest.getDate());
 		}
 
 	}

@@ -242,6 +242,19 @@
         }, true);
       }
     };
+  }).directive('datetimePicker', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        console.info(111)
+        var config = scope.$eval(attrs.datetimePicker) || {};
+        config.autoclose = config.autoclose || true;
+        config.todayBtn = config.todayBtn || true;
+        config.showSeconds = config.showSeconds || true;
+        config.format = config.format || 'yyyy-mm-dd hh:ii:ss';
+        config.language = config.language || 'zh-CN', element.datetimepicker(config);
+      }
+    };
   });
 
 })();

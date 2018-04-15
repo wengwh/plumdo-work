@@ -32,5 +32,5 @@ logging:
   config: classpath:logback-spring.xml
 
 server:
-  port : 8082
+  port : 8087
     

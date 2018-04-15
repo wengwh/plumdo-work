@@ -66,7 +66,7 @@
         templateUrl: 'views/flow/definition.html'
       });
 
-      $urlRouterProvider.otherwise('/flow');
+      $urlRouterProvider.otherwise('/modeler/flow/');
     });
 
 })();

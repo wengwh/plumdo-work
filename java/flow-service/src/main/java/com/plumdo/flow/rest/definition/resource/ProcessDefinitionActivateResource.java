@@ -16,7 +16,7 @@ import com.plumdo.flow.rest.definition.ProcessDefinitionActionRequest;
 @RestController
 public class ProcessDefinitionActivateResource extends BaseProcessDefinitionResource {
 
-	@RequestMapping(value = "/process-definition/{processDefinitionId}/activate", method = RequestMethod.PUT, produces = "application/json", name = "流程定义激活")
+	@RequestMapping(value = "/process-definitions/{processDefinitionId}/activate", method = RequestMethod.PUT, produces = "application/json", name = "流程定义激活")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void activateProcessDefinition(@PathVariable String processDefinitionId,@RequestBody(required=false) ProcessDefinitionActionRequest actionRequest) {
 		
