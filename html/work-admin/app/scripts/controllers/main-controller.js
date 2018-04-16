@@ -6,11 +6,12 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window','$uibModal','$location','$q', function($scope,$timeout,$window,$uibModal,$location,$q) {
+  angular.module('adminApp').controller('MainController', [ '$scope','$timeout','$window','$q', function($scope,$timeout,$window,$q) {
     $scope.authService = $scope.IdmService($scope.restUrl.idmAuths);
-    $scope.userName = $window.localStorage.userName;
-    $scope.userAvatar = $window.localStorage.userAvatar;
-    $scope.userId = $window.localStorage.userId;
+    $scope.loginUser.token = $window.localStorage.token;
+    $scope.loginUser.userName = $window.localStorage.userName;
+    $scope.loginUser.userAvatar = $window.localStorage.userAvatar;
+    $scope.loginUser.userId = $window.localStorage.userId;
     $scope.menuTitle = null;
     $scope.currentState = null;
     
@@ -77,7 +78,7 @@
           }else{
             $scope.authService.put({
               urlPath : '/password/change',
-              data: angular.extend(formData,{userId:$scope.userId})
+              data: angular.extend(formData,{userId:$scope.loginUser.userId})
             }, function () {
               $scope.showSuccessMsg('修改密码成功');
               modalInstance.close();
@@ -89,7 +90,7 @@
     
     
     $scope.setMenuTitle = function(statePath){
-      if($window.localStorage.token === null || $window.localStorage.token === 'null' || $window.localStorage.token === ''){
+      if(angular.isUndefined($window.localStorage.token)){
         $scope.$state.go('login');
         return;
       }
@@ -126,7 +127,7 @@
     
     var menusPromise = $scope.authService.get({
       urlPath : '/menus',
-      params : {userId:$scope.userId}
+      params : {userId:$scope.loginUser.userId}
     }, function(response) {
       $scope.menuItems = response;
     });

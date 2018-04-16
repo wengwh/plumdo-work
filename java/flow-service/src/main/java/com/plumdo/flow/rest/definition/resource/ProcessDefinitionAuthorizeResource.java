@@ -27,7 +27,7 @@ public class ProcessDefinitionAuthorizeResource extends BaseProcessDefinitionRes
 	@Autowired
 	private ObjectMapper objectMapper;
 	
-	@RequestMapping(value = "/process-definition/{processDefinitionId}/authorize", method = RequestMethod.GET, produces = "application/json", name = "流程定义授权查询")
+	@RequestMapping(value = "/process-definitions/{processDefinitionId}/authorize", method = RequestMethod.GET, produces = "application/json", name = "流程定义授权查询")
 	public ArrayNode getAuthorizes(@PathVariable String processDefinitionId) {
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 		List<IdentityLink> identityLinks = repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());

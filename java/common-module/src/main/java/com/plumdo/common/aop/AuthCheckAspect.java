@@ -49,14 +49,14 @@ public class AuthCheckAspect {
     public Object doAuth(ProceedingJoinPoint pjp) throws Throwable {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+
+		String userId = null;
 		String token = request.getHeader("Token");
-		String userId = request.getHeader("User-ID");
+		if(ObjectUtils.isEmpty(token)) {
+			token = request.getParameter("token");
+		}
         logger.info("token:"+token);
-        logger.info("userId:"+userId);
         
-        if(ObjectUtils.isEmpty(userId)) {
-        	exceptionFactory.throwAuthError(CoreConstant.HEADER_UERID_NOT_FOUND);
-        }
         if(ObjectUtils.isEmpty(token)) {
         	exceptionFactory.throwAuthError(CoreConstant.HEADER_TOKEN_NOT_FOUND);
         }
@@ -67,9 +67,9 @@ public class AuthCheckAspect {
 		try {
 			token = token.substring(7);
 			Claims claims = Jwts.parser().setSigningKey(CoreConstant.JWT_SECRET).parseClaimsJws(token).getBody();
-			
-			if(!userId.equals(claims.getId())) {
-				exceptionFactory.throwAuthError(CoreConstant.USER_ID_NOT_MATCH);
+			userId = claims.getId();
+			if(ObjectUtils.isEmpty(userId)) {
+				exceptionFactory.throwAuthError(CoreConstant.TOKEN_UERID_NOT_FOUND);
 			}
 			
 			Date expiration = claims.getExpiration();

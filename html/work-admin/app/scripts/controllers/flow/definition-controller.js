@@ -1,5 +1,5 @@
 /**
- * 角色控制器
+ * 流程定义控制器
  *
  * @author wengwenhui
  * @date 2018年3月27日
@@ -8,11 +8,21 @@
   'use strict';
 
   angular.module('adminApp').controller('FlowDefinitionController',
-    function($scope,$q) {
+    function($scope,$stateParams,$q) {
       $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
+      $scope.detailId = $stateParams.id || '0';
+      $scope.queryParams = $scope.detailId==='0' ? $scope.getCacheParams():{};
       $scope.queryResult = {};
-      $scope.queryParams = {};
+      $scope.selectedItem = null;
 
+      $scope.queryDetail = function(id){
+        $scope.definitionService.get({
+          urlPath : '/' + id
+        }, function(response) {
+          $scope.selectedItem = response;
+        });
+      };
+      
       $scope.queryDefinition = function() {
         $scope.definitionService.get({
           params : $scope.queryParams
@@ -23,39 +33,18 @@
 
       $scope.deleteDefinition = function(id) {
         $scope.confirmModal({
-          title : '确认删除角色',
+          title : '确认删除流程定义',
           confirm : function() {
             $scope.definitionService.delete({
               urlPath : '/' + id
             }, function() {
-              $scope.showSuccessMsg('删除角色成功');
-              $scope.queryDefinition();
+              $scope.showSuccessMsg('删除流程定义成功');
+              $scope.gotoList();
             });
           }
         });
       };
 
-      $scope.editDefinition = function(id) {
-        var formData = {};
-        var menusPromise = $scope.definitionService.get({
-          urlPath : '/menus',
-          params : {id:id}
-        }, function(response) {
-          formData.menus = response;
-        });
-        
-        $q.all([menusPromise]).then(function() {  
-          $scope.editModal({
-            id : id,
-            formUrl : 'definition-edit.html',
-            title : '角色',
-            formData : formData,
-            service : $scope.definitionService,
-            complete : $scope.queryDefinition
-          });
-        });
-      };
-      
       $scope.switchStaus = function(item,suspended){
         var title = suspended?'激活流程':'挂起流程';
         var action = suspended?'activate':'suspend';
@@ -69,7 +58,11 @@
               data: formData
             }, function () {
               $scope.showSuccessMsg(title+'成功');
-              $scope.queryDefinition();
+              if($scope.detailId !== '0'){
+                $scope.queryDetail(item.id);
+              }else{
+                $scope.queryDefinition();
+              }
               modalInstance.close();
             });
           }
@@ -108,7 +101,7 @@
           {name:'备注',index:'description',width:'12%'},
           {name:'操作',index:'',width:'10%',
             formatter:function(){
-              return '<button type="button" class="btn btn-info btn-xs" ng-click=editDefinition(row.id)><i class="fa fa-pencil"></i>&nbsp;明细</button>';
+              return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
             }
           }
         ],
@@ -117,8 +110,93 @@
         sortName : 'name',
         sortOrder : 'asc'
       };
+
+      $scope.authTableOptions = {
+        id : 'definitionAuth',
+        data : 'queryAuthResult',
+        isPage : false,
+        colModels : [
+          {name:'ID',index:'identityId'},
+          {name:'类型',index:'type',
+            formatter : function() {
+              return '<span>{{row.type=="user"?"用户":"群组"}}</span>';
+            }
+          },
+          {name : '操作', index : '',
+            formatter : function() {
+              return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteRow(row.id)>'+
+                 '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
+            }
+          }
+        ]
+      };
       
-      $scope.queryDefinition();
+      $scope.jobTableOptions = {
+        id : 'definitionJob',
+        data : 'queryJobResult',
+        isPage : false,
+        colModels : [
+          {name:'类型',index:'jobHandlerType'},
+          {name:'执行时间',index:'duedate'},
+          {name:'创建时间',index:'createTime'},
+          {name : '操作', index : '',
+            formatter : function() {
+              return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteJob(selectedItem.id,row.id)>'+
+                 '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
+            }
+          }
+        ]
+      };
+      
+      $scope.queryAuth = function(id) {
+        $scope.definitionService.get({
+          urlPath : '/' + id+ '/authorize'
+        }, function(response) {
+          $scope.queryAuthResult = response;
+        });
+      };
+      
+      $scope.queryJob = function(id) {
+        $scope.definitionService.get({
+          urlPath : '/' + id+ '/jobs'
+        }, function(response) {
+          $scope.queryJobResult = response;
+        });
+      };
+      
+      $scope.deleteJob = function(id,jobId) {
+        $scope.definitionService.delete({
+          urlPath : '/' + id + '/jobs/'+jobId
+        }, function() {
+          $scope.queryJob(id);
+        });
+      };
+      
+      $scope.importDefinition = function() {
+        $scope.editConfirmModal({
+          formUrl: 'definition-import.html',
+          title: '导入流程',
+          hideFooter: true,
+          property:{
+            fileOptions:{
+              fileuploaded : function(){$scope.queryDefinition();},
+              uploadUrl: $scope.definitionService.url+'?token='+$scope.loginUser.token,
+              allowedFileExtensions:['bpmn','bpmn20.xml']
+            }
+          }
+        });
+      };
+      
+      $scope.getImageUrl = function(id){
+        return $scope.definitionService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
+      };
+      
+      if($scope.detailId !== '0'){
+        $scope.queryDetail($scope.detailId);
+      }else{
+        $scope.queryDefinition();
+      }
+      
     });
   
 })();

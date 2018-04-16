@@ -10,7 +10,7 @@
     .constant('contextRoot', {
       formService:'http://119.29.96.227/form-service',
       identityService:'http://localhost:8088',
-      flowService:'http://localhost:8087'
+      flowService:'http://localhost:8082'
     })
     .constant('restUrl', {
       formModels: '/form-models',

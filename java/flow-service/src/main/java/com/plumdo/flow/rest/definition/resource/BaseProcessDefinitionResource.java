@@ -1,15 +1,14 @@
 package com.plumdo.flow.rest.definition.resource;
 
 import org.flowable.engine.RepositoryService;
-import org.flowable.engine.common.api.FlowableObjectNotFoundException;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.plumdo.common.resource.BaseResource;
+import com.plumdo.flow.constant.ErrorConstant;
 import com.plumdo.flow.rest.RestResponseFactory;
 
 public class BaseProcessDefinitionResource extends BaseResource {
-
 	@Autowired
 	protected RestResponseFactory restResponseFactory;
 	@Autowired
@@ -20,7 +19,7 @@ public class BaseProcessDefinitionResource extends BaseResource {
 		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
 
 		if (processDefinition == null) {
-			throw new FlowableObjectNotFoundException("Could not find a process definition with id '" + processDefinitionId + "'.", ProcessDefinition.class);
+			exceptionFactory.throwObjectNotFound(ErrorConstant.DEFINITION_NOT_FOUND, processDefinitionId);
 		}
 
 		return processDefinition;

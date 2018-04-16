@@ -44,7 +44,7 @@
         property:{
           fileOptions:{
             fileuploaded : function(){$scope.queryModel();},
-            uploadUrl: $scope.modelService.url+'/import',
+            uploadUrl: $scope.modelService.url+'/import?'+$scope.loginUser.token,
             allowedFileExtensions:['bpmn','bpmn20.xml']
           }
         }

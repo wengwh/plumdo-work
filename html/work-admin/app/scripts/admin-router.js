@@ -61,7 +61,7 @@
         abstract: true,
         template: '<div ui-view></div>'
       }).state('main.flow.definition', {
-        url: '/definition',
+        url: '/definition/?:id',
         controller: 'FlowDefinitionController',
         templateUrl: 'views/flow/definition.html'
       });

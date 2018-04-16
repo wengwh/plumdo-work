@@ -34,7 +34,7 @@
         if(rejection.status === 401){
           $window.localStorage.token = null;
           $rootScope.$state.go('login');
-          $rootScope.hideProgress('用户校验过期',true);
+          $rootScope.hideProgress(rejection.data.msg, true);
         }else if(rejection.data && rejection.data.msg){
           $rootScope.hideProgress(rejection.data.msg, true);
         }else{
@@ -78,7 +78,7 @@
           params: conf.params,
           data: conf.data,
           responseType: conf.responseType,
-          headers: angular.extend(conf.headers||{},{'Token':'Bearer ' + $window.localStorage.token,'User-ID':$window.localStorage.userId})
+          headers: angular.extend(conf.headers||{},{'Token': $window.localStorage.token})
         })
           .then(function successCallback(response) {
             callback(response.data);

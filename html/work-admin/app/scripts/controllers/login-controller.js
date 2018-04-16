@@ -13,7 +13,7 @@
     $scope.user.password='123456';
     $scope.authService = $scope.IdmService($scope.restUrl.idmAuths);
 
-    if(!($window.localStorage.token === null || $window.localStorage.token === 'null' || $window.localStorage.token === '')){
+    if(angular.isDefined($window.localStorage.token)){
         $scope.$state.go('main.home');
     }
     
@@ -22,7 +22,7 @@
         urlPath : '/login',
         data : $scope.user
       }, function(response) {
-        $window.localStorage.token = response.token;
+        $window.localStorage.token = 'Bearer ' + response.token;
         $window.localStorage.userId = response.id;
         $window.localStorage.userName = response.name;
         $window.localStorage.userAvatar = response.avatar;

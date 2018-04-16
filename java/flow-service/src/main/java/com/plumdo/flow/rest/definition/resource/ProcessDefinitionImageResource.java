@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProcessDefinitionImageResource extends BaseProcessDefinitionResource {
 
-	@RequestMapping(value = "/process-definition/{processDefinitionId}/image", method = RequestMethod.GET, name="流程定义流程图")
+	@RequestMapping(value = "/process-definitions/{processDefinitionId}/image", method = RequestMethod.GET, name="流程定义流程图")
 	public ResponseEntity<byte[]> getProcessDefinitionImage(@PathVariable String processDefinitionId) {
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 		InputStream imageStream = repositoryService.getProcessDiagram(processDefinition.getId());

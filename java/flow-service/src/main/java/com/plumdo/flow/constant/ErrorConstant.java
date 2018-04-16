@@ -24,26 +24,11 @@ public class ErrorConstant {
 	public static final String MODEL_XML_READ_ERROR = "11008";
 	public static final String MODEL_NOT_FOUND_PROCESS = "11009";
 	public static final String MODEL_IMPORT_FILE_ERROR = "11010";
-	
-	
-	public static final String USER_ACCOUNT_REPEAT = "2002";
-	public static final String USER_ALREADY_STOP = "2003";
-	public static final String USER_PWD_NOT_MATCH = "2004";
-	public static final String USER_PASSWORD_CONFIRM_ERROR = "2006";
-	public static final String USER_OLD_PASSWORD_WRONG = "2007";
-	
 
-	public static final String MENU_NOT_FOUND = "3001";
-	public static final String MENU_HAVE_CHILDREN = "3002";
-	public static final String MENU_ALREADY_ROLE_USE = "3003";
-
-	public static final String ROLE_NOT_FOUND = "4001";
-	public static final String ROLE_ALREADY_USER_USE = "4002";
+	public static final String DEFINITION_NOT_FOUND = "12001";
+	public static final String DEFINITION_ALREADY_SUSPEND = "12002";
+	public static final String DEFINITION_ALREADY_ACTIVE = "12003";
 	
-
-	public static final String GROUP_NOT_FOUND = "5001";
-	public static final String GROUP_HAVE_CHILDREN = "5002";
-	public static final String Group_ALREADY_USER_USE = "5003";
 	
 
 }

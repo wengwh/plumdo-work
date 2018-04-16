@@ -1,0 +1,110 @@
+/*             Navigation Tabs                 */
+.nav-tabs-navigation {
+  text-align: center;
+  border-bottom: 1px solid #F1EAE0;
+  margin-bottom: 20px;
+}
+.nav-tabs-navigation .nav > li > a {
+  padding-bottom: 20px;
+}
+
+.nav-tabs-wrapper {
+  display: inline-block;
+  margin-bottom: -6px;
+  margin-left: 1.25%;
+  margin-right: 1.25%;
+  position: relative;
+  width: auto;
+}
+
+.nav-tabs {
+  border-bottom: 0 none;
+  font-size: 14px;
+  font-weight: 600;
+}
+.nav-tabs > li > a {
+  border: 0 none;
+  color: #A49E93;
+}
+.nav-tabs > li > a:hover {
+  color: #66615b;
+}
+.nav-tabs > li.active {
+  color: #66615b;
+  position: relative;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  background-color: transparent;
+  border: 0 none;
+}
+.nav-tabs > li.active :after {
+  border-bottom: 11px solid #FFFFFF;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: 40%;
+  bottom: 0;
+}
+.nav-tabs > li.active :before {
+  border-bottom: 11px solid #F1EAE0;
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: 40%;
+  bottom: 1px;
+}
+
+.nav-stacked {
+  border-right: 1px solid #F1EAE0;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 20px 0;
+}
+.nav-stacked > li > a {
+  color: #A49E93;
+  padding: 7px 25px;
+  text-align: right;
+}
+.nav-stacked > li > a:hover {
+  color: #66615b;
+}
+.nav-stacked > li.active > a {
+  color: #66615b;
+}
+.nav-stacked > li.active :after {
+  border-right: 11px solid #FFFFFF;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: -1px;
+  bottom: 7px;
+}
+.nav-stacked > li.active :before {
+  border-right: 11px solid #F1EAE0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  content: "";
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  bottom: 7px;
+}
+
+.left-vertical-tabs {
+  width: 170px;
+  float: left;
+}
+
+.right-text-tabs {
+  width: calc(100% - 170px);
+  float: left;
+  padding: 6px 15px;
+}

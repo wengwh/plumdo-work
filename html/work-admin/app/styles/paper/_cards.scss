@@ -6,7 +6,17 @@
   margin-bottom: 20px;
   position: relative;
   z-index: 1;
-
+  .dropdown-menu:before{
+	border-bottom: 11px solid #fffcf5;
+	border-left: 11px solid rgba(0, 0, 0, 0);
+	border-right: 11px solid rgba(0, 0, 0, 0);
+	content: "";
+	display: inline-block;
+	position: absolute;
+	top: -11px;
+  	left: 12px;
+  	right: auto;
+  }
   .image{
     width: 100%;
     overflow: hidden;
@@ -282,5 +292,23 @@
     border-radius: 4px;
   }
 }
-
+.card-detail{
+	.header{
+		border-bottom: 1px solid #F1EAE0;
+      	padding-bottom: 15px;
+    }
+	.property{
+	    display: inline-block;
+	    width: 45%;
+	    height: 30px;
+	    line-height: 30px;
+	    padding-left: 3px;
+	    color: #555;
+	    label{
+		    font-weight: bold;
+		    color:#555;
+		    margin-right: 5px;
+		}
+	}
+}
 

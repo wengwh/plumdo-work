@@ -14,6 +14,7 @@
       $rootScope.FlowService = RestService(contextRoot.flowService);
       $rootScope.FormService = RestService(contextRoot.formService);
       $rootScope.IdmService = RestService(contextRoot.identityService);
+      $rootScope.loginUser = {};
       $rootScope.$state = $state;
       $rootScope.progressNum = 0;
       $rootScope.cacheParams = {};
@@ -125,6 +126,14 @@
           controller : 'TableModalController',
           scope : angular.extend($rootScope.$new(),args)
         });
+      };
+      
+      $rootScope.gotoDetail = function(id){
+        $state.go($state.current,{id:id});
+      };
+      
+      $rootScope.gotoList = function(){
+        $state.go($state.current,{id:''});
       };
       
       $rootScope.multiSelectLang = {

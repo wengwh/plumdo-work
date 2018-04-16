@@ -195,6 +195,10 @@ public class ObjectUtils {
 		return convertToTimestamp(obj, null);
 	}
 
+	public static String convertToLike(String obj) {
+		return "%" + obj + "%";
+	}
+
 	@SuppressWarnings("unchecked")
 	public static List<Object> convertToList(Object object) {
 		List<Object> result = new ArrayList<>();

@@ -62,10 +62,10 @@ public class ModelResource extends BaseModelResource {
 			modelQuery.modelId(requestParams.get("id"));
 		}
 		if (ObjectUtils.isNotEmpty(requestParams.get("category"))) {
-			modelQuery.modelCategoryLike(requestParams.get("category"));
+			modelQuery.modelCategoryLike(ObjectUtils.convertToLike(requestParams.get("category")));
 		}
 		if (ObjectUtils.isNotEmpty(requestParams.get("name"))) {
-			modelQuery.modelNameLike("%"+requestParams.get("name")+"%");
+			modelQuery.modelNameLike(ObjectUtils.convertToLike(requestParams.get("name")));
 		}
 		if (ObjectUtils.isNotEmpty(requestParams.get("key"))) {
 			modelQuery.modelKey(requestParams.get("key"));
@@ -91,15 +91,9 @@ public class ModelResource extends BaseModelResource {
 			}
 		}
 		if (ObjectUtils.isNotEmpty(requestParams.get("tenantId"))) {
-			modelQuery.modelTenantIdLike(requestParams.get("tenantId"));
+			modelQuery.modelTenantId(requestParams.get("tenantId"));
 		}
-
-		if (ObjectUtils.isNotEmpty(requestParams.get("withoutTenantId"))) {
-			boolean withoutTenantId = ObjectUtils.convertToBoolean(requestParams.get("withoutTenantId"));
-			if (withoutTenantId) {
-				modelQuery.modelWithoutTenantId();
-			}
-		}
+		
 		return new ModelsPaginateList(restResponseFactory).paginateList(getPageable(requestParams), modelQuery, allowedSortProperties);
 	}
 
