@@ -24,6 +24,7 @@
       };
       
       $scope.queryDefinition = function() {
+        console.info($scope.getCacheParams())
         $scope.definitionService.get({
           params : $scope.queryParams
         }, function(response) {
@@ -69,22 +70,6 @@
         });
       };
 
-      $scope.queryDefinitionUser = function(id) {
-        $scope.tableModal({
-          service : $scope.IdmService($scope.restUrl.idmDefinitions+'/'+id+'/users'),
-          colModels : [
-            {name:'名称',index:'name'},
-            {name:'电话',index:'phone'},
-            {name:'状态',index:'status',
-              formatter:function(){
-                return '<span class="label label-success" ng-if="row.status==0">启用</span>'+
-                  '<span class="label label-danger" ng-if="row.status==1">停用</span>';
-              }
-            }
-          ]
-        });
-      };
-      
       $scope.tableOptions = {
         id : 'definition',
         data : 'queryResult',
@@ -180,10 +165,18 @@
           property:{
             fileOptions:{
               fileuploaded : function(){$scope.queryDefinition();},
-              uploadUrl: $scope.definitionService.url+'?token='+$scope.loginUser.token,
-              allowedFileExtensions:['bpmn','bpmn20.xml']
+              uploadUrl: $scope.definitionService.url+'/import?token='+$scope.loginUser.token,
+              allowedFileExtensions:['bpmn','bpmn20.xml','bar','zip']
             }
           }
+        });
+      };
+      
+      $scope.exportDefinition = function(item){
+        $scope.definitionService.get({
+          urlPath : '/' + item.id +'/xml'
+        }, function(response) {
+          $scope.windowExportFile(response,item.name+'-v'+item.version+'.bpmn20.xml');
         });
       };
       

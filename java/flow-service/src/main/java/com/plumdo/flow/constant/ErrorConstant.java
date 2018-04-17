@@ -8,11 +8,11 @@ package com.plumdo.flow.constant;
  * @date 2018年3月27日
  */
 public class ErrorConstant {
-	public static final String OBJECT_NOT_FOUND = "1001";
 
 	public static final String REQUEST_NOT_MULTIPART = "10001";
 	public static final String MULTIPART_CONTENT_EMPTY = "10002";
 	public static final String FILE_NOT_BPMN = "10003";
+	public static final String FILE_NOT_BPMN_BAR = "10004";
 	
 	public static final String MODEL_NOT_FOUND = "11001";
 	public static final String MODEL_KEY_ALREADY_EXISTS = "11002";
@@ -28,7 +28,13 @@ public class ErrorConstant {
 	public static final String DEFINITION_NOT_FOUND = "12001";
 	public static final String DEFINITION_ALREADY_SUSPEND = "12002";
 	public static final String DEFINITION_ALREADY_ACTIVE = "12003";
-	
+	public static final String DEFINITION_IMPORT_FILE_ERROR = "12004";
+	public static final String DEFINITION_DEPLOY_NOT_FOUND = "12005";
+	public static final String DEFINITION_HAVE_INSTANCE = "12006";
+	public static final String DEFINITION_RESOURCE_NOT_FOUND = "12007";
+	public static final String DEPLOY_NOT_FOUND = "12008";
+	public static final String DEPLOY_RESOURCE_NOT_FOUND = "12009";
+	public static final String DEFINITION_XML_READ_ERROR = "12010";
 	
 
 }

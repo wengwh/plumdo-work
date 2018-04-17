@@ -7,7 +7,6 @@ import org.flowable.engine.common.api.FlowableObjectNotFoundException;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.identitylink.service.IdentityLinkType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,16 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.flow.rest.definition.ProcessDefinitionAuthorizeRequest;
 
 @RestController
 public class ProcessDefinitionAuthorizeResource extends BaseProcessDefinitionResource {
-
-	@Autowired
-	private ObjectMapper objectMapper;
 	
 	@RequestMapping(value = "/process-definitions/{processDefinitionId}/authorize", method = RequestMethod.GET, produces = "application/json", name = "流程定义授权查询")
 	public ArrayNode getAuthorizes(@PathVariable String processDefinitionId) {

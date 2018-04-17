@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plumdo.flow.constant.ErrorConstant;
 import com.plumdo.flow.rest.definition.ProcessDefinitionActionRequest;
 
+/**
+ * 流程定义激活接口
+ *
+ * @author wengwenhui
+ * @date 2018年4月17日
+ */
 @RestController
 public class ProcessDefinitionActivateResource extends BaseProcessDefinitionResource {
 

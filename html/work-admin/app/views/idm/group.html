@@ -1,48 +1,38 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card card-query">
-        <div class="content">
-          <div class="row">
-            <div class="col-md-3">
-              <h4 class="title">群组状态</h4>
-              <div class="form-group">
-                <select class="form-control" ng-model="queryParams.status">
-                  <option value="">全部</option>
-                  <option value="0">启用</option>
-                  <option value="1">停用</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-9">
-              <h4 class="title">群组名称</h4>
-                <div class="input-group">
-                  <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入群组名称">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-info" ng-click="queryGroup()">搜索</button>
-                    <button type="button" class="btn btn-info" ng-click="editGroup()">创建</button>
-                  </span>
-                </div>
-          </div>
+  <div class="card card-query">
+    <div class="content">
+      <div class="row">
+        <div class="col-md-3">
+          <h4 class="title">群组状态</h4>
+          <div class="form-group">
+            <select class="form-control" ng-model="queryParams.status">
+              <option value="">全部</option>
+              <option value="0">启用</option>
+              <option value="1">停用</option>
+            </select>
           </div>
         </div>
+        <div class="col-md-9">
+          <h4 class="title">群组名称</h4>
+            <div class="input-group">
+              <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入群组名称">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-info" ng-click="queryGroup()">搜索</button>
+                <button type="button" class="btn btn-info" ng-click="editGroup()">创建</button>
+              </span>
+            </div>
+      </div>
       </div>
     </div>
-  </div>  
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="content">
-          <h4 class="title" ng-show="parentId!=0"> 
-            <a href="" ng-click="returnParent()">
-              <span class="label label-success pull-left"><i class="fa fa-mail-reply"></i> 返回上级</span>
-            </a>
-            <span class="label label-info pull-right"><i class="fa fa-align-right"></i> 上级：{{parentGroup.name}}</span>
-          </h4>
-          <table ng-table="tableOptions" class="table table-striped ng-table">
-          </table>
-        </div>
-      </div>
+  </div>
+  <div class="card card-query">
+    <div class="content">
+      <h4 class="title" ng-show="parentId!=0"> 
+        <span class="label label-info"><i class="fa fa-align-right"></i> 上级：{{parentGroup.name}}</span>
+        <button type="button" class="btn btn-warning  pull-right" ng-click="gotoList(parentGroup.parentId)">返回上级</button>
+      </h4>
+      <table ng-table="tableOptions" class="table table-striped ng-table">
+      </table>
     </div>
   </div>
 </div>

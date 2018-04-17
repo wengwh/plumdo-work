@@ -73,14 +73,6 @@
         });
       };
       
-      $scope.queryChild = function(item) {
-        $scope.$state.go($scope.$state.current, {id:item.id});
-      };
-      
-      $scope.returnParent = function() {
-        $scope.$state.go($scope.$state.current, {id:$scope.parentMenu.parentId});
-      };
-      
       $scope.queryMenuRole = function(id) {
         $scope.tableModal({
           service : $scope.IdmService($scope.restUrl.idmMenus+'/'+id+'/roles'),
@@ -120,7 +112,7 @@
               return '<div class="th-btn-group">'+
                 '<button type="button" class="btn btn-xs btn-info" ng-click=editMenu(row.id)>'+
                 '<i class="fa fa-pencil"></i>&nbsp;编辑</button>'+
-                '<button type="button" class="btn btn-xs btn-success" ng-if="row.type==0" ng-click=queryChild(row)>'+
+                '<button type="button" class="btn btn-xs btn-success" ng-if="row.type==0" ng-click=gotoDetail(row.id)>'+
                 '<i class="fa fa-list"></i>&nbsp;下级</button>'+
                 '<button type="button" class="btn btn-xs btn-success" ng-if="row.type!=0" ng-click=queryMenuRole(row.id)>'+
                 '<i class="fa fa-list"></i>&nbsp;关联角色</button>'+

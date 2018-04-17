@@ -132,8 +132,8 @@
         $state.go($state.current,{id:id});
       };
       
-      $rootScope.gotoList = function(){
-        $state.go($state.current,{id:''});
+      $rootScope.gotoList = function(id){
+        $state.go($state.current,{id:id});
       };
       
       $rootScope.multiSelectLang = {

@@ -5,7 +5,7 @@
         <div class="col-md-2">
           <h4 class="title">只显示最新版本</h4>
           <div class="form-group">
-            <select class="form-control" ng-model="queryParams.latestVersion" ng-init="queryParams.latestVersion='true'">
+            <select class="form-control" ng-model="queryParams.latestVersion" ng-init="queryParams.latestVersion=queryParams.latestVersion||'true'">
               <option value="true">是</option>
               <option value="false">否</option>
             </select>
@@ -64,8 +64,8 @@
         <div class="col-md-2">
           <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,false)" ng-show="!selectedItem.suspended">挂起</button>
           <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,true)" ng-show="selectedItem.suspended">激活</button>
-          <button type="button" class="btn btn-danger btn-block" ng-click="deleteDefinition(selectedItem.id)" >删除</button>
-          <button type="button" class="btn btn-info btn-block" ng-click="newestModel(selectedItem)" >变成新版本</button>
+          <button type="button" class="btn btn-danger btn-block" ng-click="deleteDefinition(selectedItem.id)">删除</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="exportDefinition(selectedItem)">导出</button>
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
         <div class="nav-tabs-wrapper">
           <ul uib-tabset active="active" type="tabs">
               <uib-tab index="0" heading="流程图"></uib-tab>
-              <uib-tab index="1" heading="授权人员" select="queryAuth(selectedItem.id)"></uib-tab>
+              <uib-tab index="1" heading="授权信息" select="queryAuth(selectedItem.id)"></uib-tab>
               <uib-tab index="2" heading="定时任务" select="queryJob(selectedItem.id)"></uib-tab>
               <uib-tab index="3" heading="流程实例" select="queryInstance(selectedItem.id)"></uib-tab>
           </ul>

@@ -152,14 +152,6 @@
       });
     };
     
-    $scope.gotoDetail = function(id){
-      $scope.$state.go($scope.$state.current,{id:id});
-    };
-    
-    $scope.gotoList = function(){
-      $scope.$state.go($scope.$state.current,{id:''});
-    };
-  
     $scope.designModel = function(id){
       $window.open($scope.restUrl.flowDesign(id));
     };

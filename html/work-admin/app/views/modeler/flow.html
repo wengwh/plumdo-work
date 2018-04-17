@@ -43,8 +43,8 @@
       </div>
     </a>
     <div class="tools tools-top">
-      <a href=""  ng-click="gotoDetail(item.id)">
-        <i class="fa fa-pencil">流程编辑</i>
+      <a href="" ng-click="gotoDetail(item.id)">
+        <i class="fa fa-edit">流程采编</i>
       </a>
     </div>
   </li>
@@ -84,11 +84,11 @@
               <button type="button" class="btn btn-info" ng-click="deployModel(selectedItem.id)" ng-disabled="!lastVersion">部署</button>
               <button type="button" class="btn btn-info" ng-click="exportModel(selectedItem)">导出</button>
           </div>
-          <button type="button" class="btn btn-info" ng-click="designModel(selectedItem.id)" ng-show="lastVersion">模型设计</button>
+          <button type="button" class="btn btn-info" ng-click="designModel(selectedItem.id)" ng-show="lastVersion">可视化设计</button>
           <button type="button" class="btn btn-info" ng-click="newestModel(selectedItem)" ng-show="!lastVersion">变成新版本</button>
         </div>
       </div>
-      <div class="row">
+      <div class="text-center">
         <img ng-src="{{getImageUrl(selectedItem.id)}}" />
       </div>
     </div>
