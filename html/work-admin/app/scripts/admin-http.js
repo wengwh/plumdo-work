@@ -32,7 +32,7 @@
         // 请求发生了错误，如果能从错误中恢复，可以返回一个新的响应或promise
         console.info('response error- rejection:' + rejection);
         if(rejection.status === 401){
-          $window.localStorage.token = null;
+          delete $window.localStorage.token;
           $rootScope.$state.go('login');
           $rootScope.hideProgress(rejection.data.msg, true);
         }else if(rejection.data && rejection.data.msg){

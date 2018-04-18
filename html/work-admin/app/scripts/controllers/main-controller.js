@@ -127,7 +127,7 @@
     
     var menusPromise = $scope.authService.get({
       urlPath : '/menus',
-      params : {userId:$scope.loginUser.userId}
+      params : {userId:$scope.loginUser.userId||0}
     }, function(response) {
       $scope.menuItems = response;
     });

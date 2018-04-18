@@ -19,7 +19,7 @@ var FLOWABLE = FLOWABLE || {};
 
 FLOWABLE.CONFIG = {
 	'onPremise' : true,
-//	'contextRoot' : 'http://119.29.96.227/flow-service',
-	'contextRoot' : 'http://localhost:8082',
+	'contextRoot' : 'http://work.plumdo.com/flow-service',
+//	'contextRoot' : 'http://localhost:8082',
 	'webContextRoot' : './'
 };

@@ -187,11 +187,6 @@ gulp.task('bower', function () {
 
 gulp.task('views', function () {
   return gulp.src(paths.views.files)
-    .pipe($.minifyHtml({
-      empty: true,
-      spare: true,
-      quotes: true
-    }))
     .pipe($.angularTemplatecache('angular-template-html.js', {
       module: yeoman.module,
       root: 'views'

@@ -64,6 +64,10 @@
         url: '/definition/?:id',
         controller: 'FlowDefinitionController',
         templateUrl: 'views/flow/definition.html'
+      }).state('main.flow.instance', {
+        url: '/instance/?:id',
+        controller: 'FlowInstanceController',
+        templateUrl: 'views/flow/instance.html'
       });
 
       $urlRouterProvider.otherwise('/modeler/flow/');

@@ -186,6 +186,14 @@ public class ObjectUtils {
 	public static Date convertToDate(Object obj) {
 		return convertToDate(obj, null);
 	}
+	
+	public static Date convertToDatetime(Object obj, Date defaultVal) {
+		return DateUtils.parseDateTime(convertToString(obj), defaultVal);
+	}
+
+	public static Date convertToDatetime(Object obj) {
+		return convertToDatetime(obj, null);
+	}
 
 	public static Timestamp convertToTimestamp(Object obj, Timestamp defaultVal) {
 		return DateUtils.parseTimestamp(convertToString(obj, ""), defaultVal);

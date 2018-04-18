@@ -7,35 +7,36 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('FlowDefinitionController',
-    function($scope,$stateParams) {
-      $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
+  angular.module('adminApp').controller('FlowInstanceController',
+    function($scope,$stateParams,$q) {
+      $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
       $scope.detailId = $stateParams.id || '0';
       $scope.queryParams = $scope.detailId==='0' ? $scope.getCacheParams():{};
       $scope.queryResult = {};
       $scope.selectedItem = null;
 
       $scope.queryDetail = function(id){
-        $scope.definitionService.get({
+        $scope.instanceService.get({
           urlPath : '/' + id
         }, function(response) {
           $scope.selectedItem = response;
         });
       };
       
-      $scope.queryDefinition = function() {
-        $scope.definitionService.get({
+      $scope.queryInstance = function() {
+        console.info($scope.getCacheParams())
+        $scope.instanceService.get({
           params : $scope.queryParams
         }, function(response) {
           $scope.queryResult = response;
         });
       };
 
-      $scope.deleteDefinition = function(id) {
+      $scope.deleteInstance = function(id) {
         $scope.confirmModal({
           title : '确认删除流程定义',
           confirm : function() {
-            $scope.definitionService.delete({
+            $scope.instanceService.delete({
               urlPath : '/' + id
             }, function() {
               $scope.showSuccessMsg('删除流程定义成功');
@@ -49,11 +50,11 @@
         var title = suspended?'激活流程':'挂起流程';
         var action = suspended?'activate':'suspend';
         $scope.editConfirmModal({
-          formUrl: 'definition-status-edit.html',
+          formUrl: 'instance-status-edit.html',
           title: title,
           formData: item,
           confirm: function (formData,modalInstance) {
-            $scope.definitionService.put({
+            $scope.instanceService.put({
               urlPath : '/' + item.id +'/'+action,
               data: formData
             }, function () {
@@ -61,7 +62,7 @@
               if($scope.detailId !== '0'){
                 $scope.queryDetail(item.id);
               }else{
-                $scope.queryDefinition();
+                $scope.queryInstance();
               }
               modalInstance.close();
             });
@@ -70,7 +71,7 @@
       };
 
       $scope.tableOptions = {
-        id : 'definition',
+        id : 'instance',
         data : 'queryResult',
         colModels : [
           {name:'名称',index:'name',sortable:true,width:'10%'},
@@ -89,14 +90,14 @@
             }
           }
         ],
-        loadFunction : $scope.queryDefinition,
+        loadFunction : $scope.queryInstance,
         queryParams : $scope.queryParams,
-        sortName : 'name',
+        sortName : 'startTime',
         sortOrder : 'asc'
       };
 
       $scope.authTableOptions = {
-        id : 'definitionAuth',
+        id : 'instanceAuth',
         data : 'queryAuthResult',
         isPage : false,
         colModels : [
@@ -116,7 +117,7 @@
       };
       
       $scope.jobTableOptions = {
-        id : 'definitionJob',
+        id : 'instanceJob',
         data : 'queryJobResult',
         isPage : false,
         colModels : [
@@ -133,7 +134,7 @@
       };
       
       $scope.queryAuth = function(id) {
-        $scope.definitionService.get({
+        $scope.instanceService.get({
           urlPath : '/' + id+ '/authorize'
         }, function(response) {
           $scope.queryAuthResult = response;
@@ -141,7 +142,7 @@
       };
       
       $scope.queryJob = function(id) {
-        $scope.definitionService.get({
+        $scope.instanceService.get({
           urlPath : '/' + id+ '/jobs'
         }, function(response) {
           $scope.queryJobResult = response;
@@ -149,30 +150,30 @@
       };
       
       $scope.deleteJob = function(id,jobId) {
-        $scope.definitionService.delete({
+        $scope.instanceService.delete({
           urlPath : '/' + id + '/jobs/'+jobId
         }, function() {
           $scope.queryJob(id);
         });
       };
       
-      $scope.importDefinition = function() {
+      $scope.importInstance = function() {
         $scope.editConfirmModal({
-          formUrl: 'definition-import.html',
+          formUrl: 'instance-import.html',
           title: '导入流程',
           hideFooter: true,
           property:{
             fileOptions:{
-              fileuploaded : function(){$scope.queryDefinition();},
-              uploadUrl: $scope.definitionService.url+'/import?token='+$scope.loginUser.token,
+              fileuploaded : function(){$scope.queryInstance();},
+              uploadUrl: $scope.instanceService.url+'/import?token='+$scope.loginUser.token,
               allowedFileExtensions:['bpmn','bpmn20.xml','bar','zip']
             }
           }
         });
       };
       
-      $scope.exportDefinition = function(item){
-        $scope.definitionService.get({
+      $scope.exportInstance = function(item){
+        $scope.instanceService.get({
           urlPath : '/' + item.id +'/xml'
         }, function(response) {
           $scope.windowExportFile(response,item.name+'-v'+item.version+'.bpmn20.xml');
@@ -180,13 +181,13 @@
       };
       
       $scope.getImageUrl = function(id){
-        return $scope.definitionService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
+        return $scope.instanceService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
       };
       
       if($scope.detailId !== '0'){
         $scope.queryDetail($scope.detailId);
       }else{
-        $scope.queryDefinition();
+        $scope.queryInstance();
       }
       
     });

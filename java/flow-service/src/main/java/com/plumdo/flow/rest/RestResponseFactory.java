@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
+import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
@@ -30,18 +31,21 @@ import com.plumdo.flow.rest.variable.RestVariable;
 import com.plumdo.flow.rest.variable.RestVariableConverter;
 import com.plumdo.flow.rest.variable.ShortRestVariableConverter;
 import com.plumdo.flow.rest.variable.StringRestVariableConverter;
+
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plumdo.flow.rest.definition.ProcessDefinitionResponse;
+import com.plumdo.flow.rest.instance.HistoricProcessInstanceResponse;
 import com.plumdo.flow.rest.instance.ProcessInstanceResponse;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartResponse;
 import com.plumdo.flow.rest.model.ModelResponse;
 
 /**
  * rest接口返回结果工厂类
- * 
- * @author wengwh
- * 
+ *
+ * @author wengwenhui
+ * @date 2018年4月17日
  */
 @Component
 public class RestResponseFactory {
@@ -89,6 +93,33 @@ public class RestResponseFactory {
 		return value;
 	}
 
+	public List<HistoricProcessInstanceResponse> createHistoricProcessInstancResponseList(List<HistoricProcessInstance> processInstances) {
+		List<HistoricProcessInstanceResponse> responseList = new ArrayList<HistoricProcessInstanceResponse>();
+		for (HistoricProcessInstance instance : processInstances) {
+			responseList.add(createHistoricProcessInstanceResponse(instance));
+		}
+		return responseList;
+	}
+
+	public HistoricProcessInstanceResponse createHistoricProcessInstanceResponse(HistoricProcessInstance processInstance) {
+		HistoricProcessInstanceResponse result = new HistoricProcessInstanceResponse();
+		result.setId(processInstance.getId());
+		result.setBusinessKey(processInstance.getBusinessKey());
+		result.setStartTime(processInstance.getStartTime());
+		result.setEndTime(processInstance.getEndTime());
+		result.setDurationInMillis(processInstance.getDurationInMillis());
+		result.setProcessDefinitionId(processInstance.getProcessDefinitionId());
+		result.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
+		result.setProcessDefinitionName(processInstance.getProcessDefinitionName());
+		result.setProcessDefinitionVersion(processInstance.getProcessDefinitionVersion());
+		result.setStartActivityId(processInstance.getStartActivityId());
+		result.setStartUserId(processInstance.getStartUserId());
+		result.setSuperProcessInstanceId(processInstance.getSuperProcessInstanceId());
+		result.setTenantId(processInstance.getTenantId());
+		return result;
+	}
+	
+	
 	public List<ProcessInstanceResponse> createProcessInstanceResponseList(List<ProcessInstance> processInstances) {
 		List<ProcessInstanceResponse> responseList = new ArrayList<ProcessInstanceResponse>();
 		for (ProcessInstance instance : processInstances) {

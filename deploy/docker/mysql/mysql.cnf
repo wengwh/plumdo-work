@@ -1,0 +1,18 @@
+[client]
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4
+
+[mysqld]
+lower_case_table_names = 1
+explicit_defaults_for_timestamp = true
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+
+performance_schema_max_table_instances = 400
+table_definition_cache = 400
+table_open_cache = 256
+
+sql_mode = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'

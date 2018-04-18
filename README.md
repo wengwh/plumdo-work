@@ -6,9 +6,7 @@
 
 ## 腾讯云演示环境
 ```
-流程设计器：http://119.29.96.227/flow-modeler/#/editor/2501
-
-后台控制器：http://119.29.96.227/work-admin/#/modeler/form
+work.plumdo.com
 
 ```
 
@@ -31,10 +29,19 @@ UI：Bootstrap
 
 ## 文件介绍
 ```
+deploy:部署文件
 html:前端页面模块
 java:后端服务模块
 ```
 
+## 文件介绍
+```
+部署说明：docker部署
+安装docker-compose
+执行docker-compose build
+执行docker-compose up -d
+
+```
 
 ## 模块介绍
 ```

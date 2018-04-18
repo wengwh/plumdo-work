@@ -26,10 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProcessInstanceImageResource extends BaseProcessInstanceResource {
-
 	@Autowired
 	protected RepositoryService repositoryService;
-
 	@Autowired
 	protected ProcessEngineConfiguration processEngineConfiguration;
 

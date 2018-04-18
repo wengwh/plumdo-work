@@ -7,25 +7,21 @@ import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.plumdo.common.resource.BaseResource;
 import com.plumdo.flow.rest.RestResponseFactory;
 
-
-public class BaseProcessInstanceResource {
-
+public class BaseProcessInstanceResource extends BaseResource{
 	@Autowired
 	protected RestResponseFactory restResponseFactory;
-
 	@Autowired
 	protected HistoryService historyService;
-
 	@Autowired
 	protected RuntimeService runtimeService;
-
 
 	protected ProcessInstance getProcessInstanceFromRequest(String processInstanceId) {
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 		if (processInstance == null) {
-			throw new FlowableObjectNotFoundException("Could not find a run process instance with id '"+  processInstanceId + "'.",ProcessInstance.class);
+			throw new FlowableObjectNotFoundException("Could not find a run process instance with id '" + processInstanceId + "'.", ProcessInstance.class);
 		}
 		return processInstance;
 	}
@@ -33,7 +29,7 @@ public class BaseProcessInstanceResource {
 	protected HistoricProcessInstance getHistoricProcessInstanceFromRequest(String processInstanceId) {
 		HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 		if (historicProcessInstance == null) {
-			throw new FlowableObjectNotFoundException("Could not find a process instance with id '" + processInstanceId + "'.",HistoricProcessInstance.class);
+			throw new FlowableObjectNotFoundException("Could not find a process instance with id '" + processInstanceId + "'.", HistoricProcessInstance.class);
 		}
 		return historicProcessInstance;
 	}

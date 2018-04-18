@@ -9,13 +9,14 @@
   angular.module('adminApp')
     .constant('contextRoot', {
       formService:'http://119.29.96.227/form-service',
-      identityService:'http://localhost:8088',
-      flowService:'http://localhost:8082'
+      identityService:'http://work.plumdo.com/identity-service',
+      flowService:'http://work.plumdo.com/flow-service'
     })
     .constant('restUrl', {
       formModels: '/form-models',
       flowModels: '/models',
       flowDefinitions: '/process-definitions',
+      flowInstances: '/process-instances',
       idmAuths: '/auths',
       idmUsers: '/users',
       idmGroups: '/groups',
@@ -28,7 +29,7 @@
         return 'http://119.29.96.227/form-modeler/#/watch?modelId=' + modelId;
       },
       flowDesign : function(modelId) {
-        return 'http://localhost:9004/#/editor/' + modelId;
+        return 'http://work.plumdo.com/flow-modeler/#/editor/' + modelId;
       }
   });
 

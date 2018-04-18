@@ -12,7 +12,7 @@
     $scope.user.account='admin';
     $scope.user.password='123456';
     $scope.authService = $scope.IdmService($scope.restUrl.idmAuths);
-
+    
     if(angular.isDefined($window.localStorage.token)){
         $scope.$state.go('main.home');
     }

@@ -9,6 +9,7 @@ import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.common.api.query.QueryProperty;
 import org.flowable.engine.common.impl.identity.Authentication;
 import org.flowable.engine.history.HistoricProcessInstance;
+import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.impl.HistoricProcessInstanceQueryProperty;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.engine.runtime.ProcessInstance;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.plumdo.common.resource.PageResponse;
+import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.flow.exception.FlowableForbiddenException;
 import com.plumdo.flow.rest.DataResponse;
 import com.plumdo.flow.rest.RequestUtil;
@@ -36,14 +40,12 @@ import com.plumdo.flow.rest.instance.ProcessInstanceStartResponse;
 import com.plumdo.flow.rest.task.TaskActor;
 import com.plumdo.flow.rest.variable.RestVariable;
 
-
 @RestController
 public class ProcessInstanceResource extends BaseProcessInstanceResource {
-
-	private static Map<String, QueryProperty> allowedSortProperties = new HashMap<String, QueryProperty>();
-
 	@Autowired
 	protected TaskService taskService;
+
+	private static Map<String, QueryProperty> allowedSortProperties = new HashMap<String, QueryProperty>();
 
 	static {
 		allowedSortProperties.put("id", HistoricProcessInstanceQueryProperty.PROCESS_INSTANCE_ID_);
@@ -55,65 +57,62 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 		allowedSortProperties.put("tenantId", HistoricProcessInstanceQueryProperty.TENANT_ID);
 	}
 
-	@RequestMapping(value = "/process-instance", method = RequestMethod.GET, produces = "application/json", name = "流程实例查询")
-	public DataResponse getProcessInstances(@RequestParam Map<String, String> allRequestParams) {
-		ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery();
+	@GetMapping(value = "/process-instances", name = "流程实例查询")
+	public PageResponse getProcessInstances(@RequestParam Map<String, String> requestParams) {
+		HistoricProcessInstanceQuery query = historyService.createHistoricProcessInstanceQuery();
 
-		if (allRequestParams.containsKey("processInstanceId")) {
-			query.processInstanceId(allRequestParams.get("processInstanceId"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("processInstanceId"))) {
+			query.processInstanceId(requestParams.get("processInstanceId"));
 		}
-
-		if (allRequestParams.containsKey("processDefinitionKey")) {
-			query.processDefinitionKey(allRequestParams.get("processDefinitionKey"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("processDefinitionName"))) {
+			query.processDefinitionName(requestParams.get("processDefinitionName"));
 		}
-
-		if (allRequestParams.containsKey("processDefinitionId")) {
-			query.processDefinitionId(allRequestParams.get("processDefinitionId"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("processDefinitionKey"))) {
+			query.processDefinitionKey(requestParams.get("processDefinitionKey"));
 		}
-		
-		if (allRequestParams.containsKey("businessKey")) {
-			query.processInstanceBusinessKey(allRequestParams.get("businessKey"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("processDefinitionId"))) {
+			query.processDefinitionId(requestParams.get("processDefinitionId"));
 		}
-
-		if (allRequestParams.containsKey("involvedUser")) {
-			query.involvedUser(allRequestParams.get("involvedUser"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("businessKey"))) {
+			query.processInstanceBusinessKey(requestParams.get("businessKey"));
 		}
-
-		if (allRequestParams.get("superProcessInstanceId") != null) {
-			query.superProcessInstanceId(allRequestParams.get("superProcessInstanceId"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("involvedUser"))) {
+			query.involvedUser(requestParams.get("involvedUser"));
 		}
-
-		if (allRequestParams.get("excludeSubprocesses") != null) {
-			query.excludeSubprocesses(Boolean.valueOf(allRequestParams.get("excludeSubprocesses")));
-		}
-
-		if (allRequestParams.get("startedAfter") != null) {
-			query.startedAfter(RequestUtil.getDate(allRequestParams, "startedAfter"));
-		}
-
-		if (allRequestParams.get("startedBefore") != null) {
-			query.startedBefore(RequestUtil.getDate(allRequestParams, "startedBefore"));
-		}
-
-		if (allRequestParams.get("startedBy") != null) {
-			query.startedBy(allRequestParams.get("startedBy"));
-		}
-
-		if (allRequestParams.get("includeProcessVariables") != null) {
-			if (Boolean.valueOf(allRequestParams.get("includeProcessVariables"))) {
-				query.includeProcessVariables();
+		if (ObjectUtils.isNotEmpty(requestParams.get("finished"))) {
+			boolean isFinished = ObjectUtils.convertToBoolean(requestParams.get("finished"));
+			if (isFinished) {
+				query.finished();
+			} else {
+				query.unfinished();
 			}
 		}
-
-		if (allRequestParams.get("tenantId") != null) {
-			query.processInstanceTenantIdLike(allRequestParams.get("tenantId"));
+		if (ObjectUtils.isNotEmpty(requestParams.get("superProcessInstanceId"))) {
+			query.superProcessInstanceId(requestParams.get("superProcessInstanceId"));
+		}
+		if (ObjectUtils.isNotEmpty(requestParams.get("excludeSubprocesses"))) {
+			query.excludeSubprocesses(ObjectUtils.convertToBoolean(requestParams.get("excludeSubprocesses")));
+		}
+		if (ObjectUtils.isNotEmpty(requestParams.get("finishedAfter"))) {
+			query.finishedAfter(ObjectUtils.convertToDatetime(requestParams.get("finishedAfter")));
+		}
+		if (ObjectUtils.isNotEmpty(requestParams.get("finishedBefore"))) {
+			query.finishedBefore(ObjectUtils.convertToDatetime(requestParams.get("finishedBefore")));
+		}
+		if (ObjectUtils.isNotEmpty(requestParams.get("startedAfter"))) {
+			query.startedAfter(ObjectUtils.convertToDatetime(requestParams.get("startedAfter")));
+		}
+		if (ObjectUtils.isNotEmpty(requestParams.get("startedBefore"))) {
+			query.startedBefore(ObjectUtils.convertToDatetime(requestParams.get("startedBefore")));
+		}
+		if (ObjectUtils.isNotEmpty(requestParams.get("startedBy"))) {
+			query.startedBy(requestParams.get("startedBy"));
+		}
+		if (ObjectUtils.isNotEmpty(requestParams.get("tenantId"))) {
+			query.processInstanceTenantIdLike(requestParams.get("tenantId"));
 		}
 
-		if (allRequestParams.get("withoutTenantId") != null) {
-			if (Boolean.valueOf(allRequestParams.get("withoutTenantId")))
-				query.processInstanceWithoutTenantId();
-		}
-		return new ProcessInstancePaginateList(restResponseFactory).paginateList(allRequestParams, query, "id", allowedSortProperties);
+		return new ProcessInstancePaginateList(restResponseFactory).paginateList(getPageable(requestParams), query, allowedSortProperties);
 	}
 
 	@RequestMapping(value = "/process-instance", method = RequestMethod.POST, produces = "application/json", name = "流程实例创建")
@@ -160,7 +159,7 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 				instance = runtimeService.startProcessInstanceByKey(request.getProcessDefinitionKey(), request.getBusinessKey(), startVariables);
 			}
 		}
-		
+
 		// autoCommit:complete all tasks(not include sub process or father process)
 		if (request.isAutoCommitTask()) {
 			List<Task> tasks = taskService.createTaskQuery().processInstanceId(instance.getProcessInstanceId()).list();
@@ -168,7 +167,7 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 				if (StringUtils.isEmpty(task.getAssignee())) {
 					taskService.setAssignee(task.getId(), Authentication.getAuthenticatedUserId());
 				}
-//				taskExtService.saveTaskAssigneeVar(task.getId());
+				// taskExtService.saveTaskAssigneeVar(task.getId());
 				taskService.complete(task.getId());
 			}
 		}
@@ -196,23 +195,24 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 		}
 	}
 
-	@RequestMapping(value = "/process-instance/batch", method = RequestMethod.DELETE, name = "流程实例批量删除")
+	@RequestMapping(value = "/process-instances/batch", method = RequestMethod.DELETE, name = "流程实例批量删除")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void batchDeleteProcessInstance(@RequestParam(value = "processInstanceIds") String processInstanceIds, @RequestParam(value = "deleteReason", required = false) String deleteReason) {
 		for (String processInstanceId : processInstanceIds.split(",")) {
-			this.deleteProcessInstance(processInstanceId, deleteReason,false);
+			this.deleteProcessInstance(processInstanceId, deleteReason, false);
 		}
 	}
 
-	@RequestMapping(value = "/process-instance/{processInstanceId}", method = RequestMethod.DELETE, name = "流程实例删除")
+	@RequestMapping(value = "/process-instances/{processInstanceId}", method = RequestMethod.DELETE, name = "流程实例删除")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteProcessInstance(@PathVariable String processInstanceId, @RequestParam(value = "deleteReason", required = false) String deleteReason, @RequestParam(value = "cascade", required = false) boolean cascade) {
+	public void deleteProcessInstance(@PathVariable String processInstanceId, @RequestParam(value = "deleteReason", required = false) String deleteReason,
+			@RequestParam(value = "cascade", required = false) boolean cascade) {
 		HistoricProcessInstance historicProcessInstance = getHistoricProcessInstanceFromRequest(processInstanceId);
 		if (historicProcessInstance.getEndTime() == null) {
 			ExecutionEntity executionEntity = (ExecutionEntity) getProcessInstanceFromRequest(processInstanceId);
 			if (StringUtils.isEmpty(executionEntity.getSuperExecutionId())) {
 				runtimeService.deleteProcessInstance(processInstanceId, deleteReason);
-				if(cascade){
+				if (cascade) {
 					historyService.deleteHistoricProcessInstance(processInstanceId);
 				}
 			} else {
