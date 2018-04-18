@@ -1,12 +1,20 @@
 # plumdo-work 工作流平台
 
-# 交流QQ群：717933986
+## 交流QQ群：717933986
 
 ## 流程，表单，报表，手动配置生成实际工作流
 
+## 项目地址
+```
+github:https://github.com/wengwh/plumdo-work
+gitee:https://gitee.com/wengwh/plumdo-work
+```
+
 ## 腾讯云演示环境
 ```
-work.plumdo.com
+入口：work.plumdo.com
+
+表单设计器：https://wengwh.github.io/plumdo-work
 
 ```
 
