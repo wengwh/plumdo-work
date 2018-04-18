@@ -2,32 +2,48 @@
   <div class="card card-query">
     <div class="content">
       <div class="row">
-        <div class="col-md-2">
-          <h4 class="title">只显示最新版本</h4>
-          <div class="form-group">
-            <select class="form-control" ng-model="queryParams.latestVersion" ng-init="queryParams.latestVersion=queryParams.latestVersion||'true'">
+        <div class="col-md-6">
+          <h4 class="title">开始时间</h4>
+          <div class="input-daterange input-group form-group">
+            <input type="text" class="form-control" ng-model="queryParams.startedAfter" datetime-picker/>
+            <span class="input-group-addon">
+              <i class="fa fa-exchange"></i>
+            </span>
+            <input type="text" class="form-control" ng-model="queryParams.startedBefore" datetime-picker/>
+          </div>
+        </div>
+         <div class="col-md-6">
+           <h4 class="title">是否完成</h4>
+            <div class="form-group">
+            <select class="form-control" ng-model="queryParams.finished">
+              <option value="">全部</option>
               <option value="true">是</option>
               <option value="false">否</option>
             </select>
           </div>
         </div>
-        <div class="col-md-2">
-          <h4 class="title">状态</h4>
-          <div class="form-group">
-            <select class="form-control" ng-model="queryParams.suspended">
-              <option value="">全部</option>
-              <option value="false">激活</option>
-              <option value="true">挂起</option>
-            </select>
+      </div>
+      <div class="row">
+      <div class="col-md-6">
+          <h4 class="title">结束时间</h4>
+          <div class="input-daterange input-group form-group">
+            <input type="text" class="form-control" ng-model="queryParams.finishedAfter" datetime-picker/>
+            <span class="input-group-addon">
+              <i class="fa fa-exchange"></i>
+            </span>
+            <input type="text" class="form-control" ng-model="queryParams.finishedBefore" datetime-picker/>
           </div>
         </div>
-        <div class="col-md-8">
-          <h4 class="title">名称</h4>
-          <div class="input-group">
-            <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入定义名称">
+       
+        <div class="col-md-6">
+          <h4 class="title">流程定义</h4>
+          <div class="input-group form-group">
+            <select class="form-control" chosen  ng-model="queryParams.processDefinitionId" placeholder-text-single="'选择流程定义'" no-results-text = "'没有结果匹配'">
+                <option value="">全部</option>
+                <option ng-repeat="option in definitions" value="{{option.id}}">{{option.name+' (v'+option.version+')'}}</option>
+            </select>
             <span class="input-group-btn">
-              <button type="button" class="btn btn-info" ng-click="queryDefinition()">搜索</button>
-              <button type="button" class="btn btn-info" ng-click="importDefinition()">导入</button>
+                <button type="button" class="btn btn-info" ng-click="queryInstance()">搜索</button>
             </span>
           </div>
         </div>
@@ -64,8 +80,8 @@
         <div class="col-md-2">
           <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,false)" ng-show="!selectedItem.suspended">挂起</button>
           <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,true)" ng-show="selectedItem.suspended">激活</button>
-          <button type="button" class="btn btn-danger btn-block" ng-click="deleteDefinition(selectedItem.id)">删除</button>
-          <button type="button" class="btn btn-info btn-block" ng-click="exportDefinition(selectedItem)">导出</button>
+          <button type="button" class="btn btn-danger btn-block" ng-click="deleteInstance(selectedItem.id)">删除</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="exportInstance(selectedItem)">导出</button>
         </div>
       </div>
     </div>

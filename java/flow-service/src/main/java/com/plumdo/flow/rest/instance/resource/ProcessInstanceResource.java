@@ -13,7 +13,6 @@ import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.impl.HistoricProcessInstanceQueryProperty;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.engine.runtime.ProcessInstance;
-import org.flowable.engine.runtime.ProcessInstanceQuery;
 import org.flowable.task.api.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.flow.exception.FlowableForbiddenException;
-import com.plumdo.flow.rest.DataResponse;
-import com.plumdo.flow.rest.RequestUtil;
 import com.plumdo.flow.rest.instance.ProcessInstancePaginateList;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartRequest;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartResponse;
@@ -50,6 +47,7 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 	static {
 		allowedSortProperties.put("id", HistoricProcessInstanceQueryProperty.PROCESS_INSTANCE_ID_);
 		allowedSortProperties.put("processDefinitionId", HistoricProcessInstanceQueryProperty.PROCESS_DEFINITION_ID);
+		allowedSortProperties.put("processDefinitionKey", HistoricProcessInstanceQueryProperty.PROCESS_DEFINITION_KEY);
 		allowedSortProperties.put("businessKey", HistoricProcessInstanceQueryProperty.BUSINESS_KEY);
 		allowedSortProperties.put("startTime", HistoricProcessInstanceQueryProperty.START_TIME);
 		allowedSortProperties.put("endTime", HistoricProcessInstanceQueryProperty.END_TIME);
@@ -115,7 +113,7 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 		return new ProcessInstancePaginateList(restResponseFactory).paginateList(getPageable(requestParams), query, allowedSortProperties);
 	}
 
-	@RequestMapping(value = "/process-instance", method = RequestMethod.POST, produces = "application/json", name = "流程实例创建")
+	@RequestMapping(value = "/process-instances", method = RequestMethod.POST, produces = "application/json", name = "流程实例创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public ProcessInstanceStartResponse startProcessInstance(@RequestBody ProcessInstanceStartRequest request) {

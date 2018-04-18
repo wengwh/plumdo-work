@@ -10,11 +10,18 @@
   angular.module('adminApp').controller('FlowInstanceController',
     function($scope,$stateParams,$q) {
       $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
+      $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
       $scope.detailId = $stateParams.id || '0';
       $scope.queryParams = $scope.detailId==='0' ? $scope.getCacheParams():{};
       $scope.queryResult = {};
       $scope.selectedItem = null;
 
+      $scope.definitionService.get({
+        params : {pageSize:1000}
+      }, function(response) {
+        $scope.definitions = response.data;
+      });
+      
       $scope.queryDetail = function(id){
         $scope.instanceService.get({
           urlPath : '/' + id
@@ -74,16 +81,11 @@
         id : 'instance',
         data : 'queryResult',
         colModels : [
-          {name:'名称',index:'name',sortable:true,width:'10%'},
-          {name:'标识',index:'key',sortable:true,width:'10%'},
-          {name:'版本号',index:'version',sortable:true,width:'10%'},
-          {name:'状态',index:'suspended',width:'11%',
-            formatter:function(){
-              return '<toggle-switch ng-init="switch=(!row.suspended)" ng-model="switch" class="switch-small switch-info" '+
-                'on-label="激活" off-label="挂起" on-change="switchStaus(row,switch)"></toggle-switch>';
-            }
-          },
-          {name:'备注',index:'description',width:'12%'},
+          {name:'流程名称',index:'processDefinitionName',width:'10%'},
+          {name:'流程标识',index:'processDefinitionId',sortable:true,width:'10%'},
+          {name:'开始时间',index:'startTime',sortable:true,width:'10%'},
+          {name:'结束时间',index:'endTime',sortable:true,width:'10%'},
+          {name:'业务标识',index:'businessKey',sortable:true,width:'10%'},
           {name:'操作',index:'',width:'10%',
             formatter:function(){
               return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';

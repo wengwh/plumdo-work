@@ -9,8 +9,10 @@
   angular.module('adminApp')
     .constant('contextRoot', {
       formService:'http://work.plumdo.com/form-service',
-      identityService:'http://work.plumdo.com/identity-service',
-      flowService:'http://work.plumdo.com/flow-service'
+//      identityService:'http://work.plumdo.com/identity-service',
+      identityService:'http://localhost:8088',
+//      flowService:'http://work.plumdo.com/flow-service'
+      flowService:'http://localhost:8082'
     })
     .constant('restUrl', {
       formModels: '/form-models',

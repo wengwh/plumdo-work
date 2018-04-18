@@ -66,3 +66,10 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 	border-right: 1px solid #a4acb9;
 	margin-right: 5px;
 }
+
+
+.input-daterange{width:100%}
+.input-daterange input{text-align:center}
+.input-daterange input:first-child{border-radius:3px 0 0 3px}
+.input-daterange input:last-child{border-radius:0 3px 3px 0}
+.input-daterange .input-group-addon{width:auto;min-width:16px;padding:4px 5px;line-height:1.42857143;text-shadow:0 1px 0 #fff;border-width:1px 0;margin-left:-5px;margin-right:-5px;}
