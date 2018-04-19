@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.common.utils.ObjectUtils;
-import com.plumdo.flow.exception.FlowableForbiddenException;
+import com.plumdo.flow.constant.ErrorConstant;
+import com.plumdo.flow.rest.instance.ProcessInstanceDetailResponse;
 import com.plumdo.flow.rest.instance.ProcessInstancePaginateList;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartRequest;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartResponse;
@@ -113,6 +115,16 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 		return new ProcessInstancePaginateList(restResponseFactory).paginateList(getPageable(requestParams), query, allowedSortProperties);
 	}
 
+	@GetMapping(value = "/process-instances/{processInstanceId}", name = "根据ID获取流程实例")
+	public ProcessInstanceDetailResponse getProcessDefinition(@PathVariable String processInstanceId) {
+		ProcessInstance processInstance = null;
+		HistoricProcessInstance historicProcessInstance = getHistoricProcessInstanceFromRequest(processInstanceId);
+		if(historicProcessInstance.getEndTime() == null) {
+			processInstance = getProcessInstanceFromRequest(processInstanceId);
+		}
+		return restResponseFactory.createProcessInstanceDetailResponse(historicProcessInstance, processInstance);
+	}
+	
 	@RequestMapping(value = "/process-instances", method = RequestMethod.POST, produces = "application/json", name = "流程实例创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -193,31 +205,22 @@ public class ProcessInstanceResource extends BaseProcessInstanceResource {
 		}
 	}
 
-	@RequestMapping(value = "/process-instances/batch", method = RequestMethod.DELETE, name = "流程实例批量删除")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void batchDeleteProcessInstance(@RequestParam(value = "processInstanceIds") String processInstanceIds, @RequestParam(value = "deleteReason", required = false) String deleteReason) {
-		for (String processInstanceId : processInstanceIds.split(",")) {
-			this.deleteProcessInstance(processInstanceId, deleteReason, false);
-		}
-	}
-
-	@RequestMapping(value = "/process-instances/{processInstanceId}", method = RequestMethod.DELETE, name = "流程实例删除")
+	@DeleteMapping(value = "/process-instances/{processInstanceId}", name = "流程实例删除")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteProcessInstance(@PathVariable String processInstanceId, @RequestParam(value = "deleteReason", required = false) String deleteReason,
 			@RequestParam(value = "cascade", required = false) boolean cascade) {
 		HistoricProcessInstance historicProcessInstance = getHistoricProcessInstanceFromRequest(processInstanceId);
-		if (historicProcessInstance.getEndTime() == null) {
-			ExecutionEntity executionEntity = (ExecutionEntity) getProcessInstanceFromRequest(processInstanceId);
-			if (StringUtils.isEmpty(executionEntity.getSuperExecutionId())) {
-				runtimeService.deleteProcessInstance(processInstanceId, deleteReason);
-				if (cascade) {
-					historyService.deleteHistoricProcessInstance(processInstanceId);
-				}
-			} else {
-				throw new FlowableForbiddenException("Could not delete a process instance with id '" + processInstanceId + "' have super process.");
-			}
-		} else {
+		if (historicProcessInstance.getEndTime() != null) {
 			historyService.deleteHistoricProcessInstance(historicProcessInstance.getId());
+			return;
+		}
+		ExecutionEntity executionEntity = (ExecutionEntity) getProcessInstanceFromRequest(processInstanceId);
+		if (ObjectUtils.isNotEmpty(executionEntity.getSuperExecutionId())) {
+			exceptionFactory.throwForbidden(ErrorConstant.INSTANCE_HAVE_PARENT, processInstanceId);
+		}
+		runtimeService.deleteProcessInstance(processInstanceId, deleteReason);
+		if (cascade) {
+			historyService.deleteHistoricProcessInstance(processInstanceId);
 		}
 	}
 }

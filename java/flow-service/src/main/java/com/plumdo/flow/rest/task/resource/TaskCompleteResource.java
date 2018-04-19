@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,7 @@ import com.plumdo.flow.rest.variable.RestVariable;
 @RestController
 public class TaskCompleteResource extends BaseTaskResource {
 
-	@RequestMapping(value="/task/{taskId}/complete", method = RequestMethod.PUT, name="任务完成")
+	@PutMapping(value="/tasks/{taskId}/complete", name="任务完成")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<TaskCompleteResponse> completeTask(@PathVariable("taskId") String taskId,@RequestBody(required=false) TaskCompleteRequest taskCompleteRequest) {
@@ -43,8 +44,6 @@ public class TaskCompleteResource extends BaseTaskResource {
 		if(task.getAssignee() == null){
 			taskService.setAssignee(taskId, Authentication.getAuthenticatedUserId());
 		}
-		//设置任务的完成人变量
-//		taskExtService.saveTaskAssigneeVar(taskId);
 		
    		Map<String, Object> completeVariables = new HashMap<String, Object>();
    		
@@ -68,8 +67,6 @@ public class TaskCompleteResource extends BaseTaskResource {
    		}
    		//判断是否是协办完成还是正常流转
    		if(task.getDelegationState() != null && task.getDelegationState().equals(DelegationState.PENDING)){
-   			//协办的情况，把运行的任务表开始时间改成当前时间
-//   			taskExtService.setStartTime(taskId);
    			if(completeVariables.isEmpty()){
    				taskService.resolveTask(taskId);
    			}else{

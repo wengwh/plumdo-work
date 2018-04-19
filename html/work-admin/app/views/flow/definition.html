@@ -84,7 +84,7 @@
       </div>
       <div class="tab-content">
           <div class="tab-pane text-center" ng-class="{'active':active==0}">
-            <img ng-src="{{getImageUrl(detailId)}}" />
+            <img ng-src="{{getImageUrl(selectedItem.id)}}" />
           </div>
           <div class="tab-pane" ng-class="{'active':active==1}">
             <table ng-table="authTableOptions" class="table table-striped ng-table">

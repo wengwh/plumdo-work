@@ -19,6 +19,7 @@
       flowModels: '/models',
       flowDefinitions: '/process-definitions',
       flowInstances: '/process-instances',
+      flowTasks: '/tasks',
       idmAuths: '/auths',
       idmUsers: '/users',
       idmGroups: '/groups',
@@ -31,7 +32,7 @@
         return 'http://work.plumdo.com/form-modeler/#/watch?modelId=' + modelId;
       },
       flowDesign : function(modelId) {
-        return 'http://work.plumdo.com/flow-modeler/#/editor/' + modelId;
+        return 'http://localhost:9004/#/editor/' + modelId;
       }
   });
 

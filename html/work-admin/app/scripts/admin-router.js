@@ -68,6 +68,10 @@
         url: '/instance/?:id',
         controller: 'FlowInstanceController',
         templateUrl: 'views/flow/instance.html'
+      }).state('main.flow.task', {
+        url: '/task/?:id',
+        controller: 'FlowTaskController',
+        templateUrl: 'views/flow/task.html'
       });
 
       $urlRouterProvider.otherwise('/modeler/flow/');

@@ -13,7 +13,6 @@ public class HistoricProcessInstanceResponse {
 	protected Date endTime;
 	protected Long durationInMillis;
 	protected String startUserId;
-	protected String startUserName;
 	protected String startActivityId;
 	protected String superProcessInstanceId;
 	protected String tenantId;
@@ -120,14 +119,6 @@ public class HistoricProcessInstanceResponse {
 
 	public void setProcessDefinitionVersion(Integer processDefinitionVersion) {
 		this.processDefinitionVersion = processDefinitionVersion;
-	}
-
-	public String getStartUserName() {
-		return startUserName;
-	}
-
-	public void setStartUserName(String startUserName) {
-		this.startUserName = startUserName;
 	}
 	
 }

@@ -45,6 +45,36 @@
         });
       };
 
+      $scope.importDefinition = function() {
+        $scope.editConfirmModal({
+          formUrl: 'definition-import.html',
+          title: '导入流程',
+          hideFooter: true,
+          property:{
+            fileOptions:{
+              fileuploaded : function(){$scope.queryDefinition();},
+              uploadUrl: $scope.definitionService.url+'/import?token='+$scope.loginUser.token,
+              allowedFileExtensions:['bpmn','bpmn20.xml','bar','zip']
+            }
+          }
+        });
+      };
+      
+      $scope.exportDefinition = function(item){
+        $scope.definitionService.get({
+          urlPath : '/' + item.id +'/xml'
+        }, function(response) {
+          $scope.windowExportFile(response,item.name+'-v'+item.version+'.bpmn20.xml');
+        });
+      };
+      
+      $scope.getImageUrl = function(id){
+        if(angular.isDefined(id)){
+          return $scope.definitionService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
+        }
+        return null;
+      };
+      
       $scope.switchStaus = function(item,suspended){
         var title = suspended?'激活流程':'挂起流程';
         var action = suspended?'activate':'suspend';
@@ -73,7 +103,8 @@
         id : 'definition',
         data : 'queryResult',
         colModels : [
-          {name:'名称',index:'name',sortable:true,width:'10%'},
+          {name:'流程ID',index:'id',sortable:true,width:'10%'},
+          {name:'流程名称',index:'name',sortable:true,width:'10%'},
           {name:'标识',index:'key',sortable:true,width:'10%'},
           {name:'版本号',index:'version',sortable:true,width:'10%'},
           {name:'状态',index:'suspended',width:'11%',
@@ -154,33 +185,6 @@
         }, function() {
           $scope.queryJob(id);
         });
-      };
-      
-      $scope.importDefinition = function() {
-        $scope.editConfirmModal({
-          formUrl: 'definition-import.html',
-          title: '导入流程',
-          hideFooter: true,
-          property:{
-            fileOptions:{
-              fileuploaded : function(){$scope.queryDefinition();},
-              uploadUrl: $scope.definitionService.url+'/import?token='+$scope.loginUser.token,
-              allowedFileExtensions:['bpmn','bpmn20.xml','bar','zip']
-            }
-          }
-        });
-      };
-      
-      $scope.exportDefinition = function(item){
-        $scope.definitionService.get({
-          urlPath : '/' + item.id +'/xml'
-        }, function(response) {
-          $scope.windowExportFile(response,item.name+'-v'+item.version+'.bpmn20.xml');
-        });
-      };
-      
-      $scope.getImageUrl = function(id){
-        return $scope.definitionService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
       };
       
       if($scope.detailId !== '0'){

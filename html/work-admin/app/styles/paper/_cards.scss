@@ -306,6 +306,9 @@
 	    line-height: 30px;
 	    padding-left: 3px;
 	    color: #555;
+		overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
 	    label{
 		    font-weight: bold;
 		    color:#555;

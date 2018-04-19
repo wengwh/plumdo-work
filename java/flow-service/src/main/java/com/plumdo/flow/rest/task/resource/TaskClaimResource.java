@@ -20,8 +20,7 @@ public class TaskClaimResource extends BaseTaskResource {
 	@RequestMapping(value="/task/{taskId}/claim", method = RequestMethod.PUT, name="任务认领")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void claimTask(@PathVariable String taskId,@RequestBody(required=false) TaskActionRequest actionRequest) {
-	    Task task = getTaskFromRequest(taskId,false);
-	    
+	    Task task = getTaskFromRequest(taskId);
 		taskService.claim(task.getId(),Authentication.getAuthenticatedUserId());
 	}
 }

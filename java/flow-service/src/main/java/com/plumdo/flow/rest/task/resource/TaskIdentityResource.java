@@ -23,7 +23,7 @@ public class TaskIdentityResource extends BaseTaskResource{
 
 	@RequestMapping(value="/task/{taskId}/identity", method = RequestMethod.GET, produces="application/json", name="任务候选人查询")
 	public List<TaskIdentityResponse> getIdentityLinks(@PathVariable("taskId") String taskId) {
-		Task task = getTaskFromRequest(taskId,false);
+		Task task = getTaskFromRequest(taskId);
 	    List<IdentityLink> identityLinks = taskService.getIdentityLinksForTask(task.getId());
 	    return restResponseFactory.createTaskIdentityResponseList(identityLinks);
 	}
@@ -31,7 +31,7 @@ public class TaskIdentityResource extends BaseTaskResource{
 	@RequestMapping(value="/task/{taskId}/identity", method = RequestMethod.POST, name="任务候选人创建")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void createIdentityLink(@PathVariable("taskId") String taskId, @RequestBody TaskIdentityRequest taskIdentityRequest) {
-		Task task = getTaskFromRequest(taskId,false);
+		Task task = getTaskFromRequest(taskId);
 	    
 		validateIdentityLinkArguments(taskIdentityRequest.getIdentityId(), taskIdentityRequest.getType());
 	    
@@ -46,7 +46,7 @@ public class TaskIdentityResource extends BaseTaskResource{
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteIdentityLink(@PathVariable("taskId") String taskId, @PathVariable("identityId") String identityId, 
 		      @PathVariable("type") String type) {
-		Task task = getTaskFromRequest(taskId,false);
+		Task task = getTaskFromRequest(taskId);
 	    
 		validateIdentityLinkArguments(identityId, type);
 		

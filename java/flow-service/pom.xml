@@ -32,7 +32,7 @@
 			<artifactId>flowable-json-converter</artifactId>
 			<version>${flowable.version}</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.flowable</groupId>
 			<artifactId>flowable-rest</artifactId>
 			<version>${flowable.version}</version>
@@ -46,7 +46,7 @@
     <groupId>org.flowable</groupId>
     <artifactId>flowable-ui-admin-rest</artifactId>
     <version>6.3.0</version>
-</dependency> -->
+</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.flowable/flowable-ui-modeler-rest -->
 <!-- <dependency>

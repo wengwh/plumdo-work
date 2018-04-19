@@ -35,6 +35,17 @@ public class ErrorConstant {
 	public static final String DEPLOY_NOT_FOUND = "12008";
 	public static final String DEPLOY_RESOURCE_NOT_FOUND = "12009";
 	public static final String DEFINITION_XML_READ_ERROR = "12010";
-	
+	public static final String DEFINITION_IMAGE_NOT_FOUND = "12011";
+	public static final String DEFINITION_IMAGE_READ_ERROR = "12012";
+
+	public static final String INSTANCE_NOT_FOUND = "13001";
+	public static final String INSTANCE_ALREADY_SUSPEND = "13002";
+	public static final String INSTANCE_ALREADY_ACTIVE = "13003";
+	public static final String INSTANCE_IMAGE_NOT_FOUND = "13004";
+	public static final String INSTANCE_IMAGE_READ_ERROR = "13005";
+	public static final String INSTANCE_HAVE_PARENT = "13006";
+
+	public static final String TASK_NOT_FOUND = "14001";
+	public static final String TASK_RUN_NOT_DELETE = "14002";
 
 }

@@ -44,7 +44,7 @@
         property:{
           fileOptions:{
             fileuploaded : function(){$scope.queryModel();},
-            uploadUrl: $scope.modelService.url+'/import?'+$scope.loginUser.token,
+            uploadUrl: $scope.modelService.url+'/import?token='+$scope.loginUser.token,
             allowedFileExtensions:['bpmn','bpmn20.xml']
           }
         }
@@ -157,7 +157,10 @@
     };
 
     $scope.getImageUrl = function(id){
-      return $scope.modelService.url +'/'+id+'/image.png';
+      if(angular.isDefined(id)){
+        return $scope.modelService.url +'/'+id+'/image.png';
+      }
+      return null;
     };
     
     $scope.versionArray = function(){

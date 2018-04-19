@@ -36,6 +36,9 @@ public class FlowableConfig extends ProcessEngineAutoConfiguration{
 		SpringProcessEngineConfiguration conf = super.springProcessEngineConfiguration(dataSource, platformTransactionManager, asyncExecutorProvider);
 		conf.setDatabaseTablePrefix("plumdo_flow.");
 		conf.setTablePrefixIsSchema(true);
+		conf.setActivityFontName("微软雅黑");
+		conf.setLabelFontName("微软雅黑");
+		conf.setAnnotationFontName("微软雅黑");
 		conf.setDatabaseCatalog("plumdo_flow");
 		return conf;
 	}

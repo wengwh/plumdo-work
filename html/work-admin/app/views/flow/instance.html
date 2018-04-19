@@ -62,7 +62,7 @@
   <div class="card card-detail">
     <div class="header">
       <h4 class="title">
-        <span class="text-info right-split">v{{selectedItem.version}}</span>{{selectedItem.name}}
+        <span class="text-info right-split">{{selectedItem.processDefinitionName}}</span>{{selectedItem.id}}
         <button type="button" class="btn btn-warning btn-sm pull-right" ng-click="gotoList()">返回列表</button>
       </h4>
     </div>
@@ -70,18 +70,26 @@
       <div class="row">
         <div class="col-md-10">
            <span class="property"><label>ID:</label>{{selectedItem.id}}</span>
-           <span class="property"><label>版本:</label>{{selectedItem.version}}</span>
-           <span class="property"><label>名称:</label>{{selectedItem.name}}</span>
-           <span class="property"><label>标识:</label>{{selectedItem.key}}</span>
-           <span class="property"><label>状态:</label>{{selectedItem.suspended?'挂起':'激活'}}</span>
-           <span class="property"><label>分类:</label>{{selectedItem.category}}</span>
-           <span class="property"><label>描述:</label>{{selectedItem.description}}</span>
+           <span class="property"><label>业务标识:</label>{{selectedItem.businessKey}}</span>
+           <span class="property"><label>名称:</label>{{selectedItem.processDefinitionName}}</span>
+           <span class="property"><label>开始时间:</label>{{selectedItem.startTime}}</span>
+           <span class="property"><label>启动人:</label>{{selectedItem.startUserId}}</span>
+           <span class="property"><label>启动节点:</label>{{selectedItem.startActivityId}}</span>
+           <div ng-if="selectedItem.endTime != null">
+             <span class="property"><label>结束时间:</label>{{selectedItem.endTime}}</span>
+             <span class="property"><label>状态:</label>结束</span>
+           </div>
+           <div ng-if="selectedItem.endTime == null">
+             <span class="property"><label>状态:</label>{{selectedItem.suspended?'挂起':'激活'}}</span>
+           </div>
+           <span class="property"><label>流程定义:</label>{{selectedItem.processDefinitionId}}</span>
+           <span class="property"><label>父级实例ID:</label>{{selectedItem.superProcessInstanceId}}</span>
+           <span class="property"><label>删除理由:</label>{{selectedItem.deleteReason}}</span>
         </div>
         <div class="col-md-2">
-          <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,false)" ng-show="!selectedItem.suspended">挂起</button>
-          <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,true)" ng-show="selectedItem.suspended">激活</button>
-          <button type="button" class="btn btn-danger btn-block" ng-click="deleteInstance(selectedItem.id)">删除</button>
-          <button type="button" class="btn btn-info btn-block" ng-click="exportInstance(selectedItem)">导出</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem.id,false)" ng-show="!selectedItem.suspended&&selectedItem.endTime == null">挂起</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem.id,true)" ng-show="selectedItem.suspended&&selectedItem.endTime == null">激活</button>
+          <button type="button" class="btn btn-danger btn-block" ng-click="deleteInstance(selectedItem)">删除</button>
         </div>
       </div>
     </div>
@@ -92,9 +100,9 @@
         <div class="nav-tabs-wrapper">
           <ul uib-tabset active="active" type="tabs">
               <uib-tab index="0" heading="流程图"></uib-tab>
-              <uib-tab index="1" heading="授权信息" select="queryAuth(selectedItem.id)"></uib-tab>
-              <uib-tab index="2" heading="定时任务" select="queryJob(selectedItem.id)"></uib-tab>
-              <uib-tab index="3" heading="流程实例" select="queryInstance(selectedItem.id)"></uib-tab>
+              <uib-tab index="1" heading="任务列表" select="queryAuth(selectedItem.id)"></uib-tab>
+              <uib-tab index="2" heading="变量列表" select="queryJob(selectedItem.id)"></uib-tab>
+              <uib-tab index="3" heading="子流程" select="queryInstance(selectedItem.id)"></uib-tab>
           </ul>
         </div>
       </div>
@@ -117,28 +125,24 @@
   </div>
 </div>
 
-<script type="text/ng-template" id="definition-status-edit.html">
+<script type="text/ng-template" id="instance-delete.html">
   <div class="form-group">
     <label class="control-label">流程名称</label> 
   	<input type="text" class="form-control" ng-model="formData.name" readonly></input>
   </div>
   <div class="form-group">
-  	<label class="control-label">包括流程实例</label> 
+  	<label class="control-label">包括历史数据</label> 
 	<div>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formData.includeProcessInstances" ng-value="true" ng-checked="true" /> 是
+			<input ng-icheck type="radio" ng-model="formData.cascade" ng-value="true" /> 是
 		</label>
 		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formData.includeProcessInstances" ng-value="false" /> 否
+			<input ng-icheck type="radio" ng-model="formData.cascade" ng-value="false" ng-checked="true" /> 否
 		</label>
 	</div>
   </div>
   <div class="form-group">
-    <label class="control-label">执行时间(不填立刻执行)</label> 
-    <input type="text" datetime-picker class="form-control" ng-model="formData.date"></input>
+  	<label class="control-label">删除理由</label> 
+	<textarea class="form-control" ng-model="formData.deleteReason" rows="3"></textarea>
   </div>
-</script>
-
-<script type="text/ng-template" id="definition-import.html">
-  <input type="file" class="form-control" multiple file-input="fileOptions" ng-model="formData.file" >
 </script>

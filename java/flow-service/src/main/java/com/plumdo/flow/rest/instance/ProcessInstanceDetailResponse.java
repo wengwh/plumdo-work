@@ -2,22 +2,24 @@ package com.plumdo.flow.rest.instance;
 
 import java.util.Date;
 
+public class ProcessInstanceDetailResponse {
+	private String id;
+	private String businessKey;
+	private boolean suspended;
+	private String processDefinitionId;
+	private String processDefinitionName;
+	private String processDefinitionKey;
+	private Integer processDefinitionVersion;
+	private String currentActivityId;
+	private String startActivityId;
+	private String tenantId;
+	private Date startTime;
+	private Date endTime;
+	private Long durationInMillis;
+	private String startUserId;
+	private String superProcessInstanceId;
+	private String deleteReason;
 
-public class ProcessInstanceResponse {
-	protected String id;
-	protected String businessKey;
-	protected boolean suspended;
-	protected String processDefinitionId;
-	protected String processDefinitionName;
-	protected String processDefinitionKey;
-	protected Integer processDefinitionVersion;
-	protected String currentActivityId;
-	protected String currentActivityName;
-	protected String tenantId;
-	protected Date startTime;
-	protected String startUserId;
-	protected String superProcessInstanceId;
-	
 	public String getId() {
 		return id;
 	}
@@ -114,12 +116,36 @@ public class ProcessInstanceResponse {
 		this.superProcessInstanceId = superProcessInstanceId;
 	}
 
-	public String getCurrentActivityName() {
-		return currentActivityName;
+	public String getStartActivityId() {
+		return startActivityId;
 	}
 
-	public void setCurrentActivityName(String currentActivityName) {
-		this.currentActivityName = currentActivityName;
+	public void setStartActivityId(String startActivityId) {
+		this.startActivityId = startActivityId;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Long getDurationInMillis() {
+		return durationInMillis;
+	}
+
+	public void setDurationInMillis(Long durationInMillis) {
+		this.durationInMillis = durationInMillis;
+	}
+
+	public String getDeleteReason() {
+		return deleteReason;
+	}
+
+	public void setDeleteReason(String deleteReason) {
+		this.deleteReason = deleteReason;
 	}
 
 }

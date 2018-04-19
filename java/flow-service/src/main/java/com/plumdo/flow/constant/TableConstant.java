@@ -9,6 +9,7 @@ package com.plumdo.flow.constant;
 public class TableConstant {
 
 	public static final int MODEL_VESION_START = 1;
+	public static final String ASSIGNEE_NOBODY = "undefined";
 
 	public static final String MODEL_ID = "modelId";
 	public static final String MODEL_NAME = "name";

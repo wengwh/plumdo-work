@@ -17,6 +17,6 @@ public class TaskPaginateList extends AbstractPaginateList {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected List processList(List list) {
-		return restResponseFactory.createTaskResponseList(list);
+		return restResponseFactory.createHistoricTaskResponseList(list);
 	}
 }

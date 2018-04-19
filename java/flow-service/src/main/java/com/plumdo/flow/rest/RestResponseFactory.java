@@ -14,10 +14,13 @@ import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.identitylink.service.IdentityLinkType;
 import org.flowable.task.api.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.plumdo.flow.rest.task.HistoricTaskResponse;
 import com.plumdo.flow.rest.task.TaskCompleteResponse;
+import com.plumdo.flow.rest.task.TaskDetailResponse;
 import com.plumdo.flow.rest.task.TaskIdentityResponse;
 import com.plumdo.flow.rest.task.TaskNextActorResponse;
 import com.plumdo.flow.rest.task.TaskResponse;
@@ -32,11 +35,11 @@ import com.plumdo.flow.rest.variable.RestVariableConverter;
 import com.plumdo.flow.rest.variable.ShortRestVariableConverter;
 import com.plumdo.flow.rest.variable.StringRestVariableConverter;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plumdo.flow.rest.definition.ProcessDefinitionResponse;
 import com.plumdo.flow.rest.instance.HistoricProcessInstanceResponse;
+import com.plumdo.flow.rest.instance.ProcessInstanceDetailResponse;
 import com.plumdo.flow.rest.instance.ProcessInstanceResponse;
 import com.plumdo.flow.rest.instance.ProcessInstanceStartResponse;
 import com.plumdo.flow.rest.model.ModelResponse;
@@ -118,8 +121,7 @@ public class RestResponseFactory {
 		result.setTenantId(processInstance.getTenantId());
 		return result;
 	}
-	
-	
+
 	public List<ProcessInstanceResponse> createProcessInstanceResponseList(List<ProcessInstance> processInstances) {
 		List<ProcessInstanceResponse> responseList = new ArrayList<ProcessInstanceResponse>();
 		for (ProcessInstance instance : processInstances) {
@@ -144,6 +146,28 @@ public class RestResponseFactory {
 		return result;
 	}
 
+	public ProcessInstanceDetailResponse createProcessInstanceDetailResponse(HistoricProcessInstance hisProcessInstance, ProcessInstance processInstance) {
+		ProcessInstanceDetailResponse result = new ProcessInstanceDetailResponse();
+		result.setId(hisProcessInstance.getId());
+		result.setBusinessKey(hisProcessInstance.getBusinessKey());
+		result.setStartTime(hisProcessInstance.getStartTime());
+		result.setEndTime(hisProcessInstance.getEndTime());
+		result.setDurationInMillis(hisProcessInstance.getDurationInMillis());
+		result.setProcessDefinitionId(hisProcessInstance.getProcessDefinitionId());
+		result.setProcessDefinitionKey(hisProcessInstance.getProcessDefinitionKey());
+		result.setProcessDefinitionName(hisProcessInstance.getProcessDefinitionName());
+		result.setProcessDefinitionVersion(hisProcessInstance.getProcessDefinitionVersion());
+		result.setStartActivityId(hisProcessInstance.getStartActivityId());
+		result.setStartUserId(hisProcessInstance.getStartUserId());
+		result.setSuperProcessInstanceId(hisProcessInstance.getSuperProcessInstanceId());
+		result.setTenantId(hisProcessInstance.getTenantId());
+		result.setDeleteReason(hisProcessInstance.getDeleteReason());
+		if (processInstance != null) {
+			result.setSuspended(processInstance.isSuspended());
+		}
+		return result;
+	}
+
 	public ProcessInstanceStartResponse createProcessInstanceStartResponse(ProcessInstance processInstance, List<Task> tasks) {
 		ProcessInstanceStartResponse result = new ProcessInstanceStartResponse();
 		result.setId(processInstance.getId());
@@ -165,6 +189,52 @@ public class RestResponseFactory {
 		}
 		result.setTaskInfo(taskInfo);
 		return result;
+	}
+
+	public List<HistoricTaskResponse> createHistoricTaskResponseList(List<HistoricTaskInstance> tasks) {
+		List<HistoricTaskResponse> responseList = new ArrayList<HistoricTaskResponse>();
+		for (HistoricTaskInstance instance : tasks) {
+			responseList.add(createHistoricTaskResponse(instance));
+		}
+		return responseList;
+	}
+
+	public TaskDetailResponse createTaskDetailResponse(HistoricTaskInstance historicTaskInstance, Task taskInstance) {
+		TaskDetailResponse result = new TaskDetailResponse();
+		createHistoricTaskResponse(result, historicTaskInstance);
+		if (taskInstance != null) {
+			result.setDelegationState(taskInstance.getDelegationState());
+			result.setSuspended(taskInstance.isSuspended());
+		}
+		return result;
+	}
+
+	public HistoricTaskResponse createHistoricTaskResponse(HistoricTaskInstance taskInstance) {
+		HistoricTaskResponse result = new HistoricTaskResponse();
+		createHistoricTaskResponse(result, taskInstance);
+		return result;
+	}
+
+	private void createHistoricTaskResponse(HistoricTaskResponse result, HistoricTaskInstance taskInstance) {
+		result.setId(taskInstance.getId());
+		result.setName(taskInstance.getName());
+		result.setOwner(taskInstance.getOwner());
+		result.setTaskDefinitionKey(taskInstance.getTaskDefinitionKey());
+		result.setAssignee(taskInstance.getAssignee());
+		result.setDescription(taskInstance.getDescription());
+		result.setCategory(taskInstance.getCategory());
+		result.setDueDate(taskInstance.getDueDate());
+		result.setFormKey(taskInstance.getFormKey());
+		result.setParentTaskId(taskInstance.getParentTaskId());
+		result.setPriority(taskInstance.getPriority());
+		result.setProcessDefinitionId(taskInstance.getProcessDefinitionId());
+		result.setTenantId(taskInstance.getTenantId());
+		result.setProcessInstanceId(taskInstance.getProcessInstanceId());
+		result.setDurationInMillis(taskInstance.getDurationInMillis());
+		result.setStartTime(taskInstance.getStartTime());
+		result.setEndTime(taskInstance.getEndTime());
+		result.setClaimTime(taskInstance.getClaimTime());
+		result.setWorkTimeInMillis(taskInstance.getWorkTimeInMillis());
 	}
 
 	public List<TaskResponse> createTaskResponseList(List<Task> tasks) {
@@ -206,7 +276,6 @@ public class RestResponseFactory {
 		result.setCategory(taskInstance.getCategory());
 		result.setProcessDefinitionId(taskInstance.getProcessDefinitionId());
 		result.setProcessInstanceId(taskInstance.getProcessInstanceId());
-
 	}
 
 	public List<TaskIdentityResponse> createTaskIdentityResponseList(List<IdentityLink> identityLinks) {

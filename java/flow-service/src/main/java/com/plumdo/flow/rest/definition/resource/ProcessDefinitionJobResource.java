@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProcessDefinitionJobResource extends BaseProcessDefinitionResource {
-
 	@Autowired
-	protected ManagementService managementService;
+	private ManagementService managementService;
 
 	@GetMapping(value = "/process-definitions/{processDefinitionId}/jobs", name = "流程定义激活")
 	@ResponseStatus(value = HttpStatus.OK)
