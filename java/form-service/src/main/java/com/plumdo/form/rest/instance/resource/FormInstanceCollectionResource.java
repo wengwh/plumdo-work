@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.annotations.ApiIgnore;
 
-import com.plumdo.form.entity.FormData;
-import com.plumdo.form.entity.FormInstance;
-import com.plumdo.form.entity.FormInstance;
+import com.plumdo.form.domian.FormData;
+import com.plumdo.form.domian.FormInstance;
 import com.plumdo.form.jpa.Criteria;
 import com.plumdo.form.jpa.Restrictions;
 import com.plumdo.form.rest.PageResponse;

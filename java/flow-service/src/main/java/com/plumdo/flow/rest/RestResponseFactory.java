@@ -96,32 +96,6 @@ public class RestResponseFactory {
 		return value;
 	}
 
-	public List<HistoricProcessInstanceResponse> createHistoricProcessInstancResponseList(List<HistoricProcessInstance> processInstances) {
-		List<HistoricProcessInstanceResponse> responseList = new ArrayList<HistoricProcessInstanceResponse>();
-		for (HistoricProcessInstance instance : processInstances) {
-			responseList.add(createHistoricProcessInstanceResponse(instance));
-		}
-		return responseList;
-	}
-
-	public HistoricProcessInstanceResponse createHistoricProcessInstanceResponse(HistoricProcessInstance processInstance) {
-		HistoricProcessInstanceResponse result = new HistoricProcessInstanceResponse();
-		result.setId(processInstance.getId());
-		result.setBusinessKey(processInstance.getBusinessKey());
-		result.setStartTime(processInstance.getStartTime());
-		result.setEndTime(processInstance.getEndTime());
-		result.setDurationInMillis(processInstance.getDurationInMillis());
-		result.setProcessDefinitionId(processInstance.getProcessDefinitionId());
-		result.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
-		result.setProcessDefinitionName(processInstance.getProcessDefinitionName());
-		result.setProcessDefinitionVersion(processInstance.getProcessDefinitionVersion());
-		result.setStartActivityId(processInstance.getStartActivityId());
-		result.setStartUserId(processInstance.getStartUserId());
-		result.setSuperProcessInstanceId(processInstance.getSuperProcessInstanceId());
-		result.setTenantId(processInstance.getTenantId());
-		return result;
-	}
-
 	public List<ProcessInstanceResponse> createProcessInstanceResponseList(List<ProcessInstance> processInstances) {
 		List<ProcessInstanceResponse> responseList = new ArrayList<ProcessInstanceResponse>();
 		for (ProcessInstance instance : processInstances) {
@@ -146,26 +120,43 @@ public class RestResponseFactory {
 		return result;
 	}
 
+	public List<HistoricProcessInstanceResponse> createHistoricProcessInstancResponseList(List<HistoricProcessInstance> processInstances) {
+		List<HistoricProcessInstanceResponse> responseList = new ArrayList<HistoricProcessInstanceResponse>();
+		for (HistoricProcessInstance instance : processInstances) {
+			responseList.add(createHistoricProcessInstanceResponse(instance));
+		}
+		return responseList;
+	}
+
+	public HistoricProcessInstanceResponse createHistoricProcessInstanceResponse(HistoricProcessInstance processInstance) {
+		HistoricProcessInstanceResponse result = new HistoricProcessInstanceResponse();
+		createHistoricProcessInstanceResponse(result, processInstance);
+		return result;
+	}
+
 	public ProcessInstanceDetailResponse createProcessInstanceDetailResponse(HistoricProcessInstance hisProcessInstance, ProcessInstance processInstance) {
 		ProcessInstanceDetailResponse result = new ProcessInstanceDetailResponse();
-		result.setId(hisProcessInstance.getId());
-		result.setBusinessKey(hisProcessInstance.getBusinessKey());
-		result.setStartTime(hisProcessInstance.getStartTime());
-		result.setEndTime(hisProcessInstance.getEndTime());
-		result.setDurationInMillis(hisProcessInstance.getDurationInMillis());
-		result.setProcessDefinitionId(hisProcessInstance.getProcessDefinitionId());
-		result.setProcessDefinitionKey(hisProcessInstance.getProcessDefinitionKey());
-		result.setProcessDefinitionName(hisProcessInstance.getProcessDefinitionName());
-		result.setProcessDefinitionVersion(hisProcessInstance.getProcessDefinitionVersion());
-		result.setStartActivityId(hisProcessInstance.getStartActivityId());
-		result.setStartUserId(hisProcessInstance.getStartUserId());
-		result.setSuperProcessInstanceId(hisProcessInstance.getSuperProcessInstanceId());
-		result.setTenantId(hisProcessInstance.getTenantId());
-		result.setDeleteReason(hisProcessInstance.getDeleteReason());
+		createHistoricProcessInstanceResponse(result, hisProcessInstance);
 		if (processInstance != null) {
 			result.setSuspended(processInstance.isSuspended());
 		}
 		return result;
+	}
+
+	private void createHistoricProcessInstanceResponse(HistoricProcessInstanceResponse result, HistoricProcessInstance processInstance) {
+		result.setId(processInstance.getId());
+		result.setBusinessKey(processInstance.getBusinessKey());
+		result.setStartTime(processInstance.getStartTime());
+		result.setEndTime(processInstance.getEndTime());
+		result.setDurationInMillis(processInstance.getDurationInMillis());
+		result.setProcessDefinitionId(processInstance.getProcessDefinitionId());
+		result.setProcessDefinitionKey(processInstance.getProcessDefinitionKey());
+		result.setProcessDefinitionName(processInstance.getProcessDefinitionName());
+		result.setProcessDefinitionVersion(processInstance.getProcessDefinitionVersion());
+		result.setStartActivityId(processInstance.getStartActivityId());
+		result.setStartUserId(processInstance.getStartUserId());
+		result.setSuperProcessInstanceId(processInstance.getSuperProcessInstanceId());
+		result.setTenantId(processInstance.getTenantId());
 	}
 
 	public ProcessInstanceStartResponse createProcessInstanceStartResponse(ProcessInstance processInstance, List<Task> tasks) {

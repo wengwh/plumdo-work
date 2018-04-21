@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.plumdo.form.entity.FormDefinition;
+import com.plumdo.form.domian.FormDefinition;
 
 @Api(tags="表单定义")
 @RestController

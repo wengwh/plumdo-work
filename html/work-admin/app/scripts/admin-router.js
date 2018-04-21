@@ -1,7 +1,8 @@
 /**
  * 系统路由配置
  *
- * @author wengwh
+ * @author wengwenhui
+ * @date 2018年4月20日
  */
 (function () {
   'use strict';
@@ -66,6 +67,9 @@
         templateUrl: 'views/flow/definition.html'
       }).state('main.flow.instance', {
         url: '/instance/?:id',
+        params: {
+          processDefinitionId:null
+        },
         controller: 'FlowInstanceController',
         templateUrl: 'views/flow/instance.html'
       }).state('main.flow.task', {

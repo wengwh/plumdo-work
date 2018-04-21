@@ -1,7 +1,8 @@
 /**
  * 系统常量定义
  *
- * @author wengwh
+ * @author wengwenhui
+ * @date 2018年4月20日
  */
 (function () {
   'use strict';

@@ -2,7 +2,7 @@ package com.plumdo.form.rest;
 
 import java.sql.Timestamp;
 
-import com.plumdo.form.entity.BaseEntity;
+import com.plumdo.form.domian.BaseEntity;
 
 import io.swagger.annotations.ApiModelProperty;
 

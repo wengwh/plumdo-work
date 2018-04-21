@@ -1,47 +1,19 @@
-spring:
-  profiles.active: dev
-  datasource:
-    url : jdbc:mysql://localhost:3306
-    username : root
-    password : root
-    driver-class-name: com.mysql.jdbc.Driver
-    separator : $$
-    initialize: true
-    sql-script-encoding: UTF-8
-  jpa:
-    database : MYSQL
-    show-sql : false
-    hibernate:  
-      ddl-auto : none
-      naming: 
-          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties:
-      hibernate:
-          dialect : org.hibernate.dialect.MySQL5InnoDBDialect
-  jackson:
-    time-zone : GMT+8
-    date-format : yyyy-MM-dd HH:mm:ss
-
-
 logging:
   name: identity-service
-  config: classpath:logback-spring.xml
      
-server:
-  port: 8088
-  
+     
 ---
 
 #生产环境
-spring:
-  profiles: pro
+spring.profiles: service-pro
   
   
 ---
 
 #开发环境
-spring:
-  profiles: dev
+spring.profiles: service-dev
   
+server:
+  port : 8088
 
   

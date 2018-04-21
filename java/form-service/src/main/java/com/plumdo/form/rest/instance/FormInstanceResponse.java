@@ -3,7 +3,7 @@ package com.plumdo.form.rest.instance;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.plumdo.form.entity.FormData;
+import com.plumdo.form.domian.FormData;
 import com.plumdo.form.rest.BaseResponse;
 
 import io.swagger.annotations.ApiModelProperty;

@@ -37,6 +37,11 @@ public class ErrorConstant {
 	public static final String DEFINITION_XML_READ_ERROR = "12010";
 	public static final String DEFINITION_IMAGE_NOT_FOUND = "12011";
 	public static final String DEFINITION_IMAGE_READ_ERROR = "12012";
+	public static final String DEFINITION_IDENTITY_ID_NOT_FOUND = "12013";
+	public static final String DEFINITION_IDENTITY_TYPE_NOT_FOUND = "12014";
+	public static final String DEFINITION_IDENTITY_TYPE_ERROR = "12015";
+	public static final String DEFINITION_IDENTITY_NOT_FOUND = "12016";
+	public static final String DEFINITION_HAVE_TIME_JOB = "12017";
 
 	public static final String INSTANCE_NOT_FOUND = "13001";
 	public static final String INSTANCE_ALREADY_SUSPEND = "13002";

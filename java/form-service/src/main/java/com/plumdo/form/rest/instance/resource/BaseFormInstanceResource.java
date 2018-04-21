@@ -2,7 +2,7 @@ package com.plumdo.form.rest.instance.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.plumdo.form.entity.FormInstance;
+import com.plumdo.form.domian.FormInstance;
 import com.plumdo.form.exception.ObjectNotFoundException;
 import com.plumdo.form.repository.FormInstanceRepository;
 import com.plumdo.form.rest.BaseResource;

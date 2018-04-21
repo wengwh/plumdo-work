@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import com.plumdo.form.entity.FormData;
-import com.plumdo.form.entity.FormDefinition;
-import com.plumdo.form.entity.FormInstance;
-import com.plumdo.form.entity.FormModel;
+import com.plumdo.form.domian.FormData;
+import com.plumdo.form.domian.FormDefinition;
+import com.plumdo.form.domian.FormInstance;
+import com.plumdo.form.domian.FormModel;
 import com.plumdo.form.rest.definition.FormDefinitionResponse;
 import com.plumdo.form.rest.instance.FormInstanceResponse;
 import com.plumdo.form.rest.model.FormModelResponse;

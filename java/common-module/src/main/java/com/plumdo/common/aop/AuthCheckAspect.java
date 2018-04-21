@@ -65,8 +65,7 @@ public class AuthCheckAspect {
         }
 		
 		try {
-			token = token.substring(7);
-			Claims claims = Jwts.parser().setSigningKey(CoreConstant.JWT_SECRET).parseClaimsJws(token).getBody();
+			Claims claims = Jwts.parser().setSigningKey(CoreConstant.JWT_SECRET).parseClaimsJws(token.substring(7)).getBody();
 			userId = claims.getId();
 			if(ObjectUtils.isEmpty(userId)) {
 				exceptionFactory.throwAuthError(CoreConstant.TOKEN_UERID_NOT_FOUND);
@@ -80,6 +79,7 @@ public class AuthCheckAspect {
 			exceptionFactory.throwAuthError(CoreConstant.TOKEN_AUTH_CHECK_ERROR);
 		}
         try {
+        	Authentication.setToken(token);
         	Authentication.setUserId(userId);
     		return pjp.proceed(pjp.getArgs());
         }finally {

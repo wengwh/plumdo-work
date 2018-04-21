@@ -3,7 +3,7 @@ package com.plumdo.form.repository;
 
 import org.springframework.data.jpa.repository.Query;
 
-import com.plumdo.form.entity.FormDefinition;
+import com.plumdo.form.domian.FormDefinition;
 
 public interface FormDefinitionRepository extends BaseRepository<FormDefinition, Long> {
 	

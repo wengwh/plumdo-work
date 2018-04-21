@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url : jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=UTF-8
+    url : jdbc:mysql://localhost:3306
     username : root
     password : root
     driver-class-name : com.mysql.jdbc.Driver
@@ -21,16 +21,7 @@ spring:
 server:
   port : 8081
   
-logging:
-  file : log.log
-  level.com.plumdo.form.config.DruidConfiguration : debug
-  level.druid.sql : debug,stdout
-  level.druid.sql.DataSource : debug,stdout
-  level.druid.sql.Connection : debug,stdout
-  level.druid.sql.Statement : debug,stdout
-  level.druid.sql.ResultSet : debug,stdout
   
-notconten : jkhjkh   
    
 swagger:
   properties:

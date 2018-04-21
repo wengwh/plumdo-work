@@ -1,11 +1,7 @@
 package com.plumdo.flow.rest.definition;
 
 
-public class ProcessDefinitionAuthorizeRequest {
-
-	public static final String AUTHORIZE_GROUP = "group";
-	public static final String AUTHORIZE_USER = "user";
-
+public class ProcessDefinitionIdentityRequest {
 	protected String type;
 	protected String identityId;
 

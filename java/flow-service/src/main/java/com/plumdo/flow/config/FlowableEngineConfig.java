@@ -1,6 +1,5 @@
 package com.plumdo.flow.config;
 
-
 import java.io.IOException;
 
 import javax.sql.DataSource;
@@ -16,17 +15,16 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-
 /**
- * 程序相关配置
- * 
+ * 流程引擎配置类
+ *
  * @author wengwenhui
- * 
+ * @date 2018年4月20日
  */
 @Configuration
-public class FlowableConfig extends ProcessEngineAutoConfiguration{
+public class FlowableEngineConfig extends ProcessEngineAutoConfiguration {
 
-	public FlowableConfig(FlowableProperties flowableProperties, FlowableProcessProperties processProperties, FlowableIdmProperties idmProperties, FlowableMailProperties mailProperties) {
+	public FlowableEngineConfig(FlowableProperties flowableProperties, FlowableProcessProperties processProperties, FlowableIdmProperties idmProperties, FlowableMailProperties mailProperties) {
 		super(flowableProperties, processProperties, idmProperties, mailProperties);
 	}
 
@@ -34,14 +32,14 @@ public class FlowableConfig extends ProcessEngineAutoConfiguration{
 	public SpringProcessEngineConfiguration springProcessEngineConfiguration(DataSource dataSource, PlatformTransactionManager platformTransactionManager, ObjectProvider<AsyncExecutor> asyncExecutorProvider)
 			throws IOException {
 		SpringProcessEngineConfiguration conf = super.springProcessEngineConfiguration(dataSource, platformTransactionManager, asyncExecutorProvider);
-		conf.setDatabaseTablePrefix("plumdo_flow.");
+		String databaseSchema = conf.getDatabaseSchema();
+		conf.setDatabaseCatalog(databaseSchema);
+		conf.setDatabaseTablePrefix(databaseSchema + ".");
 		conf.setTablePrefixIsSchema(true);
 		conf.setActivityFontName("微软雅黑");
 		conf.setLabelFontName("微软雅黑");
 		conf.setAnnotationFontName("微软雅黑");
-		conf.setDatabaseCatalog("plumdo_flow");
 		return conf;
 	}
 
-	
 }

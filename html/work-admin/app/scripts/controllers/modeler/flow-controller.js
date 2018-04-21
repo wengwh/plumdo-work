@@ -7,12 +7,11 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('ModelerFlowController', 
-      function($scope,$window,$stateParams) {
+  angular.module('adminApp').controller('ModelerFlowController', function($scope,$window,$stateParams) {
     $scope.modelService = $scope.FlowService($scope.restUrl.flowModels);
     $scope.detailId = parseInt($stateParams.id || 0);
     $scope.queryParams = $scope.detailId===0 ? $scope.getCacheParams():{};
-    $scope.queryParams.latestVersion=true;
+    $scope.queryParams.latestVersion = true;
     $scope.queryResult = {};
     $scope.selectedItem = null;
     $scope.lastVersion = false;

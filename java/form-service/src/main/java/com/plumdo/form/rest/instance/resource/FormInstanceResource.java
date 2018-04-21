@@ -23,17 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
-
-
-
-
-
-
-import com.plumdo.form.entity.FormData;
-import com.plumdo.form.entity.FormInstance;
-import com.plumdo.form.entity.FormModel;
+import com.plumdo.form.domian.FormData;
+import com.plumdo.form.domian.FormInstance;
+import com.plumdo.form.domian.FormModel;
 import com.plumdo.form.jpa.Criteria;
 import com.plumdo.form.jpa.Restrictions;
 import com.plumdo.form.repository.FormDataRepository;

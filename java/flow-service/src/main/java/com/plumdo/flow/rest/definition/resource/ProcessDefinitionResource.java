@@ -1,16 +1,19 @@
 package com.plumdo.flow.rest.definition.resource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.common.api.query.QueryProperty;
 import org.flowable.engine.impl.ProcessDefinitionQueryProperty;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
+import org.flowable.job.api.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,10 +96,10 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource {
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 		return restResponseFactory.createProcessDefinitionResponse(processDefinition);
 	}
-	
-	
+
 	@DeleteMapping(value = "/process-definitions/{processDefinitionId}", name = "流程定义删除")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void deleteProcessDefinition(@PathVariable String processDefinitionId, @RequestParam(value = "cascade", required = false, defaultValue = "false") Boolean cascade) {
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 
@@ -105,11 +108,20 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource {
 		}
 
 		if (cascade) {
+			List<Job> jobs = managementService.createTimerJobQuery().processDefinitionId(processDefinitionId).list();
+			for (Job job : jobs) {
+				managementService.deleteTimerJob(job.getId());
+			}
 			repositoryService.deleteDeployment(processDefinition.getDeploymentId(), true);
 		} else {
-			long count = runtimeService.createProcessInstanceQuery().processDefinitionId(processDefinitionId).count();
-			if (count > 0) {
+			long processCount = runtimeService.createProcessInstanceQuery().processDefinitionId(processDefinitionId).count();
+			if (processCount > 0) {
 				exceptionFactory.throwForbidden(ErrorConstant.DEFINITION_HAVE_INSTANCE, processDefinitionId);
+			}
+
+			long jobCount = managementService.createTimerJobQuery().processDefinitionId(processDefinitionId).count();
+			if (jobCount > 0) {
+				exceptionFactory.throwForbidden(ErrorConstant.DEFINITION_HAVE_TIME_JOB, processDefinitionId);
 			}
 			repositoryService.deleteDeployment(processDefinition.getDeploymentId());
 		}

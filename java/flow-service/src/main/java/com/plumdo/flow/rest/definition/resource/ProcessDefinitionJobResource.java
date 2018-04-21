@@ -2,9 +2,7 @@ package com.plumdo.flow.rest.definition.resource;
 
 import java.util.List;
 
-import org.flowable.engine.ManagementService;
 import org.flowable.job.api.Job;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProcessDefinitionJobResource extends BaseProcessDefinitionResource {
-	@Autowired
-	private ManagementService managementService;
 
 	@GetMapping(value = "/process-definitions/{processDefinitionId}/jobs", name = "流程定义激活")
 	@ResponseStatus(value = HttpStatus.OK)

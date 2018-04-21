@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.plumdo.form.entity.FormModel;
+import com.plumdo.form.domian.FormModel;
 import com.plumdo.form.rest.model.FormModelResponse;
 
 @Api(tags = "表单模型")

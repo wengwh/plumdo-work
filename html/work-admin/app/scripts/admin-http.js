@@ -1,9 +1,9 @@
 /**
  * Http全局拦截器，和rest接口调用封装
  *
- * @author wengwh
+ * @author wengwenhui
+ * @date 2018年4月20日
  */
-
 (function () {
   'use strict';
 

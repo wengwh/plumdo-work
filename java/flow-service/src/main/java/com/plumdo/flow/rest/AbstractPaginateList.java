@@ -18,29 +18,11 @@ public abstract class AbstractPaginateList {
 
 	@SuppressWarnings("rawtypes")
 	public PageResponse paginateList(Pageable pageable, Query query, Map<String, QueryProperty> properties) {
-		Sort sort = pageable.getSort();
-		if (sort != null && !properties.isEmpty()) {
-			Iterator<Order> orders = sort.iterator();
-			while (orders.hasNext()) {
-				Order order = orders.next();
-				QueryProperty qp = properties.get(order.getProperty());
-				if (qp == null) {
-					throw new FlowableIllegalArgumentException("Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
-				}
-				query.orderBy(qp);
-				if (order.getDirection() == Direction.ASC) {
-					query.asc();
-				} else {
-					query.desc();
-				}
-			}
-		}
-
 		List list = null;
-		// size等于-1不做分页
-		if (pageable.getPageSize() == -1) {
+		if (pageable == null) {
 			list = processList(query.list());
 		} else {
+			setQueryOrder(pageable.getSort(), query, properties);
 			list = processList(query.listPage(pageable.getOffset(), pageable.getPageSize()));
 		}
 
@@ -48,6 +30,27 @@ public abstract class AbstractPaginateList {
 		response.setData(list);
 		response.setTotal(query.count());
 		return response;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private void setQueryOrder(Sort sort,Query query,Map<String, QueryProperty> properties) {
+		if (sort == null || properties.isEmpty()) {
+			return ;
+		}
+		Iterator<Order> orders = sort.iterator();
+		while (orders.hasNext()) {
+			Order order = orders.next();
+			QueryProperty qp = properties.get(order.getProperty());
+			if (qp == null) {
+				throw new FlowableIllegalArgumentException("Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
+			}
+			query.orderBy(qp);
+			if (order.getDirection() == Direction.ASC) {
+				query.asc();
+			} else {
+				query.desc();
+			}
+		}
 	}
 
 	@SuppressWarnings("rawtypes")

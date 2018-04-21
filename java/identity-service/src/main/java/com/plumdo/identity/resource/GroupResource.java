@@ -56,6 +56,7 @@ public class GroupResource extends BaseResource {
 	public PageResponse getGroups(@RequestParam Map<String, String> requestParams) {
 		Criteria<Group> criteria = new Criteria<Group>();
 		criteria.add(Restrictions.eq("id", requestParams.get("id")));
+		criteria.add(Restrictions.eq("type", requestParams.get("type")));
 		criteria.add(Restrictions.eq("status", requestParams.get("status")));
 		criteria.add(Restrictions.eq("parentId", requestParams.get("parentId")));
 		criteria.add(Restrictions.like("name", requestParams.get("name")));

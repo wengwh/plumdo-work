@@ -30,14 +30,19 @@ public abstract class BaseResource {
 	protected ObjectMapper objectMapper;
 
 	protected Pageable getPageable(Map<String, String> requestParams) {
-		int page = 1;
-		if (requestParams.containsKey("pageNum")) {
+		int page = -1;
+		if (ObjectUtils.isNotEmpty(requestParams.get("pageNum"))) {
 			page = ObjectUtils.convertToInteger(requestParams.get("pageNum"), 1);
 		}
 		int size = 10;
-		if (requestParams.containsKey("pageSize")) {
+		if (ObjectUtils.isNotEmpty(requestParams.containsKey("pageSize"))) {
 			size = ObjectUtils.convertToInteger(requestParams.get("pageSize"), 10);
 		}
+
+		if (page < 0) {
+			return null;
+		}
+
 		Order order = null;
 		if (ObjectUtils.isNotEmpty(requestParams.get("sortName"))) {
 			String sortName = requestParams.get("sortName");

@@ -109,8 +109,6 @@ public class UserResource extends BaseResource {
 	public User createUser(@RequestBody ObjectMap userRequest) {
 		String account = userRequest.getAsString("account");
 		User user = userRepository.findByAccount(account);
-		logger.info("accountaccount:" + account);
-		logger.info("user:" + user);
 		if (user != null) {
 			exceptionFactory.throwConflict(ErrorConstant.USER_ACCOUNT_REPEAT);
 		}

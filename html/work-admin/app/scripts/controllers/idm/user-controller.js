@@ -6,8 +6,7 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('UserController', 
-      function($scope, $q) {
+  angular.module('adminApp').controller('UserController', function($scope, $q) {
     $scope.userService = $scope.IdmService($scope.restUrl.idmUsers);
     $scope.queryResult = {};
     $scope.queryParams = {};

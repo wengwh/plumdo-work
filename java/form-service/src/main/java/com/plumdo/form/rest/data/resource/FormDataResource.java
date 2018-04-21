@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.annotations.ApiIgnore;
 
-import com.plumdo.form.entity.FormData;
+import com.plumdo.form.domian.FormData;
 import com.plumdo.form.exception.ObjectNotFoundException;
 import com.plumdo.form.jpa.Criteria;
 import com.plumdo.form.jpa.Restrictions;
