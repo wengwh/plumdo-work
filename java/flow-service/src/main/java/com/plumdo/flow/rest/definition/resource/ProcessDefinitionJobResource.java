@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProcessDefinitionJobResource extends BaseProcessDefinitionResource {
 
-	@GetMapping(value = "/process-definitions/{processDefinitionId}/jobs", name = "流程定义激活")
+	@GetMapping(value = "/process-definitions/{processDefinitionId}/jobs", name = "获取流程定义定时任务")
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<Job> activateProcessDefinition(@PathVariable String processDefinitionId) {
 		List<Job> jobs = managementService.createTimerJobQuery().processDefinitionId(processDefinitionId).list();
 		return jobs;
 	}
 
-	@DeleteMapping(value = "/process-definitions/{processDefinitionId}/jobs/{jobId}", name = "流程定义激活")
+	@DeleteMapping(value = "/process-definitions/{processDefinitionId}/jobs/{jobId}", name = "删除流程定义定时任务")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteJob(@PathVariable String processDefinitionId, @PathVariable String jobId) {
 		managementService.deleteTimerJob(jobId);

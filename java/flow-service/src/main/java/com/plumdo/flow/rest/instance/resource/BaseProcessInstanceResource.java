@@ -2,6 +2,7 @@ package com.plumdo.flow.rest.instance.resource;
 
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class BaseProcessInstanceResource extends BaseResource {
 	protected HistoryService historyService;
 	@Autowired
 	protected RuntimeService runtimeService;
+	@Autowired
+	protected TaskService taskService;
 
 	protected ProcessInstance getProcessInstanceFromRequest(String processInstanceId) {
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();

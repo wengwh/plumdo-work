@@ -1,8 +1,8 @@
 flowable:
   databaseSchemaUpdate : true #create-drop create false
-  cmmn.enabled : false
-  dmn.enabled : false
-  form.enabled : false
+  cmmn.enabled : true
+  dmn.enabled : true
+  form.enabled : true
   databaseSchema : plumdo_flow
 
 logging:

@@ -7,8 +7,6 @@ public class ProcessInstanceStartResponse {
 	protected String id;
 	protected String businessKey;
 	protected String processDefinitionId;
-	protected String processDefinitionName;
-	protected String processDefinitionKey;
 	protected String currentActivityId;
 	protected String tenantId;
 	protected List<Map<String, String>> taskInfo;
@@ -61,20 +59,4 @@ public class ProcessInstanceStartResponse {
 		return tenantId;
 	}
 
-	public String getProcessDefinitionName() {
-		return processDefinitionName;
-	}
-
-	public void setProcessDefinitionName(String processDefinitionName) {
-		this.processDefinitionName = processDefinitionName;
-	}
-
-	public String getProcessDefinitionKey() {
-		return processDefinitionKey;
-	}
-
-	public void setProcessDefinitionKey(String processDefinitionKey) {
-		this.processDefinitionKey = processDefinitionKey;
-	}
-	
 }

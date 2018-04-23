@@ -26,14 +26,14 @@
       idmGroups: '/groups',
       idmRoles: '/roles',
       idmMenus: '/menus',
-      formDesgin : function(modelId) {
+      formDesgin : function(modelId,token) {
         return 'http://work.plumdo.com/form-modeler/#/design?modelId=' + modelId;
       },
       formPreview : function(modelId) {
         return 'http://work.plumdo.com/form-modeler/#/watch?modelId=' + modelId;
       },
-      flowDesign : function(modelId) {
-        return 'http://localhost:9004/#/editor/' + modelId;
+      flowDesign : function(modelId,token) {
+        return 'http://localhost:9004/#/editor/' + modelId+'?token='+token;
       }
   });
 

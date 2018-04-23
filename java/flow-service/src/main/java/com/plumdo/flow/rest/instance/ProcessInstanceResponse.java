@@ -2,7 +2,6 @@ package com.plumdo.flow.rest.instance;
 
 import java.util.Date;
 
-
 public class ProcessInstanceResponse {
 	protected String id;
 	protected String businessKey;
@@ -17,7 +16,7 @@ public class ProcessInstanceResponse {
 	protected Date startTime;
 	protected String startUserId;
 	protected String superProcessInstanceId;
-	
+
 	public String getId() {
 		return id;
 	}

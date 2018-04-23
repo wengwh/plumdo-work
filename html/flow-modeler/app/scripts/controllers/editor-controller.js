@@ -363,8 +363,7 @@ angular.module('flowableModeler')
 
     var modelId = $routeParams.modelId;
     editorManager.setModelId(modelId);
-    editorManager.setToken('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjEiLCJpYXQiOjE1MjMyMzg0MDAsImV4cCI6MTUyMzQxMTIwMH0.h7NPbPtT5Quv_FaXMyQG-IhGzfq5loSno4zYowyteyg')
-    editorManager.setUserId(1);
+    editorManager.setToken($routeParams.token)
 		// we first initialize the stencilset used by the editor. The editorId is
 		// always the modelId.
 		$http.get(FLOWABLE.URL.getStencilSet()).then(function (response) {
@@ -381,8 +380,7 @@ angular.module('flowableModeler')
 				method : 'GET',
 				ignoreErrors : true,
 				headers : {
-					'Token':'Bearer ' + editorManager.getToken(),
-					'User-ID':editorManager.getUserId()
+					'Token': editorManager.getToken()
 				},
 				url : FLOWABLE.URL.getModel(modelId)
 			}); 

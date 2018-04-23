@@ -13,7 +13,8 @@
 
 // Create custom functions for the FLOWABLE-editor
 FLOWABLE.TOOLBAR.ACTIONS.closeEditor =  function(services) {
-	services.$location.path("/processes");
+//	services.$location.path("/processes");
+  window.close();
 };
 
 FLOWABLE.TOOLBAR.ACTIONS.navigateToProcess = function(processId) {

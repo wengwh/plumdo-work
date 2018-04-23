@@ -68,7 +68,10 @@ flowableModeler
 
     $routeProvider.when('/editor/:modelId', {
             templateUrl: 'views/editor.html',
-            controller: 'EditorController'
+            controller: 'EditorController',
+            params: {
+              token:null
+            }
     })
             
     $routeProvider.when('/', {

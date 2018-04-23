@@ -34,7 +34,7 @@ BEGIN
 		VALUES('人员管理', 'fa-user-plus', '1', menu_id_ , 1 , 'main.idm.user', 0, now(),now()); 
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
-		VALUES('部门管理', 'fa-group', '1', menu_id_ , 2 , 'main.idm.group', 0, now(),now()); 
+		VALUES('群组管理', 'fa-group', '1', menu_id_ , 2 , 'main.idm.group', 0, now(),now()); 
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
 		VALUES('菜单管理', 'fa-windows', '1', menu_id_ , 3 , 'main.idm.menu', 0, now(),now()); 
@@ -57,7 +57,7 @@ BEGIN
 		SELECT LAST_INSERT_ID() into menu_id_;
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
-		VALUES('定义管理', 'fa-building', '1', menu_id_ , 1 , 'main.flow.definition', 0, now(),now()); 
+		VALUES('定义管理', 'fa-database', '1', menu_id_ , 1 , 'main.flow.definition', 0, now(),now()); 
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
 		VALUES('实例管理', 'fa-yelp', '1', menu_id_ , 2 , 'main.flow.instance', 0, now(),now()); 

@@ -10,6 +10,7 @@
   angular.module('adminApp').controller('FlowInstanceController', function($scope,$stateParams,$q) {
     $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
+    $scope.taskService = $scope.FlowService($scope.restUrl.flowTasks);
     $scope.detailId = $stateParams.id || '0';
     $scope.queryParams = $scope.detailId==='0' ? $scope.getCacheParams():{};
     if(angular.isUndefined($scope.queryParams.processDefinitionId)){
@@ -18,10 +19,12 @@
     $scope.queryResult = {};
     $scope.selectedItem = null;
 
-    $scope.definitionService.get({
-    }, function(response) {
-      $scope.definitions = response.data;
-    });
+    $scope.queryDefinition = function(){
+      $scope.definitionService.get({
+      }, function(response) {
+        $scope.definitions = response.data;
+      });
+    };
     
     $scope.queryDetail = function(id){
       $scope.instanceService.get({
@@ -86,6 +89,13 @@
       });
     };
 
+    $scope.getImageUrl = function(id){
+      if(angular.isDefined(id)){
+        return $scope.instanceService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
+      }
+      return null;
+    };
+    
     $scope.tableOptions = {
       id : 'instance',
       data : 'queryResult',
@@ -105,100 +115,122 @@
       loadFunction : $scope.queryInstance,
       queryParams : $scope.queryParams,
       sortName : 'startTime',
-      sortOrder : 'asc'
+      sortOrder : 'desc'
+    };
+    
+
+    $scope.queryTask = function(id) {
+      $scope.taskService.get({
+        params : {processInstanceId:id}
+      }, function(response) {
+        $scope.queryTaskResult = response.data;
+      });
+    };
+    
+    $scope.gotoTaskDetail = function(id) {
+      $scope.$state.go('main.flow.task',{id:id});
+    };
+    
+    $scope.taskTableOptions = {
+      id : 'instanceTask',
+      data : 'queryTaskResult',
+      isPage : false,
+      colModels : [
+        {name:'任务ID',index:'id'},
+        {name:'任务名称',index:'name'},
+        {name:'负责人',index:'assignee'},
+        {name:'所有人',index:'owner'},
+        {name:'开始时间',index:'startTime'},
+        {name:'结束时间',index:'endTime'},
+        {name:'操作',index:'',
+          formatter:function(){
+            return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoTaskDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
+          }
+        }
+      ]
+    };
+      
+    $scope.queryVariable = function(id) {
+      $scope.instanceService.get({
+        urlPath : '/' + id+ '/variables'
+      }, function(response) {
+        $scope.queryVariableResult = response;
+      });
     };
 
-    $scope.authTableOptions = {
-      id : 'instanceAuth',
-      data : 'queryAuthResult',
-      isPage : false,
-      colModels : [
-        {name:'ID',index:'identityId'},
-        {name:'类型',index:'type',
-          formatter : function() {
-            return '<span>{{row.type=="user"?"用户":"群组"}}</span>';
-          }
-        },
-        {name : '操作', index : '',
-          formatter : function() {
-            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteRow(row.id)>'+
-               '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
-          }
-        }
-      ]
-    };
-    
-    $scope.jobTableOptions = {
-      id : 'instanceJob',
-      data : 'queryJobResult',
-      isPage : false,
-      colModels : [
-        {name:'类型',index:'jobHandlerType'},
-        {name:'执行时间',index:'duedate'},
-        {name:'创建时间',index:'createTime'},
-        {name : '操作', index : '',
-          formatter : function() {
-            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteJob(selectedItem.id,row.id)>'+
-               '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
-          }
-        }
-      ]
-    };
-    
-    $scope.queryAuth = function(id) {
-      $scope.instanceService.get({
-        urlPath : '/' + id+ '/authorize'
-      }, function(response) {
-        $scope.queryAuthResult = response;
-      });
-    };
-    
-    $scope.queryJob = function(id) {
-      $scope.instanceService.get({
-        urlPath : '/' + id+ '/jobs'
-      }, function(response) {
-        $scope.queryJobResult = response;
-      });
-    };
-    
-    $scope.deleteJob = function(id,jobId) {
-      $scope.instanceService.delete({
-        urlPath : '/' + id + '/jobs/'+jobId
-      }, function() {
-        $scope.queryJob(id);
-      });
-    };
-    
-    $scope.importInstance = function() {
+    $scope.createVariable = function(id) {
       $scope.editConfirmModal({
-        formUrl: 'instance-import.html',
-        title: '导入流程',
-        hideFooter: true,
-        property:{
-          fileOptions:{
-            fileuploaded : function(){$scope.queryInstance();},
-            uploadUrl: $scope.instanceService.url+'/import?token='+$scope.loginUser.token,
-            allowedFileExtensions:['bpmn','bpmn20.xml','bar','zip']
-          }
+        formUrl: 'variable-create.html',
+        title: '添加流程变量',
+        confirm: function (formData,modalInstance) {
+          $scope.instanceService.post({
+            urlPath : '/' + id + '/variables',
+            data : formData
+          }, function() {
+            $scope.showSuccessMsg('添加流程变量成功');
+            $scope.queryVariable(id);
+            modalInstance.close();
+          });
         }
       });
     };
     
-    $scope.exportInstance = function(item){
-      $scope.instanceService.get({
-        urlPath : '/' + item.id +'/xml'
-      }, function(response) {
-        $scope.windowExportFile(response,item.name+'-v'+item.version+'.bpmn20.xml');
+    $scope.deleteVariable = function(id,name) {
+      $scope.instanceService.delete({
+        urlPath : '/' + id + '/variables/'+name
+      }, function() {
+        $scope.showSuccessMsg('删除流程变量成功');
+        $scope.queryVariable(id);
       });
     };
-    
-    $scope.getImageUrl = function(id){
-      return $scope.instanceService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
+
+    $scope.variableTableOptions = {
+      id : 'instanceVariable',
+      data : 'queryVariableResult',
+      isPage : false,
+      colModels : [
+        {name:'变量名称',index:'name'},
+        {name:'类型',index:'type'},
+        {name:'变量值',index:'value'},
+        {name : '操作', index : '',
+          formatter : function() {
+            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteVariable(selectedItem.id,row.name) ng-disabled="selectedItem.endTime != null"><i class="fa fa-trash-o"></i>&nbsp;删除</button>';
+          }
+        }
+      ]
+    };
+
+    $scope.queryChildInstance = function(id) {
+      $scope.instanceService.get({
+        params : {superProcessInstanceId:id}
+      }, function(response) {
+        $scope.queryChildrenResult = response.data;
+      });
+    };
+      
+    $scope.childrenTableOptions = {
+      id : 'instanceChildren',
+      data : 'queryChildrenResult',
+      isPage : false,
+      colModels : [
+        {name:'实例ID',index:'id'},
+        {name:'流程名称',index:'processDefinitionName'},
+        {name:'流程标识',index:'processDefinitionId'},
+        {name:'开始时间',index:'startTime'},
+        {name:'结束时间',index:'endTime'},
+        {name:'业务标识',index:'businessKey'},
+        {name:'操作',index:'',
+          formatter:function(){
+            return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
+          }
+        }
+      ]
     };
     
     if($scope.detailId !== '0'){
       $scope.queryDetail($scope.detailId);
     }else{
+      $scope.queryDefinition();
       $scope.queryInstance();
     }
     

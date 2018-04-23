@@ -5,6 +5,8 @@ import org.flowable.task.api.DelegationState;
 public class TaskDetailResponse extends HistoricTaskResponse {
 	private String delegationState;
 	private boolean suspended;
+	protected String ownerName;
+	protected String assigneeName;
 
 	public String getDelegationState() {
 		return delegationState;
@@ -31,6 +33,22 @@ public class TaskDetailResponse extends HistoricTaskResponse {
 
 	public void setSuspended(boolean suspended) {
 		this.suspended = suspended;
+	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
+	}
+
+	public String getAssigneeName() {
+		return assigneeName;
+	}
+
+	public void setAssigneeName(String assigneeName) {
+		this.assigneeName = assigneeName;
 	}
 
 }

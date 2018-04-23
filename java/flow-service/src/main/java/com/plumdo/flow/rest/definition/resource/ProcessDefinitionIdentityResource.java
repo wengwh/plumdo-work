@@ -1,15 +1,10 @@
 package com.plumdo.flow.rest.definition.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.flowable.engine.IdentityService;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.identitylink.service.IdentityLinkType;
-import org.flowable.idm.api.Group;
-import org.flowable.idm.api.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.plumdo.common.model.ObjectMap;
 import com.plumdo.flow.constant.ErrorConstant;
 import com.plumdo.flow.constant.TableConstant;
-import com.plumdo.flow.rest.definition.ProcessDefinitionIdentityRequest;
+import com.plumdo.flow.rest.common.IdentityRequest;
+import com.plumdo.flow.rest.common.IdentityResponse;
 
 /**
  * 流程定义授权信息接口
@@ -33,40 +28,17 @@ import com.plumdo.flow.rest.definition.ProcessDefinitionIdentityRequest;
 @RestController
 public class ProcessDefinitionIdentityResource extends BaseProcessDefinitionResource {
 
-	@Autowired
-	private IdentityService identityService;
-
 	@GetMapping(value = "/process-definitions/{processDefinitionId}/identity-links", name = "流程定义授权查询")
-	public List<ObjectMap> getIdentitys(@PathVariable String processDefinitionId) {
+	public List<IdentityResponse>  getIdentitys(@PathVariable String processDefinitionId) {
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 		List<IdentityLink> identityLinks = repositoryService.getIdentityLinksForProcessDefinition(processDefinition.getId());
-		List<ObjectMap> arrayNode = new ArrayList<>();
-		for (IdentityLink identityLink : identityLinks) {
-			ObjectMap objectNode = new ObjectMap();
-			if (identityLink.getGroupId() != null) {
-				objectNode.put("type", TableConstant.IDENTITY_GROUP);
-				objectNode.put("identityId", identityLink.getGroupId());
-				Group group = identityService.createGroupQuery().groupId(identityLink.getGroupId()).singleResult();
-				if (group != null) {
-					objectNode.put("identityName", group.getName());
-				}
-			} else if (identityLink.getUserId() != null) {
-				objectNode.put("type", TableConstant.IDENTITY_USER);
-				objectNode.put("identityId", identityLink.getUserId());
-				User user = identityService.createUserQuery().userId(identityLink.getUserId()).singleResult();
-				if (user != null) {
-					objectNode.put("identityName", user.getFirstName());
-				}
-			}
-			arrayNode.add(objectNode);
-		}
-
-		return arrayNode;
+		return restResponseFactory.createIdentityResponseList(identityLinks);
+		
 	}
 
 	@PostMapping(value = "/process-definitions/{processDefinitionId}/identity-links", name = "流程定义授权创建")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void createIdentity(@PathVariable String processDefinitionId, @RequestBody ProcessDefinitionIdentityRequest authorizeRequest) {
+	public void createIdentity(@PathVariable String processDefinitionId, @RequestBody IdentityRequest authorizeRequest) {
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 
 		validateIdentityArguments(authorizeRequest.getIdentityId(), authorizeRequest.getType());
@@ -123,6 +95,5 @@ public class ProcessDefinitionIdentityResource extends BaseProcessDefinitionReso
 			}
 		}
 		exceptionFactory.throwObjectNotFound(ErrorConstant.DEFINITION_IDENTITY_NOT_FOUND);
-
 	}
 }

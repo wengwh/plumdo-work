@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-8">
           <h4 class="title">名称</h4>
-          <div class="input-group">
+          <div class="input-group form-group">
             <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入定义名称">
             <span class="input-group-btn">
               <button type="button" class="btn btn-info" ng-click="queryDefinition()">搜索</button>
@@ -47,7 +47,7 @@
     <div class="header">
       <h4 class="title">
         <span class="text-info right-split">v{{selectedItem.version}}</span>{{selectedItem.name}}
-        <button type="button" class="btn btn-warning btn-sm pull-right" ng-click="gotoList()">返回列表</button>
+        <button type="button" class="btn btn-warning pull-right" ng-click="gotoList()">返回列表</button>
       </h4>
     </div>
     <div class="content">
@@ -62,6 +62,7 @@
            <span class="property"><label>描述:</label>{{selectedItem.description}}</span>
         </div>
         <div class="col-md-2">
+          <button type="button" class="btn btn-info btn-block" ng-click="createInstance(selectedItem)">启动</button>
           <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,false)" ng-show="!selectedItem.suspended">挂起</button>
           <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,true)" ng-show="selectedItem.suspended">激活</button>
           <button type="button" class="btn btn-danger btn-block" ng-click="deleteDefinition(selectedItem)">删除</button>
@@ -148,6 +149,28 @@
   </div>
 </script>
 
+<script type="text/ng-template" id="definition-start.html">
+  <div class="form-group">
+    <label class="control-label">流程定义</label> 
+  	<input type="text" class="form-control" ng-model="formData.name" readonly></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">自动提交任务</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.autoCommitTask" ng-value="true" /> 是
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.autoCommitTask" ng-value="false" ng-checked="true" /> 否
+		</label>
+	</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">业务标识</label> 
+  	<input type="text" class="form-control" ng-model="formData.businessKey"></input>
+  </div>
+</script>
+
 <script type="text/ng-template" id="definition-identity-create.html">
   <div class="form-group" ng-init="formData.type='user'">
   	<label class="control-label">类型</label> 
@@ -187,7 +210,6 @@
         translation="multiSelectLang">
    </isteven-multi-select>
   </div>
-
 </script>
 
 <script type="text/ng-template" id="definition-import.html">

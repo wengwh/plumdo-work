@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.plumdo.common.annotation.NotAuth;
 import com.plumdo.common.constant.CoreConstant;
 import com.plumdo.common.utils.ObjectUtils;
 import com.plumdo.flow.cmd.SaveModelEditorCmd;
@@ -31,7 +30,6 @@ import com.plumdo.flow.rest.model.ModelEditorJsonRequest;
 public class ModelEditorResource extends BaseModelResource {
 
 	@GetMapping(value = "/models/{modelId}/editor", name = "设计器获取模型信息")
-	@NotAuth
 	public ObjectNode getEditorJson(@PathVariable String modelId) {
 		ObjectNode modelNode = null;
 		Model model = getModelFromRequest(modelId);
@@ -60,7 +58,6 @@ public class ModelEditorResource extends BaseModelResource {
 	@PostMapping(value = "/models/{modelId}/editor", name = "模型设计器保存模型")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Transactional(propagation = Propagation.REQUIRED)
-	@NotAuth
 	public void saveModelEditor(@PathVariable String modelId, @RequestBody ModelEditorJsonRequest values) {
 		Model model = getModel(modelId, values.isNewVersion());
 		if(!model.getKey().equals(values.getKey())) {

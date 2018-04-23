@@ -3,10 +3,12 @@
 
 ## 安装
 
-```bash
-npm install 
-bower install (maybe choose version, follow bower.json)
-gulp serve (run browser)
-gulp (package to dist)
+```
+editor-controller.js:获取模型接口
+toolbar-default-actions.js:保存模型，验证模型
+
+flowable-toolbar-custom-actions.js
+toolbar-default-actions.js:关闭按钮改成关闭页面
+
 ```
 

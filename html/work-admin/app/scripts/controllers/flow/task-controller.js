@@ -11,16 +11,18 @@
     $scope.taskService = $scope.FlowService($scope.restUrl.flowTasks);
     $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
+    $scope.userService = $scope.IdmService($scope.restUrl.idmUsers);
     $scope.detailId = $stateParams.id || '0';
     $scope.queryParams = $scope.detailId==='0' ? $scope.getCacheParams():{};
     $scope.queryResult = {};
     $scope.selectedItem = null;
 
-    $scope.definitionService.get({
-      params : {pageSize:1000}
-    }, function(response) {
-      $scope.definitions = response.data;
-    });
+    $scope.queryDefinition = function(){
+      $scope.definitionService.get({
+      }, function(response) {
+        $scope.definitions = response.data;
+      });
+    };
     
     $scope.queryDetail = function(id){
       $scope.taskService.get({
@@ -65,19 +67,28 @@
     };
     
     $scope.editTaskUser = function(item,title,action){
-      $scope.editConfirmModal({
-        formUrl: 'task-user-edit.html',
-        title: title,
-        formData: {name:item.name},
-        confirm: function (formData,modalInstance) {
-          $scope.taskService.put({
-            urlPath : '/' + item.id+'/'+action+'/'+formData.userId,
-          }, function () {
-            $scope.showSuccessMsg(title+'成功');
-            $scope.queryDetail(item.id);
-            modalInstance.close();
-          });
-        }
+      var users = [];
+      var usersPromise = $scope.userService.get({
+        params : {status: 0}
+      }, function (response) {
+        users = response.data;
+      });
+      
+      $q.all([usersPromise]).then(function() {  
+        $scope.editConfirmModal({
+          formUrl: 'task-user-edit.html',
+          title: title,
+          formData: {name:item.name,users:users},
+          confirm: function (formData,modalInstance) {
+            $scope.taskService.put({
+              urlPath : '/' + item.id+'/'+action+'/'+formData.userId,
+            }, function () {
+              $scope.showSuccessMsg(title+'成功');
+              $scope.queryDetail(item.id);
+              modalInstance.close();
+            });
+          }
+        });
       });
     };
 
@@ -108,6 +119,13 @@
         }
       });
     };
+
+    $scope.getImageUrl = function(id){
+      if(angular.isDefined(id)){
+        return $scope.instanceService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
+      }
+      return null;
+    };
     
     $scope.tableOptions = {
       id : 'task',
@@ -129,15 +147,122 @@
       loadFunction : $scope.queryTask,
       queryParams : $scope.queryParams,
       sortName : 'startTime',
-      sortOrder : 'asc'
+      sortOrder : 'desc'
+    };
+    
+    $scope.queryVariable = function(id) {
+      $scope.taskService.get({
+        urlPath : '/' + id+ '/variables'
+      }, function(response) {
+        $scope.queryVariableResult = response;
+      });
     };
 
-    $scope.authTableOptions = {
-      id : 'taskAuth',
-      data : 'queryAuthResult',
+    $scope.createVariable = function(id) {
+      $scope.editConfirmModal({
+        formUrl: 'variable-create.html',
+        title: '添加任务变量',
+        confirm: function (formData,modalInstance) {
+          $scope.taskService.post({
+            urlPath : '/' + id + '/variables',
+            data : formData
+          }, function() {
+            $scope.showSuccessMsg('添加任务变量成功');
+            $scope.queryVariable(id);
+            modalInstance.close();
+          });
+        }
+      });
+    };
+    
+    $scope.deleteVariable = function(id,name) {
+      $scope.taskService.delete({
+        urlPath : '/' + id + '/variables/'+name
+      }, function() {
+        $scope.showSuccessMsg('删除任务变量成功');
+        $scope.queryVariable(id);
+      });
+    };
+
+    $scope.variableTableOptions = {
+      id : 'taskVariable',
+      data : 'queryVariableResult',
+      isPage : false,
+      colModels : [
+        {name:'变量名称',index:'name'},
+        {name:'类型',index:'type'},
+        {name:'变量值',index:'value'},
+        {name : '操作', index : '',
+          formatter : function() {
+            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteVariable(selectedItem.id,row.name) ng-disabled="selectedItem.endTime != null"><i class="fa fa-trash-o"></i>&nbsp;删除</button>';
+          }
+        }
+      ]
+    };
+    $scope.queryIdentity = function(id) {
+      $scope.taskService.get({
+        urlPath : '/' + id+ '/identity-links'
+      }, function(response) {
+        $scope.queryIdentityResult = response;
+      });
+    };
+    
+    $scope.deleteIdentity = function(id,type,identityId) {
+      $scope.taskService.delete({
+        urlPath : '/' + id + '/identity-links/'+type+'/'+identityId
+      }, function() {
+        $scope.showSuccessMsg('删除候选信息成功');
+        $scope.queryIdentity(id);
+      });
+    };
+    
+    $scope.createIdentity = function(id) {
+      var item = {};
+      var usersPromise = $scope.userService.get({
+        params : {status: 0}
+      }, function (response) {
+        item.users = response.data;
+      });
+      
+      var groupsPromise = $scope.userService.get({
+        urlPath : '/groups'
+      }, function(response) {
+        item.groups = response;
+      });
+      
+      
+      $q.all([usersPromise,groupsPromise]).then(function() {  
+        $scope.editConfirmModal({
+          formUrl: 'task-identity-create.html',
+          title: '添加候选信息',
+          formData: item,
+          confirm: function (formData,modalInstance) {
+            var requestBody={type:formData.type};
+            if(formData.type=='user'){
+              requestBody.identityId=formData.user[0].id;
+            }else{
+              requestBody.identityId=formData.group[0].id;
+            }
+            $scope.taskService.post({
+              urlPath : '/' + id + '/identity-links',
+              data: requestBody
+            }, function () {
+              $scope.showSuccessMsg('添加候选信息成功');
+              $scope.queryIdentity(id);
+              modalInstance.close();
+            });
+          }
+        });
+      });
+    };
+
+    $scope.identityTableOptions = {
+      id : 'taskidentity',
+      data : 'queryIdentityResult',
       isPage : false,
       colModels : [
         {name:'ID',index:'identityId'},
+        {name:'名称',index:'identityName'},
         {name:'类型',index:'type',
           formatter : function() {
             return '<span>{{row.type=="user"?"用户":"群组"}}</span>';
@@ -145,87 +270,16 @@
         },
         {name : '操作', index : '',
           formatter : function() {
-            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteRow(row.id)>'+
-               '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
+            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteIdentity(selectedItem.id,row.type,row.identityId) ng-disabled="selectedItem.endTime != null"><i class="fa fa-trash-o"></i>&nbsp;删除</button>';
           }
         }
       ]
-    };
-    
-    $scope.jobTableOptions = {
-      id : 'taskJob',
-      data : 'queryJobResult',
-      isPage : false,
-      colModels : [
-        {name:'类型',index:'jobHandlerType'},
-        {name:'执行时间',index:'duedate'},
-        {name:'创建时间',index:'createTime'},
-        {name : '操作', index : '',
-          formatter : function() {
-            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteJob(selectedItem.id,row.id)>'+
-               '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
-          }
-        }
-      ]
-    };
-    
-    $scope.queryAuth = function(id) {
-      $scope.taskService.get({
-        urlPath : '/' + id+ '/authorize'
-      }, function(response) {
-        $scope.queryAuthResult = response;
-      });
-    };
-    
-    $scope.queryJob = function(id) {
-      $scope.taskService.get({
-        urlPath : '/' + id+ '/jobs'
-      }, function(response) {
-        $scope.queryJobResult = response;
-      });
-    };
-    
-    $scope.deleteJob = function(id,jobId) {
-      $scope.taskService.delete({
-        urlPath : '/' + id + '/jobs/'+jobId
-      }, function() {
-        $scope.queryJob(id);
-      });
-    };
-    
-    $scope.importTask = function() {
-      $scope.editConfirmModal({
-        formUrl: 'task-import.html',
-        title: '导入流程',
-        hideFooter: true,
-        property:{
-          fileOptions:{
-            fileuploaded : function(){$scope.queryTask();},
-            uploadUrl: $scope.taskService.url+'/import?token='+$scope.loginUser.token,
-            allowedFileExtensions:['bpmn','bpmn20.xml','bar','zip']
-          }
-        }
-      });
-    };
-    
-    $scope.exportTask = function(item){
-      $scope.taskService.get({
-        urlPath : '/' + item.id +'/xml'
-      }, function(response) {
-        $scope.windowExportFile(response,item.name+'-v'+item.version+'.bpmn20.xml');
-      });
-    };
-    
-    $scope.getImageUrl = function(id){
-      if(angular.isDefined(id)){
-        return $scope.instanceService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
-      }
-      return null;
     };
     
     if($scope.detailId !== '0'){
       $scope.queryDetail($scope.detailId);
     }else{
+      $scope.queryDefinition();
       $scope.queryTask();
     }
     

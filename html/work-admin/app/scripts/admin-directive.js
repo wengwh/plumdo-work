@@ -15,17 +15,16 @@
         $(element).fadeIn(300);
       }
     };
-  }).directive('ngPagination', [ function() {
+  }).directive('ngPagination', [ '$compile',function($compile) {
     return {
       restrict : 'A',
-      templateUrl: 'views/common/pagination.html',
       require: 'ngModel',
       scope: {
         total: '=ngModel' ,
         param: '=' ,
         changed: '=' 
       },
-      controller : function($scope) {
+      link : function($scope, element) {
         $scope.pageList= [5, 10, 20, 50, 100, 500];
         $scope.param = $scope.param || {};
         $scope.param.pageNum = $scope.param.pageNum || 1;
@@ -40,7 +39,26 @@
           $scope.param.pageNum = 1;
           $scope.changed();
         };
+
+        var html = '<div class="row ng-pagination">'+
+              '          <div class="col-xs-12 col-sm-5">'+
+              '        <select class="form-control input-sm" ng-model="param.pageSize" ng-change="pageSizeChange()">'+
+              '          <option ng-repeat="item in pageList" ng-value="item">{{item}} 条/页</option>'+
+              '        </select> 共 {{total}} 条'+
+              '      </div>'+
+              '      <div class="col-xs-12 col-sm-7">'+
+              '        <nav>'+
+              '          <ul uib-pagination ng-change="pageNumChange()" total-items="total"'+
+              '            items-per-page="param.pageSize" ng-model="param.pageNum"'+
+              '            max-size="5" class="pagination-sm" boundary-links="true"'+
+              '            previous-text="&lsaquo;" next-text="&rsaquo;"'+
+              '            first-text="&laquo;" last-text="&raquo;">'+
+              '          </ul>'+
+              '        </nav>'+
+              '      </div>'+
+              '    </div>';
         
+        element.html('').append($compile(html)($scope));
       }
     };
   } ]).directive('ngIcheck', ['$timeout',function($timeout) {
@@ -87,7 +105,7 @@
         if(angular.isUndefined(scope[tableId].queryParams.sortOrder)){
           scope[tableId].queryParams.sortOrder = conf.sortOrder || "desc";
         }
-        
+
         if(conf.isPage === false){
           scope[tableId].isPage = false;
         }else{

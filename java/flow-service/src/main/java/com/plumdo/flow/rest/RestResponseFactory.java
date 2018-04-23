@@ -5,24 +5,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.flowable.engine.IdentityService;
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.identitylink.api.IdentityLink;
+import org.flowable.identitylink.api.IdentityLinkInfo;
+import org.flowable.identitylink.api.history.HistoricIdentityLink;
 import org.flowable.identitylink.service.IdentityLinkType;
+import org.flowable.idm.api.Group;
+import org.flowable.idm.api.User;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
+import org.flowable.variable.api.history.HistoricVariableInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.plumdo.flow.rest.task.HistoricTaskResponse;
-import com.plumdo.flow.rest.task.TaskCompleteResponse;
 import com.plumdo.flow.rest.task.TaskDetailResponse;
-import com.plumdo.flow.rest.task.TaskIdentityResponse;
-import com.plumdo.flow.rest.task.TaskNextActorResponse;
 import com.plumdo.flow.rest.task.TaskResponse;
 import com.plumdo.flow.rest.variable.BooleanRestVariableConverter;
 import com.plumdo.flow.rest.variable.DateRestVariableConverter;
@@ -37,6 +41,9 @@ import com.plumdo.flow.rest.variable.StringRestVariableConverter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plumdo.common.utils.ObjectUtils;
+import com.plumdo.flow.constant.TableConstant;
+import com.plumdo.flow.rest.common.IdentityResponse;
 import com.plumdo.flow.rest.definition.ProcessDefinitionResponse;
 import com.plumdo.flow.rest.instance.HistoricProcessInstanceResponse;
 import com.plumdo.flow.rest.instance.ProcessInstanceDetailResponse;
@@ -55,6 +62,8 @@ public class RestResponseFactory {
 
 	@Autowired
 	private ObjectMapper objectMapper;
+	@Autowired
+	private IdentityService identityService;
 
 	protected List<RestVariableConverter> variableConverters = new ArrayList<RestVariableConverter>();
 
@@ -96,6 +105,117 @@ public class RestResponseFactory {
 		return value;
 	}
 
+	public List<RestVariable> createRestVariables(Map<String, Object> variables) {
+		List<RestVariable> result = new ArrayList<>();
+        RestVariableConverter converter = null;
+	    for (Entry<String, Object> pair : variables.entrySet()) {
+	    	Object value = pair.getValue();
+	    	if(value == null) {
+	    		continue;
+	    	}
+	    	for (RestVariableConverter c : variableConverters) {
+                if (c.getVariableType().isAssignableFrom(value.getClass())) {
+                    converter = c;
+                    break;
+                }
+            }
+
+	    	RestVariable restVariable = new RestVariable();
+	    	restVariable.setName(pair.getKey());
+            if (converter != null) {
+    	    	restVariable.setType(converter.getRestTypeName());
+    	    	converter.convertVariableValue(value, restVariable);
+            }else {
+            	restVariable.setType(value.getClass().getName());
+            	restVariable.setValue(value);
+            }
+	    	  
+	    	result.add(restVariable);
+	    }
+	    return result;
+	}
+	
+	public List<RestVariable> createRestVariables(List<HistoricVariableInstance> historicVariableInstances) {
+		List<RestVariable> result = new ArrayList<>();
+        RestVariableConverter converter = null;
+	    for (HistoricVariableInstance pair : historicVariableInstances) {
+	    	
+	    	for (RestVariableConverter c : variableConverters) {
+                if (c.getRestTypeName().equals(pair.getVariableTypeName())) {
+                    converter = c;
+                    break;
+                }
+            }
+
+	    	RestVariable restVariable = new RestVariable();
+	    	restVariable.setName(pair.getVariableName());
+            if (converter != null) {
+    	    	restVariable.setType(converter.getRestTypeName());
+    	    	converter.convertVariableValue(pair.getValue(), restVariable);
+            }else {
+            	restVariable.setType(pair.getVariableTypeName());
+            	restVariable.setValue(pair.getValue());
+            }
+	    	  
+	    	result.add(restVariable);
+	    }
+	    return result;
+	}
+	
+	public List<ModelResponse> createModelResponseList(List<Model> models) {
+		List<ModelResponse> responseList = new ArrayList<ModelResponse>();
+		for (Model instance : models) {
+			responseList.add(createModelResponse(instance));
+		}
+		return responseList;
+	}
+
+	public ModelResponse createModelResponse(Model model) {
+		ModelResponse response = new ModelResponse();
+		response.setCategory(model.getCategory());
+		response.setCreateTime(model.getCreateTime());
+		response.setId(model.getId());
+		response.setKey(model.getKey());
+		response.setLastUpdateTime(model.getLastUpdateTime());
+		try {
+			JsonNode modelNode = objectMapper.readTree(model.getMetaInfo());
+			response.setDescription(modelNode.get("description").asText());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		response.setName(model.getName());
+		response.setVersion(model.getVersion());
+		if (model.getDeploymentId() != null) {
+			response.setDeployed(true);
+		} else {
+			response.setDeployed(false);
+		}
+		response.setTenantId(model.getTenantId());
+		return response;
+	}
+
+	public List<ProcessDefinitionResponse> createProcessDefinitionResponseList(List<ProcessDefinition> processDefinitions) {
+		List<ProcessDefinitionResponse> responseList = new ArrayList<ProcessDefinitionResponse>();
+		for (ProcessDefinition instance : processDefinitions) {
+			responseList.add(createProcessDefinitionResponse(instance));
+		}
+		return responseList;
+	}
+
+	public ProcessDefinitionResponse createProcessDefinitionResponse(ProcessDefinition processDefinition) {
+		ProcessDefinitionResponse response = new ProcessDefinitionResponse();
+		response.setId(processDefinition.getId());
+		response.setKey(processDefinition.getKey());
+		response.setVersion(processDefinition.getVersion());
+		response.setCategory(processDefinition.getCategory());
+		response.setName(processDefinition.getName());
+		response.setDescription(processDefinition.getDescription());
+		response.setSuspended(processDefinition.isSuspended());
+		response.setGraphicalNotationDefined(processDefinition.hasGraphicalNotation());
+		response.setTenantId(processDefinition.getTenantId());
+		return response;
+	}
+	
 	public List<ProcessInstanceResponse> createProcessInstanceResponseList(List<ProcessInstance> processInstances) {
 		List<ProcessInstanceResponse> responseList = new ArrayList<ProcessInstanceResponse>();
 		for (ProcessInstance instance : processInstances) {
@@ -137,6 +257,7 @@ public class RestResponseFactory {
 	public ProcessInstanceDetailResponse createProcessInstanceDetailResponse(HistoricProcessInstance hisProcessInstance, ProcessInstance processInstance) {
 		ProcessInstanceDetailResponse result = new ProcessInstanceDetailResponse();
 		createHistoricProcessInstanceResponse(result, hisProcessInstance);
+		result.setStartUserName(getUserName(hisProcessInstance.getStartUserId()));
 		if (processInstance != null) {
 			result.setSuspended(processInstance.isSuspended());
 		}
@@ -164,13 +285,9 @@ public class RestResponseFactory {
 		result.setId(processInstance.getId());
 		result.setBusinessKey(processInstance.getBusinessKey());
 		result.setProcessDefinitionId(processInstance.getProcessDefinitionId());
-		// 接口有提供获取定义名称和key但是在启动api里面没有设置进去，只能通过获取定义获取
-		// result.setProcessDefinitionName(((ExecutionEntity)processInstance).getProcessDefinition().getName());
-		// result.setProcessDefinitionKey(((ExecutionEntity)processInstance).getProcessDefinition().getKey());
-
 		result.setCurrentActivityId(processInstance.getActivityId());
 		result.setTenantId(processInstance.getTenantId());
-		List<Map<String, String>> taskInfo = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> taskInfo = new ArrayList<>();
 		for (Task task : tasks) {
 			Map<String, String> taskMap = new HashMap<String, String>();
 			taskMap.put("taskId", task.getId());
@@ -193,6 +310,8 @@ public class RestResponseFactory {
 	public TaskDetailResponse createTaskDetailResponse(HistoricTaskInstance historicTaskInstance, Task taskInstance) {
 		TaskDetailResponse result = new TaskDetailResponse();
 		createHistoricTaskResponse(result, historicTaskInstance);
+		result.setAssigneeName(getUserName(historicTaskInstance.getAssignee()));
+		result.setOwnerName(getUserName(historicTaskInstance.getOwner()));
 		if (taskInstance != null) {
 			result.setDelegationState(taskInstance.getDelegationState());
 			result.setSuspended(taskInstance.isSuspended());
@@ -242,13 +361,6 @@ public class RestResponseFactory {
 		return result;
 	}
 
-	public TaskCompleteResponse createTaskCompleteResponse(Task taskInstance, List<IdentityLink> identityLinks) {
-		TaskCompleteResponse result = new TaskCompleteResponse();
-		createTaskResponse(result, taskInstance);
-		result.setCandidate(createTaskIdentityResponseList(identityLinks));
-		return result;
-	}
-
 	private void createTaskResponse(TaskResponse result, Task taskInstance) {
 		result.setId(taskInstance.getId());
 		result.setName(taskInstance.getName());
@@ -269,95 +381,59 @@ public class RestResponseFactory {
 		result.setProcessInstanceId(taskInstance.getProcessInstanceId());
 	}
 
-	public List<TaskIdentityResponse> createTaskIdentityResponseList(List<IdentityLink> identityLinks) {
-		List<TaskIdentityResponse> responseList = new ArrayList<TaskIdentityResponse>();
-		for (IdentityLink identityLink : identityLinks) {
-			if (identityLink.getType().equals(IdentityLinkType.CANDIDATE)) {
-				responseList.add(createTaskIdentityResponse(identityLink));
+	public List<IdentityResponse> createTaskIdentityResponseList(List<HistoricIdentityLink> historicIdentityLinks) {
+		List<IdentityResponse> responseList = new ArrayList<IdentityResponse>();
+		for (HistoricIdentityLink identityLink : historicIdentityLinks) {
+			if (IdentityLinkType.CANDIDATE.equals(identityLink.getType())) {
+				responseList.add(createIdentityResponse(identityLink));
 			}
 		}
 		return responseList;
 	}
-
-	public TaskIdentityResponse createTaskIdentityResponse(IdentityLink identityLink) {
-		TaskIdentityResponse result = new TaskIdentityResponse();
+	
+	public List<IdentityResponse> createIdentityResponseList(List<IdentityLink> identityLinks) {
+		List<IdentityResponse> responseList = new ArrayList<IdentityResponse>();
+		for (IdentityLinkInfo identityLink : identityLinks) {
+			responseList.add(createIdentityResponse(identityLink));
+		}
+		return responseList;
+	}
+	
+	public IdentityResponse createIdentityResponse(IdentityLinkInfo identityLink) {
+		IdentityResponse identityResponse = new IdentityResponse();
 		if (identityLink.getGroupId() != null) {
-			result.setIdentityId(identityLink.getGroupId());
-			result.setType(TaskIdentityResponse.AUTHORIZE_GROUP);
+			identityResponse.setType(TableConstant.IDENTITY_GROUP);
+			identityResponse.setIdentityId(identityLink.getGroupId());
+			identityResponse.setIdentityName(getGroupName(identityLink.getGroupId()));
 		} else if (identityLink.getUserId() != null) {
-			result.setIdentityId(identityLink.getUserId());
-			result.setType(TaskIdentityResponse.AUTHORIZE_USER);
+			identityResponse.setType(TableConstant.IDENTITY_USER);
+			identityResponse.setIdentityId(identityLink.getUserId());
+			identityResponse.setIdentityName(getUserName(identityLink.getUserId()));
 		}
-		return result;
+		return identityResponse;
 	}
-
-	public TaskNextActorResponse createTaskNextActorResponse(Task task, List<IdentityLink> identityLinks) {
-		TaskNextActorResponse taskNextActor = new TaskNextActorResponse();
-		taskNextActor.setProcessDefinitionId(task.getProcessDefinitionId());
-		taskNextActor.setTaskDefinitionKey(task.getTaskDefinitionKey());
-		taskNextActor.setTaskDefinitionName(task.getName());
-		for (IdentityLink identityLink : identityLinks) {
-			if (identityLink.getGroupId() != null) {
-				taskNextActor.addActorInfo(identityLink.getGroupId(), TaskNextActorResponse.TYPE_GROUP, identityLink.getType());
-			} else if (identityLink.getUserId() != null) {
-				taskNextActor.addActorInfo(identityLink.getUserId(), TaskNextActorResponse.TYPE_USER, identityLink.getType());
-			}
+	
+	private String getUserName(String userId) {
+		if(ObjectUtils.isEmpty(userId)) {
+			return null;
 		}
-		return taskNextActor;
-	}
-
-	public List<ProcessDefinitionResponse> createProcessDefinitionResponseList(List<ProcessDefinition> processDefinitions) {
-		List<ProcessDefinitionResponse> responseList = new ArrayList<ProcessDefinitionResponse>();
-		for (ProcessDefinition instance : processDefinitions) {
-			responseList.add(createProcessDefinitionResponse(instance));
+		User user = identityService.createUserQuery().userId(userId).singleResult();
+		if (user != null) {
+			return user.getFirstName();
 		}
-		return responseList;
+		return null;
 	}
-
-	public ProcessDefinitionResponse createProcessDefinitionResponse(ProcessDefinition processDefinition) {
-		ProcessDefinitionResponse response = new ProcessDefinitionResponse();
-		response.setId(processDefinition.getId());
-		response.setKey(processDefinition.getKey());
-		response.setVersion(processDefinition.getVersion());
-		response.setCategory(processDefinition.getCategory());
-		response.setName(processDefinition.getName());
-		response.setDescription(processDefinition.getDescription());
-		response.setSuspended(processDefinition.isSuspended());
-		response.setGraphicalNotationDefined(processDefinition.hasGraphicalNotation());
-		response.setTenantId(processDefinition.getTenantId());
-		return response;
-	}
-
-	public List<ModelResponse> createModelResponseList(List<Model> models) {
-		List<ModelResponse> responseList = new ArrayList<ModelResponse>();
-		for (Model instance : models) {
-			responseList.add(createModelResponse(instance));
+	
+	private String getGroupName(String groupId) {
+		if(ObjectUtils.isEmpty(groupId)) {
+			return null;
 		}
-		return responseList;
-	}
-
-	public ModelResponse createModelResponse(Model model) {
-		ModelResponse response = new ModelResponse();
-		response.setCategory(model.getCategory());
-		response.setCreateTime(model.getCreateTime());
-		response.setId(model.getId());
-		response.setKey(model.getKey());
-		response.setLastUpdateTime(model.getLastUpdateTime());
-		try {
-			JsonNode modelNode = objectMapper.readTree(model.getMetaInfo());
-			response.setDescription(modelNode.get("description").asText());
-		} catch (IOException e) {
-			e.printStackTrace();
+		Group group = identityService.createGroupQuery().groupId(groupId).singleResult();
+		if (group != null) {
+			return group.getName();
 		}
-		response.setName(model.getName());
-		response.setVersion(model.getVersion());
-		if (model.getDeploymentId() != null) {
-			response.setDeployed(true);
-		} else {
-			response.setDeployed(false);
-		}
-		response.setTenantId(model.getTenantId());
-		return response;
+		return null;
 	}
+	
 
 }

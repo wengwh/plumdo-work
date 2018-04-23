@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.engine.RuntimeService;
 import org.flowable.engine.common.api.query.QueryProperty;
 import org.flowable.engine.impl.ProcessDefinitionQueryProperty;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.job.api.Job;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +33,6 @@ import com.plumdo.flow.rest.definition.ProcessDefinitionsPaginateList;
  */
 @RestController
 public class ProcessDefinitionResource extends BaseProcessDefinitionResource {
-	@Autowired
-	private RuntimeService runtimeService;
 
 	private static final Map<String, QueryProperty> allowedSortProperties = new HashMap<String, QueryProperty>();
 

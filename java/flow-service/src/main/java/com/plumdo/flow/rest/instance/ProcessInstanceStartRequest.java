@@ -4,17 +4,13 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.plumdo.flow.rest.task.TaskActor;
 import com.plumdo.flow.rest.variable.RestVariable;
 
-
-public class ProcessInstanceStartRequest extends ProcessInstanceActionRequest{
-
+public class ProcessInstanceStartRequest {
 	private String processDefinitionId;
 	private String processDefinitionKey;
 	private String businessKey;
 	private List<RestVariable> variables;
-	private List<TaskActor> nextActors;
 	private boolean autoCommitTask = false;
 	private String tenantId;
 
@@ -60,14 +56,6 @@ public class ProcessInstanceStartRequest extends ProcessInstanceActionRequest{
 
 	public boolean isCustomTenantSet() {
 		return tenantId != null && !StringUtils.isEmpty(tenantId);
-	}
-
-	public List<TaskActor> getNextActors() {
-		return nextActors;
-	}
-
-	public void setNextActors(List<TaskActor> nextActors) {
-		this.nextActors = nextActors;
 	}
 
 	public boolean isAutoCommitTask() {

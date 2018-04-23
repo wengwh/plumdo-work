@@ -331,7 +331,8 @@ angular.module('flowableModeler').controller('SaveModelCtrl', [ '$rootScope', '$
 
 	$scope.saveAndClose = function() {
 		$scope.save(function() {
-			$location.path('/processes');
+//			$location.path('/processes');
+			window.close();
 		});
 	};
 
@@ -377,8 +378,7 @@ angular.module('flowableModeler').controller('SaveModelCtrl', [ '$rootScope', '$
 			data : params,
 			ignoreErrors : true,
 			headers : {
-				'Token':'Bearer ' + editorManager.getToken(),
-				'User-ID':editorManager.getUserId(),
+				'Token':editorManager.getToken(),
 				'Accept' : 'application/json',
 				'Content-Type' : 'application/json; charset=UTF-8'
 			},
@@ -453,7 +453,8 @@ angular.module('flowableModeler').controller('SaveModelCtrl', [ '$rootScope', '$
 				$scope.save(function() {
 					$rootScope.ignoreChanges = true; // Otherwise will get pop up that
 																						// changes are not saved.
-					$location.path('/processes');
+//					$location.path('/processes');
+		      window.close();
 				});
 			}
 		}
@@ -515,6 +516,7 @@ angular.module('flowableModeler').controller('ValidateModelCtrl', [ '$scope', '$
 		method : 'POST',
 		cache : false,
 		headers : {
+      'Token' : editorManager.getToken(),
 			"Content-Type" : "application/json;charset=utf-8"
 		},
 		data : model

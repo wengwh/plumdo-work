@@ -35,12 +35,6 @@ angular.module("flowableModeler").factory("editorManager", ["$http", function ($
         setToken: function (token){
             this.token = token;
         },
-        getUserId: function () {
-            return this.userId;
-        },
-        setUserId: function (userId){
-            this.userId = userId;
-        },
         getModelId: function () {
             return this.modelId;
         },

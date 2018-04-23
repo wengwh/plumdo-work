@@ -13,6 +13,7 @@ public class ErrorConstant {
 	public static final String MULTIPART_CONTENT_EMPTY = "10002";
 	public static final String FILE_NOT_BPMN = "10003";
 	public static final String FILE_NOT_BPMN_BAR = "10004";
+	public static final String PARAM_NOT_FOUND = "10005";
 	
 	public static final String MODEL_NOT_FOUND = "11001";
 	public static final String MODEL_KEY_ALREADY_EXISTS = "11002";
@@ -49,8 +50,15 @@ public class ErrorConstant {
 	public static final String INSTANCE_IMAGE_NOT_FOUND = "13004";
 	public static final String INSTANCE_IMAGE_READ_ERROR = "13005";
 	public static final String INSTANCE_HAVE_PARENT = "13006";
+	public static final String INSTANCE_VAR_NAME_NOT_FOUND = "13007";
+	public static final String INSTANCE_START_PARAM_TO_MANY = "13008";
+	public static final String INSTANCE_START_TENANT_ERROR = "13009";
 
 	public static final String TASK_NOT_FOUND = "14001";
 	public static final String TASK_RUN_NOT_DELETE = "14002";
+	public static final String TASK_IDENTITY_ID_NOT_FOUND = "14003";
+	public static final String TASK_IDENTITY_TYPE_NOT_FOUND = "14004";
+	public static final String TASK_IDENTITY_TYPE_ERROR = "14005";
+	public static final String TASK_IDENTITY_NOT_FOUND = "14006";
 
 }

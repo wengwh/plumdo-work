@@ -1,9 +1,8 @@
-package com.plumdo.flow.rest.definition;
+package com.plumdo.flow.rest.common;
 
-
-public class ProcessDefinitionIdentityRequest {
-	protected String type;
+public class IdentityRequest {
 	protected String identityId;
+	protected String type;
 
 	public String getType() {
 		return type;
@@ -20,4 +19,5 @@ public class ProcessDefinitionIdentityRequest {
 	public void setIdentityId(String identityId) {
 		this.identityId = identityId;
 	}
+
 }

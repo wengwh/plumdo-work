@@ -63,7 +63,7 @@
     <div class="header">
       <h4 class="title">
         <span class="text-info right-split">{{selectedItem.name}}</span>{{selectedItem.id}}
-        <button type="button" class="btn btn-warning btn-sm pull-right" ng-click="gotoList()">返回列表</button>
+        <button type="button" class="btn btn-warning pull-right" ng-click="gotoList()">返回列表</button>
       </h4>
     </div>
     <div class="content">
@@ -80,8 +80,8 @@
            <span class="property"><label>类别:</label>{{selectedItem.category}}</span>
            <span class="property"><label>父任务:</label>{{selectedItem.parentTaskId}}</span>
            <hr>
-           <span class="property"><label>负责人:</label>{{selectedItem.assignee}}</span>
-           <span class="property"><label>所有人:</label>{{selectedItem.owner}}</span>
+           <span class="property"><label>负责人:</label>{{selectedItem.assigneeName}}</span>
+           <span class="property"><label>所有人:</label>{{selectedItem.ownerName}}</span>
            <span class="property"><label>开始时间:</label>{{selectedItem.startTime}}</span>
            <span class="property"><label>到期时间:</label>{{selectedItem.dueDate}}</span>
            <div ng-if="selectedItem.endTime != null">
@@ -89,8 +89,18 @@
              <span class="property"><label>删除理由:</label>{{selectedItem.deleteReason}}</span>
            </div>
            <hr>
-           <span class="property"><label>流程实例:</label>{{selectedItem.processInstanceId}}</span>
-           <span class="property"><label>流程标识:</label>{{selectedItem.processDefinitionId}}</span>
+           <span class="property">
+             <label>流程实例:</label>
+             <a ui-sref="main.flow.instance({id:selectedItem.processInstanceId})">
+           	 	<i class="fa fa-search-plus"></i> {{selectedItem.processInstanceId}}
+          	 </a>
+           </span>
+           <span class="property">
+ 			 <label>流程定义:</label>
+           	 <a ui-sref="main.flow.definition({id:selectedItem.processDefinitionId})">
+           	 	<i class="fa fa-search-plus"></i> {{selectedItem.processDefinitionId}}
+          	 </a>
+		   </span>
         </div>
         <div class="col-md-2">
           <button type="button" class="btn btn-info btn-block" ng-click="editTask(selectedItem)" ng-show="selectedItem.endTime == null">编辑</button>
@@ -108,9 +118,8 @@
         <div class="nav-tabs-wrapper">
           <ul uib-tabset active="active" type="tabs">
               <uib-tab index="0" heading="流程图"></uib-tab>
-              <uib-tab index="1" heading="子任务" select="queryAuth(selectedItem.id)"></uib-tab>
-              <uib-tab index="2" heading="变量信息" select="queryJob(selectedItem.id)"></uib-tab>
-              <uib-tab index="3" heading="人员信息" select="queryTask(selectedItem.id)"></uib-tab>
+              <uib-tab index="1" heading="任务变量" select="queryVariable(selectedItem.id)"></uib-tab>
+              <uib-tab index="2" heading="候选信息" select="queryIdentity(selectedItem.id)"></uib-tab>
           </ul>
         </div>
       </div>
@@ -119,14 +128,16 @@
             <img ng-src="{{getImageUrl(selectedItem.processInstanceId)}}" />
           </div>
           <div class="tab-pane" ng-class="{'active':active==1}">
-            <table ng-table="authTableOptions" class="table table-striped ng-table">
+            <table ng-table="variableTableOptions" class="table table-striped ng-table">
             </table>
             <br/>
-            <button type="button" class="btn btn-info btn-block" ng-click="gotoList()">添加授权</button>
+            <button type="button" class="btn btn-info btn-block" ng-click="createVariable(selectedItem.id)" ng-if="selectedItem.endTime == null">添加任务变量</button>
           </div>
           <div class="tab-pane" ng-class="{'active':active==2}">
-            <table ng-table="jobTableOptions" class="table table-striped ng-table">
+            <table ng-table="identityTableOptions" class="table table-striped ng-table">
             </table>
+            <br/>
+            <button type="button" class="btn btn-info btn-block" ng-click="createIdentity(selectedItem.id)" ng-if="selectedItem.endTime == null">添加候选信息</button>
           </div>
       </div>
     </div>
@@ -171,6 +182,75 @@
   </div>
   <div class="form-group">
     <label class="control-label">转派/委托用户</label> 
-    <input type="text" class="form-control" ng-model="formData.userId"></input>
+      <select class="form-control" chosen  ng-model="formData.userId" placeholder-text-single="'选择用户'" no-results-text = "'没有结果匹配'">
+        <option ng-repeat="option in formData.users" value="{{option.id}}">{{option.name+' (ID:'+option.id+')'}}</option>
+      </select>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="variable-create.html">
+  <div class="form-group">
+    <label class="control-label">变量名称</label> 
+  	<input type="text" class="form-control" ng-model="formData.name"></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">变量类型</label> 
+	<select class="form-control" ng-model="formData.type" ng-init="formData.type='string'">
+      <option value="string">string</option>
+      <option value="boolean">boolean</option>
+      <option value="date">date</option>
+      <option value="double">double</option>
+      <option value="long">long</option>
+      <option value="integer">integer</option>
+      <option value="short">short</option>
+      <option value="list">list</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="control-label">变量值</label> 
+  	<input type="text" class="form-control" ng-model="formData.value"></input>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="task-identity-create.html">
+  <div class="form-group" ng-init="formData.type='user'">
+  	<label class="control-label">类型</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.type" value="user" /> 人员
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.type" value="group" /> 群组
+		</label>
+	</div>
+  </div>
+  <div class="form-group" ng-show="formData.type=='user'">
+    <label class="control-label">人员</label>  <br/>
+	<isteven-multi-select    
+        input-model="formData.users"    
+        output-model="formData.user"
+        button-label="name"
+        item-label="name"
+        tick-property="selected"
+        orientation="horizontal"
+    	selection-mode="single"
+        translation="multiSelectLang">
+   </isteven-multi-select>
+  </div>
+  
+  <div class="form-group" ng-show="formData.type=='group'">
+    <label class="control-label">群组</label>  <br/>
+    <isteven-multi-select    
+        input-model="formData.groups"    
+        output-model="formData.group"
+        button-label="name"
+        item-label="name"
+        tick-property="selected"
+        group-property="group"
+    	selection-mode="single"
+        translation="multiSelectLang">
+   </isteven-multi-select>
   </div>
 </script>

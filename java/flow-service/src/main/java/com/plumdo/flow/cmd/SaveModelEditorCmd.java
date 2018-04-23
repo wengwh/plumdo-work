@@ -15,6 +15,7 @@ import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.editor.language.json.converter.BpmnJsonConverter;
 import org.flowable.engine.ProcessEngineConfiguration;
 import org.flowable.engine.RepositoryService;
+import org.flowable.engine.common.api.FlowableException;
 import org.flowable.engine.common.impl.interceptor.Command;
 import org.flowable.engine.common.impl.interceptor.CommandContext;
 import org.flowable.engine.impl.util.CommandContextUtil;
@@ -22,7 +23,6 @@ import org.flowable.image.ProcessDiagramGenerator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.plumdo.flow.exception.FlowableConflictException;
 
 /**
  * 保存模型，同时生成图片
@@ -67,7 +67,7 @@ public class SaveModelEditorCmd implements Command<Void>, Serializable  {
 	
 			repositoryService.addModelEditorSourceExtra(modelId, IOUtils.toByteArray(resource));
 		} catch (Exception e) {
-			throw new FlowableConflictException("create model exception :"+e.getMessage());
+			throw new FlowableException("create model exception :"+e.getMessage());
 		}
 	    return null;
 	}

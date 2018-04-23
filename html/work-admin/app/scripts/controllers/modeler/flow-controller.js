@@ -152,12 +152,12 @@
     };
     
     $scope.designModel = function(id){
-      $window.open($scope.restUrl.flowDesign(id));
+      $window.open($scope.restUrl.flowDesign(id,$scope.loginUser.token));
     };
 
     $scope.getImageUrl = function(id){
       if(angular.isDefined(id)){
-        return $scope.modelService.url +'/'+id+'/image.png';
+        return $scope.modelService.url +'/'+id+'/image.png?token='+$scope.loginUser.token;
       }
       return null;
     };

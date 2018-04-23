@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.flow.constant.TableConstant;
 
+/**
+ * 任务转办接口
+ * 
+ * @author wengwh
+ * @date 2018年4月23日
+ */
 @RestController
 public class TaskAssignResource extends BaseTaskResource {
 

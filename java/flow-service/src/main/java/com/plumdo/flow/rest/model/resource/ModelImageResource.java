@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.plumdo.common.annotation.NotAuth;
 import com.plumdo.flow.constant.ErrorConstant;
 
 @RestController
 public class ModelImageResource extends BaseModelResource {
 
 	@GetMapping(value = "/models/{modelId}/image", name = "获取模型流程图")
-	@NotAuth
 	public ResponseEntity<byte[]> getModelImage(@PathVariable String modelId) {
 		Model model = getModelFromRequest(modelId);
 		byte[] imageBytes = repositoryService.getModelEditorSourceExtra(model.getId());

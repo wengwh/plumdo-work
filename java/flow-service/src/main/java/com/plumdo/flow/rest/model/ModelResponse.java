@@ -3,7 +3,6 @@ package com.plumdo.flow.rest.model;
 import java.util.Date;
 
 public class ModelResponse extends ModelRequest {
-
 	protected String id;
 	protected Date createTime;
 	protected Date lastUpdateTime;

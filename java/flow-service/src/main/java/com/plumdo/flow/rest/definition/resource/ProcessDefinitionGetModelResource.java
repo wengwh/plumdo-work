@@ -34,7 +34,7 @@ public class ProcessDefinitionGetModelResource extends BaseProcessDefinitionReso
 	@Autowired
 	protected ManagementService managementService;
 
-	@RequestMapping(value = "/process-definition/{processDefinitionId}/getModel", method = RequestMethod.GET, produces = "application/json", name="流程定义获取对应模型")
+	@RequestMapping(value = "/process-definitions/{processDefinitionId}/getModel", method = RequestMethod.GET, produces = "application/json", name="流程定义获取对应模型")
 	public ModelResponse processDefinitionGetModel(@PathVariable String processDefinitionId) {
 		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 		try {

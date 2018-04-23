@@ -298,6 +298,9 @@
 	.header{
 		border-bottom: 1px solid #F1EAE0;
       	padding-bottom: 15px;
+      	.title button{
+      		margin-top: -7px;
+      	}
     }
 	.property{
 	    display: inline-block;
@@ -307,8 +310,8 @@
 	    padding-left: 3px;
 	    color: #555;
 		overflow: hidden;
-text-overflow:ellipsis;
-white-space: nowrap;
+		text-overflow:ellipsis;
+		white-space: nowrap;
 	    label{
 		    font-weight: bold;
 		    color:#555;

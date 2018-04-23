@@ -34,6 +34,7 @@ public abstract class AbstractPaginateList {
 
 	@SuppressWarnings("rawtypes")
 	private void setQueryOrder(Sort sort,Query query,Map<String, QueryProperty> properties) {
+		System.out.println(sort);
 		if (sort == null || properties.isEmpty()) {
 			return ;
 		}
@@ -44,6 +45,7 @@ public abstract class AbstractPaginateList {
 			if (qp == null) {
 				throw new FlowableIllegalArgumentException("Value for param 'sort' is not valid, '" + sort + "' is not a valid property");
 			}
+			System.out.println(qp);
 			query.orderBy(qp);
 			if (order.getDirection() == Direction.ASC) {
 				query.asc();

@@ -16,7 +16,7 @@
     $scope.queryParams = $scope.detailId==='0' ? $scope.getCacheParams():{};
     $scope.queryResult = {};
     $scope.selectedItem = null;
-
+    
     $scope.queryDetail = function(id){
       $scope.definitionService.get({
         urlPath : '/' + id
@@ -46,6 +46,23 @@
             $scope.showSuccessMsg('删除流程定义成功');
             modalInstance.close();
             $scope.gotoList();
+          });
+        }
+      });
+    };
+    
+
+    $scope.createInstance = function(item) {
+      $scope.editConfirmModal({
+        formUrl: 'definition-start.html',
+        title: '启动流程实例',
+        formData: {name:item.name,processDefinitionId:item.id},
+        confirm: function (formData,modalInstance) {
+          $scope.instanceService.post({
+            data: formData
+          }, function () {
+            $scope.showSuccessMsg('启动流程实例成功');
+            modalInstance.close();
           });
         }
       });
@@ -131,61 +148,6 @@
       sortName : 'name',
       sortOrder : 'asc'
     };
-
-    $scope.identityTableOptions = {
-      id : 'definitionidentity',
-      data : 'queryIdentityResult',
-      isPage : false,
-      colModels : [
-        {name:'ID',index:'identityId'},
-        {name:'名称',index:'identityName'},
-        {name:'类型',index:'type',
-          formatter : function() {
-            return '<span>{{row.type=="user"?"用户":"群组"}}</span>';
-          }
-        },
-        {name : '操作', index : '',
-          formatter : function() {
-            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteIdentity(selectedItem.id,row.type,row.identityId)>'+
-               '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
-          }
-        }
-      ]
-    };
-    
-    $scope.jobTableOptions = {
-      id : 'definitionJob',
-      data : 'queryJobResult',
-      isPage : false,
-      colModels : [
-        {name:'类型',index:'jobHandlerType'},
-        {name:'执行时间',index:'duedate'},
-        {name:'创建时间',index:'createTime'},
-        {name : '操作', index : '',
-          formatter : function() {
-            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteJob(selectedItem.id,row.id)>'+
-               '<i class="fa fa-trash-o"></i>&nbsp;删除</button>';
-          }
-        }
-      ]
-    };
-    
-    $scope.processTableOptions = {
-        id : 'definitionProcess',
-        data : 'queryProcessResult',
-        isPage : false,
-        colModels : [
-          {name:'实例ID',index:'id',width:'10%'},
-          {name:'流程标识',index:'processDefinitionId',sortable:true,width:'10%'},
-          {name:'开始时间',index:'startTime',sortable:true,width:'10%'},
-          {name:'业务标识',index:'businessKey',sortable:true,width:'10%'},
-          {name:'操作',index:'',width:'10%',
-            formatter:function(){
-              return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoProcessDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
-            }
-          }
-        ]
-      };
     
     $scope.queryIdentity = function(id) {
       $scope.definitionService.get({
@@ -199,6 +161,7 @@
       $scope.definitionService.delete({
         urlPath : '/' + id + '/identity-links/'+type+'/'+identityId
       }, function() {
+        $scope.showSuccessMsg('删除授权成功');
         $scope.queryIdentity(id);
       });
     };
@@ -243,6 +206,26 @@
         });
       });
     };
+
+    $scope.identityTableOptions = {
+      id : 'definitionidentity',
+      data : 'queryIdentityResult',
+      isPage : false,
+      colModels : [
+        {name:'ID',index:'identityId'},
+        {name:'名称',index:'identityName'},
+        {name:'类型',index:'type',
+          formatter : function() {
+            return '<span>{{row.type=="user"?"用户":"群组"}}</span>';
+          }
+        },
+        {name : '操作', index : '',
+          formatter : function() {
+            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteIdentity(selectedItem.id,row.type,row.identityId)><i class="fa fa-trash-o"></i>&nbsp;删除</button>';
+          }
+        }
+      ]
+    };
     
     $scope.queryJob = function(id) {
       $scope.definitionService.get({
@@ -256,13 +239,30 @@
       $scope.definitionService.delete({
         urlPath : '/' + id + '/jobs/'+jobId
       }, function() {
+        $scope.showSuccessMsg('删除定时任务成功');
         $scope.queryJob(id);
       });
+    };
+
+    $scope.jobTableOptions = {
+      id : 'definitionJob',
+      data : 'queryJobResult',
+      isPage : false,
+      colModels : [
+        {name:'类型',index:'jobHandlerType'},
+        {name:'执行时间',index:'duedate'},
+        {name:'创建时间',index:'createTime'},
+        {name : '操作', index : '',
+          formatter : function() {
+            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteJob(selectedItem.id,row.id)><i class="fa fa-trash-o"></i>&nbsp;删除</button>';
+          }
+        }
+      ]
     };
     
     $scope.queryProcess = function(id) {
       $scope.instanceService.get({
-        params : {processDefinitionId:id,finished:false}
+        params : {processDefinitionId:id,finished:false,pageNum:1}
       }, function(response) {
         $scope.queryProcessResult = response.data;
       });
@@ -277,7 +277,23 @@
       $scope.$state.go('main.flow.instance',{processDefinitionId:id});
     };
     
-    
+    $scope.processTableOptions = {
+      id : 'definitionProcess',
+      data : 'queryProcessResult',
+      isPage : false,
+      colModels : [
+        {name:'实例ID',index:'id'},
+        {name:'流程标识',index:'processDefinitionId'},
+        {name:'开始时间',index:'startTime'},
+        {name:'业务标识',index:'businessKey'},
+        {name:'操作',index:'',
+          formatter:function(){
+            return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoProcessDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
+          }
+        }
+      ]
+    };
+   
     if($scope.detailId !== '0'){
       $scope.queryDetail($scope.detailId);
     }else{

@@ -2,6 +2,7 @@ package com.plumdo.flow.rest.definition.resource;
 
 import org.flowable.engine.ManagementService;
 import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,8 @@ public class BaseProcessDefinitionResource extends BaseResource {
 	protected RepositoryService repositoryService;
 	@Autowired
 	protected ManagementService managementService;
+	@Autowired
+	protected RuntimeService runtimeService;
 
 	protected ProcessDefinition getProcessDefinitionFromRequest(String processDefinitionId) {
 		// 直接查询数据库，不查询缓存，防止出现挂起激活验证不一致
