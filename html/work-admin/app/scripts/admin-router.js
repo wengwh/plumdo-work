@@ -24,7 +24,7 @@
         template: '<h1 class="text-center"> 页面不存在 </h1>'
       }).state('main.home', {
         url: '/home',
-        templateUrl: 'views/test.html'
+        template: '<h1 class="text-center"> 页面不存在 </h1>'
       }).state('main.modeler', {
         url: '/modeler',
         abstract: true,

@@ -32,11 +32,7 @@
 			<artifactId>flowable-json-converter</artifactId>
 			<version>${flowable.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.flowable</groupId>
-			<artifactId>flowable-rest</artifactId>
-			<version>${flowable.version}</version>
-		</dependency>
+		
 		<!-- <dependency>
 			<groupId>org.flowable</groupId>
 			<artifactId>flowable-rest</artifactId>

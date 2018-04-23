@@ -26,7 +26,7 @@
       idmGroups: '/groups',
       idmRoles: '/roles',
       idmMenus: '/menus',
-      formDesgin : function(modelId,token) {
+      formDesgin : function(modelId) {
         return 'http://work.plumdo.com/form-modeler/#/design?modelId=' + modelId;
       },
       formPreview : function(modelId) {

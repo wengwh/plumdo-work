@@ -7,7 +7,7 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('FlowInstanceController', function($scope,$stateParams,$q) {
+  angular.module('adminApp').controller('FlowInstanceController', function($scope,$stateParams) {
     $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
     $scope.taskService = $scope.FlowService($scope.restUrl.flowTasks);

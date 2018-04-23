@@ -238,7 +238,7 @@
           formData: item,
           confirm: function (formData,modalInstance) {
             var requestBody={type:formData.type};
-            if(formData.type=='user'){
+            if(formData.type==='user'){
               requestBody.identityId=formData.user[0].id;
             }else{
               requestBody.identityId=formData.group[0].id;

@@ -246,7 +246,9 @@ gulp.task('images', ['styles:images'], function () {
 });
 
 gulp.task('styles:images', function () {
-  return gulp.src(yeoman.app + '/bower_components/iCheck/skins/square/*.png')
+  return gulp.src([yeoman.app + '/bower_components/iCheck/skins/square/*.png',
+    yeoman.app + '/bower_components/chosen-bootstrap/*.png',
+    yeoman.app + '/bower_components/jquery-colorbox/example1/**/*'])
     .pipe(gulp.dest(yeoman.dist + '/styles'));
 });
 

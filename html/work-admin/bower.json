@@ -84,6 +84,12 @@
         "css/bootstrap-datetimepicker.min.css",
         "js/locales/bootstrap-datetimepicker.zh-CN.js"
       ]
+    },
+    "jquery-colorbox": {
+      "main": [
+        "jquery.colorbox.js",
+        "example1/colorbox.css"
+      ]
     }
   },
   "resolutions": {

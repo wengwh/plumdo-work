@@ -187,12 +187,11 @@
           title: '添加授权',
           formData: item,
           confirm: function (formData,modalInstance) {
-            console.info(formData)
-            var requestBody={type:formData.type};
-            if(formData.type=='user'){
-              requestBody.identityId=formData.user[0].id;
+            var requestBody = {type:formData.type};
+            if(formData.type === 'user'){
+              requestBody.identityId = formData.user[0].id;
             }else{
-              requestBody.identityId=formData.group[0].id;
+              requestBody.identityId = formData.group[0].id;
             }
             $scope.definitionService.post({
               urlPath : '/' + id + '/identity-links',
