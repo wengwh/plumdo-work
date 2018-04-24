@@ -9,7 +9,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: plumdo@123mysql
     
   
   identity-service:
@@ -24,14 +24,12 @@ services:
     links:
       - mysql:mysql
     command: "java -Xmx256m -Xms256m -jar  java/identity-service.jar \
-      --server.port=8080 \
-      --spring.datasource.url=jdbc:mysql://mysql:3306 \
-      --spring.datasource.password=123456 \
+      --spring.datasource.password=plumdo@123mysql \
       --spring.profiles.active=pro"
     
   
   flow-service:
-    image: hub.c.163.com/library/java:8u111
+    build: ./docker/jdk
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
@@ -42,9 +40,7 @@ services:
     links:
       - mysql:mysql
     command: "java -Xmx256m -Xms256m -jar java/flow-service.jar \
-      --server.port=8080 \
-      --spring.datasource.url=jdbc:mysql://mysql:3306 \
-      --spring.datasource.password=123456 \
+      --spring.datasource.password=plumdo@123mysql \
       --spring.profiles.active=pro"
     
   

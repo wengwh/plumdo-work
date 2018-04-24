@@ -3,9 +3,6 @@ spring:
     active: dev
     include: service
   datasource:
-    url : jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=UTF-8
-    username : root
-    password : root
     driver-class-name : com.mysql.jdbc.Driver
     separator : $$
     initialize: true
@@ -35,8 +32,6 @@ scheduleConfig:
   awaitTerminationSeconds: 60
   waitForTasksToCompleteOnShutdown: true  
        
-serviceUrl:
-    identity-service: http://localhost:8088
   
 logging:
   name: common-service
@@ -47,12 +42,33 @@ logging:
 
 #生产环境
 spring.profiles: pro
-spring.profiles.include: service-pro
     
+spring:
+  profiles:
+    include: service-pro
+  datasource:
+    url : jdbc:mysql://mysql:3306?useUnicode=true&characterEncoding=UTF-8
+    username : root
+    password : root
+    
+
+serviceUrl:
+    identity-service: http://work.plumdo.com/identity-service
+        
 server:
   port : 8080
   
 ---
 #开发环境
 spring.profiles: dev
-spring.profiles.include: service-dev
+
+spring:
+  profiles:
+    include: service-dev
+  datasource:
+    url : jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=UTF-8
+    username : root
+    password : root
+
+serviceUrl:
+    identity-service: http://localhost:8088

@@ -36,9 +36,9 @@ public class FlowableEngineConfig extends ProcessEngineAutoConfiguration {
 		conf.setDatabaseCatalog(databaseSchema);
 		conf.setDatabaseTablePrefix(databaseSchema + ".");
 		conf.setTablePrefixIsSchema(true);
-		conf.setActivityFontName("微软雅黑");
-		conf.setLabelFontName("微软雅黑");
-		conf.setAnnotationFontName("微软雅黑");
+		conf.setActivityFontName("黑体");
+		conf.setLabelFontName("黑体");
+		conf.setAnnotationFontName("黑体");
 		return conf;
 	}
 

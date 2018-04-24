@@ -10,10 +10,10 @@
   angular.module('adminApp')
     .constant('contextRoot', {
       formService:'http://work.plumdo.com/form-service',
-//      identityService:'http://work.plumdo.com/identity-service',
-      identityService:'http://localhost:8088',
-//      flowService:'http://work.plumdo.com/flow-service'
-      flowService:'http://localhost:8082'
+      identityService:'http://work.plumdo.com/identity-service',
+//      identityService:'http://localhost:8088',
+      flowService:'http://work.plumdo.com/flow-service'
+//      flowService:'http://localhost:8082'
     })
     .constant('restUrl', {
       formModels: '/form-models',
@@ -33,7 +33,8 @@
         return 'http://work.plumdo.com/form-modeler/#/watch?modelId=' + modelId;
       },
       flowDesign : function(modelId,token) {
-        return 'http://localhost:9004/#/editor/' + modelId+'?token='+token;
+        return 'http://work.plumdo.com/flow-modeler/#/editor/' + modelId+'?token='+token;
+//        return 'http://localhost:9004/#/editor/' + modelId+'?token='+token;
       }
   });
 
