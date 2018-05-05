@@ -1,14 +1,17 @@
-# plumdo-work 工作流平台
+# 工作流平台
+> 流程，表单，报表，手动配置生成实际工作流
 
-## 交流QQ群：717933986
-
-## 流程，表单，报表，手动配置生成实际工作流
+[![JDK](https://img.shields.io/badge/JDK-1.8-yellow.svg)](#)
+[![License](http://img.shields.io/:license-apache2-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 #### [Github](https://github.com/wengwh/plumdo-work) | [Gitee](https://gitee.com/wengwh/plumdo-work)
 
+**交流群:** 717933986
 
-## 演示环境
-[控制台](http://work.plumdo.com) 
+
+## Demo 演示
+[系统控制台](http://work.plumdo.com) 
+
 [表单设计器](https://wengwh.github.io/plumdo-work)
 
 
@@ -36,7 +39,7 @@
 
 > 前端构建
 
-```
+```bash
 下载安装nodejs 地址:http://nodejs.cn/download/
 npm install -g bower #安装bower
 npm install -g gulp #安装gulp 
@@ -54,7 +57,7 @@ bower i   #安装bower依赖的第三方库
 gulp serve  #执行gulp进行开发
 ```
 
-```
+```bash
 "E:\kibana\node_modules\node-sass\build\binding.sln" (default target) (1) ->
 (_src_\libsass target) ->
   MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。要解决此问题
@@ -72,7 +75,7 @@ npm install #继续安装npm依赖库
 
 > 后端构建
 
-```
+```bash
 cd java #进入java目录
 mvn eclipse:eclipse #eclipse编辑器做示例
 ```
