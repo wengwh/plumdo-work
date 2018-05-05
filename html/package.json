@@ -28,13 +28,14 @@
     "lazypipe": "^0.2.4",
     "gulp-ng-annotate": "^1.0.0",
     "open": "0.0.5",
-    "gulp-sass": "^2.0.4",
+    "gulp-sass": "^3.0.4",
     "jshint-stylish": "^1.0.0"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "gulp-minify-html": "^1.0.6"
+    "gulp-minify-html": "^1.0.6",
+    "node-sass": "^4.9.0"
   }
 }
