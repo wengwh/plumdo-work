@@ -36,17 +36,18 @@
 
 > 前端构建
 
-
-
-
 ```
 下载安装nodejs 地址:http://nodejs.cn/download/
 npm install -g bower #安装bower
 npm install -g gulp #安装gulp 
+
 cd html #进入html目录
+
 如果环境没有翻墙情况，使用淘宝镜像做node-sass，否则会出现下载失败
 set SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass
+
 npm install #安装npm依赖库
+
 #安装成功
 cd work-admin #进入相对应目录
 bower i   #安装bower依赖的第三方库
