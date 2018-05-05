@@ -41,22 +41,12 @@
 
 ```
 下载安装nodejs 地址:http://nodejs.cn/download/
-
 npm install -g bower #安装bower
 npm install -g gulp #安装gulp 
-
 cd html #进入html目录
-
 如果环境没有翻墙情况，使用淘宝镜像做node-sass，否则会出现下载失败
-
 set SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass
-npm install
-
-出现环境问题，如下，可以执行
-npm install -g node-gyp 
-npm install –global –production windows-build-tools
-npm install
-
+npm install #安装npm依赖库
 #安装成功
 cd work-admin #进入相对应目录
 bower i   #安装bower依赖的第三方库
@@ -64,7 +54,6 @@ gulp serve  #执行gulp进行开发
 ```
 
 ```
-
 "E:\kibana\node_modules\node-sass\build\binding.sln" (default target) (1) ->
 (_src_\libsass target) ->
   MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。要解决此问题
@@ -73,6 +62,10 @@ amework 2.0 SDK；2) 安装 Microsoft Visual Studio 2005；或 3) 如果将该�
 了其他位置，请将其位置添加到
 系统路径中。 [E:\kibana\node_modules\node-sass\build\binding.sln]
 
+出现上面环境问题，可以执行
+npm install -g node-gyp 
+npm install –global –production windows-build-tools
+npm install #继续安装npm依赖库
 ```
 
 
@@ -88,7 +81,7 @@ mvn eclipse:eclipse #eclipse编辑器做示例
 ## 相关技术
 
 >  前端技术
-
+ 
 | 技术名称           |          备注说明           |
 | :-------------:    |    :----------------------: |
 | Yeoman Bower Gulp  |          构建工具           |
