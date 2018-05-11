@@ -19,6 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 public class Criteria<T> implements Specification<T> {
 	private List<Criterion> criterions = new ArrayList<Criterion>();
 
+	@Override
 	public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 		if (!criterions.isEmpty()) {
 			List<Predicate> predicates = new ArrayList<Predicate>();

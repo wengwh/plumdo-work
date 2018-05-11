@@ -7,6 +7,9 @@ package com.plumdo.common.client.jdbc;
  * @Date 2017-02-16
  */
 public enum QueryType {
+	/**
+	 * 等于运算
+	 */
 	EQ("=", "等于"),
 	NOT_EQ("<>", "不等于"),
 	GT(">", "大于"),

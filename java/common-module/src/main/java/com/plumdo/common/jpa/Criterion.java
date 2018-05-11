@@ -16,5 +16,5 @@ public interface Criterion {
 		EQ, NE, LIKE, LIKE_LEFT, LIKE_RIGHT, GT, LT, GTE, LTE, AND, OR, NULL, NOT_NULL
 	}
 
-	public Predicate toPredicate(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder);
+	Predicate toPredicate(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder);
 }

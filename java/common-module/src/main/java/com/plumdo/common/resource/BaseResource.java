@@ -47,7 +47,7 @@ public abstract class BaseResource {
 		if (ObjectUtils.isNotEmpty(requestParams.get("sortName"))) {
 			String sortName = requestParams.get("sortName");
 			String sortOrder = requestParams.get("sortOrder");
-			if (ObjectUtils.isEmpty(sortOrder) || sortOrder.equals("desc")) {
+			if (ObjectUtils.isEmpty(sortOrder) || "desc".equals(sortOrder)) {
 				order = new Order(Direction.DESC, sortName);
 			} else {
 				order = new Order(Direction.ASC, sortName);

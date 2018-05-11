@@ -21,7 +21,6 @@ import com.plumdo.flow.rest.variable.RestVariable;
 
 @RestController
 public class TaskCompleteResource extends BaseTaskResource {
-
 	@PutMapping(value = "/tasks/{taskId}/complete", name = "任务完成")
 	@ResponseStatus(value = HttpStatus.OK)
 	@Transactional(propagation = Propagation.REQUIRED)

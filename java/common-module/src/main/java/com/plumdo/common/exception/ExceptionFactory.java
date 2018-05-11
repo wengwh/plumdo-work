@@ -22,10 +22,10 @@ public class ExceptionFactory {
 	}
 
 	/** 默认local **/
-	private static final Locale defaultLocal = Locale.CHINA;
+	private static final Locale DEFALUT_LOCALE = Locale.CHINA;
 
 	public String getResource(String code, Object... arg) {
-		return messageSource.getMessage(code, arg, defaultLocal);
+		return messageSource.getMessage(code, arg, DEFALUT_LOCALE);
 	}
 
 	public ErrorInfo createInternalError() {

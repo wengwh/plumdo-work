@@ -1,7 +1,6 @@
 package com.plumdo.common.domain;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -33,13 +32,13 @@ public abstract class BaseEntity implements java.io.Serializable {
 
 	@PrePersist
 	public void prePersist() {
-		this.createTime = new Timestamp(new Date().getTime());
+		this.createTime = new Timestamp(System.currentTimeMillis());
 		this.lastUpdateTime = this.createTime;
 	}
 
 	@PreUpdate
 	public void preUpdate() {
-		this.lastUpdateTime = new Timestamp(new Date().getTime());
+		this.lastUpdateTime = new Timestamp(System.currentTimeMillis());
 	}
 
 	@Id

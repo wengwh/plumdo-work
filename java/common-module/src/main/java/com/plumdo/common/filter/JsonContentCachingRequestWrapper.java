@@ -160,8 +160,8 @@ public class JsonContentCachingRequestWrapper extends HttpServletRequestWrapper 
 		}
 		if (this.cachedContent.size() == 0) {
 			try {
-				while (getReader().readLine() != null)
-					;
+				while (getReader().readLine() != null) {};
+					
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

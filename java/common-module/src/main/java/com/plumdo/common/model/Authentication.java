@@ -6,7 +6,7 @@ package com.plumdo.common.model;
  * @author wengwenhui
  * @date 2018年4月12日
  */
-public abstract class Authentication {
+public class Authentication {
 
 	static ThreadLocal<String> userIdThreadLocal = new ThreadLocal<String>();
 	static ThreadLocal<String> tokenThreadLocal = new ThreadLocal<String>();

@@ -40,6 +40,7 @@ public class SimpleExpression implements Criterion {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
 	public Predicate toPredicate(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 		Path expression = null;
 		if (fieldName.contains(".")) {

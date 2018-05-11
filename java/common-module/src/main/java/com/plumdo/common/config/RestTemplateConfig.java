@@ -79,6 +79,7 @@ public class RestTemplateConfig {
 		SSLContext sslContext;
 		try {
 			sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+				@Override
 				public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
 					return true;
 				}
@@ -88,24 +89,33 @@ public class RestTemplateConfig {
 			HostnameVerifier hostnameVerifier = NoopHostnameVerifier.INSTANCE;
 			SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext,
 					hostnameVerifier);
+			// 注册http和https请求
 			Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
 					.register("http", PlainConnectionSocketFactory.getSocketFactory())
-					.register("https", sslConnectionSocketFactory).build();// 注册http和https请求
+					.register("https", sslConnectionSocketFactory).build();
+			// 开始设置连接池
 			PoolingHttpClientConnectionManager poolingHttpClientConnectionManager = new PoolingHttpClientConnectionManager(
-					socketFactoryRegistry);// 开始设置连接池
-			poolingHttpClientConnectionManager.setMaxTotal(maxTotal); // 最大连接数
-			poolingHttpClientConnectionManager.setDefaultMaxPerRoute(maxPerRoute); // 同路由并发数
+					socketFactoryRegistry);
+			// 最大连接数
+			poolingHttpClientConnectionManager.setMaxTotal(maxTotal);
+			// 同路由并发数
+			poolingHttpClientConnectionManager.setDefaultMaxPerRoute(maxPerRoute);
 			httpClientBuilder.setConnectionManager(poolingHttpClientConnectionManager);
-			httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(2, true));// 重试次数
+			// 重试次数
+			httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(2, true));
 			HttpClient httpClient = httpClientBuilder.build();
+			// httpClient连接配置
 			HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(
-					httpClient);// httpClient连接配置
-			clientHttpRequestFactory.setConnectTimeout(connectionTimeout);// 连接超时
-			clientHttpRequestFactory.setReadTimeout(readTimeout);// 数据读取超时时间
-			clientHttpRequestFactory.setConnectionRequestTimeout(connectionRequestTimeout);// 连接不够用的等待时间
+					httpClient);
+			// 连接超时
+			clientHttpRequestFactory.setConnectTimeout(connectionTimeout);
+			// 数据读取超时时间
+			clientHttpRequestFactory.setReadTimeout(readTimeout);
+			// 连接不够用的等待时间
+			clientHttpRequestFactory.setConnectionRequestTimeout(connectionRequestTimeout);
 			return clientHttpRequestFactory;
 		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
-			logger.error("设置HttpClient异常", e);
+			logger.error("init httpclient bean exception", e);
 		}
 		return null;
 	}

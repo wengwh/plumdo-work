@@ -24,24 +24,30 @@ public class ObjectUtils {
 	}
 
 	public static boolean isGeZero(Object pObj) {
-		if (pObj == null)
+		if (pObj == null) {
 			return false;
+		}
+		
 		if (pObj instanceof Number) {
 			if (convertToInteger(pObj) >= 0) {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 
 	public static boolean isLeZeroOrNull(Object pObj) {
-		if (pObj == null)
+		if (pObj == null) {
 			return true;
+		}
+		
 		if (pObj instanceof Number) {
 			if (convertToInteger(pObj) <= 0) {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 
@@ -51,10 +57,14 @@ public class ObjectUtils {
 
 	@SuppressWarnings("rawtypes")
 	public static boolean isEmpty(Object pObj) {
-		if (pObj == null)
+		if (pObj == null) {
 			return true;
-		if (pObj == "")
+		}
+		
+		if (pObj == "") {
 			return true;
+		}
+		
 		if (pObj instanceof String) {
 			if (((String) pObj).length() == 0) {
 				return true;

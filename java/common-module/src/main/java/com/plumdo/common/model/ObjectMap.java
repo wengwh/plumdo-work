@@ -79,8 +79,9 @@ public class ObjectMap extends HashMap<String, Object> {
 
 	@Override
 	public void putAll(Map<? extends String, ? extends Object> m) {
-		for (Map.Entry<? extends String, ? extends Object> e : m.entrySet())
+		for (Map.Entry<? extends String, ? extends Object> e : m.entrySet()) {
 			put(e.getKey(), e.getValue());
+		}
 	}
 
 	public List<Object> getAsObjectList(String pStr) {

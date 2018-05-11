@@ -22,7 +22,8 @@ public class LogicalExpression implements Criterion {
 		this.criterion = criterions;
 		this.operator = operator;
 	}
-
+	
+	@Override
 	public Predicate toPredicate(Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		for (int i = 0; i < this.criterion.length; i++) {
