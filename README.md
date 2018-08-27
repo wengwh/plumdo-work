@@ -1,4 +1,4 @@
-# 工作流平台
+# 工作流平台（未经同意禁止做商业用途）
 > 流程，表单，报表，手动配置生成实际工作流
 
 [![JDK](https://img.shields.io/badge/JDK-1.8-yellow.svg)](#)
