@@ -1,5 +1,6 @@
 package com.plumdo.common.config;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -31,9 +32,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,20 +49,15 @@ import com.plumdo.common.constant.CoreConstant;
  * @date 2018年4月21日
  */
 @Configuration
-@ConfigurationProperties(prefix = "restConfig")
 public class RestTemplateConfig {
 	private final Logger logger = LoggerFactory.getLogger(RestTemplateConfig.class);
 
-	private int connectionTimeout;
-	private int readTimeout;
-	private int connectionRequestTimeout;
-	private int maxTotal;
-	private int maxPerRoute;
-	
 	@Bean
 	@ConditionalOnMissingBean({ RestOperations.class, RestTemplate.class })
-	public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
-		RestTemplate restTemplate = new RestTemplate(factory);
+	public RestTemplate restTemplate() {
+		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
+		restTemplate.setErrorHandler(new CustomerErrorHandler());
+
 		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
 		Iterator<HttpMessageConverter<?>> iterator = messageConverters.iterator();
 		while (iterator.hasNext()) {
@@ -69,95 +67,76 @@ public class RestTemplateConfig {
 			}
 		}
 		messageConverters.add(new StringHttpMessageConverter(Charset.forName(CoreConstant.DEFAULT_CHARSET)));
+
 		return restTemplate;
 	}
 
 	@Bean
+	@ConfigurationProperties(prefix = "spring.rest")
 	@ConditionalOnMissingBean({ ClientHttpRequestFactory.class })
 	public HttpComponentsClientHttpRequestFactory clientHttpRequestFactory() {
+		return new HttpComponentsClientHttpRequestFactory(httpClient());
+	}
+
+	@Bean
+	public HttpClient httpClient() {
 		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-		SSLContext sslContext;
+
+		httpClientBuilder.setSSLContext(sslContext());
+
+		httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(2, true));
+
+		httpClientBuilder.setConnectionManager(poolingHttpClientConnectionManager());
+
+		return httpClientBuilder.build();
+	}
+
+	@Bean
+	@ConfigurationProperties(prefix = "spring.rest.pool")
+	public PoolingHttpClientConnectionManager poolingHttpClientConnectionManager() {
+		return new PoolingHttpClientConnectionManager(socketFactoryRegistry());
+	}
+
+	@Bean
+	public SSLContext sslContext() {
 		try {
-			sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+			return new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
 				@Override
 				public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
 					return true;
 				}
 			}).build();
-
-			httpClientBuilder.setSSLContext(sslContext);
-			HostnameVerifier hostnameVerifier = NoopHostnameVerifier.INSTANCE;
-			SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext,
-					hostnameVerifier);
-			// 注册http和https请求
-			Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
-					.register("http", PlainConnectionSocketFactory.getSocketFactory())
-					.register("https", sslConnectionSocketFactory).build();
-			// 开始设置连接池
-			PoolingHttpClientConnectionManager poolingHttpClientConnectionManager = new PoolingHttpClientConnectionManager(
-					socketFactoryRegistry);
-			// 最大连接数
-			poolingHttpClientConnectionManager.setMaxTotal(maxTotal);
-			// 同路由并发数
-			poolingHttpClientConnectionManager.setDefaultMaxPerRoute(maxPerRoute);
-			httpClientBuilder.setConnectionManager(poolingHttpClientConnectionManager);
-			// 重试次数
-			httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(2, true));
-			HttpClient httpClient = httpClientBuilder.build();
-			// httpClient连接配置
-			HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(
-					httpClient);
-			// 连接超时
-			clientHttpRequestFactory.setConnectTimeout(connectionTimeout);
-			// 数据读取超时时间
-			clientHttpRequestFactory.setReadTimeout(readTimeout);
-			// 连接不够用的等待时间
-			clientHttpRequestFactory.setConnectionRequestTimeout(connectionRequestTimeout);
-			return clientHttpRequestFactory;
 		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
 			logger.error("init httpclient bean exception", e);
 		}
 		return null;
 	}
 
-	public int getConnectionTimeout() {
-		return connectionTimeout;
+	@Bean
+	public Registry<ConnectionSocketFactory> socketFactoryRegistry() {
+		HostnameVerifier hostnameVerifier = NoopHostnameVerifier.INSTANCE;
+		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext(),
+				hostnameVerifier);
+
+		return RegistryBuilder.<ConnectionSocketFactory>create()
+				.register("http", PlainConnectionSocketFactory.getSocketFactory())
+				.register("https", sslConnectionSocketFactory).build();
 	}
 
-	public void setConnectionTimeout(int connectionTimeout) {
-		this.connectionTimeout = connectionTimeout;
-	}
+}
 
-	public int getReadTimeout() {
-		return readTimeout;
-	}
+/**
+ * 异常处理，只打印异常，不做处理
+ *
+ * @author wengwh
+ * @date 2018年5月10日
+ */
+class CustomerErrorHandler extends DefaultResponseErrorHandler {
+	private final Logger logger = LoggerFactory.getLogger(CustomerErrorHandler.class);
 
-	public void setReadTimeout(int readTimeout) {
-		this.readTimeout = readTimeout;
+	@Override
+	public void handleError(ClientHttpResponse response) throws IOException {
+		logger.error("http request error,statusCode:{},body:{}", getHttpStatusCode(response),
+				getResponseBody(response));
 	}
-
-	public int getConnectionRequestTimeout() {
-		return connectionRequestTimeout;
-	}
-
-	public void setConnectionRequestTimeout(int connectionRequestTimeout) {
-		this.connectionRequestTimeout = connectionRequestTimeout;
-	}
-
-	public int getMaxTotal() {
-		return maxTotal;
-	}
-
-	public void setMaxTotal(int maxTotal) {
-		this.maxTotal = maxTotal;
-	}
-
-	public int getMaxPerRoute() {
-		return maxPerRoute;
-	}
-
-	public void setMaxPerRoute(int maxPerRoute) {
-		this.maxPerRoute = maxPerRoute;
-	}
-
 }

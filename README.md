@@ -15,6 +15,8 @@
 [表单设计器](https://wengwh.github.io/plumdo-work)
 
 
+![Aaron Swartz](https://raw.githubusercontent.com/wengwh/plumdo-work/master/docs/design.png)
+
 ## 模块介绍
 >  前端工程
 

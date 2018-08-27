@@ -8,10 +8,16 @@
 	<parent>
 		<groupId>com.plumdo</groupId>
 		<artifactId>plumdo-work</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.plumdo</groupId>
+			<artifactId>common-module</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		
 	</dependencies>
 
