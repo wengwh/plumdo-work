@@ -1,8 +1,9 @@
 package com.plumdo.form.repository;
 
 
-import com.plumdo.form.domian.FormInstance;
+import com.plumdo.common.repository.BaseRepository;
+import com.plumdo.form.domain.FormInstance;
 
-public interface FormInstanceRepository extends BaseRepository<FormInstance, Long> {
+public interface FormInstanceRepository extends BaseRepository<FormInstance, Integer> {
 
 }

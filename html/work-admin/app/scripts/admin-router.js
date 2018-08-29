@@ -30,8 +30,8 @@
         abstract: true,
         template: '<div ui-view></div>'
       }).state('main.modeler.form', {
-        url: '/form',
-        controller: 'FormModelerController',
+        url: '/form?:id',
+        controller: 'ModelerFormController',
         templateUrl: 'views/modeler/form.html'
       }).state('main.modeler.flow', {
         url: '/flow/?:id',

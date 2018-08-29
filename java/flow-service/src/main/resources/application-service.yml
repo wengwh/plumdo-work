@@ -20,6 +20,6 @@ spring.profiles: service-pro
 spring.profiles: service-dev
   
 server:
-  port : 8082
+  port : 8081
 
   

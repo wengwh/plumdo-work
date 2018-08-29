@@ -28,7 +28,7 @@ spring:
     maxPoolSize : 100
     corePoolSize : 20
     threadNamePrefix : plumdo-work-
-  scheduler
+  scheduler:
     poolSize : 20
     threadNamePrefix : plumdo-work-
     awaitTerminationSeconds : 60
