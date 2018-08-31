@@ -45,18 +45,18 @@
     };
     
     $rootScope.showSuccessMsg = function (msg) {
-      $rootScope.showMsg(msg, 15000, 'notify-success');
+      $rootScope.showMsg(msg, 1500, 'notify-success');
     };
 
     $rootScope.showErrorMsg = function (msg) {
-      $rootScope.showMsg(msg, 30000, 'notify-error');
+      $rootScope.showMsg(msg, 3000, 'notify-error');
     };
 
     $rootScope.showMsg = function (msg, duration, classes) {
       notify({
         message: msg,
         duration: duration,
-        position: 'right',
+        position: 'center',
         classes: classes
       });
     };

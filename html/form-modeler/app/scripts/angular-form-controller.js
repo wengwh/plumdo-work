@@ -115,68 +115,12 @@
     });
 
     
-  } ]).controller('fbDesignController', [ '$scope', '$injector', '$http', '$stateParams', 'restUrl', function($scope, $injector, $http, $stateParams, restUrl) {
+  } ]).controller('fbDesignController', [ '$scope', '$injector', '$http', '$stateParams', 'restUrl', '$q', '$timeout', function($scope, $injector, $http, $stateParams, restUrl, $q, $timeout) {
     var $builder = $injector.get('$builder');
     $builder.forms.id = 'root';
-    $builder.forms.components = [];
     $builder.forms.selectedComponent = {};
     
-    $http({
-      method : 'GET',
-      url : restUrl.getModelJson($stateParams.modelId)
-    }).success(function(data) {
-      $builder.forms.components = data;
-    }).error(function(data) {
-      console.info(data);
-      $scope.showErrorMsg('获取表单数据失败');
-    });
-
-    $scope.leftCollapsed = false;
-    $scope.rightCollapsed = false;
-    $scope.navActive = "editForm";
-    $scope.editForms = $builder.forms;
-
-    $scope.editForm = function() {
-      $scope.navActive = "editForm";
-    };
-
-    $scope.previewForm = function() {
-      $scope.navActive = "previewForm";
-      $scope.previewForms = angular.copy($builder.forms);
-      $scope.formData = {};
-    };
-    
-    $scope.saveForm = function() {
-      $scope.showProgress();
-      $http({
-        method : 'PUT',
-        url : restUrl.saveModelJson($stateParams.modelId),
-        data : $builder.forms.components
-      }).success(function(data) {
-        $scope.hideProgressBySucess('保存表单成功');
-      }).error(function(data) {
-        console.info(data)
-        $scope.hideProgressByError('保存表单失败');
-      });
-    };
-
-    $scope.clearForm = function() {
-      $builder.forms.components = [];
-      $builder.forms.selectedComponent = {};
-      $scope.editForm();
-    };
-
-    $scope.fixSize = function() {
-      jQuery('.sidebar-nav').css('height', $(window).height() - $('#navbar').height() - 1);
-      jQuery('.nav-body').css('height', $(window).height() - $('#navbar').height() - $('.nav-title').height() - 21);
-      jQuery('.fb-builder').css('height', $(window).height() - $('#navbar').height() - 20);
-    };
-
-    angular.element(window).bind('resize', function() {
-      $scope.fixSize();
-    });
-
-    $http({
+    var getStencilPromise = $http({
       method : 'GET',
       url : restUrl.getStencilSet()
     }).success(function(data) {
@@ -196,6 +140,132 @@
       });
 
     });
+    
+    var getJsonPromise = $http({
+      method : 'GET',
+      headers : {
+        'Token': $stateParams.token
+      },
+      url : restUrl.getModelJson($stateParams.modelId)
+    }).error(function(data) {
+      $scope.showErrorMsg(data.msg);
+    });
+    
+    var filterGetComponents = function(formJson){
+      var componets = []
+      angular.forEach(formJson, function(component) {
+        var selectedComponent = $builder.components[component.id]
+        if(angular.isUndefined(selectedComponent)){
+          return;
+        }
+
+        var copyComponent = angular.copy(selectedComponent);
+        copyComponent.arrayValue = component.arrayValue;
+        copyComponent.properties = component.properties;
+        copyComponent.value = component.value;
+        
+        if(angular.isDefined(selectedComponent.properties.field)){
+          var field = component.properties.field;
+          if(angular.isUndefined($builder.forms.fields[field])){
+            return;
+          }else {
+            $builder.setField(copyComponent,$builder.forms.fields[field]);
+          }
+        }
+          
+        if(component.forms && component.forms.length > 0){
+          angular.forEach(component.forms, function(forms,index){
+            copyComponent.forms[index] = {};
+            copyComponent.forms[index].components = filterGetComponents(forms.components);
+          });
+        }
+        componets.push(copyComponent);
+      });
+      
+      return componets;
+    };
+    
+    $q.all([getJsonPromise,getStencilPromise]).then(function(result) {
+      $builder.forms.fields = {};
+      angular.forEach(result[0].data.fields, function(field){
+        $builder.forms.fields[field.key] = field;
+      });
+      
+      $timeout(function() {
+        $builder.forms.components = filterGetComponents(angular.fromJson(result[0].data.json));
+        console.info($builder.forms.components)
+      },10);
+    });
+
+    $scope.leftCollapsed = false;
+    $scope.rightCollapsed = false;
+    $scope.navActive = "editForm";
+    $scope.editForms = $builder.forms;
+
+    $scope.editForm = function() {
+      $scope.navActive = "editForm";
+    };
+
+    $scope.previewForm = function() {
+      $scope.navActive = "previewForm";
+      $scope.previewForms = angular.copy($builder.forms);
+      $scope.formData = {};
+    };
+    
+    var filterSaveComponents = function(formJson){
+      var componets = []
+      angular.forEach(formJson, function(component) {
+        var copyComponent = {};
+        copyComponent.id = component.id;
+        copyComponent.arrayValue = component.arrayValue;
+        copyComponent.properties = component.properties;
+        copyComponent.value = component.value;
+          
+        if(component.forms.length > 0){
+          copyComponent.forms = [];
+          angular.forEach(component.forms, function(forms,index){
+            copyComponent.forms[index] = {};
+            copyComponent.forms[index].components = filterSaveComponents(forms.components);
+          });
+        }
+        componets.push(copyComponent);
+      });
+      return componets;
+    }
+    
+    $scope.saveForm = function() {
+      $scope.showProgress();
+      console.info($builder.forms.components)
+      $http({
+        method : 'PUT',
+        headers : {
+          'Token': $stateParams.token
+        },
+        url : restUrl.saveModelJson($stateParams.modelId),
+        data : filterSaveComponents($builder.forms.components)
+      }).success(function(data) {
+        $scope.hideProgressBySucess('保存表单成功');
+      }).error(function(data) {
+        $scope.hideProgressByError(data.msg);
+      });
+    };
+
+    $scope.clearForm = function() {
+      $builder.forms.components = [];
+      $builder.forms.selectedComponent = {};
+      $scope.editForm();
+    };
+
+    $scope.fixSize = function() {
+      jQuery('.sidebar-nav').css('height', $(window).height() - $('#navbar').height() - 1);
+      jQuery('.nav-body').css('height', $(window).height() - $('#navbar').height() - $('.nav-title').height() - 21);
+      jQuery('.fb-builder').css('height', $(window).height() - $('#navbar').height() - 20);
+    };
+
+    angular.element(window).bind('resize', function() {
+      $scope.fixSize();
+    });
+
 
   } ]).controller('fbBuilderController', [ '$scope', '$injector', '$timeout', function($scope, $injector, $timeout) {
     var $builder = $injector.get('$builder');
@@ -250,7 +320,16 @@
           // clone model to components
           ui.item.sortable.sourceModel.splice(ui.item.sortable.index, 0, ui.item.sortable.model);
           // component to container
-          ui.item.sortable.droptargetModel.splice(ui.item.sortable.dropindex, 1, angular.copy(ui.item.sortable.model));
+          var componentModel = angular.copy(ui.item.sortable.model)
+          if(angular.isDefined(componentModel.properties.field)){
+            if(angular.equals({}, $builder.forms.fields)){
+              $scope.$parent.showErrorMsg('没有配置字段，拉取的组件保存之后将会丢失');
+            }else{
+              var field = $builder.forms.fields[Object.keys($builder.forms.fields)[0]]
+              $builder.setField(componentModel,field);
+            }
+          }
+          ui.item.sortable.droptargetModel.splice(ui.item.sortable.dropindex, 1, componentModel);
         }
       }
     };
@@ -272,7 +351,7 @@
         });
       } else {
         $scope.component.showButton = false;
-        console.info(' input value sum not 12');
+        console.info('input value sum not 12');
       }
     };
 
@@ -286,7 +365,6 @@
 
     $scope.$watch('builderForms.selectedComponent', function() {
       $scope.component = $scope.builderForms.selectedComponent;
-      console.info($scope.component);
     });
 
     $scope.summernoteConfig = {
@@ -294,6 +372,13 @@
       toolbar : [ [ 'style', [ 'style', 'fontsize', 'bold', 'italic', 'underline', 'clear' ] ], [ 'para', [ 'color', 'paragraph', 'undo', 'redo', 'codeview', 'fullscreen' ] ] ]
     };
 
+  } ]).controller('fbFieldController', [ '$scope', '$injector', function($scope, $injector) {
+    
+    $scope.changeField = function(){
+      var field = $scope.builderForms.fields[$scope.component.properties.field]
+      $injector.get('$builder').setField($scope.component,field)
+    };
+    
   } ]).controller('fbOptionsController', [ '$scope', function($scope) {
 
     if ($scope.component.properties.treeOptions) {

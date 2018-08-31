@@ -1,4 +1,4 @@
-package com.plumdo.form.resource.table;
+package com.plumdo.form.resource;
 
 import java.util.Map;
 

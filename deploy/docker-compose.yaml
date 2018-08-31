@@ -44,6 +44,20 @@ services:
       --spring.profiles.active=pro"
     
   
+  form-service:
+    image: hub.c.163.com/library/java:8u111
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    expose:
+      - 8080
+    depends_on:
+      - mysql
+    links:
+      - mysql:mysql
+    command: "java -Xmx256m -Xms256m -jar java/form-service.jar \
+      --spring.datasource.password=plumdo@123mysql \
+      --spring.profiles.active=pro"
   
   nginx:
     image: hub.c.163.com/library/nginx:1.13
@@ -58,6 +72,7 @@ services:
       - identity-service
     links:
       - flow-service:flow-service
+      - form-service:form-service
       - identity-service:identity-service
    
    

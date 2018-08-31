@@ -546,7 +546,7 @@ a.language-selected {
 }
 
 .cg-notify-message > div {
-	padding: 5px 5px 5px 15px;
+	padding: 5px 5px 5px 25px;
 }
 
 .cg-notify-message:before{
@@ -576,7 +576,7 @@ a.language-selected {
 	background-color: #1ab394;
 }
 .notify-error {
-	background-color: #ed5565;
+	background-color: #a94442;
 }
 .notify-info {
 	background-color: #23c6c8;
@@ -585,13 +585,13 @@ a.language-selected {
 	background-color: #f8ac59;
 }
 
+
 /* confirm PLUGIN */
 .confirm {
-  .modal-content {
-    background:#eee;
-  }
+ 	.modal-content {
+      background: #fff;
+	}
 	.modal-header {
-    background-color:#fbfbfb;
 	  text-align: center;
 	}
 	.modal-title {
@@ -603,7 +603,7 @@ a.language-selected {
 	}
 	.modal-footer {
 	  text-align: center;
-    border-top:1px solid #d5d5d5
+      border-top:1px solid #d5d5d5
 	}
 }
 

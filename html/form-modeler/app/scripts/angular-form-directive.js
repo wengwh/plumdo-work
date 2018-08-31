@@ -277,7 +277,7 @@
             element.summernote('enable');
           }
         });
-
+        
         element.removeAttr('fb-html');
         element.attr('summernote', '');
         element.attr('config', 'fbHtmlConfig');

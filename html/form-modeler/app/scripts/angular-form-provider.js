@@ -97,11 +97,7 @@
                 properties = component.properties;
               }
               angular.forEach(propertyPackage.properties, function (property, childIndex) {
-                if (property.value == 'guid()') {
-                  properties[property.key] = eval(property.value);
-                } else {
-                  properties[property.key] = property.value;
-                }
+              properties[property.key] = property.value;
               });
             } else {
               console.error('The propertyPackage ' + packageId + ' was registered.');
@@ -213,6 +209,13 @@
         });
       }
     };
+    
+    this.setField = function (component,field) {
+      component.properties.field = field.key;
+      component.properties.overrideId = field.key;
+      component.properties.label = field.name;
+      component.properties.description = field.remark;
+    };
 
     this.$get = ['$injector', (function (_this) {
       return function ($injector) {
@@ -224,7 +227,8 @@
           propertyPackages: _this.propertyPackages,
           registerGroup: _this.registerGroup,
           registerComponent: _this.registerComponent,
-          registerPropertyPackage: _this.registerPropertyPackage
+          registerPropertyPackage: _this.registerPropertyPackage,
+          setField: _this.setField
         };
       };
     })(this)];

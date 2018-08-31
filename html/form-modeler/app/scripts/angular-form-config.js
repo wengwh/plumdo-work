@@ -26,7 +26,7 @@
   	$urlRouterProvider.otherwise('/design');
   	
   	$stateProvider.state('design', {
-  		url : '/design?modelId',
+  		url : '/design?modelId&token',
       data: {pageTitle: ['表单设计器'] },
   		templateUrl: 'views/fb-design.html'
   	}).state('watch', {
