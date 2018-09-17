@@ -81,6 +81,7 @@ public class FormLayoutResource extends BaseResource {
 	public FormLayout updateFormLayout(@PathVariable Integer id, @RequestBody FormLayout formLayoutRequest) {
 		FormLayout formLayout = getFormLayoutFromRequest(id);
 		formLayout.setName(formLayoutRequest.getName());
+		formLayout.setRemark(formLayoutRequest.getRemark());
 		formLayout.setTenantId(formLayoutRequest.getTenantId());
 		return formLayoutRepository.save(formLayout);
 	}

@@ -16,7 +16,7 @@ public class FormLayout extends BaseEntity {
 	private int editorSourceId;
 	private String name;
 	private int tableId;
-	private int version;
+	private String remark;
 
 	public FormLayout() {
 	}
@@ -48,12 +48,13 @@ public class FormLayout extends BaseEntity {
 		this.tableId = tableId;
 	}
 
-	public int getVersion() {
-		return this.version;
+	@Column(name = "remark_")
+	public String getRemark() {
+		return this.remark;
 	}
 
-	public void setVersion(int version) {
-		this.version = version;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

@@ -18,7 +18,6 @@ public class FormDefinition extends BaseEntity {
 	private int deploySourceId;
 	private String key;
 	private String name;
-	private byte suspensionState;
 	private int tableId;
 	private int version;
 
@@ -61,15 +60,6 @@ public class FormDefinition extends BaseEntity {
 		this.name = name;
 	}
 
-	@Column(name = "suspension_state_")
-	public byte getSuspensionState() {
-		return this.suspensionState;
-	}
-
-	public void setSuspensionState(byte suspensionState) {
-		this.suspensionState = suspensionState;
-	}
-
 	@Column(name = "table_id_")
 	public int getTableId() {
 		return this.tableId;
@@ -78,7 +68,8 @@ public class FormDefinition extends BaseEntity {
 	public void setTableId(int tableId) {
 		this.tableId = tableId;
 	}
-
+	
+	@Column(name = "version_")
 	public int getVersion() {
 		return this.version;
 	}

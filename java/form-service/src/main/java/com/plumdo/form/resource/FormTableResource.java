@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ import com.plumdo.common.resource.BaseResource;
 import com.plumdo.common.resource.PageResponse;
 import com.plumdo.form.constant.ErrorConstant;
 import com.plumdo.form.domain.FormTable;
+import com.plumdo.form.repository.FormFieldRepository;
+import com.plumdo.form.repository.FormLayoutRepository;
 import com.plumdo.form.repository.FormTableRepository;
 
 /**
@@ -32,6 +35,10 @@ import com.plumdo.form.repository.FormTableRepository;
 public class FormTableResource extends BaseResource {
 	@Autowired
 	private FormTableRepository formTableRepository;
+	@Autowired
+	private FormFieldRepository formFieldRepository;
+	@Autowired
+	private FormLayoutRepository formLayoutRepository;
 	
 	private FormTable getFormTableFromRequest(Integer id) {
 		FormTable formTable = formTableRepository.findOne(id);
@@ -71,6 +78,7 @@ public class FormTableResource extends BaseResource {
 	public FormTable updateFormTable(@PathVariable Integer id, @RequestBody FormTable formTableRequest) {
 		FormTable formTable = getFormTableFromRequest(id);
 		formTable.setName(formTableRequest.getName());
+		formTable.setCategory(formTableRequest.getCategory());
 		formTable.setRemark(formTableRequest.getRemark());
 		formTable.setTenantId(formTableRequest.getTenantId());
 		return formTableRepository.save(formTable);
@@ -78,8 +86,14 @@ public class FormTableResource extends BaseResource {
 
 	@DeleteMapping(value = "/form-tables/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@Transactional
 	public void deleteFormTable(@PathVariable Integer id) {
 		FormTable formTable = getFormTableFromRequest(id);
+		
 		formTableRepository.delete(formTable);
+		
+		formFieldRepository.deleteByTableId(id);
+		
+		formLayoutRepository.deleteByTableId(id);
 	}
 }

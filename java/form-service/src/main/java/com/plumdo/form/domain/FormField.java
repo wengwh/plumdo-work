@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import com.plumdo.common.domain.BaseEntity;
 
-
 /**
  * The persistent class for the pw_fo_field database table.
  * 
@@ -19,7 +18,6 @@ public class FormField extends BaseEntity {
 	private String key;
 	private String name;
 	private String remark;
-	private byte status;
 	private int tableId;
 	private byte type;
 
@@ -29,11 +27,11 @@ public class FormField extends BaseEntity {
 	@PrePersist
 	public void prePersist() {
 		super.prePersist();
-		if(key == null || key.isEmpty()) {
+		if (key == null || key.isEmpty()) {
 			key = UUID.randomUUID().toString();
 		}
 	}
-	
+
 	@Column(name = "key_")
 	public String getKey() {
 		return this.key;
@@ -59,15 +57,6 @@ public class FormField extends BaseEntity {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	@Column(name = "status_")
-	public byte getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(byte status) {
-		this.status = status;
 	}
 
 	@Column(name = "table_id_")
