@@ -3,19 +3,15 @@
     <div class="content">
       <div class="row">
         <div class="col-md-3">
-          <h4 class="title">状态</h4>
-          <div class="form-group">
-            <select class="form-control" ng-model="queryParams.status">
-              <option value="">全部</option>
-              <option value="0">启用</option>
-              <option value="1">停用</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-4">
           <h4 class="title">标识</h4>
           <div class="form-group">
             <input type="text" ng-model="queryParams.key" class="form-control" placeholder="输入表单标识">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h4 class="title">分类</h4>
+          <div class="form-group">
+            <input type="text" ng-model="queryParams.category" class="form-control" placeholder="输入表单分类">
           </div>
         </div>
         <div class="col-md-5">
@@ -39,15 +35,15 @@
         <div class="content">
           <div class="row">
             <div class="col-xs-12">
-             <span class="property"><label>名称:</label>{{item.name}}</span><br/>
-             <span class="property"><label>标识:</label>{{item.key}}</span><br/>
-             <span class="property"><label>分类:</label>{{item.category}}</span><br/>
-             <span class="property"><label>修改时间:</label>{{item.lastUpdateTime}}</span>
+             <span class="label label-success pull-left">名称：{{item.name}}</span><br/>
+             <span class="label label-danger pull-left">标识：{{item.key}}</span><br/>
+             <span class="label label-info pull-left">分类：{{item.category}}</span><br/>
+             <span class="label label-warning pull-left">修改时间：{{item.lastUpdateTime}}</span><br/>
          	</div>
           </div>
           <div class="footer text-right">
             <hr />
-            <button type="button" class="btn btn-xs btn-info btn-block" ng-click="gotoDetail(item.id)"><i class="fa fa-pencil"></i>编辑</button>
+            <button type="button" class="btn btn-xs btn-info btn-block" ng-click="gotoDetail(item.id)"><i class="fa fa-pencil"></i>表单采编</button>
           </div>
         </div>
       </div>
@@ -77,8 +73,8 @@
         </div>
         <div class="col-md-2">
           <button type="button" class="btn btn-info btn-block" ng-click="editFormTable(selectedItem.id)">编辑</button>
-          <button type="button" class="btn btn-danger btn-block" ng-click="deleteDefinition(selectedItem)">删除</button>
-          <button type="button" class="btn btn-info btn-block" ng-click="exportDefinition(selectedItem)">部署</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="deployFormTable(selectedItem.id)">部署</button>
+          <button type="button" class="btn btn-danger btn-block" ng-click="deleteFormTable(selectedItem.id)">删除</button>
         </div>
       </div>
     </div>
@@ -117,9 +113,9 @@
   </div>
   <div class="form-group" ng-class="{'has-error':editForm.key.$error.required}">
     <label class="control-label">表单标识</label> 
-    <input type="text" placeholder="表单标识" class="form-control" name="key" ng-model="formData.key" required></input>
+    <input type="text" placeholder="表单标识" class="form-control" name="key" ng-disabled="formData.id" ng-model="formData.key" required></input>
   </div>
-  <div class="form-group" ng-class="{'has-error':editForm.category.$error.required}">
+  <div class="form-group" ng-class="{'has-error':editForm.category.$error.required}"  >
     <label class="control-label">表单分类</label> 
     <input type="text" placeholder="表单分类" class="form-control" name="category" ng-model="formData.category" required></input>
   </div>
@@ -129,26 +125,14 @@
   </div>
 </script>
 
-
-
 <script type="text/ng-template" id="form-field-edit.html">
   <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
     <label class="control-label">字段名称</label> 
     <input type="text" placeholder="字段名称" class="form-control" name="name" ng-model="formData.name" required></input>
   </div>
-  <div class="form-group">
-	<label class="control-label">类型</label> 
-	<div>
-		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formData.type" ng-value="0" ng-checked="true" /> varchar
-		</label>
-		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formData.type" ng-value="1" /> int
-		</label>
-		<label class="radio-inline"> 
-			<input ng-icheck type="radio" ng-model="formData.type" ng-value="2" /> float
-		</label>
-	</div>
+ <div class="form-group">
+    <label class="control-label">字段标识</label> 
+    <input type="text" placeholder="字段标识" class="form-control" readonly ng-model="formData.key"></input>
   </div>
   <div class="form-group">
     <label class="control-label">备注</label>
@@ -156,14 +140,21 @@
   </div>
 </script>
 
-
 <script type="text/ng-template" id="form-layout-edit.html">
   <div class="form-group" ng-class="{'has-error':editForm.name.$error.required}">
     <label class="control-label">布局名称</label> 
-    <input type="text" placeholder="表单名称" class="form-control" name="name" ng-model="formData.name" required></input>
+    <input type="text" placeholder="布局名称" class="form-control" name="name" ng-model="formData.name" required></input>
+  </div>
+  <div class="form-group" ng-class="{'has-error':editForm.key.$error.required}">
+    <label class="control-label">布局标识</label> 
+    <input type="text" placeholder="布局标识" class="form-control" name="key" ng-disabled="formData.id" ng-model="formData.key" required></input>
   </div>
   <div class="form-group">
     <label class="control-label">备注</label>
-    <textarea placeholder="备注" class="form-control" ng-model="formData.remark" rows="3"></textarea>
+    <textarea placeholder="布局备注" class="form-control" ng-model="formData.remark" rows="3"></textarea>
   </div>
+</script>
+
+<script type="text/ng-template" id="form-layout-watch.html">
+<iframe src="{{url}}" width="100%" height="500" frameborder="no" border="0" marginwidth="0" marginheight="0" > </iframe>
 </script>

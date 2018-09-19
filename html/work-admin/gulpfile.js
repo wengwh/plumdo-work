@@ -57,7 +57,7 @@ var styles = lazypipe()
     precision: 10
   })
   .pipe($.autoprefixer, 'last 1 version')
-  .pipe(gulp.dest, '.tmp/styles');
+  .pipe(gulp.dest, yeoman.tmp+'/styles');
 
 ///////////
 // Tasks //
@@ -94,7 +94,7 @@ gulp.task('lint:scripts', function () {
 });
 
 gulp.task('clean:tmp', function (cb) {
-  rimraf('./.tmp', cb);
+  rimraf('./'+yeoman.tmp, cb);
 });
 
 gulp.task('start:client', ['start:server', 'styles', 'scriptInject'], function () {
@@ -103,12 +103,11 @@ gulp.task('start:client', ['start:server', 'styles', 'scriptInject'], function (
 
 gulp.task('start:server', function() {
   $.connect.server({
-    root: [yeoman.app, '.tmp'],
+    root: [yeoman.app, yeoman.tmp],
     livereload: {
     	enable:true,
     	port:35728
   	},
-    // Change this to '0.0.0.0' to access the server from outside.
     port: 9001,
     middleware: function (connect) {
       return [connect().use('/bower_components',connect.static('./bower_components'))];
@@ -162,7 +161,7 @@ gulp.task('serve:prod', function() {
   $.connect.server({
     root: [yeoman.dist],
     livereload: true,
-    port: 9002
+    port: 9001
   });
 });
 
@@ -187,6 +186,11 @@ gulp.task('bower', function () {
 
 gulp.task('views', function () {
   return gulp.src(paths.views.files)
+   .pipe($.minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true
+    }))
     .pipe($.angularTemplatecache('angular-template-html.js', {
       module: yeoman.module,
       root: 'views'

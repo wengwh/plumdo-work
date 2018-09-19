@@ -7,7 +7,7 @@
 (function() {
   'use strict';
 
-  angular.module('adminApp').controller('ModelerFormController', function($scope, $stateParams, $q, $window) {
+  angular.module('adminApp').controller('ModelerFormController', function($scope, $stateParams, $q, $window,$sce) {
     $scope.formTableService = $scope.FormService($scope.restUrl.formTables);
     $scope.formFieldService = $scope.FormService($scope.restUrl.formFields);
     $scope.formLayoutService = $scope.FormService($scope.restUrl.formLayouts);
@@ -42,13 +42,26 @@
 
     $scope.deleteFormTable = function(id){
       $scope.confirmModal({
-        title:'确认删除用户',
+        title:'确认删除表单',
         confirm:function(){
           $scope.formTableService.delete({
             urlPath : '/' + id
           }, function() {
-            $scope.showSuccessMsg('删除用户成功');
-            $scope.queryFormTable();
+            $scope.showSuccessMsg('删除表单成功');
+            $scope.gotoList();
+          });
+        }
+      });
+    };
+    
+    $scope.deployFormTable = function(id){
+      $scope.confirmModal({
+        title:'确认部署表单',
+        confirm:function(){
+          $scope.formTableService.post({
+            urlPath : '/' + id + '/deploy'
+          }, function() {
+            $scope.showSuccessMsg('部署表单成功');
           });
         }
       });
@@ -61,7 +74,13 @@
         title : '表单',
         formData : {},
         service : $scope.formTableService,
-        complete : $scope.queryFormTable
+        complete : function(){
+          if(angular.isDefined(id)){
+            $scope.queryDetail(id);
+          }else{
+            $scope.queryFormTable();
+          }
+        }
       });
     };
     
@@ -74,11 +93,16 @@
     };
     
     $scope.editFormField = function(id) {
+      var formData = {tableId:$scope.detailId};
+      if(angular.isUndefined(id)){
+        formData.key = $scope.guid();
+      }
+      
       $scope.editModal({
         id : id,
         formUrl : 'form-field-edit.html',
         title : '字段',
-        formData : {tableId:$scope.detailId},
+        formData : formData,
         service : $scope.formFieldService,
         complete : $scope.queryFormField
       });
@@ -103,11 +127,7 @@
       data : 'queryFieldResult',
       colModels : [
         {name:'名称',index:'name',sortable:true,width:'10%'},
-        {name:'类型',index:'type',sortable:true,width:'11%',
-          formatter:function(){
-            return '<span>{{row.type=="0"?"varchar":(row.type=="1"?"int":"float")}}</span>';
-          }
-        },
+        {name:'标识',index:'key',sortable:true,width:'15%'},
         {name:'备注',index:'remark',width:'12%'},
         {name:'创建时间',index:'createTime',sortable:true,width:'12%'},
         {name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
@@ -148,6 +168,17 @@
       });
     };
     
+    $scope.watchFormLayout = function(id) {
+      $scope.editConfirmModal({
+        formUrl: 'form-layout-watch.html',
+        title: '预览布局',
+        hideFooter: true,
+        property:{
+          url:$sce.trustAsResourceUrl($scope.restUrl.formPreview(id,$scope.loginUser.token))
+        }
+      });
+    };
+    
     $scope.deleteFormLayout = function(id){
       $scope.confirmModal({
         title:'确认删除布局',
@@ -171,12 +202,15 @@
       data : 'queryLayoutResult',
       colModels : [
         {name:'名称',index:'name',sortable:true,width:'10%'},
+        {name:'标识',index:'key',sortable:true,width:'10%'},
         {name:'备注',index:'remark',width:'12%'},
         {name:'创建时间',index:'createTime',sortable:true,width:'12%'},
         {name:'修改时间',index:'lastUpdateTime',sortable:true,width:'12%'},
         {name:'操作',index:'',width:'15%',
           formatter:function(){
             return '<div class="th-btn-group">'+
+              '<button type="button" class="btn btn-success btn-xs" ng-click=watchFormLayout(row.id)>'+
+              '<i class="fa fa-wpforms"></i>&nbsp;预览</button>'+
               '<button type="button" class="btn btn-info btn-xs" ng-click=editFormLayout(row.id)>'+
               '<i class="fa fa-pencil"></i>&nbsp;编辑</button>'+
               '<button type="button" class="btn btn-success btn-xs" ng-click=designFormLayout(row.id)>'+

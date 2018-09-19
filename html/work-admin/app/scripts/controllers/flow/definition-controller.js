@@ -50,7 +50,6 @@
         }
       });
     };
-    
 
     $scope.createInstance = function(item) {
       $scope.editConfirmModal({

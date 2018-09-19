@@ -110,6 +110,7 @@
     $rootScope.editConfirmModal = function (args) {
       $uibModal.open({
         templateUrl: 'views/common/edit-modal.html',
+        size: 'lg',
         controller: function ($scope, $uibModalInstance) {
           angular.extend($scope,args.property);
           
@@ -167,6 +168,18 @@
       }, 1000);
     };
 
+    
+    $rootScope.guid = function () {
+      var d = new Date().getTime();
+      var uuid = 'xxxx-xxxx-4xxx-yxxx-xxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+      return uuid;
+    };
+    
+    
   }).filter('to_trusted', [ '$sce', function($sce) {
     return function(text) {
       return $sce.trustAsHtml(text);

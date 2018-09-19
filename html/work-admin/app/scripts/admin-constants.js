@@ -11,7 +11,7 @@
     .constant('contextRoot', {
         flowService:'http://work.plumdo.com/flow-service',
         identityService:'http://work.plumdo.com/identity-service',
-//    	formService:'http://work.plumdo.com/form-service'
+//    	  formService:'http://work.plumdo.com/form-service'
 //      flowService:'http://localhost:8081'
 //      identityService:'http://localhost:8082',
 		formService:'http://localhost:8083'
@@ -30,10 +30,12 @@
       idmRoles: '/roles',
       idmMenus: '/menus',
       formDesgin : function(modelId,token) {
-        return 'http://work.plumdo.com/form-modeler/#/design?modelId=' + modelId + '&token='+token;
+//        return 'http://work.plumdo.com/form-modeler/#/design?modelId=' + modelId + '&token='+token;
+        return 'http://localhost:9002/#/design?modelId=' + modelId + '&token='+token;
       },
-      formPreview : function(modelId) {
-        return 'http://work.plumdo.com/form-modeler/#/watch?modelId=' + modelId;
+      formPreview : function(modelId,token) {
+//        return 'http://work.plumdo.com/form-modeler/#/watch?modelId=' + modelId + '&token='+token;
+        return 'http://localhost:9002/#/watch?modelId=' + modelId + '&token='+token;
       },
       flowDesign : function(modelId,token) {
         return 'http://work.plumdo.com/flow-modeler/#/editor/' + modelId + '?token='+token;
