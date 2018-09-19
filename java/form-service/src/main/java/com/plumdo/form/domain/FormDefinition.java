@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import com.plumdo.common.domain.BaseEntity;
 
-
 /**
  * The persistent class for the pw_fo_definition database table.
  * 
@@ -15,10 +14,11 @@ import com.plumdo.common.domain.BaseEntity;
 public class FormDefinition extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	private String category;
-	private int deploySourceId;
+	private int fieldSourceId;
+	private int layoutSourceId;
 	private String key;
 	private String name;
-	private int tableId;
+	private String relationTable;
 	private int version;
 
 	public FormDefinition() {
@@ -33,13 +33,22 @@ public class FormDefinition extends BaseEntity {
 		this.category = category;
 	}
 
-	@Column(name = "deploy_source_id_")
-	public int getDeploySourceId() {
-		return this.deploySourceId;
+	@Column(name = "field_source_id_")
+	public int getFieldSourceId() {
+		return fieldSourceId;
 	}
 
-	public void setDeploySourceId(int deploySourceId) {
-		this.deploySourceId = deploySourceId;
+	public void setFieldSourceId(int fieldSourceId) {
+		this.fieldSourceId = fieldSourceId;
+	}
+	
+	@Column(name = "layout_source_id_")
+	public int getLayoutSourceId() {
+		return layoutSourceId;
+	}
+
+	public void setLayoutSourceId(int layoutSourceId) {
+		this.layoutSourceId = layoutSourceId;
 	}
 
 	@Column(name = "key_")
@@ -60,15 +69,15 @@ public class FormDefinition extends BaseEntity {
 		this.name = name;
 	}
 
-	@Column(name = "table_id_")
-	public int getTableId() {
-		return this.tableId;
+	@Column(name = "relation_table_")
+	public String getRelationTable() {
+		return relationTable;
 	}
 
-	public void setTableId(int tableId) {
-		this.tableId = tableId;
+	public void setRelationTable(String relationTable) {
+		this.relationTable = relationTable;
 	}
-	
+
 	@Column(name = "version_")
 	public int getVersion() {
 		return this.version;

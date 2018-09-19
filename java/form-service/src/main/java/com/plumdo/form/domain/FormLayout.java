@@ -14,6 +14,7 @@ import com.plumdo.common.domain.BaseEntity;
 public class FormLayout extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	private int editorSourceId;
+	private String key;
 	private String name;
 	private int tableId;
 	private String remark;
@@ -28,6 +29,15 @@ public class FormLayout extends BaseEntity {
 
 	public void setEditorSourceId(int editorSourceId) {
 		this.editorSourceId = editorSourceId;
+	}
+
+	@Column(name = "key_")
+	public String getKey() {
+		return this.key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	@Column(name = "name_")

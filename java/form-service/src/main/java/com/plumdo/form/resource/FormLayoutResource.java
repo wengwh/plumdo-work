@@ -30,10 +30,10 @@ import com.plumdo.form.repository.FormFieldRepository;
 import com.plumdo.form.repository.FormLayoutRepository;
 
 /**
- * 数据表资源类
+ * 表单布局资源类
  *
  * @author wengwh
- * @date 2018年8月29日
+ * @date 2018年9月19日
  */
 @RestController
 public class FormLayoutResource extends BaseResource {
@@ -43,11 +43,11 @@ public class FormLayoutResource extends BaseResource {
 	private FormFieldRepository formFieldRepository;
 	@Autowired
 	private ByteArrayRepository byteArrayRepository;
-	
+
 	private FormLayout getFormLayoutFromRequest(Integer id) {
 		FormLayout formLayout = formLayoutRepository.findOne(id);
 		if (formLayout == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.FORM_TABLE_NOT_FOUND);
+			exceptionFactory.throwObjectNotFound(ErrorConstant.FORM_LAYOUT_NOT_FOUND);
 		}
 		return formLayout;
 	}
@@ -73,6 +73,11 @@ public class FormLayoutResource extends BaseResource {
 	@PostMapping("/form-layouts")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FormLayout createFormLayout(@RequestBody FormLayout formLayoutRequest) {
+		FormLayout formLayout = formLayoutRepository.findFirstByKeyAndTableId(formLayoutRequest.getKey(),
+				formLayoutRequest.getTableId());
+		if (formLayout != null) {
+			exceptionFactory.throwConflict(ErrorConstant.FORM_LAYOUT_KEY_REPEACT);
+		}
 		return formLayoutRepository.save(formLayoutRequest);
 	}
 
@@ -92,41 +97,38 @@ public class FormLayoutResource extends BaseResource {
 		FormLayout formLayout = getFormLayoutFromRequest(id);
 		formLayoutRepository.delete(formLayout);
 	}
-	
+
 	@GetMapping("/form-layouts/{id}/json")
 	@ResponseStatus(HttpStatus.OK)
 	public ObjectNode getFormLayoutJson(@PathVariable Integer id) throws Exception {
 		FormLayout formLayout = getFormLayoutFromRequest(id);
-		
+
 		List<FormField> formFields = formFieldRepository.findByTableId(formLayout.getTableId());
 
 		ObjectNode resultNode = objectMapper.createObjectNode();
 		resultNode.putPOJO("fields", formFields);
-		
+
 		ByteArray byteArray = byteArrayRepository.findOne(formLayout.getEditorSourceId());
-		if(byteArray == null) {
+		if (byteArray == null) {
 			resultNode.putPOJO("json", objectMapper.createArrayNode().toString());
-		}else {
+		} else {
 			resultNode.putPOJO("json", new String(byteArray.getContentByte(), CoreConstant.DEFAULT_CHARSET));
 		}
-		
+
 		return resultNode;
 	}
-	
+
 	@PutMapping("/form-layouts/{id}/json")
 	@ResponseStatus(HttpStatus.OK)
-	public void saveFormLayoutJson(@PathVariable Integer id,@RequestBody String editorJson) throws Exception {
+	public void saveFormLayoutJson(@PathVariable Integer id, @RequestBody String editorJson) throws Exception {
 		FormLayout formLayout = getFormLayoutFromRequest(id);
-		
-		ByteArray byteArray = byteArrayRepository.findOne(formLayout.getEditorSourceId());
-		if(byteArray == null) {
-			byteArray = new ByteArray();
-			byteArray.setName(formLayout.getName());
-		}
-		
+
+		ByteArray byteArray = new ByteArray();
+		;
+		byteArray.setName(formLayout.getName());
 		byteArray.setContentByte(editorJson.getBytes(CoreConstant.DEFAULT_CHARSET));
 		byteArrayRepository.save(byteArray);
-		
+
 		formLayout.setEditorSourceId(byteArray.getId());
 		formLayoutRepository.save(formLayout);
 	}

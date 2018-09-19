@@ -23,10 +23,10 @@ import com.plumdo.form.domain.FormField;
 import com.plumdo.form.repository.FormFieldRepository;
 
 /**
- * 数据表资源类
+ * 表单字段资源类
  *
  * @author wengwh
- * @date 2018年8月29日
+ * @date 2018年9月19日
  */
 @RestController
 public class FormFieldResource extends BaseResource {
@@ -36,7 +36,7 @@ public class FormFieldResource extends BaseResource {
 	private FormField getFormFieldFromRequest(Integer id) {
 		FormField formField = formFieldRepository.findOne(id);
 		if (formField == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.FORM_TABLE_NOT_FOUND);
+			exceptionFactory.throwObjectNotFound(ErrorConstant.FORM_FIELD_NOT_FOUND);
 		}
 		return formField;
 	}
@@ -71,7 +71,6 @@ public class FormFieldResource extends BaseResource {
 	public FormField updateFormField(@PathVariable Integer id, @RequestBody FormField formFieldRequest) {
 		FormField formField = getFormFieldFromRequest(id);
 		formField.setName(formFieldRequest.getName());
-		formField.setType(formFieldRequest.getType());
 		formField.setRemark(formFieldRequest.getRemark());
 		formField.setTenantId(formFieldRequest.getTenantId());
 		return formFieldRepository.save(formField);

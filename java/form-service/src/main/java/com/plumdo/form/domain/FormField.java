@@ -1,7 +1,5 @@
 package com.plumdo.form.domain;
 
-import java.util.UUID;
-
 import javax.persistence.*;
 
 import com.plumdo.common.domain.BaseEntity;
@@ -19,17 +17,8 @@ public class FormField extends BaseEntity {
 	private String name;
 	private String remark;
 	private int tableId;
-	private byte type;
 
 	public FormField() {
-	}
-
-	@PrePersist
-	public void prePersist() {
-		super.prePersist();
-		if (key == null || key.isEmpty()) {
-			key = UUID.randomUUID().toString();
-		}
 	}
 
 	@Column(name = "key_")
@@ -66,15 +55,6 @@ public class FormField extends BaseEntity {
 
 	public void setTableId(int tableId) {
 		this.tableId = tableId;
-	}
-
-	@Column(name = "type_")
-	public byte getType() {
-		return this.type;
-	}
-
-	public void setType(byte type) {
-		this.type = type;
 	}
 
 }

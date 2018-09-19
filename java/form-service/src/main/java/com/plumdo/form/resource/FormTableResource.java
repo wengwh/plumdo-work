@@ -39,7 +39,7 @@ public class FormTableResource extends BaseResource {
 	private FormFieldRepository formFieldRepository;
 	@Autowired
 	private FormLayoutRepository formLayoutRepository;
-	
+
 	private FormTable getFormTableFromRequest(Integer id) {
 		FormTable formTable = formTableRepository.findOne(id);
 		if (formTable == null) {
@@ -70,6 +70,10 @@ public class FormTableResource extends BaseResource {
 	@PostMapping("/form-tables")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FormTable createFormTable(@RequestBody FormTable formTableRequest) {
+		FormTable formTable = formTableRepository.findByKey(formTableRequest.getKey());
+		if (formTable != null) {
+			exceptionFactory.throwConflict(ErrorConstant.FORM_TABLE_KEY_REPEACT);
+		}
 		return formTableRepository.save(formTableRequest);
 	}
 
@@ -89,11 +93,12 @@ public class FormTableResource extends BaseResource {
 	@Transactional
 	public void deleteFormTable(@PathVariable Integer id) {
 		FormTable formTable = getFormTableFromRequest(id);
-		
+
 		formTableRepository.delete(formTable);
-		
+
 		formFieldRepository.deleteByTableId(id);
-		
+
 		formLayoutRepository.deleteByTableId(id);
 	}
+
 }

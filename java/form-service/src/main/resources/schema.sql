@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS `pw_fo_table`(
   PRIMARY KEY (`id_`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表单模型表'$$
 
-
 -- ----------------------------
 -- 表单字段表
 -- ----------------------------
@@ -44,7 +43,6 @@ CREATE TABLE IF NOT EXISTS `pw_fo_field`(
   `table_id_` int(10) unsigned NOT NULL COMMENT '数据表ID',
   `key_` varchar(64) NOT NULL DEFAULT '' COMMENT '字段标识',
   `name_` varchar(64) NOT NULL DEFAULT '' COMMENT '字段名称',
-  `type_` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '字段类型0:varchar 1:int,2:float',
   `remark_` varchar(500) DEFAULT '' COMMENT '字段备注',
   `create_time_` timestamp(3) NULL COMMENT '创建时间',
   `last_update_time_` timestamp(3) NULL COMMENT '更新时间',
@@ -60,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `pw_fo_layout`(
   `id_` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `table_id_` int(10) unsigned NOT NULL COMMENT '数据表ID',
   `name_` varchar(64) NOT NULL DEFAULT '' COMMENT '布局名称',
+  `key_` varchar(64) NOT NULL DEFAULT '' COMMENT '布局标识',
   `remark_` varchar(500) DEFAULT '' COMMENT '布局备注',
   `editor_source_id_` int(10) unsigned DEFAULT NULL COMMENT '表单编辑器内容ID',
   `create_time_` timestamp(3) NULL COMMENT '创建时间',
@@ -74,12 +73,13 @@ CREATE TABLE IF NOT EXISTS `pw_fo_layout`(
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `pw_fo_definition`(
   `id_` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `table_id_` int(10) unsigned NOT NULL COMMENT '数据表ID',
+  `relation_table_` varchar(64) NOT NULL COMMENT '关联数据表',
   `name_` varchar(64) NOT NULL DEFAULT '' COMMENT '表单名称',
-  `version_` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '模型版本号',
+  `version_` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '版本号',
   `key_` varchar(255) NOT NULL DEFAULT '' COMMENT '表单标识',
   `category_` varchar(500) DEFAULT '' COMMENT '表单分类',
-  `deploy_source_id_` int(10) unsigned DEFAULT NULL COMMENT '表单部署内容ID',
+  `field_source_id_` int(10) unsigned DEFAULT NULL COMMENT '表单部署内容ID',
+  `layout_source_id_` int(10) unsigned DEFAULT NULL COMMENT '表单部署内容ID',
   `create_time_` timestamp(3) NULL COMMENT '创建时间',
   `last_update_time_` timestamp(3) NULL COMMENT '更新时间',
   `rev_` int(10) unsigned NOT NULL COMMENT '乐观锁版本号',
