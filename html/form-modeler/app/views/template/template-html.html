@@ -3,7 +3,7 @@
 	<label for="{{component.properties.overrideId}}" class="control-label" ng-class="{'required':component.properties.required}">{{component.properties.label}}</label>
 	<div ng-style="component.properties.style">
 		<input type="hidden" fb-dynamic-model="component.properties.overrideId" fb-dynamic-model-pre="data" validator-required="{{component.properties.required}}" validator>
-		
+    
 		<div id="{{component.properties.overrideId}}" fb-html ng-model="component.value" 
 			ng-disabled="component.properties.visible=='disabled'">
 		</div>

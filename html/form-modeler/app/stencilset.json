@@ -1,23 +1,14 @@
 {
   "title" : "Plumdo-Form",
-  "description" : "Bootstrap3表单设计器",
+  "description" : "表单设计器【栅格排版】",
   "propertyPackages" : [ {
-      "id" : "overrideIdPackage",
+      "id" : "fieldPackage",
       "properties":[{
-		  "key":"overrideId",
-		  "title" : "标识",
-	      "templateUrl" : "views/property/property-default-string.html",
-	      "value" : "guid()",
-	      "description" : "标识"
-      }]
-  },{
-      "id" : "labelPackage",
-      "properties":[{
-		  "key":"label",
-	      "title" : "标签",
-	      "templateUrl" : "views/property/property-default-string.html",
-	      "value" : "名称",
-	      "description" : "标签名称"
+		  "key":"field",
+		  "title" : "关联字段",
+	      "templateUrl" : "views/property/property-field.html",
+	      "value" : "field()",
+	      "description" : "选择配置的关联字段，标签自动使用字段名称，说明自动使用字段备注，如果不选择，重新加载组件不会保存"
       }]
   },{
       "id" : "placeholderPackage",
@@ -36,15 +27,6 @@
 	      "templateUrl" : "views/property/property-init-value.html",
 	      "value" : "",
 	      "description" : "初始值"
-      }]
-  },{
-      "id" : "descriptionPackage",
-      "properties":[{
-		  "key":"description",
-	      "title" : "帮助说明",
-	      "templateUrl" : "views/property/property-default-content.html",
-	      "value" : "帮助说明",
-	      "description" : "帮助说明"
       }]
   },{
       "id" : "visiblePackage",
@@ -282,47 +264,47 @@
     "id" : "text",
     "title" : "单行文本",
     "templateUrl" : "views/template/template-text.html",
-    "propertyPackages" : [ "overrideIdPackage","labelPackage","placeholderPackage","initValuePackage","stylePackage","requiredPackage","validationPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","placeholderPackage","initValuePackage","stylePackage","requiredPackage","validationPackage","visiblePackage" ]
   }, {
     "id" : "textarea",
     "title" : "多行文本",
     "templateUrl" : "views/template/template-textarea.html",
-    "propertyPackages" : [ "overrideIdPackage","labelPackage","placeholderPackage","initValuePackage","stylePackage","rowsPackage","requiredPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","placeholderPackage","initValuePackage","stylePackage","rowsPackage","requiredPackage","visiblePackage" ]
   }, {
     "id" : "checkbox",
     "title" : "复选框",
     "templateUrl" : "views/template/template-checkbox.html",
-    "propertyPackages" : [ "overrideIdPackage","labelPackage","stylePackage","columnsPackage","optionsPackage","requiredPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","stylePackage","columnsPackage","optionsPackage","requiredPackage","visiblePackage" ]
   }, {
     "id" : "radio",
     "title" : "单选框",
     "templateUrl" : "views/template/template-radio.html",
-    "propertyPackages" : [ "overrideIdPackage","labelPackage","stylePackage","columnsPackage","optionsPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","stylePackage","columnsPackage","optionsPackage","visiblePackage" ]
   }, {
     "id" : "select",
     "title" : "下拉框",
     "templateUrl" : "views/template/template-select.html",
-    "propertyPackages" : [ "overrideIdPackage","selectPluginPackage","labelPackage","stylePackage","levelPackage","treeOptionsPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","selectPluginPackage","stylePackage","levelPackage","treeOptionsPackage","visiblePackage" ]
   }, {
     "id" : "multiple-select",
     "title" : "多选下拉框",
     "templateUrl" : "views/template/template-multiple-select.html",
-    "propertyPackages" : [ "overrideIdPackage","selectPluginPackage","labelPackage","stylePackage","optionsPackage","requiredPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","selectPluginPackage","stylePackage","optionsPackage","requiredPackage","visiblePackage" ]
   }, {
     "id" : "datetime",
     "title" : "时间框",
     "templateUrl" : "views/template/template-datetime.html",
-    "propertyPackages" : [ "overrideIdPackage","labelPackage","dateOptionsPackage","placeholderPackage","initValuePackage","stylePackage","requiredPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","dateOptionsPackage","placeholderPackage","initValuePackage","stylePackage","requiredPackage","visiblePackage" ]
   }, {
     "id" : "file",
     "title" : "文件上传",
     "templateUrl" : "views/template/template-file.html",
-    "propertyPackages" : [ "overrideIdPackage","labelPackage","fileOptionsPackage","stylePackage","requiredPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","fileOptionsPackage","stylePackage","requiredPackage","visiblePackage" ]
   }, {
     "id" : "html",
     "title" : "富文本框",
     "templateUrl" : "views/template/template-html.html",
-    "propertyPackages" : [ "overrideIdPackage","labelPackage","initValuePackage","stylePackage","requiredPackage","visiblePackage","descriptionPackage" ]
+    "propertyPackages" : [ "fieldPackage","initValuePackage","stylePackage","requiredPackage","visiblePackage" ]
   }, {
     "id" : "title",
     "title" : "标题栏",

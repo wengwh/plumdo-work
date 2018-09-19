@@ -259,7 +259,7 @@
         config.language = config.language || 'zh-CN', element.datetimepicker(config);
       }
     };
-  }).directive('fbHtml', ['$compile', function ($compile) {
+  }).directive('fbHtml', ['$compile', '$timeout', function ($compile, $timeout) {
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
@@ -269,18 +269,21 @@
 
         scope.fbHtmlConfig = scope.$eval(attrs.fbHtml) || {};
         scope.fbHtmlConfig.lang = scope.fbHtmlConfig.lang || 'zh-CN';
-
-        scope.$watch(attrs.ngDisabled, function (ngDisabled) {
-          if (ngDisabled) {
-            element.summernote('disable');
-          } else {
-            element.summernote('enable');
-          }
-        });
         
+        scope.$watch(attrs.ngDisabled, function (ngDisabled,old) {
+          $timeout(function(){
+            if (ngDisabled) {
+              element.summernote('disable');
+            } else {
+              element.summernote('enable');
+            }
+          });
+        });
+
         element.removeAttr('fb-html');
         element.attr('summernote', '');
         element.attr('config', 'fbHtmlConfig');
+      
         $compile(element)(scope);
       }
     };

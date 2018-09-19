@@ -99,108 +99,24 @@
       };
     }
 
-  } ]).controller('fbWatchController', [ '$scope', '$injector', '$http', '$stateParams', 'restUrl', function($scope, $injector, $http, $stateParams, restUrl) {
-    var $builder = $injector.get('$builder');
-    $builder.forms.id = 'root';
-    $builder.forms.components = [];
-
-    $http({
-      method : 'GET',
-      url : restUrl.getModelJson($stateParams.modelId)
-    }).success(function(data) {
-      $builder.forms.components = data;
-      $scope.previewForms = angular.copy($builder.forms);
-    }).error(function(data) {
-      $scope.showErrorMsg('获取表单模型失败');
-    });
-
+  } ]).controller('fbWatchController', [ '$scope', '$injector', '$timeout','FormRestService', function($scope, $injector, $timeout, FormRestService) {
+    $scope.previewForms = $injector.get('$builder').forms;
     
-  } ]).controller('fbDesignController', [ '$scope', '$injector', '$http', '$stateParams', 'restUrl', '$q', '$timeout', function($scope, $injector, $http, $stateParams, restUrl, $q, $timeout) {
-    var $builder = $injector.get('$builder');
-    $builder.forms.id = 'root';
-    $builder.forms.selectedComponent = {};
-    
-    var getStencilPromise = $http({
-      method : 'GET',
-      url : restUrl.getStencilSet()
-    }).success(function(data) {
-      $scope.mainTitle = data.title;
-      $scope.mainDescription = data.description;
-
-      angular.forEach(data.propertyPackages, function(propertyPackage) {
-        $builder.registerPropertyPackage(propertyPackage);
-      });
-
-      angular.forEach(data.components, function(component) {
-        $builder.registerComponent(component);
-      });
-
-      angular.forEach(data.groups, function(group) {
-        $builder.registerGroup(group);
-      });
-
-    });
-    
-    var getJsonPromise = $http({
-      method : 'GET',
-      headers : {
-        'Token': $stateParams.token
-      },
-      url : restUrl.getModelJson($stateParams.modelId)
-    }).error(function(data) {
-      $scope.showErrorMsg(data.msg);
-    });
-    
-    var filterGetComponents = function(formJson){
-      var componets = []
-      angular.forEach(formJson, function(component) {
-        var selectedComponent = $builder.components[component.id]
-        if(angular.isUndefined(selectedComponent)){
-          return;
-        }
-
-        var copyComponent = angular.copy(selectedComponent);
-        copyComponent.arrayValue = component.arrayValue;
-        copyComponent.properties = component.properties;
-        copyComponent.value = component.value;
-        
-        if(angular.isDefined(selectedComponent.properties.field)){
-          var field = component.properties.field;
-          if(angular.isUndefined($builder.forms.fields[field])){
-            return;
-          }else {
-            $builder.setField(copyComponent,$builder.forms.fields[field]);
-          }
-        }
-          
-        if(component.forms && component.forms.length > 0){
-          angular.forEach(component.forms, function(forms,index){
-            copyComponent.forms[index] = {};
-            copyComponent.forms[index].components = filterGetComponents(forms.components);
-          });
-        }
-        componets.push(copyComponent);
-      });
-      
-      return componets;
-    };
-    
-    $q.all([getJsonPromise,getStencilPromise]).then(function(result) {
-      $builder.forms.fields = {};
-      angular.forEach(result[0].data.fields, function(field){
-        $builder.forms.fields[field.key] = field;
+    FormRestService.getModelJson().success(function(data){
+      angular.forEach(data.fields, function(field){
+        $scope.previewForms.fields[field.key] = field;
       });
       
       $timeout(function() {
-        $builder.forms.components = filterGetComponents(angular.fromJson(result[0].data.json));
-        console.info($builder.forms.components)
+        $scope.previewForms.components = $scope.filterGetComponents(angular.fromJson(data.json));
       },10);
     });
-
+    
+  } ]).controller('fbDesignController', [ '$scope', '$injector', '$timeout','FormRestService', function($scope, $injector, $timeout, FormRestService) {
     $scope.leftCollapsed = false;
     $scope.rightCollapsed = false;
     $scope.navActive = "editForm";
-    $scope.editForms = $builder.forms;
+    $scope.editForms = $injector.get('$builder').forms;
 
     $scope.editForm = function() {
       $scope.navActive = "editForm";
@@ -208,51 +124,17 @@
 
     $scope.previewForm = function() {
       $scope.navActive = "previewForm";
-      $scope.previewForms = angular.copy($builder.forms);
+      $scope.previewForms = angular.copy($scope.editForms);
       $scope.formData = {};
     };
     
-    var filterSaveComponents = function(formJson){
-      var componets = []
-      angular.forEach(formJson, function(component) {
-        var copyComponent = {};
-        copyComponent.id = component.id;
-        copyComponent.arrayValue = component.arrayValue;
-        copyComponent.properties = component.properties;
-        copyComponent.value = component.value;
-          
-        if(component.forms.length > 0){
-          copyComponent.forms = [];
-          angular.forEach(component.forms, function(forms,index){
-            copyComponent.forms[index] = {};
-            copyComponent.forms[index].components = filterSaveComponents(forms.components);
-          });
-        }
-        componets.push(copyComponent);
-      });
-      return componets;
-    }
-    
     $scope.saveForm = function() {
-      $scope.showProgress();
-      console.info($builder.forms.components)
-      $http({
-        method : 'PUT',
-        headers : {
-          'Token': $stateParams.token
-        },
-        url : restUrl.saveModelJson($stateParams.modelId),
-        data : filterSaveComponents($builder.forms.components)
-      }).success(function(data) {
-        $scope.hideProgressBySucess('保存表单成功');
-      }).error(function(data) {
-        $scope.hideProgressByError(data.msg);
-      });
+      FormRestService.saveModelJson($scope.filterSaveComponents($scope.editForms.components));
     };
 
     $scope.clearForm = function() {
-      $builder.forms.components = [];
-      $builder.forms.selectedComponent = {};
+      $scope.editForms.components = [];
+      $scope.editForms.selectedComponent = {};
       $scope.editForm();
     };
 
@@ -265,11 +147,19 @@
     angular.element(window).bind('resize', function() {
       $scope.fixSize();
     });
-
+    
+    FormRestService.getModelJson().success(function(data){
+      angular.forEach(data.fields, function(field){
+        $scope.editForms.fields[field.key] = field;
+      });
+      
+      $timeout(function() {
+        $scope.editForms.components = $scope.filterGetComponents(angular.fromJson(data.json));
+      },10);
+    });
 
   } ]).controller('fbBuilderController', [ '$scope', '$injector', '$timeout', function($scope, $injector, $timeout) {
-    var $builder = $injector.get('$builder');
-    $scope.builderForms = $builder.forms;
+    $scope.builderForms = $injector.get('$builder').forms;
 
     $scope.selectComponent = function(component, $event) {
       // 阻止事件冒泡
@@ -360,14 +250,14 @@
     }
 
   } ]).controller('fbPropertiesController', [ '$scope', '$injector', function($scope, $injector) {
-    var $builder = $injector.get('$builder');
-    $scope.builderForms = $builder.forms;
+    $scope.builderForms = $injector.get('$builder').forms;
 
     $scope.$watch('builderForms.selectedComponent', function() {
       $scope.component = $scope.builderForms.selectedComponent;
     });
 
     $scope.summernoteConfig = {
+      lang: 'zh-CN',
       height : 250,
       toolbar : [ [ 'style', [ 'style', 'fontsize', 'bold', 'italic', 'underline', 'clear' ] ], [ 'para', [ 'color', 'paragraph', 'undo', 'redo', 'codeview', 'fullscreen' ] ] ]
     };
@@ -376,7 +266,7 @@
     
     $scope.changeField = function(){
       var field = $scope.builderForms.fields[$scope.component.properties.field]
-      $injector.get('$builder').setField($scope.component,field)
+      $builder.setField($scope.component,field)
     };
     
   } ]).controller('fbOptionsController', [ '$scope', function($scope) {

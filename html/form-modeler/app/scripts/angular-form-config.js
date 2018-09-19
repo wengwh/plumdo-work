@@ -30,7 +30,7 @@
       data: {pageTitle: ['表单设计器'] },
   		templateUrl: 'views/fb-design.html'
   	}).state('watch', {
-  		url : '/watch?modelId',
+  		url : '/watch?modelId&token',
       data: {pageTitle: ['表单明细查看'] },
   		templateUrl: 'views/fb-watch.html'
   	}).state('work', {

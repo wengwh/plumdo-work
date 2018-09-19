@@ -12,9 +12,10 @@
     'builder.constant',
     'builder.config',
     'builder.provider',
+    'builder.service',
     'builder.controller',
     'builder.directive'
-  ]).run(['$rootScope', 'notify', function ($rootScope,notify) {
+  ]).run(['$rootScope', 'notify', 'FormRestService', '$injector',function ($rootScope,notify,FormRestService,$injector) {
 
     $rootScope.progressNum = 0;
     
@@ -60,12 +61,90 @@
         classes: classes
       });
     };
+    
+
+    var $builder = $injector.get('$builder');
+    $builder.forms.id = 'root';
+    $builder.forms.selectedComponent = {};
+    $builder.forms.fields = {};
+    
+    FormRestService.getStencilSet().success(function(data){
+      $rootScope.mainTitle = data.title;
+      $rootScope.mainDescription = data.description;
+
+      angular.forEach(data.propertyPackages, function(propertyPackage) {
+        $builder.registerPropertyPackage(propertyPackage);
+      });
+
+      angular.forEach(data.components, function(component) {
+        $builder.registerComponent(component);
+      });
+
+      angular.forEach(data.groups, function(group) {
+        $builder.registerGroup(group);
+      });
+    });
+    
+    $rootScope.filterSaveComponents = function(formJson){
+      var componets = []
+      angular.forEach(formJson, function(component) {
+        var copyComponent = {};
+        copyComponent.id = component.id;
+        copyComponent.arrayValue = component.arrayValue;
+        copyComponent.properties = component.properties;
+        copyComponent.value = component.value;
+          
+        if(component.forms.length > 0){
+          copyComponent.forms = [];
+          angular.forEach(component.forms, function(forms,index){
+            copyComponent.forms[index] = {};
+            copyComponent.forms[index].components = $rootScope.filterSaveComponents(forms.components);
+          });
+        }
+        componets.push(copyComponent);
+      });
+      return componets;
+    }
+    
+    $rootScope.filterGetComponents = function(formJson){
+      var componets = []
+      angular.forEach(formJson, function(component) {
+        var selectedComponent = $builder.components[component.id]
+        if(angular.isUndefined(selectedComponent)){
+          return;
+        }
+
+        var copyComponent = angular.copy(selectedComponent);
+        copyComponent.arrayValue = component.arrayValue;
+        copyComponent.properties = component.properties;
+        copyComponent.value = component.value;
+        
+        if(angular.isDefined(selectedComponent.properties.field)){
+          var field = component.properties.field;
+          if(angular.isUndefined($builder.forms.fields[field])){
+            return;
+          }else {
+            $builder.setField(copyComponent,$builder.forms.fields[field]);
+          }
+        }
+          
+        if(component.forms && component.forms.length > 0){
+          angular.forEach(component.forms, function(forms,index){
+            copyComponent.forms[index] = {};
+            copyComponent.forms[index].components = $rootScope.filterGetComponents(forms.components);
+          });
+        }
+        componets.push(copyComponent);
+      });
+
+      return componets;
+    };
+    
 
   }]).filter('to_trusted', ['$sce', function ($sce) {
     return function (text) {
       return $sce.trustAsHtml(text);
     }
   }]);
-  ;
 
 }).call(this);

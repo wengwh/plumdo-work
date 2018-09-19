@@ -124,7 +124,6 @@ public class FormLayoutResource extends BaseResource {
 		FormLayout formLayout = getFormLayoutFromRequest(id);
 
 		ByteArray byteArray = new ByteArray();
-		;
 		byteArray.setName(formLayout.getName());
 		byteArray.setContentByte(editorJson.getBytes(CoreConstant.DEFAULT_CHARSET));
 		byteArrayRepository.save(byteArray);
