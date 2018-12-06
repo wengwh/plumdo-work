@@ -1,18 +1,7 @@
 package com.plumdo.common.config;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-
+import com.plumdo.common.constant.CoreConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.HttpClient;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -24,9 +13,6 @@ import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.ssl.TrustStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -40,88 +26,84 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import com.plumdo.common.constant.CoreConstant;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * 定义restTemplate的配置
- * 
+ *
  * @author wengwh
  * @date 2018年4月21日
  */
+@Slf4j
 @Configuration
 public class RestTemplateConfig {
-	private final Logger logger = LoggerFactory.getLogger(RestTemplateConfig.class);
 
-	@Bean
-	@ConditionalOnMissingBean({ RestOperations.class, RestTemplate.class })
-	public RestTemplate restTemplate() {
-		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
-		restTemplate.setErrorHandler(new CustomerErrorHandler());
+    @Bean
+    @ConditionalOnMissingBean({RestOperations.class, RestTemplate.class})
+    public RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
+        restTemplate.setErrorHandler(new CustomerErrorHandler());
 
-		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-		Iterator<HttpMessageConverter<?>> iterator = messageConverters.iterator();
-		while (iterator.hasNext()) {
-			HttpMessageConverter<?> converter = iterator.next();
-			if (converter instanceof StringHttpMessageConverter) {
-				iterator.remove();
-			}
-		}
-		messageConverters.add(new StringHttpMessageConverter(Charset.forName(CoreConstant.DEFAULT_CHARSET)));
+        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+        messageConverters.removeIf(converter -> converter instanceof StringHttpMessageConverter);
+        messageConverters.add(new StringHttpMessageConverter(Charset.forName(CoreConstant.DEFAULT_CHARSET)));
 
-		return restTemplate;
-	}
+        return restTemplate;
+    }
 
-	@Bean
-	@ConfigurationProperties(prefix = "spring.rest")
-	@ConditionalOnMissingBean({ ClientHttpRequestFactory.class })
-	public HttpComponentsClientHttpRequestFactory clientHttpRequestFactory() {
-		return new HttpComponentsClientHttpRequestFactory(httpClient());
-	}
+    @Bean
+    @ConfigurationProperties(prefix = "spring.rest")
+    @ConditionalOnMissingBean({ClientHttpRequestFactory.class})
+    public HttpComponentsClientHttpRequestFactory clientHttpRequestFactory() {
+        return new HttpComponentsClientHttpRequestFactory(httpClient());
+    }
 
-	@Bean
-	public HttpClient httpClient() {
-		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+    @Bean
+    public HttpClient httpClient() {
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
 
-		httpClientBuilder.setSSLContext(sslContext());
+        httpClientBuilder.setSSLContext(sslContext());
 
-		httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(2, true));
+        httpClientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(2, true));
 
-		httpClientBuilder.setConnectionManager(poolingHttpClientConnectionManager());
+        httpClientBuilder.setConnectionManager(poolingHttpClientConnectionManager());
 
-		return httpClientBuilder.build();
-	}
+        return httpClientBuilder.build();
+    }
 
-	@Bean
-	@ConfigurationProperties(prefix = "spring.rest.pool")
-	public PoolingHttpClientConnectionManager poolingHttpClientConnectionManager() {
-		return new PoolingHttpClientConnectionManager(socketFactoryRegistry());
-	}
+    @Bean
+    @ConfigurationProperties(prefix = "spring.rest.pool")
+    public PoolingHttpClientConnectionManager poolingHttpClientConnectionManager() {
+        return new PoolingHttpClientConnectionManager(socketFactoryRegistry());
+    }
 
-	@Bean
-	public SSLContext sslContext() {
-		try {
-			return new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-				@Override
-				public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-					return true;
-				}
-			}).build();
-		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
-			logger.error("init httpclient bean exception", e);
-		}
-		return null;
-	}
+    @Bean
+    public SSLContext sslContext() {
+        try {
+            return new SSLContextBuilder().loadTrustMaterial(null, (arg0, arg1) -> true).build();
+        } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
+            log.error("init httpclient bean exception", e);
+        }
+        return null;
+    }
 
-	@Bean
-	public Registry<ConnectionSocketFactory> socketFactoryRegistry() {
-		HostnameVerifier hostnameVerifier = NoopHostnameVerifier.INSTANCE;
-		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext(),
-				hostnameVerifier);
+    @Bean
+    public Registry<ConnectionSocketFactory> socketFactoryRegistry() {
+        HostnameVerifier hostnameVerifier = NoopHostnameVerifier.INSTANCE;
+        SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext(),
+                hostnameVerifier);
 
-		return RegistryBuilder.<ConnectionSocketFactory>create()
-				.register("http", PlainConnectionSocketFactory.getSocketFactory())
-				.register("https", sslConnectionSocketFactory).build();
-	}
+        return RegistryBuilder.<ConnectionSocketFactory>create()
+                .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                .register("https", sslConnectionSocketFactory).build();
+    }
 
 }
 
@@ -131,12 +113,11 @@ public class RestTemplateConfig {
  * @author wengwh
  * @date 2018年5月10日
  */
+@Slf4j
 class CustomerErrorHandler extends DefaultResponseErrorHandler {
-	private final Logger logger = LoggerFactory.getLogger(CustomerErrorHandler.class);
 
-	@Override
-	public void handleError(ClientHttpResponse response) throws IOException {
-		logger.error("http request error,statusCode:{},body:{}", getHttpStatusCode(response),
-				getResponseBody(response));
-	}
+    @Override
+    public void handleError(ClientHttpResponse response) throws IOException {
+        log.error("http request error,statusCode:{},body:{}", getHttpStatusCode(response), new String(getResponseBody(response)));
+    }
 }

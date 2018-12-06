@@ -8,14 +8,10 @@ package com.plumdo.common.exception;
  */
 class ObjectNotFoundException extends BaseException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ObjectNotFoundException(String ret, String msg) {
-		super(ret, msg);
-	}
-
-	public ObjectNotFoundException(String ret, String msg, Throwable cause) {
-		super(ret, msg, cause);
-	}
+    ObjectNotFoundException(String ret, String msg) {
+        super(ret, msg);
+    }
 
 }

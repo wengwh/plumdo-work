@@ -8,14 +8,10 @@ package com.plumdo.common.exception;
  */
 class ForbiddenException extends BaseException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ForbiddenException(String ret, String msg) {
-		super(ret, msg);
-	}
-
-	public ForbiddenException(String ret, String msg, Throwable cause) {
-		super(ret, msg, cause);
-	}
+    ForbiddenException(String ret, String msg) {
+        super(ret, msg);
+    }
 
 }

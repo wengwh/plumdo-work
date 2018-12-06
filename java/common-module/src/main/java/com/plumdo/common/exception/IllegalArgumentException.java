@@ -8,14 +8,10 @@ package com.plumdo.common.exception;
  */
 class IllegalArgumentException extends BaseException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public IllegalArgumentException(String ret, String msg) {
-		super(ret, msg);
-	}
-
-	public IllegalArgumentException(String ret, String msg, Throwable cause) {
-		super(ret, msg, cause);
-	}
+    IllegalArgumentException(String ret, String msg) {
+        super(ret, msg);
+    }
 
 }

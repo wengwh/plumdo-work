@@ -8,14 +8,14 @@ package com.plumdo.common.exception;
  */
 class AuthErrorException extends BaseException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AuthErrorException(String ret, String msg) {
-		super(ret, msg);
-	}
+    public AuthErrorException(String ret, String msg) {
+        super(ret, msg);
+    }
 
-	public AuthErrorException(String ret, String msg, Throwable cause) {
-		super(ret, msg, cause);
-	}
+    public AuthErrorException(String ret, String msg, Throwable cause) {
+        super(ret, msg, cause);
+    }
 
 }

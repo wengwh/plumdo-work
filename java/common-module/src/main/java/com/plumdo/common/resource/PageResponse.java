@@ -10,23 +10,23 @@ import java.util.List;
  */
 @SuppressWarnings("rawtypes")
 public class PageResponse {
-	protected List data;
-	protected long total;
+    protected List data;
+    protected long total;
 
-	public List getData() {
-		return data;
-	}
+    public List getData() {
+        return data;
+    }
 
-	public void setData(List data) {
-		this.data = data;
-	}
+    public void setData(List data) {
+        this.data = data;
+    }
 
-	public long getTotal() {
-		return total;
-	}
+    public long getTotal() {
+        return total;
+    }
 
-	public void setTotal(long total) {
-		this.total = total;
-	}
+    public void setTotal(long total) {
+        this.total = total;
+    }
 
 }

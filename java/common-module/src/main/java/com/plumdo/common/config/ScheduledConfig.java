@@ -18,15 +18,15 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class ScheduledConfig implements SchedulingConfigurer {
 
-	@Bean
-	@ConfigurationProperties(prefix = "spring.scheduler")
-	public ThreadPoolTaskScheduler taskScheduler() {
-		return new ThreadPoolTaskScheduler();
-	}
+    @Bean
+    @ConfigurationProperties(prefix = "spring.scheduler")
+    public ThreadPoolTaskScheduler taskScheduler() {
+        return new ThreadPoolTaskScheduler();
+    }
 
-	@Override
-	public void configureTasks(ScheduledTaskRegistrar registrar) {
-		registrar.setTaskScheduler(taskScheduler());
-	}
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar registrar) {
+        registrar.setTaskScheduler(taskScheduler());
+    }
 
 }

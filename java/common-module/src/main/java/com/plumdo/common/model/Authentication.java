@@ -8,28 +8,28 @@ package com.plumdo.common.model;
  */
 public class Authentication {
 
-	static ThreadLocal<String> userIdThreadLocal = new ThreadLocal<String>();
-	static ThreadLocal<String> tokenThreadLocal = new ThreadLocal<String>();
+    private static ThreadLocal<String> userIdThreadLocal = new ThreadLocal<>();
+    private static ThreadLocal<String> tokenThreadLocal = new ThreadLocal<>();
 
-	public static void setUserId(String userId) {
-		userIdThreadLocal.set(userId);
-	}
+    public static void setUserId(String userId) {
+        userIdThreadLocal.set(userId);
+    }
 
-	public static String getUserId() {
-		return userIdThreadLocal.get();
-	}
-	
-	public static void setToken(String token) {
-		tokenThreadLocal.set(token);
-	}
+    public static String getUserId() {
+        return userIdThreadLocal.get();
+    }
 
-	public static String getToken() {
-		return tokenThreadLocal.get();
-	}
+    public static void setToken(String token) {
+        tokenThreadLocal.set(token);
+    }
 
-	public static void clear() {
-		userIdThreadLocal.remove();
-		tokenThreadLocal.remove();
-	}
+    public static String getToken() {
+        return tokenThreadLocal.get();
+    }
+
+    public static void clear() {
+        userIdThreadLocal.remove();
+        tokenThreadLocal.remove();
+    }
 
 }

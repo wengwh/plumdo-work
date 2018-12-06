@@ -26,41 +26,44 @@ import com.plumdo.common.exception.ExceptionFactory;
  */
 @Configuration
 public class ApplicationConfig {
-	@Autowired
-	private MessageSource messageSource;
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	@Autowired
-	private RestTemplate restTemplate;
+    private final MessageSource messageSource;
+    private final JdbcTemplate jdbcTemplate;
+    private final RestTemplate restTemplate;
 
-	@Bean
-	@ConfigurationProperties(prefix="serviceUrl")
-	public ServiceUrl serviceUrl() {
-	    return new ServiceUrl();
-	}
-	
-	
-	@Bean
-	public ExceptionFactory exceptionFactory() {
-		return new ExceptionFactory(messageSource);
-	}
+    @Autowired
+    public ApplicationConfig(MessageSource messageSource, JdbcTemplate jdbcTemplate, RestTemplate restTemplate) {
+        this.messageSource = messageSource;
+        this.jdbcTemplate = jdbcTemplate;
+        this.restTemplate = restTemplate;
+    }
 
-	@Bean
-	public ObjectMapper objectMapper() {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.setDateFormat(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.CHINA));
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		return mapper;
-	}
+    @Bean
+    @ConfigurationProperties(prefix = "serviceUrl")
+    public ServiceUrl serviceUrl() {
+        return new ServiceUrl();
+    }
 
-	@Bean
-	public JdbcClient jdbcClient() {
-		return new JdbcClient(jdbcTemplate);
-	}
+    @Bean
+    public ExceptionFactory exceptionFactory() {
+        return new ExceptionFactory(messageSource);
+    }
 
-	@Bean
-	public RestClient restClient() {
-		return new RestClient(restTemplate, serviceUrl());
-	}
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, Locale.CHINA));
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        return mapper;
+    }
+
+    @Bean
+    public JdbcClient jdbcClient() {
+        return new JdbcClient(jdbcTemplate);
+    }
+
+    @Bean
+    public RestClient restClient() {
+        return new RestClient(restTemplate, serviceUrl());
+    }
 
 }

@@ -35,56 +35,62 @@ import io.jsonwebtoken.Jwts;
 @Component
 @Order(1)
 public class AuthCheckAspect {
-	private Logger logger = LoggerFactory.getLogger(AuthCheckAspect.class);
-	@Autowired
-	private ExceptionFactory exceptionFactory;
-	
+    private Logger logger = LoggerFactory.getLogger(AuthCheckAspect.class);
+    private final ExceptionFactory exceptionFactory;
+
+    @Autowired
+    public AuthCheckAspect(ExceptionFactory exceptionFactory) {
+        this.exceptionFactory = exceptionFactory;
+    }
+
     @Pointcut("execution(public * com.plumdo..*.resource.*.*(..))")
-    public void webRequestAuth() {}
-    
+    public void webRequestAuth() {
+    }
+
     @Pointcut("!@within(com.plumdo.common.annotation.NotAuth) && !@annotation(com.plumdo.common.annotation.NotAuth)")
-    public void webRequestNotAuth() {}
+    public void webRequestNotAuth() {
+    }
 
     @Around("webRequestAuth()&& webRequestNotAuth()")
     public Object doAuth(ProceedingJoinPoint pjp) throws Throwable {
-		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
-		String userId = null;
-		String token = request.getHeader("Token");
-		if(ObjectUtils.isEmpty(token)) {
-			token = request.getParameter("token");
-		}
-        logger.info("token:"+token);
-        
-        if(ObjectUtils.isEmpty(token)) {
-        	exceptionFactory.throwAuthError(CoreConstant.HEADER_TOKEN_NOT_FOUND);
+        String userId = null;
+        String token = request.getHeader("Token");
+        if (ObjectUtils.isEmpty(token)) {
+            token = request.getParameter("token");
         }
-        if(!token.startsWith("Bearer ")) {
-        	exceptionFactory.throwAuthError(CoreConstant.HEADER_TOKEN_ILLEGAL);
+        logger.info("token:" + token);
+
+        if (ObjectUtils.isEmpty(token)) {
+            exceptionFactory.throwAuthError(CoreConstant.HEADER_TOKEN_NOT_FOUND);
         }
-		
-		try {
-			Claims claims = Jwts.parser().setSigningKey(CoreConstant.JWT_SECRET).parseClaimsJws(token.substring(7)).getBody();
-			userId = claims.getId();
-			if(ObjectUtils.isEmpty(userId)) {
-				exceptionFactory.throwAuthError(CoreConstant.TOKEN_UERID_NOT_FOUND);
-			}
-			
-			Date expiration = claims.getExpiration();
-			if (expiration != null && expiration.before(new Date())) {
-				exceptionFactory.throwAuthError(CoreConstant.TOKEN_EXPIRE_OUT);
-			}
-		} catch (Exception e) {
-			exceptionFactory.throwAuthError(CoreConstant.TOKEN_AUTH_CHECK_ERROR);
-		}
+        if (!token.startsWith("Bearer ")) {
+            exceptionFactory.throwAuthError(CoreConstant.HEADER_TOKEN_ILLEGAL);
+        }
+
         try {
-        	Authentication.setToken(token);
-        	Authentication.setUserId(userId);
-    		return pjp.proceed(pjp.getArgs());
-        }finally {
-        	Authentication.clear();
-		}
+            Claims claims = Jwts.parser().setSigningKey(CoreConstant.JWT_SECRET).parseClaimsJws(token.substring(7)).getBody();
+            userId = claims.getId();
+            if (ObjectUtils.isEmpty(userId)) {
+                exceptionFactory.throwAuthError(CoreConstant.TOKEN_UERID_NOT_FOUND);
+            }
+
+            Date expiration = claims.getExpiration();
+            if (expiration != null && expiration.before(new Date())) {
+                exceptionFactory.throwAuthError(CoreConstant.TOKEN_EXPIRE_OUT);
+            }
+        } catch (Exception e) {
+            exceptionFactory.throwAuthError(CoreConstant.TOKEN_AUTH_CHECK_ERROR);
+        }
+        try {
+            Authentication.setToken(token);
+            Authentication.setUserId(userId);
+            return pjp.proceed(pjp.getArgs());
+        } finally {
+            Authentication.clear();
+        }
     }
-   
+
 }
