@@ -37,64 +37,68 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 @RestController
 public class AuthResource extends BaseResource {
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private MenuRepository menuRepository;
+    private final UserRepository userRepository;
+    private final MenuRepository menuRepository;
 
-	@PostMapping("/auths/login")
-	@ResponseStatus(HttpStatus.OK)
-	@NotAuth
-	public ObjectMap login(@RequestBody ObjectMap loginRequest) {
-		String account = loginRequest.getAsString("account");
-		String password = loginRequest.getAsString("password");
-		User user = userRepository.findByAccount(account);
-		if (user == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.USER_NOT_FOUND);
-		}
-		if (!user.getPwd().equals(password)) {
-			exceptionFactory.throwConflict(ErrorConstant.USER_PWD_NOT_MATCH);
-		}
-		if (user.getStatus() == TableConstant.USER_STATUS_STOP) {
-			exceptionFactory.throwForbidden(ErrorConstant.USER_ALREADY_STOP);
-		}
-		String token = Jwts.builder().setSubject(account).setId(user.getId().toString()).setIssuedAt(DateUtils.currentTimestamp())
-				.setExpiration(new Date(DateUtils.currentTimeMillis() + CoreConstant.LOGIN_USER_EXPIRE_IN)).signWith(SignatureAlgorithm.HS256, CoreConstant.JWT_SECRET).compact();
+    @Autowired
+    public AuthResource(UserRepository userRepository, MenuRepository menuRepository) {
+        this.userRepository = userRepository;
+        this.menuRepository = menuRepository;
+    }
 
-		return ConvertFactory.convertUseAuth(user, token);
-	}
+    @PostMapping("/auths/login")
+    @ResponseStatus(HttpStatus.OK)
+    @NotAuth
+    public ObjectMap login(@RequestBody ObjectMap loginRequest) {
+        String account = loginRequest.getAsString("account");
+        String password = loginRequest.getAsString("password");
+        User user = userRepository.findByAccount(account);
+        if (user == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.USER_NOT_FOUND);
+        }
+        if (!user.getPwd().equals(password)) {
+            exceptionFactory.throwConflict(ErrorConstant.USER_PWD_NOT_MATCH);
+        }
+        if (user.getStatus() == TableConstant.USER_STATUS_STOP) {
+            exceptionFactory.throwForbidden(ErrorConstant.USER_ALREADY_STOP);
+        }
+        String token = Jwts.builder().setSubject(account).setId(user.getId().toString()).setIssuedAt(DateUtils.currentTimestamp())
+                .setExpiration(new Date(DateUtils.currentTimeMillis() + CoreConstant.LOGIN_USER_EXPIRE_IN)).signWith(SignatureAlgorithm.HS256, CoreConstant.JWT_SECRET).compact();
 
-	@GetMapping("/auths/menus")
-	@ResponseStatus(HttpStatus.OK)
-	public List<ObjectMap> getUserMenus(@RequestParam Integer userId) {
-		List<Menu> childMenus = menuRepository.findByUserId(userId);
-		List<Menu> parentMenus = menuRepository.findByTypeAndStatusOrderByOrderAsc(TableConstant.MENU_TYPE_PARENT, TableConstant.MENU_STATUS_NORMAL);
-		return ConvertFactory.convertUserMenus(parentMenus, childMenus);
-	}
+        return ConvertFactory.convertUseAuth(user, token);
+    }
 
-	@PutMapping("/auths/password/change")
-	@ResponseStatus(HttpStatus.OK)
-	public User changePwd(@RequestBody ObjectMap changeRequest) {
-		String newPassword = changeRequest.getAsString("newPassword");
-		String confirmPassword = changeRequest.getAsString("confirmPassword");
-		String oldPassword = changeRequest.getAsString("oldPassword");
-		Integer userId = changeRequest.getAsInteger("userId");
-		if (!newPassword.equals(confirmPassword)) {
-			exceptionFactory.throwConflict(ErrorConstant.USER_PASSWORD_CONFIRM_ERROR);
-		}
+    @GetMapping("/auths/menus")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ObjectMap> getUserMenus(@RequestParam Integer userId) {
+        List<Menu> childMenus = menuRepository.findByUserId(userId);
+        List<Menu> parentMenus = menuRepository.findByTypeAndStatusOrderByOrderAsc(TableConstant.MENU_TYPE_PARENT, TableConstant.MENU_STATUS_NORMAL);
+        return ConvertFactory.convertUserMenus(parentMenus, childMenus);
+    }
 
-		User user = userRepository.findOne(userId);
-		if (user == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.USER_NOT_FOUND);
-		}
+    @PutMapping("/auths/password/change")
+    @ResponseStatus(HttpStatus.OK)
+    public User changePwd(@RequestBody ObjectMap changeRequest) {
+        String newPassword = changeRequest.getAsString("newPassword");
+        String confirmPassword = changeRequest.getAsString("confirmPassword");
+        String oldPassword = changeRequest.getAsString("oldPassword");
+        Integer userId = changeRequest.getAsInteger("userId");
+        if (!newPassword.equals(confirmPassword)) {
+            exceptionFactory.throwConflict(ErrorConstant.USER_PASSWORD_CONFIRM_ERROR);
+        }
 
-		if (!user.getPwd().equals(oldPassword)) {
-			exceptionFactory.throwConflict(ErrorConstant.USER_OLD_PASSWORD_WRONG);
-		}
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.USER_NOT_FOUND);
+        }
 
-		user.setPwd(newPassword);
+        if (!user.getPwd().equals(oldPassword)) {
+            exceptionFactory.throwConflict(ErrorConstant.USER_OLD_PASSWORD_WRONG);
+        }
 
-		return userRepository.save(user);
-	}
+        user.setPwd(newPassword);
+
+        return userRepository.save(user);
+    }
 
 }
