@@ -39,6 +39,9 @@ public class AiaUserEntityManager extends UserEntityManagerImpl {
     public List<User> findUserByQueryCriteria(UserQueryImpl query) {
         List<User> users = new ArrayList<>();
         ObjectMap response = restClient.getForIdentityService("/users", queryToParams(query), ObjectMap.class);
+        if (response == null) {
+            return users;
+        }
         List<ObjectMap> dataMap = response.getAsList("data");
         for (ObjectMap userMap : dataMap) {
             User user = new UserEntityImpl();
@@ -53,7 +56,7 @@ public class AiaUserEntityManager extends UserEntityManagerImpl {
 
     @Override
     public long findUserCountByQueryCriteria(UserQueryImpl query) {
-        ObjectMap response = restClient.getForIdentityService("/groups", queryToParams(query), ObjectMap.class);
+        ObjectMap response = restClient.getForIdentityService("/users", queryToParams(query), ObjectMap.class);
         return response.getAsLong("total");
     }
 
