@@ -39,7 +39,7 @@ public class RestClient {
         return exchange(url, HttpMethod.GET, null, null, responseType);
     }
 
-    public <T> T exchange(String url, HttpMethod method, MultiValueMap<String, String> queryParams, Object requestbody, Class<T> responseType) {
+    public <T> T exchange(String url, HttpMethod method, MultiValueMap<String, String> queryParams, Object requestBody, Class<T> responseType) {
         T response = null;
         long beginTime = System.currentTimeMillis();
         try {
@@ -47,10 +47,10 @@ public class RestClient {
             builder.queryParams(queryParams);
             HttpHeaders headers = new HttpHeaders();
             headers.add("Token", Authentication.getToken());
-            response = restTemplate.exchange(builder.build().toUri(), method, new HttpEntity<>(requestbody, headers), responseType).getBody();
-            log.debug("发送Http请求:{},方法:{},参数:{},返回:{},[{}]ms", url, method, requestbody, response, DateUtils.getTimeMillisConsume(beginTime));
+            response = restTemplate.exchange(builder.build().toUri(), method, new HttpEntity<>(requestBody, headers), responseType).getBody();
+            log.debug("发送Http请求:{},方法:{},参数:{},返回:{},[{}]ms", url, method, requestBody, response, DateUtils.getTimeMillisConsume(beginTime));
         } catch (RestClientException e) {
-            log.error("发送http请求:{},方法:{},参数:{},异常:{},[{}]ms", url, method, requestbody, e.getMessage(), DateUtils.getTimeMillisConsume(beginTime));
+            log.error("发送http请求:{},方法:{},参数:{},异常:{},[{}]ms", url, method, requestBody, e.getMessage(), DateUtils.getTimeMillisConsume(beginTime));
         }
 
         return response;
