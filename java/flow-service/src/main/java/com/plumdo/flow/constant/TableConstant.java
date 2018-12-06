@@ -6,17 +6,16 @@ package com.plumdo.flow.constant;
  * @author wengwenhui
  * @date 2018年4月8日
  */
-public class TableConstant {
+public interface TableConstant {
 
-	public static final int MODEL_VESION_START = 1;
-	public static final String ASSIGNEE_NOBODY = "undefined";
+    int MODEL_VESION_START = 1;
+    String ASSIGNEE_NOBODY = "undefined";
 
+    String IDENTITY_GROUP = "group";
+    String IDENTITY_USER = "user";
 
-	public static final String IDENTITY_GROUP = "group";
-	public static final String IDENTITY_USER = "user";
-	
-	public static final String MODEL_ID = "modelId";
-	public static final String MODEL_NAME = "name";
-	public static final String MODEL_REVISION = "revision";
-	public static final String MODEL_DESCRIPTION = "description";
+    String MODEL_ID = "modelId";
+    String MODEL_NAME = "name";
+    String MODEL_REVISION = "revision";
+    String MODEL_DESCRIPTION = "description";
 }

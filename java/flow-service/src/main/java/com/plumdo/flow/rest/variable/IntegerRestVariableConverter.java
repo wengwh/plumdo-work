@@ -1,59 +1,48 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.plumdo.flow.rest.variable;
 
 import org.flowable.engine.common.api.FlowableIllegalArgumentException;
 
 
-
 /**
- * @author Frederik Heremans
+ * int类型变量
+ *
+ * @author wengwh
+ * @date 2018/12/6
  */
 public class IntegerRestVariableConverter implements RestVariableConverter {
 
-  @Override
-  public String getRestTypeName() {
-    return "integer";
-  }
-
-  @Override
-  public Class< ? > getVariableType() {
-    return Integer.class;
-  }
-
-  @Override
-  public Object getVariableValue(RestVariable result) {
-    if(result.getValue() != null) {
-    	try{
-    		return Integer.valueOf(String.valueOf(result.getValue()));
-    	}catch (Exception e) {
-            throw new FlowableIllegalArgumentException("Converter can only convert integers");
-		}
+    @Override
+    public String getRestTypeName() {
+        return "integer";
     }
-    return null;
-  }
 
-  @Override
-  public void convertVariableValue(Object variableValue, RestVariable result) {
-    if(variableValue != null) {
-      if(!(variableValue instanceof Integer)) {
-        throw new FlowableIllegalArgumentException("Converter can only convert integers");
-      }
-      result.setValue(variableValue);
-    } else {
-      result.setValue(null);
+    @Override
+    public Class<?> getVariableType() {
+        return Integer.class;
     }
-  }
+
+    @Override
+    public Object getVariableValue(RestVariable result) {
+        if (result.getValue() != null) {
+            try {
+                return Integer.valueOf(String.valueOf(result.getValue()));
+            } catch (Exception e) {
+                throw new FlowableIllegalArgumentException("Converter can only convert integers");
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void convertVariableValue(Object variableValue, RestVariable result) {
+        if (variableValue != null) {
+            if (!(variableValue instanceof Integer)) {
+                throw new FlowableIllegalArgumentException("Converter can only convert integers");
+            }
+            result.setValue(variableValue);
+        } else {
+            result.setValue(null);
+        }
+    }
 
 }

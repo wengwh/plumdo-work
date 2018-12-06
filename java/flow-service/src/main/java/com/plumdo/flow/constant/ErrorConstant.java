@@ -7,58 +7,58 @@ package com.plumdo.flow.constant;
  * @author wengwenhui
  * @date 2018年3月27日
  */
-public class ErrorConstant {
+public interface ErrorConstant {
 
-	public static final String REQUEST_NOT_MULTIPART = "10001";
-	public static final String MULTIPART_CONTENT_EMPTY = "10002";
-	public static final String FILE_NOT_BPMN = "10003";
-	public static final String FILE_NOT_BPMN_BAR = "10004";
-	public static final String PARAM_NOT_FOUND = "10005";
-	
-	public static final String MODEL_NOT_FOUND = "11001";
-	public static final String MODEL_KEY_ALREADY_EXISTS = "11002";
-	public static final String MODEL_KEY_NOT_FOUND = "11003";
-	public static final String MODEL_GET_EDITOR_ERROR = "11004";
-	public static final String MODEL_SAVE_EDITOR_ERROR = "11005";
-	public static final String MODEL_IMAGE_READ_ERROR = "11006";
-	public static final String MODEL_IMAGE_NOT_FOUND = "11007";
-	public static final String MODEL_XML_READ_ERROR = "11008";
-	public static final String MODEL_NOT_FOUND_PROCESS = "11009";
-	public static final String MODEL_IMPORT_FILE_ERROR = "11010";
+    String REQUEST_NOT_MULTIPART = "10001";
+    String MULTIPART_CONTENT_EMPTY = "10002";
+    String FILE_NOT_BPMN = "10003";
+    String FILE_NOT_BPMN_BAR = "10004";
+    String PARAM_NOT_FOUND = "10005";
 
-	public static final String DEFINITION_NOT_FOUND = "12001";
-	public static final String DEFINITION_ALREADY_SUSPEND = "12002";
-	public static final String DEFINITION_ALREADY_ACTIVE = "12003";
-	public static final String DEFINITION_IMPORT_FILE_ERROR = "12004";
-	public static final String DEFINITION_DEPLOY_NOT_FOUND = "12005";
-	public static final String DEFINITION_HAVE_INSTANCE = "12006";
-	public static final String DEFINITION_RESOURCE_NOT_FOUND = "12007";
-	public static final String DEPLOY_NOT_FOUND = "12008";
-	public static final String DEPLOY_RESOURCE_NOT_FOUND = "12009";
-	public static final String DEFINITION_XML_READ_ERROR = "12010";
-	public static final String DEFINITION_IMAGE_NOT_FOUND = "12011";
-	public static final String DEFINITION_IMAGE_READ_ERROR = "12012";
-	public static final String DEFINITION_IDENTITY_ID_NOT_FOUND = "12013";
-	public static final String DEFINITION_IDENTITY_TYPE_NOT_FOUND = "12014";
-	public static final String DEFINITION_IDENTITY_TYPE_ERROR = "12015";
-	public static final String DEFINITION_IDENTITY_NOT_FOUND = "12016";
-	public static final String DEFINITION_HAVE_TIME_JOB = "12017";
+    String MODEL_NOT_FOUND = "11001";
+    String MODEL_KEY_ALREADY_EXISTS = "11002";
+    String MODEL_KEY_NOT_FOUND = "11003";
+    String MODEL_GET_EDITOR_ERROR = "11004";
+    String MODEL_SAVE_EDITOR_ERROR = "11005";
+    String MODEL_IMAGE_READ_ERROR = "11006";
+    String MODEL_IMAGE_NOT_FOUND = "11007";
+    String MODEL_XML_READ_ERROR = "11008";
+    String MODEL_NOT_FOUND_PROCESS = "11009";
+    String MODEL_IMPORT_FILE_ERROR = "11010";
 
-	public static final String INSTANCE_NOT_FOUND = "13001";
-	public static final String INSTANCE_ALREADY_SUSPEND = "13002";
-	public static final String INSTANCE_ALREADY_ACTIVE = "13003";
-	public static final String INSTANCE_IMAGE_NOT_FOUND = "13004";
-	public static final String INSTANCE_IMAGE_READ_ERROR = "13005";
-	public static final String INSTANCE_HAVE_PARENT = "13006";
-	public static final String INSTANCE_VAR_NAME_NOT_FOUND = "13007";
-	public static final String INSTANCE_START_PARAM_TO_MANY = "13008";
-	public static final String INSTANCE_START_TENANT_ERROR = "13009";
+    String DEFINITION_NOT_FOUND = "12001";
+    String DEFINITION_ALREADY_SUSPEND = "12002";
+    String DEFINITION_ALREADY_ACTIVE = "12003";
+    String DEFINITION_IMPORT_FILE_ERROR = "12004";
+    String DEFINITION_DEPLOY_NOT_FOUND = "12005";
+    String DEFINITION_HAVE_INSTANCE = "12006";
+    String DEFINITION_RESOURCE_NOT_FOUND = "12007";
+    String DEPLOY_NOT_FOUND = "12008";
+    String DEPLOY_RESOURCE_NOT_FOUND = "12009";
+    String DEFINITION_XML_READ_ERROR = "12010";
+    String DEFINITION_IMAGE_NOT_FOUND = "12011";
+    String DEFINITION_IMAGE_READ_ERROR = "12012";
+    String DEFINITION_IDENTITY_ID_NOT_FOUND = "12013";
+    String DEFINITION_IDENTITY_TYPE_NOT_FOUND = "12014";
+    String DEFINITION_IDENTITY_TYPE_ERROR = "12015";
+    String DEFINITION_IDENTITY_NOT_FOUND = "12016";
+    String DEFINITION_HAVE_TIME_JOB = "12017";
 
-	public static final String TASK_NOT_FOUND = "14001";
-	public static final String TASK_RUN_NOT_DELETE = "14002";
-	public static final String TASK_IDENTITY_ID_NOT_FOUND = "14003";
-	public static final String TASK_IDENTITY_TYPE_NOT_FOUND = "14004";
-	public static final String TASK_IDENTITY_TYPE_ERROR = "14005";
-	public static final String TASK_IDENTITY_NOT_FOUND = "14006";
+    String INSTANCE_NOT_FOUND = "13001";
+    String INSTANCE_ALREADY_SUSPEND = "13002";
+    String INSTANCE_ALREADY_ACTIVE = "13003";
+    String INSTANCE_IMAGE_NOT_FOUND = "13004";
+    String INSTANCE_IMAGE_READ_ERROR = "13005";
+    String INSTANCE_HAVE_PARENT = "13006";
+    String INSTANCE_VAR_NAME_NOT_FOUND = "13007";
+    String INSTANCE_START_PARAM_TO_MANY = "13008";
+    String INSTANCE_START_TENANT_ERROR = "13009";
+
+    String TASK_NOT_FOUND = "14001";
+    String TASK_RUN_NOT_DELETE = "14002";
+    String TASK_IDENTITY_ID_NOT_FOUND = "14003";
+    String TASK_IDENTITY_TYPE_NOT_FOUND = "14004";
+    String TASK_IDENTITY_TYPE_ERROR = "14005";
+    String TASK_IDENTITY_NOT_FOUND = "14006";
 
 }

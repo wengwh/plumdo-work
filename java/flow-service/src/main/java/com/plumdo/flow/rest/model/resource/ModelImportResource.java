@@ -29,69 +29,69 @@ import com.plumdo.flow.constant.TableConstant;
 import com.plumdo.flow.rest.model.ModelResponse;
 
 /**
- * 模型导入
+ * 流程模型导入接口
  *
  * @author wengwenhui
  * @date 2018年4月11日
  */
 @RestController
 public class ModelImportResource extends BaseModelResource {
-	private BpmnXMLConverter bpmnXmlConverter = new BpmnXMLConverter();
-	private BpmnJsonConverter bpmnJsonConverter = new BpmnJsonConverter();
+    private BpmnXMLConverter bpmnXmlConverter = new BpmnXMLConverter();
+    private BpmnJsonConverter bpmnJsonConverter = new BpmnJsonConverter();
 
-	@PostMapping(value = "/models/import", name = "流程模型导入")
-	@ResponseStatus(value = HttpStatus.CREATED)
-	@Transactional(propagation = Propagation.REQUIRED)
-	public ModelResponse importModel(HttpServletRequest request) {
-		if (request instanceof MultipartHttpServletRequest == false) {
-			exceptionFactory.throwIllegalArgument(ErrorConstant.REQUEST_NOT_MULTIPART);
-		}
+    @PostMapping(value = "/models/import", name = "流程模型导入")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ModelResponse importModel(HttpServletRequest request) {
+        if (!(request instanceof MultipartHttpServletRequest)) {
+            exceptionFactory.throwIllegalArgument(ErrorConstant.REQUEST_NOT_MULTIPART);
+        }
 
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
-		if (multipartRequest.getFileMap().size() == 0) {
-			exceptionFactory.throwIllegalArgument(ErrorConstant.MULTIPART_CONTENT_EMPTY);
-		}
+        if (multipartRequest.getFileMap().size() == 0) {
+            exceptionFactory.throwIllegalArgument(ErrorConstant.MULTIPART_CONTENT_EMPTY);
+        }
 
-		MultipartFile file = multipartRequest.getFileMap().values().iterator().next();
+        MultipartFile file = multipartRequest.getFileMap().values().iterator().next();
 
-		String fileName = file.getOriginalFilename();
-		if (fileName == null || (!fileName.endsWith(".bpmn") && !fileName.endsWith(".bpmn20.xml"))) {
-			exceptionFactory.throwIllegalArgument(ErrorConstant.FILE_NOT_BPMN, fileName);
-		}
-		try {
-			XMLInputFactory xif = XMLInputFactory.newInstance();
-			InputStreamReader xmlIn = new InputStreamReader(file.getInputStream(), "UTF-8");
-			XMLStreamReader xtr = xif.createXMLStreamReader(xmlIn);
-			BpmnModel bpmnModel = bpmnXmlConverter.convertToBpmnModel(xtr);
-			if (ObjectUtils.isEmpty(bpmnModel.getProcesses())) {
-				exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_NOT_FOUND_PROCESS, fileName);
-			}
-			Process process = bpmnModel.getMainProcess();
-			Model modelData = repositoryService.newModel();
-			modelData.setKey(process.getId());
-			Model lastModel = repositoryService.createModelQuery().modelKey(modelData.getKey()).latestVersion().singleResult();
-			if (lastModel == null) {
-				modelData.setVersion(TableConstant.MODEL_VESION_START);
-			} else {
-				modelData.setVersion(lastModel.getVersion() + 1);
-			}
-			if (ObjectUtils.isNotEmpty(process.getName())) {
-				modelData.setName(process.getName());
-			}else {
-				modelData.setName(process.getId());
-			}
-			ObjectNode metaInfo = new ObjectMapper().createObjectNode();
-			metaInfo.put("name", modelData.getName());
-			metaInfo.put("description", process.getDocumentation());
-			modelData.setMetaInfo(metaInfo.toString());
-			repositoryService.saveModel(modelData);
-			managementService.executeCommand(new SaveModelEditorCmd(modelData.getId(), bpmnJsonConverter.convertToJson(bpmnModel).toString()));
-			return restResponseFactory.createModelResponse(modelData);
-		} catch (Exception e) {
-			logger.error("导入流程文件异常", e);
-			exceptionFactory.throwDefinedException(ErrorConstant.MODEL_IMPORT_FILE_ERROR, fileName, e.getMessage());
-		}
-		return null;
-	}
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || (!fileName.endsWith(".bpmn") && !fileName.endsWith(".bpmn20.xml"))) {
+            exceptionFactory.throwIllegalArgument(ErrorConstant.FILE_NOT_BPMN, fileName);
+        }
+        try {
+            XMLInputFactory xif = XMLInputFactory.newInstance();
+            InputStreamReader xmlIn = new InputStreamReader(file.getInputStream(), "UTF-8");
+            XMLStreamReader xtr = xif.createXMLStreamReader(xmlIn);
+            BpmnModel bpmnModel = bpmnXmlConverter.convertToBpmnModel(xtr);
+            if (ObjectUtils.isEmpty(bpmnModel.getProcesses())) {
+                exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_NOT_FOUND_PROCESS, fileName);
+            }
+            Process process = bpmnModel.getMainProcess();
+            Model modelData = repositoryService.newModel();
+            modelData.setKey(process.getId());
+            Model lastModel = repositoryService.createModelQuery().modelKey(modelData.getKey()).latestVersion().singleResult();
+            if (lastModel == null) {
+                modelData.setVersion(TableConstant.MODEL_VESION_START);
+            } else {
+                modelData.setVersion(lastModel.getVersion() + 1);
+            }
+            if (ObjectUtils.isNotEmpty(process.getName())) {
+                modelData.setName(process.getName());
+            } else {
+                modelData.setName(process.getId());
+            }
+            ObjectNode metaInfo = new ObjectMapper().createObjectNode();
+            metaInfo.put("name", modelData.getName());
+            metaInfo.put("description", process.getDocumentation());
+            modelData.setMetaInfo(metaInfo.toString());
+            repositoryService.saveModel(modelData);
+            managementService.executeCommand(new SaveModelEditorCmd(modelData.getId(), bpmnJsonConverter.convertToJson(bpmnModel).toString()));
+            return restResponseFactory.createModelResponse(modelData);
+        } catch (Exception e) {
+            logger.error("导入流程文件异常", e);
+            exceptionFactory.throwDefinedException(ErrorConstant.MODEL_IMPORT_FILE_ERROR, fileName, e.getMessage());
+        }
+        return null;
+    }
 }

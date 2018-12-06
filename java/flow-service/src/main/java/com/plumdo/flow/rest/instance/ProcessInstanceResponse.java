@@ -2,123 +2,129 @@ package com.plumdo.flow.rest.instance;
 
 import java.util.Date;
 
+/**
+ * 流程实例结果类
+ *
+ * @author wengwh
+ * @date 2018/12/6
+ */
 public class ProcessInstanceResponse {
-	protected String id;
-	protected String businessKey;
-	protected boolean suspended;
-	protected String processDefinitionId;
-	protected String processDefinitionName;
-	protected String processDefinitionKey;
-	protected Integer processDefinitionVersion;
-	protected String currentActivityId;
-	protected String currentActivityName;
-	protected String tenantId;
-	protected Date startTime;
-	protected String startUserId;
-	protected String superProcessInstanceId;
+    protected String id;
+    protected String businessKey;
+    protected boolean suspended;
+    protected String processDefinitionId;
+    protected String processDefinitionName;
+    protected String processDefinitionKey;
+    protected Integer processDefinitionVersion;
+    protected String currentActivityId;
+    protected String currentActivityName;
+    protected String tenantId;
+    protected Date startTime;
+    protected String startUserId;
+    protected String superProcessInstanceId;
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getBusinessKey() {
-		return businessKey;
-	}
+    public String getBusinessKey() {
+        return businessKey;
+    }
 
-	public void setBusinessKey(String businessKey) {
-		this.businessKey = businessKey;
-	}
+    public void setBusinessKey(String businessKey) {
+        this.businessKey = businessKey;
+    }
 
-	public boolean isSuspended() {
-		return suspended;
-	}
+    public boolean isSuspended() {
+        return suspended;
+    }
 
-	public void setSuspended(boolean suspended) {
-		this.suspended = suspended;
-	}
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
+    }
 
-	public String getProcessDefinitionId() {
-		return processDefinitionId;
-	}
+    public String getProcessDefinitionId() {
+        return processDefinitionId;
+    }
 
-	public void setProcessDefinitionId(String processDefinitionId) {
-		this.processDefinitionId = processDefinitionId;
-	}
+    public void setProcessDefinitionId(String processDefinitionId) {
+        this.processDefinitionId = processDefinitionId;
+    }
 
-	public String getProcessDefinitionName() {
-		return processDefinitionName;
-	}
+    public String getProcessDefinitionName() {
+        return processDefinitionName;
+    }
 
-	public void setProcessDefinitionName(String processDefinitionName) {
-		this.processDefinitionName = processDefinitionName;
-	}
+    public void setProcessDefinitionName(String processDefinitionName) {
+        this.processDefinitionName = processDefinitionName;
+    }
 
-	public String getProcessDefinitionKey() {
-		return processDefinitionKey;
-	}
+    public String getProcessDefinitionKey() {
+        return processDefinitionKey;
+    }
 
-	public void setProcessDefinitionKey(String processDefinitionKey) {
-		this.processDefinitionKey = processDefinitionKey;
-	}
+    public void setProcessDefinitionKey(String processDefinitionKey) {
+        this.processDefinitionKey = processDefinitionKey;
+    }
 
-	public Integer getProcessDefinitionVersion() {
-		return processDefinitionVersion;
-	}
+    public Integer getProcessDefinitionVersion() {
+        return processDefinitionVersion;
+    }
 
-	public void setProcessDefinitionVersion(Integer processDefinitionVersion) {
-		this.processDefinitionVersion = processDefinitionVersion;
-	}
+    public void setProcessDefinitionVersion(Integer processDefinitionVersion) {
+        this.processDefinitionVersion = processDefinitionVersion;
+    }
 
-	public String getCurrentActivityId() {
-		return currentActivityId;
-	}
+    public String getCurrentActivityId() {
+        return currentActivityId;
+    }
 
-	public void setCurrentActivityId(String currentActivityId) {
-		this.currentActivityId = currentActivityId;
-	}
+    public void setCurrentActivityId(String currentActivityId) {
+        this.currentActivityId = currentActivityId;
+    }
 
-	public String getTenantId() {
-		return tenantId;
-	}
+    public String getTenantId() {
+        return tenantId;
+    }
 
-	public void setTenantId(String tenantId) {
-		this.tenantId = tenantId;
-	}
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 
-	public Date getStartTime() {
-		return startTime;
-	}
+    public Date getStartTime() {
+        return startTime;
+    }
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 
-	public String getStartUserId() {
-		return startUserId;
-	}
+    public String getStartUserId() {
+        return startUserId;
+    }
 
-	public void setStartUserId(String startUserId) {
-		this.startUserId = startUserId;
-	}
+    public void setStartUserId(String startUserId) {
+        this.startUserId = startUserId;
+    }
 
-	public String getSuperProcessInstanceId() {
-		return superProcessInstanceId;
-	}
+    public String getSuperProcessInstanceId() {
+        return superProcessInstanceId;
+    }
 
-	public void setSuperProcessInstanceId(String superProcessInstanceId) {
-		this.superProcessInstanceId = superProcessInstanceId;
-	}
+    public void setSuperProcessInstanceId(String superProcessInstanceId) {
+        this.superProcessInstanceId = superProcessInstanceId;
+    }
 
-	public String getCurrentActivityName() {
-		return currentActivityName;
-	}
+    public String getCurrentActivityName() {
+        return currentActivityName;
+    }
 
-	public void setCurrentActivityName(String currentActivityName) {
-		this.currentActivityName = currentActivityName;
-	}
+    public void setCurrentActivityName(String currentActivityName) {
+        this.currentActivityName = currentActivityName;
+    }
 
 }

@@ -22,47 +22,56 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.flow.constant.ErrorConstant;
 
-
+/**
+ * 流程实例流程图接口
+ *
+ * @author wengwh
+ * @date 2018/12/6
+ */
 @RestController
 public class ProcessInstanceImageResource extends BaseProcessInstanceResource {
-	@Autowired
-	private RepositoryService repositoryService;
-	@Autowired
-	private ProcessEngineConfiguration processEngineConfiguration;
+    private final RepositoryService repositoryService;
+    private final ProcessEngineConfiguration processEngineConfiguration;
 
-	@GetMapping(value = "/process-instances/{processInstanceId}/image", name="流程实例流程图")
-	public ResponseEntity<byte[]> getProcessInstanceImage(@PathVariable String processInstanceId) {
-		HistoricProcessInstance processInstance = getHistoricProcessInstanceFromRequest(processInstanceId);
-		ProcessDefinition pde = repositoryService.getProcessDefinition(processInstance.getProcessDefinitionId());
-		if (pde == null || !pde.hasGraphicalNotation()) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.INSTANCE_IMAGE_NOT_FOUND, processInstance.getId());
-		}
-		
-		List<String> highLightedActivities = null;
-		if (processInstance.getEndTime() == null) {
-			highLightedActivities = runtimeService.getActiveActivityIds(processInstance.getId());
-		} else {
-			highLightedActivities = Collections.<String>emptyList();
-		}
-		
-		BpmnModel bpmnModel = repositoryService.getBpmnModel(pde.getId());
-		ProcessDiagramGenerator diagramGenerator = processEngineConfiguration.getProcessDiagramGenerator();
-		
-		InputStream resource = diagramGenerator.generateDiagram(bpmnModel,"png", highLightedActivities, 
-				Collections.<String> emptyList(),
-				processEngineConfiguration.getActivityFontName(),
-				processEngineConfiguration.getLabelFontName(),
-				processEngineConfiguration.getAnnotationFontName(),
-				processEngineConfiguration.getClassLoader(), 1.0);
+    @Autowired
+    public ProcessInstanceImageResource(RepositoryService repositoryService, ProcessEngineConfiguration processEngineConfiguration) {
+        this.repositoryService = repositoryService;
+        this.processEngineConfiguration = processEngineConfiguration;
+    }
 
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.IMAGE_PNG);
-		try {
-			return new ResponseEntity<byte[]>(IOUtils.toByteArray(resource), responseHeaders, HttpStatus.OK);
-		} catch (Exception e) {
-			exceptionFactory.throwDefinedException(ErrorConstant.INSTANCE_IMAGE_READ_ERROR, e.getMessage());
-		}
+    @GetMapping(value = "/process-instances/{processInstanceId}/image", name = "流程实例流程图")
+    public ResponseEntity<byte[]> getProcessInstanceImage(@PathVariable String processInstanceId) {
+        HistoricProcessInstance processInstance = getHistoricProcessInstanceFromRequest(processInstanceId);
+        ProcessDefinition pde = repositoryService.getProcessDefinition(processInstance.getProcessDefinitionId());
+        if (pde == null || !pde.hasGraphicalNotation()) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.INSTANCE_IMAGE_NOT_FOUND, processInstance.getId());
+        }
 
-		return null;
-	}
+        List<String> highLightedActivities;
+        if (processInstance.getEndTime() == null) {
+            highLightedActivities = runtimeService.getActiveActivityIds(processInstance.getId());
+        } else {
+            highLightedActivities = Collections.emptyList();
+        }
+
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(pde.getId());
+        ProcessDiagramGenerator diagramGenerator = processEngineConfiguration.getProcessDiagramGenerator();
+
+        InputStream resource = diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivities,
+                Collections.emptyList(),
+                processEngineConfiguration.getActivityFontName(),
+                processEngineConfiguration.getLabelFontName(),
+                processEngineConfiguration.getAnnotationFontName(),
+                processEngineConfiguration.getClassLoader(), 1.0);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.IMAGE_PNG);
+        try {
+            return new ResponseEntity<>(IOUtils.toByteArray(resource), responseHeaders, HttpStatus.OK);
+        } catch (Exception e) {
+            exceptionFactory.throwDefinedException(ErrorConstant.INSTANCE_IMAGE_READ_ERROR, e.getMessage());
+        }
+
+        return null;
+    }
 }

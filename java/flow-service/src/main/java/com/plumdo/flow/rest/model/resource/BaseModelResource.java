@@ -16,25 +16,25 @@ import com.plumdo.flow.rest.RestResponseFactory;
  * @date 2018年4月11日
  */
 public class BaseModelResource extends BaseResource {
-	@Autowired
-	protected RestResponseFactory restResponseFactory;
-	@Autowired
-	protected RepositoryService repositoryService;
-	@Autowired
-	protected ManagementService managementService;
+    @Autowired
+    protected RestResponseFactory restResponseFactory;
+    @Autowired
+    protected RepositoryService repositoryService;
+    @Autowired
+    protected ManagementService managementService;
 
-	protected Model getModelFromRequest(String modelId) {
-		Model model = repositoryService.getModel(modelId);
-		if (model == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_NOT_FOUND, modelId);
-		}
-		return model;
-	}
+    Model getModelFromRequest(String modelId) {
+        Model model = repositoryService.getModel(modelId);
+        if (model == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_NOT_FOUND, modelId);
+        }
+        return model;
+    }
 
-	protected void checkModelKeyExists(String modelKey) {
-		long countNum = repositoryService.createModelQuery().modelKey(modelKey).count();
-		if (countNum > 0) {
-			exceptionFactory.throwForbidden(ErrorConstant.MODEL_KEY_ALREADY_EXISTS);
-		}
-	}
+    void checkModelKeyExists(String modelKey) {
+        long countNum = repositoryService.createModelQuery().modelKey(modelKey).count();
+        if (countNum > 0) {
+            exceptionFactory.throwForbidden(ErrorConstant.MODEL_KEY_ALREADY_EXISTS);
+        }
+    }
 }

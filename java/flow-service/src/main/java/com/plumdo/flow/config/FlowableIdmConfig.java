@@ -21,20 +21,20 @@ import com.plumdo.flow.identity.AiaUserEntityManager;
  * @date 2018年4月20日
  */
 @Configuration
-public class FlowableIdmConfig extends IdmEngineAutoConfiguration{
-	@Autowired
-	private RestClient restClient;
-	
-	public FlowableIdmConfig(FlowableProperties flowableProperties, FlowableIdmProperties idmProperties) {
-		super(flowableProperties, idmProperties);
-	}
+public class FlowableIdmConfig extends IdmEngineAutoConfiguration {
+    @Autowired
+    private RestClient restClient;
 
-	@Autowired
-	public SpringIdmEngineConfiguration idmEngineConfiguration(DataSource dataSource, PlatformTransactionManager platformTransactionManager) {
+    public FlowableIdmConfig(FlowableProperties flowableProperties, FlowableIdmProperties idmProperties) {
+        super(flowableProperties, idmProperties);
+    }
+
+    @Autowired
+    public SpringIdmEngineConfiguration idmEngineConfiguration(DataSource dataSource, PlatformTransactionManager platformTransactionManager) {
         SpringIdmEngineConfiguration configuration = super.idmEngineConfiguration(dataSource, platformTransactionManager);
-        configuration.setGroupEntityManager(new AiaGroupEntityManager(restClient,configuration,configuration.getGroupDataManager()));
+        configuration.setGroupEntityManager(new AiaGroupEntityManager(restClient, configuration, configuration.getGroupDataManager()));
         configuration.setUserEntityManager(new AiaUserEntityManager(restClient, configuration, configuration.getUserDataManager()));
         return configuration;
     }
-	
+
 }

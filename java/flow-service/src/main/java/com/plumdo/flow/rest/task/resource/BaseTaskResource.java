@@ -10,28 +10,34 @@ import com.plumdo.common.resource.BaseResource;
 import com.plumdo.flow.constant.ErrorConstant;
 import com.plumdo.flow.rest.RestResponseFactory;
 
+/**
+ * 任务接口基类
+ *
+ * @author wengwh
+ * @date 2018/12/6
+ */
 public class BaseTaskResource extends BaseResource {
-	@Autowired
-	protected RestResponseFactory restResponseFactory;
-	@Autowired
-	protected TaskService taskService;
-	@Autowired
-	protected HistoryService historyService;
+    @Autowired
+    protected RestResponseFactory restResponseFactory;
+    @Autowired
+    protected TaskService taskService;
+    @Autowired
+    protected HistoryService historyService;
 
-	protected Task getTaskFromRequest(String taskId) {
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		if (task == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.TASK_NOT_FOUND, taskId);
-		}
-		return task;
-	}
+    Task getTaskFromRequest(String taskId) {
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        if (task == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.TASK_NOT_FOUND, taskId);
+        }
+        return task;
+    }
 
-	protected HistoricTaskInstance getHistoricTaskFromRequest(String taskId) {
-		HistoricTaskInstance task = historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
-		if (task == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.TASK_NOT_FOUND, taskId);
-		}
-		return task;
-	}
+    HistoricTaskInstance getHistoricTaskFromRequest(String taskId) {
+        HistoricTaskInstance task = historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+        if (task == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.TASK_NOT_FOUND, taskId);
+        }
+        return task;
+    }
 
 }

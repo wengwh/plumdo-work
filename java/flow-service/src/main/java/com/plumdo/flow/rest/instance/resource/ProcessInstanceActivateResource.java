@@ -10,19 +10,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.plumdo.flow.constant.ErrorConstant;
 
 
+/**
+ * 流程实例激活接口
+ *
+ * @author wengwh
+ * @date 2018/12/6
+ */
 @RestController
 public class ProcessInstanceActivateResource extends BaseProcessInstanceResource {
 
-	@PutMapping(value = "/process-instances/{processInstanceId}/activate", name="流程实例激活")
-	@ResponseStatus(value = HttpStatus.OK)
-	public void activateProcessInstance(@PathVariable String processInstanceId) {
+    @PutMapping(value = "/process-instances/{processInstanceId}/activate", name = "流程实例激活")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void activateProcessInstance(@PathVariable String processInstanceId) {
 
-		ProcessInstance processInstance = getProcessInstanceFromRequest(processInstanceId);
-		    
-		if (!processInstance.isSuspended()) {
-			exceptionFactory.throwConflict(ErrorConstant.INSTANCE_ALREADY_ACTIVE, processInstance.getId());
-		}
+        ProcessInstance processInstance = getProcessInstanceFromRequest(processInstanceId);
 
-		runtimeService.activateProcessInstanceById(processInstance.getId());
-	}
+        if (!processInstance.isSuspended()) {
+            exceptionFactory.throwConflict(ErrorConstant.INSTANCE_ALREADY_ACTIVE, processInstance.getId());
+        }
+
+        runtimeService.activateProcessInstanceById(processInstance.getId());
+    }
 }

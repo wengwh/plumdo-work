@@ -28,23 +28,23 @@ import com.plumdo.flow.constant.ErrorConstant;
 @RestController
 public class ModelXmlResource extends BaseModelResource {
 
-	@GetMapping(value = "/models/{modelId}/xml", name = "获取模型XML")
-	public ResponseEntity<byte[]> getModelXml(@PathVariable String modelId) {
-		Model model = getModelFromRequest(modelId);
-		try {
-			BpmnJsonConverter jsonConverter = new BpmnJsonConverter();
-			JsonNode editorNode = new ObjectMapper().readTree(repositoryService.getModelEditorSource(model.getId()));
-			BpmnModel bpmnModel = jsonConverter.convertToBpmnModel(editorNode);
-			BpmnXMLConverter xmlConverter = new BpmnXMLConverter();
-			byte[] bpmnBytes = xmlConverter.convertToXML(bpmnModel);
-			ByteArrayInputStream in = new ByteArrayInputStream(bpmnBytes);
-			HttpHeaders responseHeaders = new HttpHeaders();
-			responseHeaders.setContentType(MediaType.TEXT_XML);
-			return new ResponseEntity<byte[]>(IOUtils.toByteArray(in), responseHeaders, HttpStatus.OK);
-		} catch (Exception e) {
-			logger.error("获取模型XML信息异常",e);
-			exceptionFactory.throwDefinedException(ErrorConstant.MODEL_XML_READ_ERROR, e.getMessage());
-		}
-		return null;
-	}
+    @GetMapping(value = "/models/{modelId}/xml", name = "获取模型XML")
+    public ResponseEntity<byte[]> getModelXml(@PathVariable String modelId) {
+        Model model = getModelFromRequest(modelId);
+        try {
+            BpmnJsonConverter jsonConverter = new BpmnJsonConverter();
+            JsonNode editorNode = new ObjectMapper().readTree(repositoryService.getModelEditorSource(model.getId()));
+            BpmnModel bpmnModel = jsonConverter.convertToBpmnModel(editorNode);
+            BpmnXMLConverter xmlConverter = new BpmnXMLConverter();
+            byte[] bpmnBytes = xmlConverter.convertToXML(bpmnModel);
+            ByteArrayInputStream in = new ByteArrayInputStream(bpmnBytes);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setContentType(MediaType.TEXT_XML);
+            return new ResponseEntity<>(IOUtils.toByteArray(in), responseHeaders, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("获取模型XML信息异常", e);
+            exceptionFactory.throwDefinedException(ErrorConstant.MODEL_XML_READ_ERROR, e.getMessage());
+        }
+        return null;
+    }
 }

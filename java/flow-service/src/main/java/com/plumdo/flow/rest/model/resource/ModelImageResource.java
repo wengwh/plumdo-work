@@ -11,23 +11,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.flow.constant.ErrorConstant;
 
+/**
+ * 获取模型流程图接口
+ *
+ * @author wengwh
+ * @date 2018/12/6
+ */
 @RestController
 public class ModelImageResource extends BaseModelResource {
 
-	@GetMapping(value = "/models/{modelId}/image", name = "获取模型流程图")
-	public ResponseEntity<byte[]> getModelImage(@PathVariable String modelId) {
-		Model model = getModelFromRequest(modelId);
-		byte[] imageBytes = repositoryService.getModelEditorSourceExtra(model.getId());
-		if (imageBytes == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_IMAGE_NOT_FOUND, model.getId());
-		}
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.IMAGE_PNG);
-		try {
-			return new ResponseEntity<byte[]>(imageBytes, responseHeaders, HttpStatus.OK);
-		} catch (Exception e) {
-			exceptionFactory.throwDefinedException(ErrorConstant.MODEL_IMAGE_READ_ERROR, e.getMessage());
-		}
-		return null;
-	}
+    @GetMapping(value = "/models/{modelId}/image", name = "获取模型流程图")
+    public ResponseEntity<byte[]> getModelImage(@PathVariable String modelId) {
+        Model model = getModelFromRequest(modelId);
+        byte[] imageBytes = repositoryService.getModelEditorSourceExtra(model.getId());
+        if (imageBytes == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.MODEL_IMAGE_NOT_FOUND, model.getId());
+        }
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.IMAGE_PNG);
+        try {
+            return new ResponseEntity<>(imageBytes, responseHeaders, HttpStatus.OK);
+        } catch (Exception e) {
+            exceptionFactory.throwDefinedException(ErrorConstant.MODEL_IMAGE_READ_ERROR, e.getMessage());
+        }
+        return null;
+    }
 }

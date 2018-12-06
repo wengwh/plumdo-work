@@ -24,22 +24,22 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 public class FlowableEngineConfig extends ProcessEngineAutoConfiguration {
 
-	public FlowableEngineConfig(FlowableProperties flowableProperties, FlowableProcessProperties processProperties, FlowableIdmProperties idmProperties, FlowableMailProperties mailProperties) {
-		super(flowableProperties, processProperties, idmProperties, mailProperties);
-	}
+    public FlowableEngineConfig(FlowableProperties flowableProperties, FlowableProcessProperties processProperties, FlowableIdmProperties idmProperties, FlowableMailProperties mailProperties) {
+        super(flowableProperties, processProperties, idmProperties, mailProperties);
+    }
 
-	@Override
-	public SpringProcessEngineConfiguration springProcessEngineConfiguration(DataSource dataSource, PlatformTransactionManager platformTransactionManager, ObjectProvider<AsyncExecutor> asyncExecutorProvider)
-			throws IOException {
-		SpringProcessEngineConfiguration conf = super.springProcessEngineConfiguration(dataSource, platformTransactionManager, asyncExecutorProvider);
-		String databaseSchema = conf.getDatabaseSchema();
-		conf.setDatabaseCatalog(databaseSchema);
-		conf.setDatabaseTablePrefix(databaseSchema + ".");
-		conf.setTablePrefixIsSchema(true);
-		conf.setActivityFontName("黑体");
-		conf.setLabelFontName("黑体");
-		conf.setAnnotationFontName("黑体");
-		return conf;
-	}
+    @Override
+    public SpringProcessEngineConfiguration springProcessEngineConfiguration(DataSource dataSource, PlatformTransactionManager platformTransactionManager, ObjectProvider<AsyncExecutor> asyncExecutorProvider)
+            throws IOException {
+        SpringProcessEngineConfiguration conf = super.springProcessEngineConfiguration(dataSource, platformTransactionManager, asyncExecutorProvider);
+        String databaseSchema = conf.getDatabaseSchema();
+        conf.setDatabaseCatalog(databaseSchema);
+        conf.setDatabaseTablePrefix(databaseSchema + ".");
+        conf.setTablePrefixIsSchema(true);
+        conf.setActivityFontName("黑体");
+        conf.setLabelFontName("黑体");
+        conf.setAnnotationFontName("黑体");
+        return conf;
+    }
 
 }

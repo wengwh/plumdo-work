@@ -30,46 +30,47 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author wengwenhui
  * @date 2018年4月12日
  */
-public class SaveModelEditorCmd implements Command<Void>, Serializable  {
+public class SaveModelEditorCmd implements Command<Void>, Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private String modelId;
-	private String editorJson;
-	
-	public SaveModelEditorCmd(String modelId,String editorJson) {
-		this.modelId = modelId;
-		this.editorJson = editorJson;
-	}
-	
-	public Void execute(CommandContext commandContext) {
-		ProcessEngineConfiguration processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-		RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();
+    private static final long serialVersionUID = 1L;
+    private String modelId;
+    private String editorJson;
 
-		try {
-			byte[] bytes = editorJson.getBytes("utf-8");
-			repositoryService.addModelEditorSource(modelId, bytes);
-			ObjectNode modelNode = (ObjectNode) new ObjectMapper().readTree(bytes);
-			BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(modelNode);
-			BpmnXMLConverter xmlConverter = new BpmnXMLConverter();
-			byte[] bpmnBytes = xmlConverter.convertToXML(bpmnModel);
-			XMLInputFactory xif = XMLInputFactory.newInstance();
-			InputStreamReader xmlIn = new InputStreamReader(new ByteArrayInputStream(bpmnBytes), "UTF-8");
-			XMLStreamReader xtr = xif.createXMLStreamReader(xmlIn);
-			bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
-			
-			ProcessDiagramGenerator diagramGenerator = processEngineConfiguration.getProcessDiagramGenerator();
-			InputStream resource = diagramGenerator.generateDiagram(bpmnModel,"png", 
-						Collections.<String> emptyList(), Collections.<String> emptyList(), 
-						processEngineConfiguration.getActivityFontName(), 
-						processEngineConfiguration.getLabelFontName(), 
-						processEngineConfiguration.getAnnotationFontName(),
-						processEngineConfiguration.getClassLoader(), 1.0);
-	
-			repositoryService.addModelEditorSourceExtra(modelId, IOUtils.toByteArray(resource));
-		} catch (Exception e) {
-			throw new FlowableException("create model exception :"+e.getMessage());
-		}
-	    return null;
-	}
+    public SaveModelEditorCmd(String modelId, String editorJson) {
+        this.modelId = modelId;
+        this.editorJson = editorJson;
+    }
+
+    @Override
+    public Void execute(CommandContext commandContext) {
+        ProcessEngineConfiguration processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
+        RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();
+
+        try {
+            byte[] bytes = editorJson.getBytes("utf-8");
+            repositoryService.addModelEditorSource(modelId, bytes);
+            ObjectNode modelNode = (ObjectNode) new ObjectMapper().readTree(bytes);
+            BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+            BpmnXMLConverter xmlConverter = new BpmnXMLConverter();
+            byte[] bpmnBytes = xmlConverter.convertToXML(bpmnModel);
+            XMLInputFactory xif = XMLInputFactory.newInstance();
+            InputStreamReader xmlIn = new InputStreamReader(new ByteArrayInputStream(bpmnBytes), "UTF-8");
+            XMLStreamReader xtr = xif.createXMLStreamReader(xmlIn);
+            bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
+
+            ProcessDiagramGenerator diagramGenerator = processEngineConfiguration.getProcessDiagramGenerator();
+            InputStream resource = diagramGenerator.generateDiagram(bpmnModel, "png",
+                    Collections.emptyList(), Collections.emptyList(),
+                    processEngineConfiguration.getActivityFontName(),
+                    processEngineConfiguration.getLabelFontName(),
+                    processEngineConfiguration.getAnnotationFontName(),
+                    processEngineConfiguration.getClassLoader(), 1.0);
+
+            repositoryService.addModelEditorSourceExtra(modelId, IOUtils.toByteArray(resource));
+        } catch (Exception e) {
+            throw new FlowableException("create model exception :" + e.getMessage());
+        }
+        return null;
+    }
 
 }

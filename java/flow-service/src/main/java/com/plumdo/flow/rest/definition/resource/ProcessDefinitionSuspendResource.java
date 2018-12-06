@@ -20,21 +20,21 @@ import com.plumdo.flow.rest.definition.ProcessDefinitionActionRequest;
 @RestController
 public class ProcessDefinitionSuspendResource extends BaseProcessDefinitionResource {
 
-	@PutMapping(value = "/process-definitions/{processDefinitionId}/suspend", name = "流程定义挂起")
-	@ResponseStatus(value = HttpStatus.OK)
-	public void suspendProcessDefinition(@PathVariable String processDefinitionId, @RequestBody(required = false) ProcessDefinitionActionRequest actionRequest) {
+    @PutMapping(value = "/process-definitions/{processDefinitionId}/suspend", name = "流程定义挂起")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void suspendProcessDefinition(@PathVariable String processDefinitionId, @RequestBody(required = false) ProcessDefinitionActionRequest actionRequest) {
 
-		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
+        ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
 
-		if (processDefinition.isSuspended()) {
-			exceptionFactory.throwConflict(ErrorConstant.DEFINITION_ALREADY_SUSPEND, processDefinition.getId());
-		}
+        if (processDefinition.isSuspended()) {
+            exceptionFactory.throwConflict(ErrorConstant.DEFINITION_ALREADY_SUSPEND, processDefinition.getId());
+        }
 
-		if (actionRequest == null) {
-			repositoryService.suspendProcessDefinitionById(processDefinitionId);
-		} else {
-			repositoryService.suspendProcessDefinitionById(processDefinition.getId(), actionRequest.isIncludeProcessInstances(), actionRequest.getDate());
-		}
+        if (actionRequest == null) {
+            repositoryService.suspendProcessDefinitionById(processDefinitionId);
+        } else {
+            repositoryService.suspendProcessDefinitionById(processDefinition.getId(), actionRequest.isIncludeProcessInstances(), actionRequest.getDate());
+        }
 
-	}
+    }
 }

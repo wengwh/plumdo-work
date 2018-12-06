@@ -28,58 +28,68 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.flow.rest.model.ModelResponse;
 
+/**
+ * 流程定义获取对应模型接口
+ *
+ * @author wengwh
+ * @date 2018/12/6
+ */
 @RestController
 public class ProcessDefinitionGetModelResource extends BaseProcessDefinitionResource {
 
-	@Autowired
-	protected ManagementService managementService;
+    private final ManagementService managementService;
 
-	@RequestMapping(value = "/process-definitions/{processDefinitionId}/getModel", method = RequestMethod.GET, produces = "application/json", name="流程定义获取对应模型")
-	public ModelResponse processDefinitionGetModel(@PathVariable String processDefinitionId) {
-		ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
-		try {
-			Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
-			
-			if(deployment == null){
-				throw new FlowableObjectNotFoundException("Could not find a process deployment with id '"+ processDefinition.getDeploymentId() + "'.",Deployment.class);
-			}
-			Model modelData = null;
-			
-			if(deployment.getCategory()!=null){
-				modelData = repositoryService.getModel(deployment.getCategory());
-			}
-			//如果不存在，创建对应模型
-			if(modelData == null){
-				InputStream bpmnStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), processDefinition.getResourceName());
-				XMLInputFactory xif = XMLInputFactory.newInstance();
-				InputStreamReader in = new InputStreamReader(bpmnStream, "UTF-8");
-				XMLStreamReader xtr = xif.createXMLStreamReader(in);
-				BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
+    @Autowired
+    public ProcessDefinitionGetModelResource(ManagementService managementService) {
+        this.managementService = managementService;
+    }
 
-				BpmnJsonConverter converter = new BpmnJsonConverter();
-				ObjectNode modelNode = converter.convertToJson(bpmnModel);
-				modelData = repositoryService.newModel();
-				modelData.setKey(processDefinition.getKey());
-				modelData.setName(processDefinition.getName());
-				modelData.setCategory(processDefinition.getCategory());
+    @RequestMapping(value = "/process-definitions/{processDefinitionId}/getModel", method = RequestMethod.GET, produces = "application/json", name = "流程定义获取对应模型")
+    public ModelResponse processDefinitionGetModel(@PathVariable String processDefinitionId) {
+        ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
+        try {
+            Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
 
-				ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
-				modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME,processDefinition.getName());
-				modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, 1);
-				modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION,processDefinition.getDescription());
-				modelData.setMetaInfo(modelObjectNode.toString());
+            if (deployment == null) {
+                throw new FlowableObjectNotFoundException("Could not find a process deployment with id '" + processDefinition.getDeploymentId() + "'.", Deployment.class);
+            }
+            Model modelData = null;
 
-				repositoryService.saveModel(modelData);
+            if (deployment.getCategory() != null) {
+                modelData = repositoryService.getModel(deployment.getCategory());
+            }
+            //如果不存在，创建对应模型
+            if (modelData == null) {
+                InputStream bpmnStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), processDefinition.getResourceName());
+                XMLInputFactory xif = XMLInputFactory.newInstance();
+                InputStreamReader in = new InputStreamReader(bpmnStream, "UTF-8");
+                XMLStreamReader xtr = xif.createXMLStreamReader(in);
+                BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
 
-				repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
-				repositoryService.addModelEditorSourceExtra(modelData.getId(),IOUtils.toByteArray(managementService.executeCommand(new GetDeploymentProcessDiagramCmd(processDefinitionId))));
+                BpmnJsonConverter converter = new BpmnJsonConverter();
+                ObjectNode modelNode = converter.convertToJson(bpmnModel);
+                modelData = repositoryService.newModel();
+                modelData.setKey(processDefinition.getKey());
+                modelData.setName(processDefinition.getName());
+                modelData.setCategory(processDefinition.getCategory());
 
-				repositoryService.setDeploymentCategory(processDefinition.getDeploymentId(), modelData.getId());
-			}
-			return restResponseFactory.createModelResponse(modelData);
-			
-		} catch (Exception e) {
-			throw new FlowableException("Error  process-definition get model", e);
-		}
-	}
+                ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
+                modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, processDefinition.getName());
+                modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, 1);
+                modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, processDefinition.getDescription());
+                modelData.setMetaInfo(modelObjectNode.toString());
+
+                repositoryService.saveModel(modelData);
+
+                repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
+                repositoryService.addModelEditorSourceExtra(modelData.getId(), IOUtils.toByteArray(managementService.executeCommand(new GetDeploymentProcessDiagramCmd(processDefinitionId))));
+
+                repositoryService.setDeploymentCategory(processDefinition.getDeploymentId(), modelData.getId());
+            }
+            return restResponseFactory.createModelResponse(modelData);
+
+        } catch (Exception e) {
+            throw new FlowableException("Error  process-definition get model", e);
+        }
+    }
 }

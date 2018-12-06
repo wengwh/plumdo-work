@@ -9,18 +9,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.plumdo.flow.constant.ErrorConstant;
 
-
+/**
+ * 流程实例挂起接口
+ *
+ * @author wengwh
+ * @date 2018/12/6
+ */
 @RestController
 public class ProcessInstanceSuspendResource extends BaseProcessInstanceResource {
-	
-	@PutMapping(value = "/process-instances/{processInstanceId}/suspend", name="流程实例挂起")
-	@ResponseStatus(value = HttpStatus.OK)
-	public void suspendProcessInstance(@PathVariable String processInstanceId) {
-		ProcessInstance processInstance = getProcessInstanceFromRequest(processInstanceId);
-		    
-		if (processInstance.isSuspended()) {
-			exceptionFactory.throwConflict(ErrorConstant.INSTANCE_ALREADY_SUSPEND, processInstance.getId());
-		}
-		runtimeService.suspendProcessInstanceById(processInstance.getId());
-	}
+
+    @PutMapping(value = "/process-instances/{processInstanceId}/suspend", name = "流程实例挂起")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void suspendProcessInstance(@PathVariable String processInstanceId) {
+        ProcessInstance processInstance = getProcessInstanceFromRequest(processInstanceId);
+
+        if (processInstance.isSuspended()) {
+            exceptionFactory.throwConflict(ErrorConstant.INSTANCE_ALREADY_SUSPEND, processInstance.getId());
+        }
+        runtimeService.suspendProcessInstanceById(processInstance.getId());
+    }
 }

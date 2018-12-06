@@ -17,23 +17,23 @@ import com.plumdo.flow.rest.RestResponseFactory;
  * @date 2018年4月17日
  */
 public class BaseProcessDefinitionResource extends BaseResource {
-	@Autowired
-	protected RestResponseFactory restResponseFactory;
-	@Autowired
-	protected RepositoryService repositoryService;
-	@Autowired
-	protected ManagementService managementService;
-	@Autowired
-	protected RuntimeService runtimeService;
+    @Autowired
+    protected RestResponseFactory restResponseFactory;
+    @Autowired
+    protected RepositoryService repositoryService;
+    @Autowired
+    protected ManagementService managementService;
+    @Autowired
+    protected RuntimeService runtimeService;
 
-	protected ProcessDefinition getProcessDefinitionFromRequest(String processDefinitionId) {
-		// 直接查询数据库，不查询缓存，防止出现挂起激活验证不一致
-		ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+    ProcessDefinition getProcessDefinitionFromRequest(String processDefinitionId) {
+        // 直接查询数据库，不查询缓存，防止出现挂起激活验证不一致
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
 
-		if (processDefinition == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.DEFINITION_NOT_FOUND, processDefinitionId);
-		}
+        if (processDefinition == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.DEFINITION_NOT_FOUND, processDefinitionId);
+        }
 
-		return processDefinition;
-	}
+        return processDefinition;
+    }
 }

@@ -23,56 +23,56 @@ import com.plumdo.common.model.ObjectMap;
  * @date 2018年4月19日
  */
 public class AiaGroupEntityManager extends GroupEntityManagerImpl {
-	private RestClient restClient;
+    private RestClient restClient;
 
-	public AiaGroupEntityManager(RestClient restClient,IdmEngineConfiguration idmEngineConfiguration, GroupDataManager groupDataManager) {
-		super(idmEngineConfiguration, groupDataManager);
-		this.restClient = restClient;
-	}
+    public AiaGroupEntityManager(RestClient restClient, IdmEngineConfiguration idmEngineConfiguration, GroupDataManager groupDataManager) {
+        super(idmEngineConfiguration, groupDataManager);
+        this.restClient = restClient;
+    }
 
-	@Override
-	public GroupEntity findById(String entityId) {
-		return restClient.getForIdentityService("/groups/"+entityId, GroupEntity.class);
-	}
+    @Override
+    public GroupEntity findById(String entityId) {
+        return restClient.getForIdentityService("/groups/" + entityId, GroupEntity.class);
+    }
 
 
-	@Override
-	public List<Group> findGroupByQueryCriteria(GroupQueryImpl query) {
-		List<Group> groups =  new ArrayList<>();
-		ObjectMap response = restClient.getForIdentityService("/groups", queryToParams(query), ObjectMap.class);
-		List<ObjectMap> dataMap = response.getAsList("data");
-		for(ObjectMap groupMap : dataMap) {
-			Group group = new GroupEntityImpl();
-			group.setId(groupMap.getAsString("id"));
-			group.setName(groupMap.getAsString("name"));
-			group.setType(groupMap.getAsString("type"));
-			groups.add(group);
-		}
-		return groups;
-	}
-	
+    @Override
+    public List<Group> findGroupByQueryCriteria(GroupQueryImpl query) {
+        List<Group> groups = new ArrayList<>();
+        ObjectMap response = restClient.getForIdentityService("/groups", queryToParams(query), ObjectMap.class);
+        List<ObjectMap> dataMap = response.getAsList("data");
+        for (ObjectMap groupMap : dataMap) {
+            Group group = new GroupEntityImpl();
+            group.setId(groupMap.getAsString("id"));
+            group.setName(groupMap.getAsString("name"));
+            group.setType(groupMap.getAsString("type"));
+            groups.add(group);
+        }
+        return groups;
+    }
 
-	@Override
-	public long findGroupCountByQueryCriteria(GroupQueryImpl query) {
-		ObjectMap response = restClient.getForIdentityService("/groups", queryToParams(query), ObjectMap.class);
-		return response.getAsLong("total");
-	}
 
-	private MultiValueMap<String, String> queryToParams(GroupQueryImpl query) {
-		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-		if(query.getName() != null) {
-			queryParams.add("name", query.getName());
-		}
-		if(query.getNameLike() != null) {
-			queryParams.add("name", query.getNameLike());
-		}
-		if(query.getType() != null) {
-			queryParams.add("type", query.getType());
-		}
-		
-		if(query.getId() != null) {
-			queryParams.add("id", query.getId());
-		}
-		return queryParams;
-	}
+    @Override
+    public long findGroupCountByQueryCriteria(GroupQueryImpl query) {
+        ObjectMap response = restClient.getForIdentityService("/groups", queryToParams(query), ObjectMap.class);
+        return response.getAsLong("total");
+    }
+
+    private MultiValueMap<String, String> queryToParams(GroupQueryImpl query) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        if (query.getName() != null) {
+            queryParams.add("name", query.getName());
+        }
+        if (query.getNameLike() != null) {
+            queryParams.add("name", query.getNameLike());
+        }
+        if (query.getType() != null) {
+            queryParams.add("type", query.getType());
+        }
+
+        if (query.getId() != null) {
+            queryParams.add("id", query.getId());
+        }
+        return queryParams;
+    }
 }
