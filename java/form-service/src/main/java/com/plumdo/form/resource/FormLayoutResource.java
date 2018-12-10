@@ -1,20 +1,5 @@
 package com.plumdo.form.resource;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.common.constant.CoreConstant;
 import com.plumdo.common.jpa.Criteria;
@@ -28,6 +13,12 @@ import com.plumdo.form.domain.FormLayout;
 import com.plumdo.form.repository.ByteArrayRepository;
 import com.plumdo.form.repository.FormFieldRepository;
 import com.plumdo.form.repository.FormLayoutRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 表单布局资源类
@@ -37,98 +28,102 @@ import com.plumdo.form.repository.FormLayoutRepository;
  */
 @RestController
 public class FormLayoutResource extends BaseResource {
-	@Autowired
-	private FormLayoutRepository formLayoutRepository;
-	@Autowired
-	private FormFieldRepository formFieldRepository;
-	@Autowired
-	private ByteArrayRepository byteArrayRepository;
+    private final FormLayoutRepository formLayoutRepository;
+    private final FormFieldRepository formFieldRepository;
+    private final ByteArrayRepository byteArrayRepository;
 
-	private FormLayout getFormLayoutFromRequest(Integer id) {
-		FormLayout formLayout = formLayoutRepository.findOne(id);
-		if (formLayout == null) {
-			exceptionFactory.throwObjectNotFound(ErrorConstant.FORM_LAYOUT_NOT_FOUND);
-		}
-		return formLayout;
-	}
+    @Autowired
+    public FormLayoutResource(FormLayoutRepository formLayoutRepository, FormFieldRepository formFieldRepository, ByteArrayRepository byteArrayRepository) {
+        this.formLayoutRepository = formLayoutRepository;
+        this.formFieldRepository = formFieldRepository;
+        this.byteArrayRepository = byteArrayRepository;
+    }
 
-	@GetMapping(value = "/form-layouts")
-	@ResponseStatus(value = HttpStatus.OK)
-	public PageResponse getFormLayouts(@RequestParam Map<String, String> requestParams) {
-		Criteria<FormLayout> criteria = new Criteria<FormLayout>();
-		criteria.add(Restrictions.eq("id", requestParams.get("id")));
-		criteria.add(Restrictions.eq("tableId", requestParams.get("tableId")));
-		criteria.add(Restrictions.like("name", requestParams.get("name")));
-		criteria.add(Restrictions.like("remark", requestParams.get("remark")));
-		criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId")));
-		return createPageResponse(formLayoutRepository.findAll(criteria, getPageable(requestParams)));
-	}
+    private FormLayout getFormLayoutFromRequest(Integer id) {
+        FormLayout formLayout = formLayoutRepository.findOne(id);
+        if (formLayout == null) {
+            exceptionFactory.throwObjectNotFound(ErrorConstant.FORM_LAYOUT_NOT_FOUND);
+        }
+        return formLayout;
+    }
 
-	@GetMapping(value = "/form-layouts/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public FormLayout getFormLayout(@PathVariable Integer id) {
-		return getFormLayoutFromRequest(id);
-	}
+    @GetMapping(value = "/form-layouts")
+    @ResponseStatus(value = HttpStatus.OK)
+    public PageResponse getFormLayouts(@RequestParam Map<String, String> requestParams) {
+        Criteria<FormLayout> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq("id", requestParams.get("id")));
+        criteria.add(Restrictions.eq("tableId", requestParams.get("tableId")));
+        criteria.add(Restrictions.like("name", requestParams.get("name")));
+        criteria.add(Restrictions.like("remark", requestParams.get("remark")));
+        criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId")));
+        return createPageResponse(formLayoutRepository.findAll(criteria, getPageable(requestParams)));
+    }
 
-	@PostMapping("/form-layouts")
-	@ResponseStatus(HttpStatus.CREATED)
-	public FormLayout createFormLayout(@RequestBody FormLayout formLayoutRequest) {
-		FormLayout formLayout = formLayoutRepository.findFirstByKeyAndTableId(formLayoutRequest.getKey(),
-				formLayoutRequest.getTableId());
-		if (formLayout != null) {
-			exceptionFactory.throwConflict(ErrorConstant.FORM_LAYOUT_KEY_REPEACT);
-		}
-		return formLayoutRepository.save(formLayoutRequest);
-	}
+    @GetMapping(value = "/form-layouts/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public FormLayout getFormLayout(@PathVariable Integer id) {
+        return getFormLayoutFromRequest(id);
+    }
 
-	@PutMapping(value = "/form-layouts/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public FormLayout updateFormLayout(@PathVariable Integer id, @RequestBody FormLayout formLayoutRequest) {
-		FormLayout formLayout = getFormLayoutFromRequest(id);
-		formLayout.setName(formLayoutRequest.getName());
-		formLayout.setRemark(formLayoutRequest.getRemark());
-		formLayout.setTenantId(formLayoutRequest.getTenantId());
-		return formLayoutRepository.save(formLayout);
-	}
+    @PostMapping("/form-layouts")
+    @ResponseStatus(HttpStatus.CREATED)
+    public FormLayout createFormLayout(@RequestBody FormLayout formLayoutRequest) {
+        FormLayout formLayout = formLayoutRepository.findFirstByKeyAndTableId(formLayoutRequest.getKey(),
+                formLayoutRequest.getTableId());
+        if (formLayout != null) {
+            exceptionFactory.throwConflict(ErrorConstant.FORM_LAYOUT_KEY_REPEAT);
+        }
+        return formLayoutRepository.save(formLayoutRequest);
+    }
 
-	@DeleteMapping(value = "/form-layouts/{id}")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteFormLayout(@PathVariable Integer id) {
-		FormLayout formLayout = getFormLayoutFromRequest(id);
-		formLayoutRepository.delete(formLayout);
-	}
+    @PutMapping(value = "/form-layouts/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public FormLayout updateFormLayout(@PathVariable Integer id, @RequestBody FormLayout formLayoutRequest) {
+        FormLayout formLayout = getFormLayoutFromRequest(id);
+        formLayout.setName(formLayoutRequest.getName());
+        formLayout.setRemark(formLayoutRequest.getRemark());
+        formLayout.setTenantId(formLayoutRequest.getTenantId());
+        return formLayoutRepository.save(formLayout);
+    }
 
-	@GetMapping("/form-layouts/{id}/json")
-	@ResponseStatus(HttpStatus.OK)
-	public ObjectNode getFormLayoutJson(@PathVariable Integer id) throws Exception {
-		FormLayout formLayout = getFormLayoutFromRequest(id);
+    @DeleteMapping(value = "/form-layouts/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteFormLayout(@PathVariable Integer id) {
+        FormLayout formLayout = getFormLayoutFromRequest(id);
+        formLayoutRepository.delete(formLayout);
+    }
 
-		List<FormField> formFields = formFieldRepository.findByTableId(formLayout.getTableId());
+    @GetMapping("/form-layouts/{id}/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ObjectNode getFormLayoutJson(@PathVariable Integer id) throws Exception {
+        FormLayout formLayout = getFormLayoutFromRequest(id);
 
-		ObjectNode resultNode = objectMapper.createObjectNode();
-		resultNode.putPOJO("fields", formFields);
+        List<FormField> formFields = formFieldRepository.findByTableId(formLayout.getTableId());
 
-		ByteArray byteArray = byteArrayRepository.findOne(formLayout.getEditorSourceId());
-		if (byteArray == null) {
-			resultNode.putPOJO("json", objectMapper.createArrayNode().toString());
-		} else {
-			resultNode.putPOJO("json", new String(byteArray.getContentByte(), CoreConstant.DEFAULT_CHARSET));
-		}
+        ObjectNode resultNode = objectMapper.createObjectNode();
+        resultNode.putPOJO("fields", formFields);
 
-		return resultNode;
-	}
+        ByteArray byteArray = byteArrayRepository.findOne(formLayout.getEditorSourceId());
+        if (byteArray == null) {
+            resultNode.putPOJO("json", objectMapper.createArrayNode().toString());
+        } else {
+            resultNode.putPOJO("json", new String(byteArray.getContentByte(), CoreConstant.DEFAULT_CHARSET));
+        }
 
-	@PutMapping("/form-layouts/{id}/json")
-	@ResponseStatus(HttpStatus.OK)
-	public void saveFormLayoutJson(@PathVariable Integer id, @RequestBody String editorJson) throws Exception {
-		FormLayout formLayout = getFormLayoutFromRequest(id);
+        return resultNode;
+    }
 
-		ByteArray byteArray = new ByteArray();
-		byteArray.setName(formLayout.getName());
-		byteArray.setContentByte(editorJson.getBytes(CoreConstant.DEFAULT_CHARSET));
-		byteArrayRepository.save(byteArray);
+    @PutMapping("/form-layouts/{id}/json")
+    @ResponseStatus(HttpStatus.OK)
+    public void saveFormLayoutJson(@PathVariable Integer id, @RequestBody String editorJson) throws Exception {
+        FormLayout formLayout = getFormLayoutFromRequest(id);
 
-		formLayout.setEditorSourceId(byteArray.getId());
-		formLayoutRepository.save(formLayout);
-	}
+        ByteArray byteArray = new ByteArray();
+        byteArray.setName(formLayout.getName());
+        byteArray.setContentByte(editorJson.getBytes(CoreConstant.DEFAULT_CHARSET));
+        byteArrayRepository.save(byteArray);
+
+        formLayout.setEditorSourceId(byteArray.getId());
+        formLayoutRepository.save(formLayout);
+    }
 }

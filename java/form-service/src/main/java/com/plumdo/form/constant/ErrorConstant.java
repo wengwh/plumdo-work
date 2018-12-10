@@ -7,14 +7,13 @@ package com.plumdo.form.constant;
  * @author wengwh
  * @date 2018年8月29日
  */
-public class ErrorConstant {
-	public static final String FORM_TABLE_NOT_FOUND = "30001";
-	public static final String FORM_TABLE_KEY_REPEACT = "30002";
+public interface ErrorConstant {
+    String FORM_TABLE_NOT_FOUND = "30001";
+    String FORM_TABLE_KEY_REPEAT = "30002";
 
-	public static final String FORM_FIELD_NOT_FOUND = "31001";
+    String FORM_FIELD_NOT_FOUND = "31001";
 
-	public static final String FORM_LAYOUT_NOT_FOUND = "32001";
-	public static final String FORM_LAYOUT_KEY_REPEACT = "30002";
-	
+    String FORM_LAYOUT_NOT_FOUND = "32001";
+    String FORM_LAYOUT_KEY_REPEAT = "30002";
 
 }

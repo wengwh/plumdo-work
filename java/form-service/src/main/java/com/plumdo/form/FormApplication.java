@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = "com.plumdo")
 public class FormApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FormApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FormApplication.class, args);
+    }
 }
