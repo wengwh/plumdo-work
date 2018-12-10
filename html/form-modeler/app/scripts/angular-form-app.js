@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('builder', [
-    'ui.router', 
+    'ui.router',
     'validator',
     'summernote',
     'ui.sortable',
@@ -15,10 +15,10 @@
     'builder.service',
     'builder.controller',
     'builder.directive'
-  ]).run(['$rootScope', 'notify', 'FormRestService', '$injector',function ($rootScope,notify,FormRestService,$injector) {
+  ]).run(['$rootScope', 'notify', 'FormRestService', '$injector', function ($rootScope, notify, FormRestService, $injector) {
 
     $rootScope.progressNum = 0;
-    
+
     $rootScope.showProgress = function (msg) {
       $rootScope.progressNum++;
       if (msg) {
@@ -26,7 +26,7 @@
       }
     };
 
-    $rootScope.hideProgressBySucess = function (msg) {
+    $rootScope.hideProgressBySuccess = function (msg) {
       $rootScope.hideProgress(msg, 'notify-success');
     };
 
@@ -44,7 +44,7 @@
         }
       }
     };
-    
+
     $rootScope.showSuccessMsg = function (msg) {
       $rootScope.showMsg(msg, 1500, 'notify-success');
     };
@@ -61,42 +61,42 @@
         classes: classes
       });
     };
-    
 
-    var $builder = $injector.get('$builder');
+
+    const $builder = $injector.get('$builder');
     $builder.forms.id = 'root';
     $builder.forms.selectedComponent = {};
     $builder.forms.fields = {};
-    
-    FormRestService.getStencilSet().success(function(data){
+
+    FormRestService.getStencilSet().success(function (data) {
       $rootScope.mainTitle = data.title;
       $rootScope.mainDescription = data.description;
 
-      angular.forEach(data.propertyPackages, function(propertyPackage) {
+      angular.forEach(data.propertyPackages, function (propertyPackage) {
         $builder.registerPropertyPackage(propertyPackage);
       });
 
-      angular.forEach(data.components, function(component) {
+      angular.forEach(data.components, function (component) {
         $builder.registerComponent(component);
       });
 
-      angular.forEach(data.groups, function(group) {
+      angular.forEach(data.groups, function (group) {
         $builder.registerGroup(group);
       });
     });
-    
-    $rootScope.filterSaveComponents = function(formJson){
-      var componets = []
-      angular.forEach(formJson, function(component) {
-        var copyComponent = {};
+
+    $rootScope.filterSaveComponents = function (formJson) {
+      let componets = [];
+      angular.forEach(formJson, function (component) {
+        const copyComponent = {};
         copyComponent.id = component.id;
         copyComponent.arrayValue = component.arrayValue;
         copyComponent.properties = component.properties;
         copyComponent.value = component.value;
-          
-        if(component.forms.length > 0){
+
+        if (component.forms.length > 0) {
           copyComponent.forms = [];
-          angular.forEach(component.forms, function(forms,index){
+          angular.forEach(component.forms, function (forms, index) {
             copyComponent.forms[index] = {};
             copyComponent.forms[index].components = $rootScope.filterSaveComponents(forms.components);
           });
@@ -104,42 +104,42 @@
         componets.push(copyComponent);
       });
       return componets;
-    }
-    
-    $rootScope.filterGetComponents = function(formJson){
-      var componets = []
-      angular.forEach(formJson, function(component) {
-        var selectedComponent = $builder.components[component.id]
-        if(angular.isUndefined(selectedComponent)){
+    };
+
+    $rootScope.filterGetComponents = function (formJson) {
+      let components = [];
+      angular.forEach(formJson, function (component) {
+        let selectedComponent = $builder.components[component.id];
+        if (angular.isUndefined(selectedComponent)) {
           return;
         }
 
-        var copyComponent = angular.copy(selectedComponent);
+        let copyComponent = angular.copy(selectedComponent);
         copyComponent.arrayValue = component.arrayValue;
         copyComponent.properties = component.properties;
         copyComponent.value = component.value;
-        
-        if(angular.isDefined(selectedComponent.properties.field)){
-          var field = component.properties.field;
-          if(angular.isUndefined($builder.forms.fields[field])){
+
+        if (angular.isDefined(selectedComponent.properties.field)) {
+          let field = component.properties.field;
+          if (angular.isUndefined($builder.forms.fields[field])) {
             return;
-          }else {
-            $builder.setField(copyComponent,$builder.forms.fields[field]);
+          } else {
+            $builder.setField(copyComponent, $builder.forms.fields[field]);
           }
         }
-          
-        if(component.forms && component.forms.length > 0){
-          angular.forEach(component.forms, function(forms,index){
+
+        if (component.forms && component.forms.length > 0) {
+          angular.forEach(component.forms, function (forms, index) {
             copyComponent.forms[index] = {};
             copyComponent.forms[index].components = $rootScope.filterGetComponents(forms.components);
           });
         }
-        componets.push(copyComponent);
+        components.push(copyComponent);
       });
 
-      return componets;
+      return components;
     };
-    
+
 
   }]).filter('to_trusted', ['$sce', function ($sce) {
     return function (text) {

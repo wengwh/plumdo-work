@@ -2,12 +2,12 @@
   'use strict';
 
   var __indexOf = [].indexOf || function (item) {
-      for (var i = 0, l = this.length; i < l; i++) {
-        if (i in this && this[i] == item)
-          return i;
-      }
-      return -1;
-    };
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (i in this && this[i] == item)
+        return i;
+    }
+    return -1;
+  };
 
   var guid = function () {
     var d = new Date().getTime();
@@ -97,7 +97,7 @@
                 properties = component.properties;
               }
               angular.forEach(propertyPackage.properties, function (property, childIndex) {
-              properties[property.key] = property.value;
+                properties[property.key] = property.value;
               });
             } else {
               console.error('The propertyPackage ' + packageId + ' was registered.');
@@ -209,8 +209,8 @@
         });
       }
     };
-    
-    this.setField = function (component,field) {
+
+    this.setField = function (component, field) {
       component.properties.field = field.key;
       component.properties.overrideId = field.key;
       component.properties.label = field.name;

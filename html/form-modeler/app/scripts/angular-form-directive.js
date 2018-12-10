@@ -1,12 +1,12 @@
 (function () {
   'use strict';
 
-  var compileTemplate = function ($compile, element, templatName, scope) {
+  let compileTemplate = function ($compile, element, templatName, scope) {
     return scope.$watch(templatName, function (template) {
       if (!template) {
         return;
       }
-      var view = $compile(template)(scope);
+      let view = $compile(template)(scope);
       return $(element).html(view);
     });
   };
@@ -28,25 +28,26 @@
         component: '=fbFormObject'
       },
       link: function (scope, element, attrs, ngModel) {
-        scope.data = scope.$parent.data;
+        scope.data = scope.$parent.data || {};
         scope.showForm = true;
-        var watchArrayValue = ['checkbox', 'select', 'multiple-select'];
+        let watchArrayValue = ['checkbox', 'select', 'multiple-select'];
 
-        var overrideId = scope.component.properties.overrideId;
+        let overrideId = scope.component.properties.overrideId;
         if (overrideId) {
           if (watchArrayValue.indexOf(scope.component.id) < 0) {
             scope.$watch('data[\'' + overrideId + '\']', function (newValue, oldValue) {
               if (angular.isUndefined(newValue)) {
                 return;
               }
-              if (scope.component.value == newValue) {
+              if (scope.component.value === newValue) {
                 return;
               }
               scope.component.value = newValue;
             });
 
             scope.$watch('component.value', function (newValue, oldValue) {
-              if (scope.data[overrideId] == newValue) {
+              console.info(scope.data)
+              if (scope.data[overrideId] === newValue) {
                 return;
               }
               scope.data[overrideId] = newValue;
@@ -269,9 +270,9 @@
 
         scope.fbHtmlConfig = scope.$eval(attrs.fbHtml) || {};
         scope.fbHtmlConfig.lang = scope.fbHtmlConfig.lang || 'zh-CN';
-        
-        scope.$watch(attrs.ngDisabled, function (ngDisabled,old) {
-          $timeout(function(){
+
+        scope.$watch(attrs.ngDisabled, function (ngDisabled, old) {
+          $timeout(function () {
             if (ngDisabled) {
               element.summernote('disable');
             } else {
@@ -283,7 +284,7 @@
         element.removeAttr('fb-html');
         element.attr('summernote', '');
         element.attr('config', 'fbHtmlConfig');
-      
+
         $compile(element)(scope);
       }
     };
@@ -318,14 +319,14 @@
         }, true);
       }
     };
-  }).directive('fbLoad', function() {
-		return {
-			restrict : 'A',
+  }).directive('fbLoad', function () {
+    return {
+      restrict: 'A',
       templateUrl: 'views/directive/fb-load.html',
-			link : function(scope, element) {
-				$(element).fadeIn(300);
-			}
-		};
-	});
+      link: function (scope, element) {
+        $(element).fadeIn(300);
+      }
+    };
+  });
 
 }).call(this);

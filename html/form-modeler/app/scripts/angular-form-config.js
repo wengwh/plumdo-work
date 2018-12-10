@@ -22,22 +22,23 @@
       validator: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
       error: '字段必须是网址.'
     });
-  }]).config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
-  	$urlRouterProvider.otherwise('/design');
-  	
-  	$stateProvider.state('design', {
-  		url : '/design?modelId&token',
-      data: {pageTitle: ['表单设计器'] },
-  		templateUrl: 'views/fb-design.html'
-  	}).state('watch', {
-  		url : '/watch?modelId&token',
-      data: {pageTitle: ['表单明细查看'] },
-  		templateUrl: 'views/fb-watch.html'
-  	}).state('work', {
-  		url : '/work?formDefinitionId&formDefinitionKey&formInstanceId',
-      data: {pageTitle: ['表单录入'] },
-  		templateUrl: 'views/fb-work.html'
-  	})
+
+  }]).config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/design');
+
+    $stateProvider.state('design', {
+      url: '/design?modelId&token',
+      data: {pageTitle: ['表单设计器']},
+      templateUrl: 'views/fb-design.html'
+    }).state('watch', {
+      url: '/watch?modelId&token',
+      data: {pageTitle: ['表单明细查看']},
+      templateUrl: 'views/fb-watch.html'
+    }).state('work', {
+      url: '/work?formDefinitionId&formDefinitionKey&formInstanceId',
+      data: {pageTitle: ['表单录入']},
+      templateUrl: 'views/fb-work.html'
+    })
   }]);
 
 }).call(this);
