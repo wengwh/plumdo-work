@@ -14,7 +14,7 @@
     $scope.authService = $scope.IdmService($scope.restUrl.idmAuths);
     
     if(angular.isDefined($window.localStorage.token)){
-        $scope.$state.go('main.home');
+        $scope.$state.go('main.modeler.flow');
     }
     
     $scope.login = function() {
@@ -26,7 +26,7 @@
         $window.localStorage.userId = response.id;
         $window.localStorage.userName = response.name;
         $window.localStorage.userAvatar = response.avatar;
-        $scope.$state.go('main.home');
+        $scope.$state.go('main.modeler.flow');
       });
     };
   }]);

@@ -64,7 +64,14 @@ BEGIN
 		
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
 		VALUES('任务管理', 'fa-tasks', '1', menu_id_ , 3 , 'main.flow.task', 0, now(),now()); 
-		
+
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
+		VALUES('表单后台管理', 'fa-th', '0', '0', 3 , 'main.form', 0, now(),now());
+		SELECT LAST_INSERT_ID() into menu_id_;
+
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
+		VALUES('定义管理', 'fa-cubes', '1', menu_id_ , 1 , 'main.form.definition', 0, now(),now());
+
 		
 		OPEN menu_cur;  
 		read_loop: LOOP

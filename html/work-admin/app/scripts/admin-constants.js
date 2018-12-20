@@ -11,15 +11,16 @@
     .constant('contextRoot', {
         flowService:'http://work.plumdo.com/flow-service',
         identityService:'http://work.plumdo.com/identity-service',
-    	  formService:'http://work.plumdo.com/form-service'
+    	  // formService:'http://work.plumdo.com/form-service'
 //      flowService:'http://localhost:8081'
 //      identityService:'http://localhost:8082',
-//		formService:'http://localhost:8083'
+		formService:'http://localhost:8083'
     })
     .constant('restUrl', {
       formTables: '/form-tables',
       formFields: '/form-fields',
       formLayouts: '/form-layouts',
+      formDefinitions: '/form-definitions',
       flowModels: '/models',
       flowDefinitions: '/process-definitions',
       flowInstances: '/process-instances',

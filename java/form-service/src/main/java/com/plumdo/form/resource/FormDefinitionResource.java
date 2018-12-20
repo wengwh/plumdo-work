@@ -53,7 +53,8 @@ public class FormDefinitionResource extends BaseResource {
         criteria.add(Restrictions.eq("id", requestParams.get("id")));
         criteria.add(Restrictions.eq("relationTable", requestParams.get("relationTable")));
         criteria.add(Restrictions.like("name", requestParams.get("name")));
-        criteria.add(Restrictions.like("remark", requestParams.get("remark")));
+        criteria.add(Restrictions.like("key", requestParams.get("key")));
+        criteria.add(Restrictions.like("category", requestParams.get("category")));
         criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId")));
         return createPageResponse(formDefinitionRepository.findAll(criteria, getPageable(requestParams)));
     }
@@ -62,6 +63,24 @@ public class FormDefinitionResource extends BaseResource {
     @ResponseStatus(value = HttpStatus.OK)
     public FormDefinition getFormDefinition(@PathVariable Integer id) {
         return getFormDefinitionFromRequest(id);
+    }
+
+    @GetMapping(value = "/form-definitions/{id}/metadata")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ObjectNode getFormDefinitionMetadata(@PathVariable Integer id) throws Exception {
+        FormDefinition formDefinition = getFormDefinitionFromRequest(id);
+
+        ObjectNode resultNode = objectMapper.createObjectNode();
+
+        ByteArray formFieldJson = byteArrayRepository.findOne(formDefinition.getFieldSourceId());
+        List<FormField> formFields = objectMapper.readValue(formFieldJson.getContentByte(), TypeFactory.defaultInstance().constructCollectionType(List.class, FormField.class));
+        resultNode.putPOJO("fields", formFields);
+
+        ByteArray layoutJson = byteArrayRepository.findOne(formDefinition.getLayoutSourceId());
+        List<FormLayout> formLayouts = objectMapper.readValue(layoutJson.getContentByte(), TypeFactory.defaultInstance().constructCollectionType(List.class, FormLayout.class));
+        resultNode.putPOJO("layouts", formLayouts);
+
+        return resultNode;
     }
 
     @GetMapping("/form-definitions/{formDefinitionId}/{layoutKey}/json")

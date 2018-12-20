@@ -76,9 +76,17 @@
         url: '/task/?:id',
         controller: 'FlowTaskController',
         templateUrl: 'views/flow/task.html'
+      }).state('main.form', {
+        url: '/form',
+        abstract: true,
+        template: '<div ui-view></div>'
+      }).state('main.form.definition', {
+        url: '/definition/?:id',
+        controller: 'FormDefinitionController',
+        templateUrl: 'views/form/definition.html'
       });
 
-      $urlRouterProvider.otherwise('/modeler/flow/');
+      $urlRouterProvider.otherwise('/flow');
     });
 
 })();
