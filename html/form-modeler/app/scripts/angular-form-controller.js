@@ -1,101 +1,42 @@
 (function () {
   'use strict';
 
-  angular.module('builder.controller', []).controller('fbWorkController', ['$scope', '$injector', '$http', '$stateParams', 'restUrl', function ($scope, $injector, $http, $stateParams, restUrl) {
-    let $builder = $injector.get('$builder');
-    $builder.forms.id = 'root';
-    $builder.forms.components = [];
+  angular.module('builder.controller', []).controller('fbWorkController', ['$scope', '$injector', '$stateParams', '$timeout', 'FormRestService', function ($scope, $injector, $stateParams, $timeout, FormRestService) {
+    $scope.workForms = $injector.get('$builder').forms;
     $scope.formData = {};
 
-    let getJsonUrl = null;
+    FormRestService.getDefinitionJson().success(function (data) {
+      angular.forEach(data.fields, function (field) {
+        $scope.workForms.fields[field.key] = field;
+      });
 
-    if ($stateParams.formDefinitionId != null) {
-      getJsonUrl = restUrl.getDefinitionJsonById($stateParams.formDefinitionId);
-    } else if ($stateParams.formDefinitionKey != null) {
-      getJsonUrl = restUrl.getDefinitionJsonByKey($stateParams.formDefinitionKey);
-    } else {
-      $scope.showErrorMsg('参数:formDefinitionId,formDefinitionKey必须填入一个');
-    }
-
-    $http({
-      method: 'GET',
-      url: getJsonUrl
-    }).success(function (data) {
-      $builder.forms.components = data;
-      $scope.previewForms = angular.copy($builder.forms);
-    }).error(function (data) {
-      $scope.showErrorMsg('获取表单模型失败');
+      $timeout(function () {
+        $scope.workForms.components = $scope.filterGetComponents(angular.fromJson(data.json));
+      }, 10);
     });
 
-    $scope.convertToFormDataArray = function () {
-      let formDataArray = [];
-      angular.forEach($scope.formData, function (value, key) {
-        formDataArray.push({
-          'key': key,
-          'value': value
-        });
-      });
-      return formDataArray
-    };
-
-    $scope.convertToFormDataObject = function (formDataArray) {
-      angular.forEach(formDataArray, function (data) {
-        $scope.formData[data.key] = data.value;
-      });
-    };
-
-    $scope.createFormData = function () {
-      let postData = {
-        'businessKey': 1,
-        'formDatas': $scope.convertToFormDataArray()
-      };
-
-      $http({
-        method: 'POST',
-        url: restUrl.createInstance(),
-        data: postData
-      }).success(function (data) {
-
-      }).error(function (data) {
-        console.info(data);
-        $scope.showErrorMsg('获取表单设计内容失败');
-      });
-    };
-
-    $scope.updateFormData = function (formInstanceId) {
-      let postData = {
-        'businessKey': 1,
-        'formDatas': $scope.convertToFormDataArray()
-      };
-
-      $http({
-        method: 'PUT',
-        url: restUrl.updateInstance(formInstanceId),
-        data: postData
-      }).success(function (data) {
-
-      }).error(function (data) {
-        console.info(data);
-        $scope.showErrorMsg('保存表单设计内容失败');
-      });
-    };
-
     if ($stateParams.formInstanceId != null) {
-      $http({
-        method: 'GET',
-        url: restUrl.getInstance($stateParams.formInstanceId),
-      }).success(function (data) {
-        $scope.convertToFormDataObject(data.formDatas);
-      }).error(function (data) {
-        $scope.showErrorMsg('获取表单实例失败');
+      FormRestService.getInstance().success(function (data) {
+        $scope.formData = data;
       });
 
       $scope.saveFormData = function () {
-        $scope.updateFormData($stateParams.formInstanceId);
+        FormRestService.updateInstance($scope.formData).success(function (data) {
+          $scope.showSuccessMsg("保存表单成功")
+        });
       };
+
     } else {
       $scope.saveFormData = function () {
-        $scope.createFormData();
+        let postData = {
+          'formDefinitionId': $stateParams.formDefinitionId,
+          'formData': $scope.formData
+        };
+
+        FormRestService.createInstance(postData).success(function (data) {
+
+        });
+
       };
     }
 

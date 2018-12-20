@@ -34,9 +34,55 @@
         }).error(function (data) {
           $rootScope.hideProgressByError(data.msg);
         });
+      },
+      getDefinitionJson: function () {
+        return $http({
+          method: 'GET',
+          headers: {
+            'Token': $stateParams.token
+          },
+          url: restUrl.getDefinitionJson($stateParams.formDefinitionId, $stateParams.formLayoutKey)
+        }).error(function (data) {
+          $rootScope.showErrorMsg(data.msg);
+        });
+      },
+      createInstance: function (postData) {
+        return $http({
+          method: 'POST',
+          headers: {
+            'Token': $stateParams.token
+          },
+          url: restUrl.createInstance(),
+          data: postData
+        }).error(function (data) {
+          $rootScope.showErrorMsg(data.msg);
+        });
+      },
+      updateInstance: function (postData) {
+        return $http({
+          method: 'PUT',
+          headers: {
+            'Token': $stateParams.token
+          },
+          url: restUrl.updateInstanceData($stateParams.formInstanceId),
+          data: postData
+        }).error(function (data) {
+          $rootScope.showErrorMsg(data.msg);
+        });
+      },
+      getInstance: function () {
+        return $http({
+          method: 'GET',
+          headers: {
+            'Token': $stateParams.token
+          },
+          url: restUrl.getInstanceData($stateParams.formInstanceId),
+        }).error(function (data) {
+          $rootScope.showErrorMsg(data.msg);
+        });
       }
-
-    };
+    }
+      ;
   }]);
 
 }).call(this);

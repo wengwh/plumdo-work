@@ -69,9 +69,9 @@ spring:
   profiles:
     include: service-dev
   datasource:
-    url : jdbc:mysql://localhost:3306?useUnicode=true&characterEncoding=UTF-8
+    url : jdbc:mysql://119.29.96.227:3306?useUnicode=true&characterEncoding=UTF-8
     username : root
-    password : 
+    password : plumdo@123mysql
 
 serviceUrl:
     identity-service: http://localhost:8088

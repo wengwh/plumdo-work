@@ -83,7 +83,7 @@ public class FormTableDeployResource extends BaseResource {
     }
 
     private void createDataTable(String tableName, List<FormField> formFields) {
-        StringBuilder sbSql = new StringBuilder().append("CREATE TABLE plumdo_form.").append(tableName)
+        StringBuilder sbSql = new StringBuilder().append("CREATE TABLE ").append(TableConstant.DATABASE_NAME).append(tableName)
                 .append("( `id_` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID', ");
         for (FormField formField : formFields) {
             sbSql.append("`").append(formField.getKey()).append("` VARCHAR(512),");
@@ -100,10 +100,9 @@ public class FormTableDeployResource extends BaseResource {
         for (FormField formField : formFields) {
             String key = formField.getKey();
             if (!columns.contains(key)) {
-                String alterSql = "ALTER TABLE plumdo_form." + tableName + " ADD COLUMN `" + key + "` VARCHAR(512);";
+                String alterSql = "ALTER TABLE " + TableConstant.DATABASE_NAME + tableName + " ADD COLUMN `" + key + "` VARCHAR(512);";
                 jdbcClient.execute(alterSql);
             }
         }
     }
-
 }

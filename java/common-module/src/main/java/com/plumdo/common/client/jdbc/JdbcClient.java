@@ -48,21 +48,18 @@ public class JdbcClient {
         return jdbcTemplate.update(sql, args);
     }
 
-    public Long insert(final String sql, final String pkey, final Object... args) {
+    public Integer insert(final String sql, final String pkey, final Object... args) {
         log.debug("执行SQL语句:{},参数:{}", sql, args);
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-                PreparedStatement ps = conn.prepareStatement(sql, new String[]{pkey});
-                int i = 1;
-                for (Object o : args) {
-                    ps.setObject(i++, o);
-                }
-                return ps;
+        jdbcTemplate.update(conn -> {
+            PreparedStatement ps = conn.prepareStatement(sql, new String[]{pkey});
+            int i = 1;
+            for (Object o : args) {
+                ps.setObject(i++, o);
             }
+            return ps;
         }, keyHolder);
-        return keyHolder.getKey().longValue();
+        return keyHolder.getKey().intValue();
     }
 
     public int[] batchUpdate(String sql, final Object[] keys, final List<ObjectMap> entityList) {
@@ -168,10 +165,7 @@ public class JdbcClient {
     public PageResponse queryForPage(String sql, Pageable pageable, Object... args) {
         PageResponse pageResponse = new PageResponse();
 
-        StringBuilder countSql = new StringBuilder();
-        countSql.append("SELECT COUNT(1) AS TOTAL FROM (").append(sql).append(") temp ");
-
-        pageResponse.setTotal(queryForCount(countSql.toString(), args));
+        pageResponse.setTotal(queryForCount("SELECT COUNT(1) AS TOTAL FROM (" + sql + ") temp ", args));
 
         if (pageResponse.getTotal() <= 0) {
             pageResponse.setData(Collections.emptyList());

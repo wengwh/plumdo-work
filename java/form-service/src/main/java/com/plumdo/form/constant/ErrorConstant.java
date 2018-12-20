@@ -14,6 +14,9 @@ public interface ErrorConstant {
     String FORM_FIELD_NOT_FOUND = "31001";
 
     String FORM_LAYOUT_NOT_FOUND = "32001";
-    String FORM_LAYOUT_KEY_REPEAT = "30002";
+    String FORM_LAYOUT_KEY_REPEAT = "32002";
+
+    String FORM_DEFINITION_NOT_FOUND = "33001";
+    String FORM_KEY_ID_NOT_FOUND = "33002";
 
 }

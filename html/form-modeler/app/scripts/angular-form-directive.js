@@ -27,7 +27,7 @@
       scope: {
         component: '=fbFormObject'
       },
-      link: function (scope, element, attrs, ngModel) {
+      link: function (scope, element) {
         scope.data = scope.$parent.data || {};
         scope.showForm = true;
         let watchArrayValue = ['checkbox', 'select', 'multiple-select'];
@@ -35,7 +35,7 @@
         let overrideId = scope.component.properties.overrideId;
         if (overrideId) {
           if (watchArrayValue.indexOf(scope.component.id) < 0) {
-            scope.$watch('data[\'' + overrideId + '\']', function (newValue, oldValue) {
+            scope.$watch('data[\'' + overrideId + '\']', function (newValue) {
               if (angular.isUndefined(newValue)) {
                 return;
               }
@@ -45,8 +45,7 @@
               scope.component.value = newValue;
             });
 
-            scope.$watch('component.value', function (newValue, oldValue) {
-              console.info(scope.data)
+            scope.$watch('component.value', function (newValue) {
               if (scope.data[overrideId] === newValue) {
                 return;
               }
@@ -56,7 +55,7 @@
             scope.changeDataFlag = false;
             scope.changeValueFlag = false;
 
-            scope.$watch('data[\'' + overrideId + '\']', function (newValue, oldValue) {
+            scope.$watch('data[\'' + overrideId + '\']', function (newValue) {
               if (angular.isUndefined(newValue)) {
                 return;
               }
@@ -66,21 +65,20 @@
               }
               scope.changeValueFlag = true;
 
-              var checkedArrayValue = newValue.split(",");
+              let checkedArrayValue = newValue.split(",");
               if (scope.component.id === 'checkbox') {
                 angular.forEach(scope.component.properties.options, function (option, index) {
                   scope.component.arrayValue[index] = false;
                   angular.forEach(checkedArrayValue, function (checkedValue) {
-                    if (checkedValue == option.value) {
+                    if (checkedValue === option.value) {
                       scope.component.arrayValue[index] = true;
                     }
                   });
                 });
               } else if (scope.component.id === 'select') {
                 angular.forEach(checkedArrayValue, function (checkedValue, index) {
-                  console.info(scope.component.arrayValue[index])
                   angular.forEach(scope.component.arrayValue[index].children, function (option) {
-                    if (checkedValue == option.value) {
+                    if (checkedValue === option.value) {
                       scope.component.arrayValue[index + 1] = option;
                     }
                   });
@@ -89,7 +87,7 @@
                 scope.component.arrayValue = [];
                 angular.forEach(checkedArrayValue, function (checkedValue, index) {
                   angular.forEach(scope.component.properties.options, function (option) {
-                    if (checkedValue == option.value) {
+                    if (checkedValue === option.value) {
                       scope.component.arrayValue[index] = option;
                     }
                   });
@@ -97,14 +95,14 @@
               }
             });
 
-            scope.$watch('component.arrayValue', function (newValue, oldValue) {
+            scope.$watch('component.arrayValue', function (newValue) {
               if (scope.changeValueFlag) {
                 scope.changeValueFlag = false;
                 return;
               }
               scope.changeDataFlag = true;
 
-              var checkedArrayValue = [];
+              let checkedArrayValue = [];
               if (scope.component.id === 'checkbox') {
                 angular.forEach(newValue, function (checked, index) {
                   if (checked) {
@@ -205,7 +203,7 @@
       priority: 1,
       terminal: true,
       link: function (scope, element, attrs) {
-        var fbDynamicModel = scope.$eval(attrs.fbDynamicModel);
+        let fbDynamicModel = scope.$eval(attrs.fbDynamicModel);
         if (attrs.ngModel === fbDynamicModel || !fbDynamicModel) {
           return;
         }
@@ -240,7 +238,7 @@
         config: '=fbPopover'
       },
       link: function (scope, element) {
-        var config = scope.config || {};
+        let config = scope.config || {};
         config.trigger = config.trigger || 'hover';
         config.html = config.html || true;
         config.title = config.title || '';
@@ -253,7 +251,7 @@
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        var config = scope.$eval(attrs.fbDatetime) || {};
+        let config = scope.$eval(attrs.fbDatetime) || {};
         config.autoclose = config.autoclose || true;
         config.todayBtn = config.todayBtn || true;
         config.showSeconds = config.showSeconds || true;
@@ -271,7 +269,7 @@
         scope.fbHtmlConfig = scope.$eval(attrs.fbHtml) || {};
         scope.fbHtmlConfig.lang = scope.fbHtmlConfig.lang || 'zh-CN';
 
-        scope.$watch(attrs.ngDisabled, function (ngDisabled, old) {
+        scope.$watch(attrs.ngDisabled, function (ngDisabled) {
           $timeout(function () {
             if (ngDisabled) {
               element.summernote('disable');
