@@ -1,0 +1,89 @@
+<div class="container-fluid" ng-show="detailId=='0'">
+  <div class="card card-query">
+    <div class="content">
+      <div class="row">
+
+        <div class="col-md-6">
+          <h4 class="title">关联表</h4>
+          <div class="form-group">
+            <input type="text" ng-model="queryParams.relationTable" class="form-control" placeholder="输入关联表">
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h4 class="title">表单定义</h4>
+          <div class="input-group form-group">
+            <select class="form-control" chosen ng-model="queryParams.formDefinitionId"
+                    placeholder-text-single="'选择表单定义'" no-results-text="'没有结果匹配'">
+              <option value="">全部</option>
+              <option ng-repeat="option in definitions" value="{{option.id}}">{{option.name+' (v'+option.version+')'}}
+              </option>
+            </select>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-info" ng-click="queryInstance()">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <table ng-table="tableOptions" class="table table-striped ng-table">
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" ng-if="detailId!='0'">
+  <div class="card card-detail">
+    <div class="header">
+      <h4 class="title">
+        <span class="text-info right-split">{{selectedItem.formDefinitionName}}</span>{{selectedItem.id}}
+        <button type="button" class="btn btn-warning pull-right" ng-click="gotoList()">返回列表</button>
+      </h4>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="property"><label>ID:</label>{{selectedItem.id}}</span>
+          <span class="property"><label>名称:</label>{{selectedItem.formDefinitionName}}</span>
+          <span class="property"><label>关联表:</label>{{selectedItem.relationTable}}</span>
+          <span class="property"><label>数据主键:</label>{{selectedItem.relationTable}}</span>
+          <span class="property">
+           	 <label>表单定义:</label>
+           	 <a ui-sref="main.form.definition({id:selectedItem.formDefinitionId})">
+           	 	<i class="fa fa-search-plus"></i> {{selectedItem.formDefinitionId}}
+          	 </a>
+           </span>
+          <span class="property"><label>创建时间:</label>{{selectedItem.createTime}}</span>
+          <span class="property"><label>修改时间:</label>{{selectedItem.lastUpdateTime}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card card-detail">
+    <div class="header">
+      <h4 class="title">
+        表单数据
+      </h4>
+    </div>
+    <div class="content">
+      <table ng-table="dataTableOptions" class="table table-striped ng-table">
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/ng-template" id="form-data-edit.html">
+  <div class="form-group">
+    <label class="control-label">字段名称</label>
+    <input type="text" class="form-control" ng-model="formData.name" disabled/>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">字段值</label>
+    <input type="text" class="form-control" ng-model="formData.value"/>
+  </div>
+</script>

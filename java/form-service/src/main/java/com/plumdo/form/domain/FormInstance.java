@@ -13,8 +13,8 @@ import com.plumdo.common.domain.BaseEntity;
 public class FormInstance extends BaseEntity {
     private static final long serialVersionUID = 1L;
     private int formDefinitionId;
+    private String formDefinitionName;
     private String relationTable;
-    private byte suspensionState;
     private int tableRelationId;
 
     public FormInstance() {
@@ -38,15 +38,6 @@ public class FormInstance extends BaseEntity {
         this.relationTable = relationTable;
     }
 
-    @Column(name = "suspension_state_")
-    public byte getSuspensionState() {
-        return this.suspensionState;
-    }
-
-    public void setSuspensionState(byte suspensionState) {
-        this.suspensionState = suspensionState;
-    }
-
     @Column(name = "table_relation_id_")
     public int getTableRelationId() {
         return this.tableRelationId;
@@ -56,4 +47,12 @@ public class FormInstance extends BaseEntity {
         this.tableRelationId = tableRelationId;
     }
 
+    @Column(name = "form_definition_name_")
+    public String getFormDefinitionName() {
+        return formDefinitionName;
+    }
+
+    public void setFormDefinitionName(String formDefinitionName) {
+        this.formDefinitionName = formDefinitionName;
+    }
 }

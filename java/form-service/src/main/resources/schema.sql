@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `pw_fo_instance`(
   `id_` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `table_relation_id_` int(10) unsigned NOT NULL COMMENT '数据表主键ID',
   `form_definition_id_` int(10) unsigned NOT NULL COMMENT '表单定义ID',
-  `suspension_state_` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '状态值0:正常 1:挂起',
+  `form_definition_name_`  varchar(64) NOT NULL DEFAULT '' COMMENT '表单名称',
   `relation_table_` varchar(64) NOT NULL COMMENT '关联数据表',
   `create_time_` timestamp(3) NULL COMMENT '创建时间',
   `last_update_time_` timestamp(3) NULL COMMENT '更新时间',

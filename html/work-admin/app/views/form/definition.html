@@ -56,141 +56,44 @@
           <span class="property"><label>关联表:</label>{{selectedItem.relationTable}}</span>
         </div>
         <div class="col-md-2">
-          <button type="button" class="btn btn-info btn-block" ng-click="createInstance(selectedItem)">启动</button>
-          <button type="button" class="btn btn-info btn-block" ng-click="exportDefinition(selectedItem)">导出</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="createInstance(selectedItem.id)">启动</button>
         </div>
       </div>
     </div>
   </div>
-  <div class="card card-detail">
-    <div class="header">
-      <h4 class="title">
-        表单字段
-      </h4>
-    </div>
-    <div class="content">
-      <table ng-table="fieldTableOptions" class="table table-striped ng-table">
-      </table>
-    </div>
-  </div>
+
 
   <div class="card card-detail">
-    <div class="header">
-      <h4 class="title">
-        布局设计
-      </h4>
-    </div>
     <div class="content">
-      <table ng-table="layoutTableOptions" class="table table-striped ng-table">
-      </table>
+      <div class="nav-tabs-navigation">
+        <div class="nav-tabs-wrapper">
+          <ul uib-tabset active="active" type="tabs">
+            <uib-tab index="0" heading="表单字段" select="queryMetadata(detailId)"></uib-tab>
+            <uib-tab index="1" heading="布局设计" select="queryMetadata(detailId)"></uib-tab>
+            <uib-tab index="2" heading="表单实例" select="queryInstance(detailId)"></uib-tab>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-content">
+        <div class="tab-pane" ng-class="{'active':active==0}">
+          <table ng-table="fieldTableOptions" class="table table-striped ng-table">
+          </table>
+        </div>
+        <div class="tab-pane" ng-class="{'active':active==1}">
+          <table ng-table="layoutTableOptions" class="table table-striped ng-table">
+          </table>
+        </div>
+        <div class="tab-pane" ng-class="{'active':active==2}">
+          <table ng-table="instanceTableOptions" class="table table-striped ng-table">
+          </table>
+          <br/>
+          <button type="button" class="btn btn-info btn-block" ng-click="gotoInstanceList(detailId)">查看全部表单实例
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-
 </div>
-
-<script type="text/ng-template" id="definition-status-edit.html">
-  <div class="form-group">
-    <label class="control-label">流程名称</label>
-    <input type="text" class="form-control" ng-model="formData.name" readonly></input>
-  </div>
-  <div class="form-group">
-    <label class="control-label">包括流程实例</label>
-    <div>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.includeProcessInstances" ng-value="true" ng-checked="true"/> 是
-      </label>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.includeProcessInstances" ng-value="false"/> 否
-      </label>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label">执行时间(不填立刻执行)</label>
-    <input type="text" datetime-picker class="form-control" ng-model="formData.date"></input>
-  </div>
-</script>
-
-
-<script type="text/ng-template" id="definition-delete.html">
-  <div class="form-group">
-    <label class="control-label">流程定义</label>
-    <input type="text" class="form-control" ng-model="formData.name" readonly></input>
-  </div>
-  <div class="form-group">
-    <label class="control-label">包括流程实例</label>
-    <div>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.cascade" ng-value="true"/> 是
-      </label>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.cascade" ng-value="false" ng-checked="true"/> 否
-      </label>
-    </div>
-  </div>
-</script>
-
-<script type="text/ng-template" id="definition-start.html">
-  <div class="form-group">
-    <label class="control-label">流程定义</label>
-    <input type="text" class="form-control" ng-model="formData.name" readonly></input>
-  </div>
-  <div class="form-group">
-    <label class="control-label">自动提交任务</label>
-    <div>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.autoCommitTask" ng-value="true"/> 是
-      </label>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.autoCommitTask" ng-value="false" ng-checked="true"/> 否
-      </label>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label">业务标识</label>
-    <input type="text" class="form-control" ng-model="formData.businessKey"></input>
-  </div>
-</script>
-
-<script type="text/ng-template" id="definition-identity-create.html">
-  <div class="form-group" ng-init="formData.type='user'">
-    <label class="control-label">类型</label>
-    <div>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.type" value="user"/> 人员
-      </label>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.type" value="group"/> 群组
-      </label>
-    </div>
-  </div>
-  <div class="form-group" ng-show="formData.type=='user'">
-    <label class="control-label">人员</label> <br/>
-    <isteven-multi-select
-            input-model="formData.users"
-            output-model="formData.user"
-            button-label="name"
-            item-label="name"
-            tick-property="selected"
-            orientation="horizontal"
-            selection-mode="single"
-            translation="multiSelectLang">
-    </isteven-multi-select>
-  </div>
-
-  <div class="form-group" ng-show="formData.type=='group'">
-    <label class="control-label">群组</label> <br/>
-    <isteven-multi-select
-            input-model="formData.groups"
-            output-model="formData.group"
-            button-label="name"
-            item-label="name"
-            tick-property="selected"
-            group-property="group"
-            selection-mode="single"
-            translation="multiSelectLang">
-    </isteven-multi-select>
-  </div>
-</script>
 
 <script type="text/ng-template" id="form-layout-watch.html">
   <iframe src="{{url}}" width="100%" height="500" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>

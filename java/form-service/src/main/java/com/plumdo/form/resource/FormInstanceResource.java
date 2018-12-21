@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -52,9 +53,8 @@ public class FormInstanceResource extends BaseResource {
     public PageResponse getFormInstances(@RequestParam Map<String, String> requestParams) {
         Criteria<FormInstance> criteria = new Criteria<>();
         criteria.add(Restrictions.eq("id", requestParams.get("id")));
-        criteria.add(Restrictions.eq("relationTable", requestParams.get("relationTable")));
-        criteria.add(Restrictions.like("name", requestParams.get("name")));
-        criteria.add(Restrictions.like("remark", requestParams.get("remark")));
+        criteria.add(Restrictions.eq("formDefinitionId", requestParams.get("formDefinitionId")));
+        criteria.add(Restrictions.like("relationTable", requestParams.get("relationTable")));
         criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId")));
         return createPageResponse(formInstanceRepository.findAll(criteria, getPageable(requestParams)));
     }
@@ -88,6 +88,7 @@ public class FormInstanceResource extends BaseResource {
         int tableRelationId = createFormData(formDefinition.getRelationTable(), createRequest.getFormData());
         FormInstance formInstance = new FormInstance();
         formInstance.setFormDefinitionId(formDefinition.getId());
+        formInstance.setFormDefinitionName(formDefinition.getName());
         formInstance.setTableRelationId(tableRelationId);
         formInstance.setRelationTable(formDefinition.getRelationTable());
         formInstance.setTenantId(formDefinition.getTenantId());
@@ -119,6 +120,10 @@ public class FormInstanceResource extends BaseResource {
     }
 
     private int createFormData(String tableName, Map<String, String> formData) {
+        if (formData == null) {
+            formData = new HashMap<>(1);
+            formData.put("id_", "0");
+        }
         String keySql = formData.keySet().stream().map(e -> "`" + e + "`").collect(Collectors.joining(","));
         String valueSql = formData.values().stream().map(e -> "'" + (e == null ? "" : e) + "'").collect(Collectors.joining(","));
 

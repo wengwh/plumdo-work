@@ -86,7 +86,7 @@
     });
 
     $rootScope.filterSaveComponents = function (formJson) {
-      let componets = [];
+      var components = [];
       angular.forEach(formJson, function (component) {
         const copyComponent = {};
         copyComponent.id = component.id;
@@ -101,9 +101,9 @@
             copyComponent.forms[index].components = $rootScope.filterSaveComponents(forms.components);
           });
         }
-        componets.push(copyComponent);
+        components.push(copyComponent);
       });
-      return componets;
+      return components;
     };
 
     $rootScope.filterGetComponents = function (formJson) {

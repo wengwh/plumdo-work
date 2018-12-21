@@ -9,9 +9,7 @@
 
   angular.module('adminApp').controller('FormDefinitionController', function ($scope, $stateParams, $sce) {
     $scope.definitionService = $scope.FormService($scope.restUrl.formDefinitions);
-    $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
-    $scope.userService = $scope.IdmService($scope.restUrl.idmUsers);
-    $scope.groupService = $scope.IdmService($scope.restUrl.idmGroups);
+    $scope.instanceService = $scope.FormService($scope.restUrl.formInstances);
     $scope.detailId = $stateParams.id || '0';
     $scope.queryParams = $scope.detailId === '0' ? $scope.getCacheParams() : {};
     $scope.queryResult = {};
@@ -23,14 +21,6 @@
       }, function (response) {
         $scope.selectedItem = response;
       });
-
-      $scope.definitionService.get({
-        urlPath: '/' + id + '/metadata'
-      }, function (response) {
-        $scope.queryFieldResult = response.fields;
-        $scope.queryLayoutResult = response.layouts;
-      });
-
     };
 
     $scope.queryDefinition = function () {
@@ -41,19 +31,26 @@
       });
     };
 
-    $scope.createInstance = function (item) {
-      $scope.editConfirmModal({
-        formUrl: 'definition-start.html',
-        title: '启动流程实例',
-        formData: {name: item.name, processDefinitionId: item.id},
-        confirm: function (formData, modalInstance) {
+    $scope.createInstance = function (id) {
+      $scope.confirmModal({
+        title: '确认创建表单实例',
+        confirm: function () {
           $scope.instanceService.post({
-            data: formData
+            data: {formDefinitionId: id}
           }, function () {
-            $scope.showSuccessMsg('启动流程实例成功');
-            modalInstance.close();
+            $scope.showSuccessMsg('创建表单实例成功');
+            $scope.queryInstance(id);
           });
         }
+      });
+    };
+
+    $scope.queryMetadata = function (id) {
+      $scope.definitionService.get({
+        urlPath: '/' + id + '/metadata'
+      }, function (response) {
+        $scope.queryFieldResult = response.fields;
+        $scope.queryLayoutResult = response.layouts;
       });
     };
 
@@ -91,7 +88,6 @@
       sortOrder: 'asc'
     };
 
-
     $scope.fieldTableOptions = {
       id: 'definitionField',
       data: 'queryFieldResult',
@@ -104,7 +100,6 @@
         {name: '备注', index: 'remark', width: '12%'}
       ]
     };
-
 
     $scope.layoutTableOptions = {
       id: 'definitionLayout',
@@ -125,27 +120,35 @@
       ]
     };
 
-    $scope.gotoProcessDetail = function (id) {
-      $scope.$state.go('main.flow.instance', {id: id});
+    $scope.queryInstance = function (id) {
+      $scope.instanceService.get({
+        params: {formDefinitionId: id, pageNum: 1}
+      }, function (response) {
+        $scope.queryInstanceResult = response.data;
+      });
     };
 
-    $scope.gotoProcessList = function (id) {
-      $scope.$state.go('main.flow.instance', {processDefinitionId: id});
+    $scope.gotoFormDetail = function (id) {
+      $scope.$state.go('main.form.instance', {id: id});
     };
 
-    $scope.processTableOptions = {
-      id: 'definitionProcess',
-      data: 'queryProcessResult',
+    $scope.gotoInstanceList = function (id) {
+      $scope.$state.go('main.form.instance', {formDefinitionId: id});
+    };
+
+    $scope.instanceTableOptions = {
+      id: 'definitionForm',
+      data: 'queryInstanceResult',
       isPage: false,
       colModels: [
-        {name: '实例ID', index: 'id'},
-        {name: '流程标识', index: 'processDefinitionId'},
-        {name: '开始时间', index: 'startTime'},
-        {name: '业务标识', index: 'businessKey'},
+        {name: '实例ID', index: 'id', width: '20%'},
+        {name: '关联表', index: 'relationTable', width: '20%'},
+        {name: '数据主键', index: 'tableRelationId', width: '20%'},
+        {name: '创建时间', index: 'createTime', width: '20%'},
         {
           name: '操作', index: '',
           formatter: function () {
-            return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoProcessDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
+            return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoFormDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
           }
         }
       ]
@@ -159,4 +162,5 @@
 
   });
 
-})();
+})
+();

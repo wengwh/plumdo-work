@@ -9,16 +9,16 @@
 
   angular.module('adminApp').config(
     function ($stateProvider, $urlRouterProvider) {
-      
+
       $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'views/login.html',
-        controller : 'LoginController'
+        controller: 'LoginController'
       }).state('main', {
         url: '',
-        templateUrl : 'views/main.html',
-        controller : 'MainController',
-        abstract : true
+        templateUrl: 'views/main.html',
+        controller: 'MainController',
+        abstract: true
       }).state('main.blank', {
         url: '/blank',
         template: '<h1 class="text-center"> 页面不存在 </h1>'
@@ -68,7 +68,7 @@
       }).state('main.flow.instance', {
         url: '/instance/?:id',
         params: {
-          processDefinitionId:null
+          processDefinitionId: null
         },
         controller: 'FlowInstanceController',
         templateUrl: 'views/flow/instance.html'
@@ -84,6 +84,13 @@
         url: '/definition/?:id',
         controller: 'FormDefinitionController',
         templateUrl: 'views/form/definition.html'
+      }).state('main.form.instance', {
+        url: '/instance/?:id',
+        params: {
+          formDefinitionId: null
+        },
+        controller: 'FormInstanceController',
+        templateUrl: 'views/form/instance.html'
       });
 
       $urlRouterProvider.otherwise('/flow');
