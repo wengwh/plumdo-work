@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 系统路由配置
  *
  * @author wengwenhui
@@ -93,7 +93,7 @@
         templateUrl: 'views/form/instance.html'
       });
 
-      $urlRouterProvider.otherwise('/flow');
+      $urlRouterProvider.otherwise('/modeler/flow/');
     });
 
 })();
