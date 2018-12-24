@@ -178,7 +178,7 @@ gulp.task('views', function () {
       root: 'views'
     }))
     .pipe(gulp.dest(yeoman.tmp+'/scripts'));
-  
+
 });
 
 ///////////
@@ -201,7 +201,7 @@ gulp.task('client:build', ['views', 'styles'], function () {
     .pipe($.useref({searchPath: [yeoman.app, yeoman.tmp]}))
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
-    .pipe($.uglify())
+    .pipe($.terser())
     .pipe($.rev())
     .pipe(jsFilter.restore())
     .pipe(cssFilter)

@@ -2,7 +2,6 @@
 'use strict';
 
 var gulp = require('gulp');
-var babel = require('gulp-babel');
 var $ = require('gulp-load-plugins')();
 var openURL = require('open');
 var lazypipe = require('lazypipe');
@@ -200,13 +199,10 @@ gulp.task('client:build', ['views', 'styles'], function () {
   	.pipe($.inject(sourcesIndex, {starttag: '<!-- inject:partials -->',ignorePath: yeoman.tmp,addRootSlash: false}))
     .pipe($.useref({searchPath: [yeoman.app, yeoman.tmp]}))
     .pipe(jsFilter)
-    .pipe($.ngAnnotate())/*
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe($.uglify().on('error', function(e){
+    .pipe($.ngAnnotate())
+    .pipe($.terser().on('error', function(e){
       console.log(e);
-    }))*/
+    }))
     .pipe($.rev())
     .pipe(jsFilter.restore())
     .pipe(cssFilter)

@@ -218,7 +218,7 @@ gulp.task('client:build', ['views', 'styles', 'scriptInject'], function () {
   .pipe($.useref({searchPath: [yeoman.app, yeoman.tmp]}))
   .pipe(jsFilter)
   .pipe($.ngAnnotate())
-  .pipe($.uglify().on('error', function(e){
+  .pipe($.terser().on('error', function(e){
     console.log(e);
   }))
   .pipe($.rev())
