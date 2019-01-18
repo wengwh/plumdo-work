@@ -1,6 +1,7 @@
 package com.plumdo.form.resource;
 
 import com.plumdo.common.client.jdbc.JdbcClient;
+import com.plumdo.common.constant.CoreConstant;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.form.constant.TableConstant;
 import com.plumdo.form.domain.*;
@@ -47,19 +48,23 @@ public class FormTableDeployResource extends BaseResource {
         List<FormField> formFields = formFieldRepository.findByTableId(id);
         List<FormLayout> formLayouts = formLayoutRepository.findByTableId(id);
 
-        FormDefinition formDefinition = formDefinitionRepository.findLatestFormDefinitionByKey(formTable.getKey());
+        String formKey = formTable.getKey();
+        String relationTable = TableConstant.RELATION_TABLE_PRE + formKey;
+        int version;
+        FormDefinition formDefinition = formDefinitionRepository.findLatestFormDefinitionByKey(formKey);
         if (formDefinition == null) {
-            formDefinition = new FormDefinition();
-            formDefinition.setVersion(1);
-            formDefinition.setKey(formTable.getKey());
-            formDefinition.setRelationTable(TableConstant.RELATION_TABLE_PRE + formTable.getKey());
-            createDataTable(formDefinition.getRelationTable(), formFields);
+            createDataTable(relationTable, formFields);
+            version = 1;
         } else {
-            formDefinition.setVersion(formDefinition.getVersion() + 1);
-            alterDataTable(formDefinition.getRelationTable(), formFields);
+            alterDataTable(relationTable, formFields);
+            version = formDefinition.getVersion() + 1;
         }
 
+        formDefinition = new FormDefinition();
         formDefinition.setName(formTable.getName());
+        formDefinition.setVersion(version);
+        formDefinition.setKey(formKey);
+        formDefinition.setRelationTable(relationTable);
         formDefinition.setCategory(formTable.getCategory());
         formDefinition.setTenantId(formTable.getTenantId());
 
@@ -69,6 +74,9 @@ public class FormTableDeployResource extends BaseResource {
             byteArray.setContentByte(objectMapper.writeValueAsBytes(formFields));
             byteArrayRepository.save(byteArray);
             formDefinition.setFieldSourceId(byteArray.getId());
+
+            //复制一遍布局的设计存储，防止表单设计修改之后，定义也跟随编号
+            copyFormLayouts(formLayouts);
 
             byteArray = new ByteArray();
             byteArray.setName(formTable.getName() + TableConstant.TABLE_LAYOUT_SUFFIX);
@@ -80,6 +88,22 @@ public class FormTableDeployResource extends BaseResource {
         } catch (Exception e) {
             logger.error("deploy form exception", e);
         }
+    }
+
+    private void copyFormLayouts(List<FormLayout> formLayouts) {
+        for (FormLayout formLayout : formLayouts) {
+            ByteArray byteArray = byteArrayRepository.findOne(formLayout.getEditorSourceId());
+            if (byteArray == null) {
+                continue;
+            }
+            ByteArray copyByteArray = new ByteArray();
+            copyByteArray.setName(byteArray.getName());
+            copyByteArray.setContentByte(byteArray.getContentByte());
+            byteArrayRepository.save(copyByteArray);
+
+            formLayout.setEditorSourceId(copyByteArray.getId());
+        }
+
     }
 
     private void createDataTable(String tableName, List<FormField> formFields) {

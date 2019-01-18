@@ -9,12 +9,12 @@
 
   angular.module('adminApp')
     .constant('contextRoot', {
-        flowService:'http://work.plumdo.com/flow-service',
-        identityService:'http://work.plumdo.com/identity-service',
-    	  formService:'http://work.plumdo.com/form-service'
+      flowService: 'http://work.plumdo.com/flow-service',
+      identityService: 'http://work.plumdo.com/identity-service',
+      formService:'http://work.plumdo.com/form-service'
 //      flowService:'http://localhost:8081'
 //      identityService:'http://localhost:8082',
-// 		formService:'http://localhost:8083'
+//       formService: 'http://localhost:8083'
     })
     .constant('restUrl', {
       formTables: '/form-tables',
@@ -31,18 +31,22 @@
       idmGroups: '/groups',
       idmRoles: '/roles',
       idmMenus: '/menus',
-      formDesgin : function(modelId,token) {
-        return 'http://work.plumdo.com/form-modeler/#/design?modelId=' + modelId + '&token='+token;
+      formDesgin: function (modelId, token) {
+        return 'http://work.plumdo.com/form-modeler/#/design?modelId=' + modelId + '&token=' + token;
 //        return 'http://localhost:9002/#/design?modelId=' + modelId + '&token='+token;
       },
-      formPreview : function(modelId,token) {
-        return 'http://work.plumdo.com/form-modeler/#/watch?modelId=' + modelId + '&token='+token;
+      formModelPreview: function (modelId, token) {
+        return 'http://work.plumdo.com/form-modeler/#/watch?modelId=' + modelId + '&token=' + token;
 //        return 'http://localhost:9002/#/watch?modelId=' + modelId + '&token='+token;
       },
-      flowDesign : function(modelId,token) {
-        return 'http://work.plumdo.com/flow-modeler/#/editor/' + modelId + '?token='+token;
+      formDefinitionPreview: function (formDefinitionId, formLayoutKey, token) {
+        return 'http://work.plumdo.com/form-modeler/#/watch?formDefinitionId=' + formDefinitionId + '&formLayoutKey=' + formLayoutKey + '&token=' + token;
+        // return 'http://localhost:9002/#/watch?formDefinitionId=' + formDefinitionId + '&formLayoutKey=' + formLayoutKey + '&token=' + token;
+      },
+      flowDesign: function (modelId, token) {
+        return 'http://work.plumdo.com/flow-modeler/#/editor/' + modelId + '?token=' + token;
 //        return 'http://localhost:9004/#/editor/' + modelId+'?token='+token;
       }
-  });
+    });
 
 })();

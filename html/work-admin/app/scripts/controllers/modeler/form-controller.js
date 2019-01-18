@@ -175,7 +175,7 @@
         title: '预览布局',
         hideFooter: true,
         property: {
-          url: $sce.trustAsResourceUrl($scope.restUrl.formPreview(id, $scope.loginUser.token))
+          url: $sce.trustAsResourceUrl($scope.restUrl.formModelPreview(id, $scope.loginUser.token))
         }
       });
     };

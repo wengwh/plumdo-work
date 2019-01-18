@@ -54,13 +54,13 @@
       });
     };
 
-    $scope.watchFormLayout = function (id) {
+    $scope.watchFormLayout = function (key) {
       $scope.editConfirmModal({
         formUrl: 'form-layout-watch.html',
         title: '预览布局',
         hideFooter: true,
         property: {
-          url: $sce.trustAsResourceUrl($scope.restUrl.formPreview(id, $scope.loginUser.token))
+          url: $sce.trustAsResourceUrl($scope.restUrl.formDefinitionPreview($scope.detailId, key, $scope.loginUser.token))
         }
       });
     };
@@ -114,7 +114,7 @@
         {
           name: '操作', index: '',
           formatter: function () {
-            return '<button type="button" class="btn btn-success btn-xs" ng-click=watchFormLayout(row.id)><i class="fa fa-wpforms"></i>&nbsp;预览</button>';
+            return '<button type="button" class="btn btn-success btn-xs" ng-click=watchFormLayout(row.key)><i class="fa fa-wpforms"></i>&nbsp;预览</button>';
           }
         }
       ]

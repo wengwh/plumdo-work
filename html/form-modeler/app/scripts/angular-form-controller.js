@@ -40,10 +40,20 @@
       };
     }
 
-  }]).controller('fbWatchController', ['$scope', '$injector', '$timeout', 'FormRestService', function ($scope, $injector, $timeout, FormRestService) {
+  }]).controller('fbWatchController', ['$scope', '$injector', '$timeout', '$stateParams', 'FormRestService', function ($scope, $injector, $timeout, $stateParams, FormRestService) {
     $scope.previewForms = $injector.get('$builder').forms;
 
-    FormRestService.getModelJson().success(function (data) {
+    if (angular.isDefined($stateParams.modelId)){
+      FormRestService.getModelJson().success(function (data) {
+        $scope.dealDate(data);
+      });
+    } else {
+      FormRestService.getDefinitionJson().success(function (data) {
+        $scope.dealDate(data);
+      });
+    }
+
+    $scope.dealDate = function (data) {
       angular.forEach(data.fields, function (field) {
         $scope.previewForms.fields[field.key] = field;
       });
@@ -51,7 +61,7 @@
       $timeout(function () {
         $scope.previewForms.components = $scope.filterGetComponents(angular.fromJson(data.json));
       }, 10);
-    });
+    };
 
   }]).controller('fbDesignController', ['$scope', '$injector', '$timeout', 'FormRestService', function ($scope, $injector, $timeout, FormRestService) {
     $scope.leftCollapsed = false;

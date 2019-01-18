@@ -125,7 +125,6 @@
       ]
     };
 
-
     if ($scope.detailId !== '0') {
       $scope.queryDetail($scope.detailId);
     } else {

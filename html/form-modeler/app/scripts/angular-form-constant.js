@@ -4,7 +4,6 @@
   angular.module('builder.constant', [])
     .constant('restUrl', {
       getModelJson: function (modelId) {
-//		  work.plumdo.com/form-service
         return 'http://work.plumdo.com/form-service/form-layouts/' + modelId + '/json';
       },
       saveModelJson: function (modelId) {
