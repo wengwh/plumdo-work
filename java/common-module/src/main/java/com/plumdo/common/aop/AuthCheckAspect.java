@@ -74,7 +74,7 @@ public class AuthCheckAspect {
             Claims claims = Jwts.parser().setSigningKey(CoreConstant.JWT_SECRET).parseClaimsJws(token.substring(7)).getBody();
             userId = claims.getId();
             if (ObjectUtils.isEmpty(userId)) {
-                exceptionFactory.throwAuthError(CoreConstant.TOKEN_UERID_NOT_FOUND);
+                exceptionFactory.throwAuthError(CoreConstant.TOKEN_USER_ID_NOT_FOUND);
             }
 
             Date expiration = claims.getExpiration();

@@ -17,7 +17,7 @@ public interface CoreConstant {
     String HTTP_UERID_NOT_FOUND = "00003";
     String HEADER_TOKEN_NOT_FOUND = "00004";
     String HEADER_TOKEN_ILLEGAL = "00005";
-    String TOKEN_UERID_NOT_FOUND = "00006";
+    String TOKEN_USER_ID_NOT_FOUND = "00006";
     String TOKEN_EXPIRE_OUT = "00007";
     String TOKEN_AUTH_CHECK_ERROR = "00008";
 }
