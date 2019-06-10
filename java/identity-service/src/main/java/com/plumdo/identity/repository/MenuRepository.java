@@ -30,7 +30,7 @@ public interface MenuRepository extends BaseRepository<Menu, Integer> {
      * @param userId
      * @return
      */
-    @Query("select a from Menu a, RoleMenu b, UserRole c where a.id = b.menuId and b.roleId = c.roleId and a.status=" + TableConstant.MENU_STATUS_NORMAL + " and c.userId = ?1 order by a.order asc")
+    @Query("select distinct a from Menu a, RoleMenu b, UserRole c where a.id = b.menuId and b.roleId = c.roleId and a.status=" + TableConstant.MENU_STATUS_NORMAL + " and c.userId = ?1 order by a.order asc")
     List<Menu> findByUserId(int userId);
 
     /**
