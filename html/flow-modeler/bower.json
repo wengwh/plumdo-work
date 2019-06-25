@@ -1,6 +1,6 @@
 {
   "name": "flow-modeler",
-  "version": "0.0.0",
+  "version": "1.1.0",
   "dependencies": {
     "jquery": "1.11.0",
     "jquery-ui": "1.10.3",
