@@ -36,7 +36,7 @@
       $scope.confirmModal({
         title : '确认删除菜单',
         confirm : function() {
-          $scope.menuService.delete1({
+          $scope.menuService.delete({
             urlPath : '/' + id
           }, function() {
             $scope.showSuccessMsg('删除菜单成功');
