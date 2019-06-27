@@ -899,3 +899,32 @@ li.x-menu-list-item.x-menu-item-active a {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
   background-color: #ccc;
 }
+
+.card {
+	border-radius: 6px;
+	box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
+	background-color: #ccc;
+	color: #252422;
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.card .content {
+	padding: 15px 15px 10px 15px;
+	background-color: #ccc;
+}
+
+.card .content .title {
+	margin: 10px 0 10px 0;
+}
+
+.card .content hr {
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+
+.card .content .label {
+	font-size: 15px;
+	color: white;
+	font-weight: bold;
+}

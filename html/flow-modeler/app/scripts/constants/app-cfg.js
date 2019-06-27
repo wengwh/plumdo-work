@@ -20,6 +20,8 @@ var FLOWABLE = FLOWABLE || {};
 FLOWABLE.CONFIG = {
 	'onPremise' : true,
 	'contextRoot' : 'http://work.plumdo.com/flow-service',
+  'formContextRoot' : 'http://work.plumdo.com/form-service',
 //	'contextRoot' : 'http://localhost:8082',
 	'webContextRoot' : './'
 };
+

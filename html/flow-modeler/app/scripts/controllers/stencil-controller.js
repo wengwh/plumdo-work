@@ -275,11 +275,14 @@ angular.module('flowableModeler')
                         if (key === 'oryx-name') {
                             selectedItem.title = selectedShape.properties.get(key);
                         }
-
                         // First we check if there is a config for 'key-type' and then for 'type' alone
                         var propertyConfig = FLOWABLE.PROPERTY_CONFIG[key + '-' + property.type()];
                         if (propertyConfig === undefined || propertyConfig === null) {
-                            propertyConfig = FLOWABLE.PROPERTY_CONFIG[property.type()];
+                            if(property.readonly()){
+                              propertyConfig = FLOWABLE.PROPERTY_CONFIG[property.type()+'-readonly'];
+                            }else{
+                              propertyConfig = FLOWABLE.PROPERTY_CONFIG[property.type()];
+                            }
                         }
 
                         if (propertyConfig === undefined || propertyConfig === null) {

@@ -10,7 +10,8 @@
       "title" : "流程标识",
       "value" : "process",
       "description" : "定义流程的唯一标识符.",
-      "popular" : true
+      "popular" : true,
+      "readonly" : true
     } ]
   }, {
     "name" : "overrideidpackage",
