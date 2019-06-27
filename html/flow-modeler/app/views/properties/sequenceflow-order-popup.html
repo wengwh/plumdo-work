@@ -13,7 +13,8 @@
 			    <br/>
 			    <ol>
 			        <li class="sequence-flow-order-element" ng-repeat="sequenceFlow in outgoingSequenceFlow">
-			            {{'PROPERTY.SEQUENCEFLOW.ORDER.SEQUENCEFLOW.VALUE' | translate:sequenceFlow}}
+			            {{'PROPERTY.SEQUENCEFLOW.ORDER.SEQUENCEFLOW.VALUE' | translate}}
+			            {{sequenceFlow.targetType}}-{{sequenceFlow.targetTitle}}
 			            <a class="btn btn-icon btn-sm"
 			               rel="tooltip"
 			               data-title="{{'ACTION.MOVE.UP' | translate}}"

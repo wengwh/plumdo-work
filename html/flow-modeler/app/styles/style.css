@@ -928,3 +928,7 @@ li.x-menu-list-item.x-menu-item-active a {
 	color: white;
 	font-weight: bold;
 }
+
+.editor-item-picker-component .card .content {
+	cursor: pointer;
+}

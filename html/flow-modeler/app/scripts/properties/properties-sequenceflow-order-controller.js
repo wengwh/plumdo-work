@@ -38,11 +38,12 @@ angular.module('flowableModeler').controller('FlowableSequenceFlowOrderPopupCtrl
         for (var i=0; i<outgoingNodes.length; i++) {
             if (outgoingNodes[i].getStencil().idWithoutNs() === 'SequenceFlow') {
                 var targetActivity = outgoingNodes[i].getTarget();
+                console.info(targetActivity.getStencil().title())
                 // We need the resourceId of a sequence flow, not the id because that will change with every editor load
                 outgoingSequenceFlow.push({
                     id : outgoingNodes[i].resourceId,
                     targetTitle : targetActivity.properties.get('oryx-name'),
-                    targetType : $translate.instant(targetActivity.getStencil().title())
+                    targetType : targetActivity.getStencil().title()
                 });
             }
         }

@@ -12,11 +12,16 @@
  */
 
 angular.module('flowableModeler').controller('FlowableFormReferenceDisplayCtrl',
-  ['$scope', '$modal', '$http', function ($scope, $modal, $http) {
+  ['$scope', '$modal', '$http', 'editorManager', function ($scope, $modal, $http, editorManager) {
 
     if ($scope.property && $scope.property.value && $scope.property.value.id) {
-      $http.get(FLOWABLE.CONFIG.contextRoot + '/app/rest/models/' + $scope.property.value.id)
-        .success(
+       $http({
+        method: 'GET',
+        headers: {
+          'Token': editorManager.getToken()
+        },
+        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions/' + $scope.property.value.id
+      }).success(
           function (response) {
             $scope.form = {
               id: response.id,
@@ -146,101 +151,9 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
     };
 
     $scope.newForm = function () {
-      $scope.popup.state = 'newForm';
-
-      var modelMetaData = editorManager.getBaseModelData();
-
-      $scope.model = {
-        loading: false,
-        form: {
-          name: '',
-          key: '',
-          description: '',
-          modelType: 2
-        }
-      };
     };
 
     $scope.createForm = function () {
-
-      if (!$scope.model.form.name || $scope.model.form.name.length == 0 ||
-        !$scope.model.form.key || $scope.model.form.key.length == 0) {
-
-        return;
-      }
-
-      $scope.model.loading = true;
-
-      $http({
-        method: 'POST',
-        url: FLOWABLE.CONFIG.contextRoot + '/app/rest/models',
-        data: $scope.model.form
-      }).success(function (data, status, headers, config) {
-
-        var newFormId = data.id;
-        $scope.property.value = {
-          'id': newFormId,
-          'name': data.name,
-          'key': data.key
-        };
-        $scope.updatePropertyInModel($scope.property);
-
-        var modelMetaData = editorManager.getBaseModelData();
-        var json = editorManager.getModel();
-        json = JSON.stringify(json);
-
-        var params = {
-          modeltype: modelMetaData.model.modelType,
-          json_xml: json,
-          name: modelMetaData.name,
-          key: modelMetaData.key,
-          description: modelMetaData.description,
-          newversion: false,
-          lastUpdated: modelMetaData.lastUpdated
-        };
-
-        // Update
-        $http({
-          method: 'POST',
-          data: params,
-          ignoreErrors: true,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          transformRequest: function (obj) {
-            var str = [];
-            for (var p in obj) {
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-            }
-            return str.join("&");
-          },
-          url: FLOWABLE.URL.putModel(modelMetaData.modelId)
-        })
-
-          .success(function (data, status, headers, config) {
-            editorManager.handleEvents({
-              type: ORYX.CONFIG.EVENT_SAVED
-            });
-
-            $scope.model.loading = false;
-            $scope.$hide();
-
-            var allSteps = EDITOR.UTIL.collectSortedElementsFromPrecedingElements($scope.selectedShape);
-
-            $rootScope.addHistoryItem($scope.selectedShape.resourceId);
-            $location.path('form-editor/' + newFormId);
-
-          })
-          .error(function (data, status, headers, config) {
-            $scope.model.loading = false;
-            $scope.$hide();
-          });
-
-      }).error(function (data, status, headers, config) {
-        $scope.model.loading = false;
-        $scope.model.errorMessage = data.message;
-      });
     };
 
     $scope.cancel = function () {
@@ -253,7 +166,7 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
         headers: {
           'Token': editorManager.getToken()
         },
-        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions?'
+        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions'
       }).success(
         function (response) {
           $scope.state.loadingForms = false;
