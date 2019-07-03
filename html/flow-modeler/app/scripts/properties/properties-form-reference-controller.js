@@ -166,12 +166,12 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
         headers: {
           'Token': editorManager.getToken()
         },
-        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions'
+        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions/latest'
       }).success(
         function (response) {
           $scope.state.loadingForms = false;
           $scope.state.formError = false;
-          $scope.forms = response.data;
+          $scope.forms = response;
         })
         .error(
           function () {
