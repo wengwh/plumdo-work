@@ -5,6 +5,8 @@ import com.plumdo.common.repository.BaseRepository;
 import com.plumdo.form.domain.FormDefinition;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  * 表单定义数据类
  *
@@ -12,6 +14,11 @@ import org.springframework.data.jpa.repository.Query;
  * @date 2018/12/10
  */
 public interface FormDefinitionRepository extends BaseRepository<FormDefinition, Integer> {
+
+
+
+    @Query("select f from FormDefinition f where  version = (select max(version) from FormDefinition where key = f.key)")
+    List<FormDefinition> findLatestFormDefinitions();
 
     /**
      * 根据key获取最新的表单定义

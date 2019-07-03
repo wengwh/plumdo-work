@@ -1,7 +1,6 @@
 package com.plumdo.form.resource;
 
 import com.plumdo.common.client.jdbc.JdbcClient;
-import com.plumdo.common.constant.CoreConstant;
 import com.plumdo.common.resource.BaseResource;
 import com.plumdo.form.constant.TableConstant;
 import com.plumdo.form.domain.*;
