@@ -85,15 +85,15 @@
 		"popular" : true
 	} ]
   }, {
-    "name" : "process_namespacepackage",
-    "properties" : [ {
-      "id" : "process_namespace",
-      "type" : "String",
-      "title" : "指向命名空间",
-      "value" : "http://www.activiti.org/processdef",
-      "description" : "定义流程的指向命名空间.",
-      "popular" : true
-    } ]
+      "name" : "process_namespacepackage",
+      "properties" : [ {
+        "id" : "process_namespace",
+        "type" : "Complex",
+        "title" : "表单引用",
+        "value" : "",
+        "description" : "引用一个表单",
+        "popular" : true
+      } ]
   }, {
     "name" : "asynchronousdefinitionpackage",
     "properties" : [ {

@@ -1,0 +1,64 @@
+<div class="modal" ng-controller="FlowableProcessNamespacePopupCtrl">
+  <div class="modal-dialog modal-wide">
+    <div class="modal-content">
+      <div class="modal-header" ng-if="popup.state != 'newForm'">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
+        <h2>
+          {{'PROPERTY.FORMREFERENCE.TITLE' | translate}}
+          <span ng-show="selectedForm != null"> - {{selectedForm.name}}[v{{selectedForm.version}}]</span>
+          <span ng-show="selectedForm == null"> - {{'PROPERTY.FORMREFERENCE.EMPTY' | translate}}</span>
+
+        </h2>
+      </div>
+      <div class="modal-header" ng-if="popup.state == 'newForm'"><h2>{{'FORM.POPUP.CREATE-TITLE' | translate}}</h2>
+      </div>
+      <div class="modal-body-with-overflow" ng-if="popup.state != 'newForm'">
+        <div class="detail-group clearfix">
+          <div class="col-xs-12">
+            <div class="alert alert-error" ng-show="!state.loadingForms && state.formError" translate>
+              PROPERTY.FORMREFERENCE.ERROR.FORM
+            </div>
+          </div>
+        </div>
+        <div class="detail-group clearfix">
+          <div class="col-xs-12 editor-item-picker">
+            <div ng-if="!state.loadingForms && !state.formError" class="col-xs-3 editor-item-picker-component"
+                 ng-repeat="form in forms" ng-class="{'selected' : form.formId == selectedForm.formId}"
+                 ng-click="selectForm(form, $event)">
+              <div class="controls">
+                <input type="checkbox" value="option1" ng-click="selectForm(form, $event)"
+                       ng-checked="form.id == selectedForm.id"/>
+              </div>
+              <div class="card">
+                <div class="content">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <span class="label label-success pull-left">名称：{{form.name}}</span><br/><br/>
+                      <span class="label label-warning pull-left">版本：{{form.version}}</span><br/><br/>
+                      <span class="label label-danger pull-left">标识：{{form.key}}</span><br/><br/>
+                      <span class="label label-info pull-left">分类：{{form.category}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ng-show="state.loadingForms">
+              <p class="loading" translate>PROPERTY.FORMREFERENCE.FORM.LOADING</p>
+            </div>
+            <div ng-show="!state.loadingForms && forms.length == 0">
+              <p translate>PROPERTY.FORMREFERENCE.FORM.EMPTY</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" ng-if="popup.state != 'newForm'">
+        <button ng-click="cancel()" class="btn btn-primary" translate>GENERAL.ACTION.CANCEL</button>
+        <button ng-disabled="!selectedForm || state.formError" ng-click="open()" class="btn btn-primary" translate>
+          GENERAL.ACTION.OPEN
+        </button>
+        <button ng-disabled="state.formError" ng-click="save()" class="btn btn-primary" translate>GENERAL.ACTION.SAVE
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
