@@ -169,7 +169,7 @@ public class ModelResource extends BaseModelResource {
     }
 
     @PutMapping(value = "/models/{modelId}", name = "模型修改")
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ModelResponse updateModel(@PathVariable String modelId, @RequestBody ModelRequest modelRequest) {
         Model model = getModelFromRequest(modelId);
         model.setCategory(modelRequest.getCategory());

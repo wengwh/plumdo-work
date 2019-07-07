@@ -80,6 +80,10 @@ FLOWABLE.PROPERTY_CONFIG =
       "readModeTemplateUrl": "views/properties/form-reference-display-template.html",
       "writeModeTemplateUrl": "views/properties/form-reference-write-template.html"
     },
+    "oryx-process_namespace-complex": {
+      "readModeTemplateUrl": "views/properties/process_namespace-display-template.html",
+      "writeModeTemplateUrl": "views/properties/process_namespace-write-template.html"
+    },
     "oryx-sequencefloworder-complex": {
       "readModeTemplateUrl": "views/properties/sequenceflow-order-display-template.html",
       "writeModeTemplateUrl": "views/properties/sequenceflow-order-write-template.html"

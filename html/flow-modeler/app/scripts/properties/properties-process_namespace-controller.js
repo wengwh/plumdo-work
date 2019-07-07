@@ -11,33 +11,30 @@
  * limitations under the License.
  */
 
-angular.module('flowableModeler').controller('FlowableFormReferenceDisplayCtrl',
+angular.module('flowableModeler').controller('FlowableProcessNamespaceDisplayCtrl',
   ['$scope', '$modal', '$http', 'editorManager', function ($scope, $modal, $http, editorManager) {
 
-    if ($scope.property && $scope.property.value && $scope.property.value.id) {
-       $http({
+    if ($scope.property && $scope.property.value) {
+      $http({
         method: 'GET',
         headers: {
           'Token': editorManager.getToken()
         },
-        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions/' + $scope.property.value.id
+        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions/' + $scope.property.value
       }).success(
-          function (response) {
-            $scope.form = {
-              id: response.id,
-              name: response.name
-            };
-          });
+        function (response) {
+          $scope.form = response;
+        });
     }
 
   }]);
 
-angular.module('flowableModeler').controller('FlowableFormReferenceCtrl',
-  ['$scope', '$modal', '$http', function ($scope, $modal, $http) {
+angular.module('flowableModeler').controller('FlowableProcessNamespaceCtrl',
+  ['$scope', '$modal', function ($scope, $modal) {
 
     // Config for the modal window
     var opts = {
-      template: 'views/properties/form-reference-popup.html',
+      template: 'views/properties/process_namespace-popup.html',
       scope: $scope
     };
 
@@ -45,7 +42,7 @@ angular.module('flowableModeler').controller('FlowableFormReferenceCtrl',
     _internalCreateModal(opts, $modal, $scope);
   }]);
 
-angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
+angular.module('flowableModeler').controller('FlowableProcessNamespacePopupCtrl',
   ['$rootScope', '$scope', '$http', '$location', 'editorManager', function ($rootScope, $scope, $http, $location, editorManager) {
 
     $scope.state = {'loadingForms': true, 'formError': false};
@@ -74,12 +71,7 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
     // Saving the selected value
     $scope.save = function () {
       if ($scope.selectedForm) {
-        $scope.property.value = {
-          'id': $scope.selectedForm.id,
-          'name': $scope.selectedForm.name,
-          'key': $scope.selectedForm.key
-        };
-
+        $scope.property.value = $scope.selectedForm.id;
       } else {
         $scope.property.value = null;
       }
@@ -172,6 +164,7 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
           $scope.state.loadingForms = false;
           $scope.state.formError = false;
           $scope.forms = response;
+          $scope.convertForm();
         })
         .error(
           function () {
@@ -180,9 +173,15 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
           });
     };
 
-    if ($scope.property && $scope.property.value && $scope.property.value.id) {
-      $scope.selectedForm = $scope.property.value;
-    }
+    $scope.convertForm = function () {
+      if ($scope.property && $scope.property.value) {
+        angular.forEach($scope.forms, function (item) {
+          if (item.id == $scope.property.value) {
+            $scope.selectedForm = item;
+          }
+        })
+      }
+    };
 
     $scope.loadForms();
   }]);

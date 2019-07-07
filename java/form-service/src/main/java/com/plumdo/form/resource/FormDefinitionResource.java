@@ -59,6 +59,12 @@ public class FormDefinitionResource extends BaseResource {
         return createPageResponse(formDefinitionRepository.findAll(criteria, getPageable(requestParams)));
     }
 
+    @GetMapping(value = "/form-definitions/latest")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<FormDefinition> getFormDefinitionLatests() {
+        return formDefinitionRepository.findLatestFormDefinitions();
+    }
+
     @GetMapping(value = "/form-definitions/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public FormDefinition getFormDefinition(@PathVariable Integer id) {
