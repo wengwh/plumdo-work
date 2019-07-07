@@ -1,25 +1,21 @@
 package com.plumdo.common.filter;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.plumdo.common.utils.DateUtils;
+import com.plumdo.common.utils.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
-import com.plumdo.common.utils.DateUtils;
-import com.plumdo.common.utils.ObjectUtils;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * 打印请求过滤器
@@ -32,60 +28,54 @@ import com.plumdo.common.utils.ObjectUtils;
 @Order(1)
 public class RequestLogFilter extends OncePerRequestFilter {
 
-    private static String CHARSET_NAME_UTF_8 = "utf-8";
-    private static int STR_MAX_LEN = 5000;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        long begintime = DateUtils.currentTimeMillis();
-        long timecost = 0;
-        String requestURI = request.getRequestURI();
+        long beginTime = DateUtils.currentTimeMillis();
+        long timeCost;
+        String requestUri = request.getRequestURI();
         String method = request.getMethod();
         String ip = request.getRemoteAddr();
         if (isNotJsonContentType(request.getContentType())) {
             filterChain.doFilter(request, response);
-            timecost = DateUtils.getTimeMillisConsume(begintime);
-            log.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},[{}]ms", ip, requestURI, method, request.getQueryString(), timecost);
+            timeCost = DateUtils.getTimeMillisConsume(beginTime);
+            log.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},[{}]ms", ip, requestUri, method, request.getQueryString(), timeCost);
         } else {
             JsonContentCachingRequestWrapper requestWrapper = new JsonContentCachingRequestWrapper(request);
             ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
             filterChain.doFilter(requestWrapper, responseWrapper);
-            timecost = DateUtils.getTimeMillisConsume(begintime);
+            timeCost = DateUtils.getTimeMillisConsume(beginTime);
             String requestParam = convertString(requestWrapper.getContentAsByteArray());
-            updateResponse(requestURI, responseWrapper);
+            updateResponse(requestUri, responseWrapper);
             if (isNotJsonContentType(responseWrapper.getContentType())) {
-                log.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},[{}]ms", ip, requestURI, method, requestParam, timecost);
+                log.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},[{}]ms", ip, requestUri, method, requestParam, timeCost);
             } else {
                 String result = convertString(responseWrapper.getContentAsByteArray());
-                log.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},返回值是{},[{}]ms", ip, requestURI, method, requestParam, result, timecost);
+                log.debug("ip:{} 调用接口,请求地址为:{}, 方式:{}, 请求参数为:{},返回值是{},[{}]ms", ip, requestUri, method, requestParam, result, timeCost);
             }
         }
 
     }
 
     private boolean isNotJsonContentType(String contentType) {
-        if (contentType == null || !contentType.toLowerCase().startsWith("application/json")) {
-            return true;
-        } else {
-            return false;
-        }
+        return contentType == null || !contentType.toLowerCase().startsWith("application/json");
     }
 
     private String convertString(byte[] contentByte) throws UnsupportedEncodingException {
-        String contentStr = new String(contentByte, CHARSET_NAME_UTF_8);
+        String contentStr = new String(contentByte, "utf-8");
         String postFix = "......";
         if (ObjectUtils.isNotEmpty(contentStr)) {
-            if (contentStr.length() <= STR_MAX_LEN) {
+            int strMaxLength = 5000;
+            if (contentStr.length() <= strMaxLength) {
                 return contentStr;
             } else {
-                return contentStr.subSequence(0, STR_MAX_LEN) + postFix;
+                return contentStr.subSequence(0, strMaxLength) + postFix;
             }
         } else {
             return "";
         }
     }
 
-    private void updateResponse(String requestURI, ContentCachingResponseWrapper responseWrapper) throws IOException {
+    private void updateResponse(String requestUri, ContentCachingResponseWrapper responseWrapper) {
         try {
             HttpServletResponse rawResponse = (HttpServletResponse) responseWrapper.getResponse();
             byte[] body = responseWrapper.getContentAsByteArray();
@@ -102,7 +92,7 @@ public class RequestLogFilter extends OncePerRequestFilter {
             }
             finishResponse(outputStream, body);
         } catch (Exception ex) {
-            log.error("请求地址为" + requestURI + "的连接返回报文失败,原因是{}", ex.getMessage());
+            log.error("请求地址为" + requestUri + "的连接返回报文失败,原因是{}", ex.getMessage());
         }
     }
 

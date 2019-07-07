@@ -1,13 +1,13 @@
 package com.plumdo.common.model;
 
+import com.plumdo.common.utils.ObjectUtils;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.plumdo.common.utils.ObjectUtils;
 
 
 /**

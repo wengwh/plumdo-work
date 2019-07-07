@@ -1,13 +1,8 @@
 package com.plumdo.common.jpa;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.springframework.util.StringUtils;
+
+import javax.persistence.criteria.*;
 
 /**
  * 简单条件表达式

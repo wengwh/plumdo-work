@@ -4,7 +4,7 @@ package com.plumdo.common.client.jdbc;
  * 查询的类型枚举类
  *
  * @author wengwh
- * @Date 2017-02-16
+ * @date 2019/7/7
  */
 public enum QueryType {
     /**

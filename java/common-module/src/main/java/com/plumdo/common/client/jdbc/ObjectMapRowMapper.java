@@ -1,13 +1,12 @@
 package com.plumdo.common.client.jdbc;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-
+import com.plumdo.common.model.ObjectMap;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
-import com.plumdo.common.model.ObjectMap;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 /**
  * JDBC结果转换类

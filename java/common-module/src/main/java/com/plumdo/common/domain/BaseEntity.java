@@ -1,20 +1,12 @@
 package com.plumdo.common.domain;
 
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Version;
-
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
-import javax.persistence.Id;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * 基础实体类
@@ -26,7 +18,6 @@ import javax.persistence.Id;
 @DynamicInsert
 @DynamicUpdate
 public abstract class BaseEntity implements java.io.Serializable {
-
     private static final long serialVersionUID = 1L;
 
     protected Integer id;

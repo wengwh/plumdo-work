@@ -1,10 +1,9 @@
 package com.plumdo.common.jpa;
 
-import java.util.Collection;
-
+import com.plumdo.common.jpa.Criterion.Operator;
 import org.springframework.util.StringUtils;
 
-import com.plumdo.common.jpa.Criterion.Operator;
+import java.util.Collection;
 
 /**
  * 条件构造器 用于创建条件表达式

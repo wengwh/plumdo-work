@@ -1,15 +1,10 @@
 package com.plumdo.common.utils;
 
+import com.plumdo.common.model.ObjectMap;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.plumdo.common.model.ObjectMap;
+import java.util.*;
 
 /**
  * Object转换类，都给予默认值

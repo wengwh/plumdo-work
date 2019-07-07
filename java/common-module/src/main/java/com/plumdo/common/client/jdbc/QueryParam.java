@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 查询参数
  *
- * @author wengwenhui
- * @date 2018年4月20日
+ * @author wengwh
+ * @date 2019/7/7
  */
 public class QueryParam {
     private String column;
@@ -84,15 +84,15 @@ public class QueryParam {
         if (!this.isNeed() && type != QueryType.NULL && type != QueryType.NOT_NULL) {
             if (value instanceof Collection) {
                 List<Object> list = (List<Object>) value;
-                if (list != null && list.size() > 0) {
+                if (list.size() > 0) {
                     for (Object item : list) {
                         if (ObjectUtils.isNotEmpty(item)) {
                             return true;
                         }
                     }
                 }
-            } else if (ObjectUtils.isNotEmpty(value)) {
-                return true;
+            } else {
+                return ObjectUtils.isNotEmpty(value);
             }
             return false;
         }
