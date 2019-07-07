@@ -67,33 +67,33 @@
   }, {
 	"name" : "process_potentialstarteruserpackage",
 	"properties" : [ {
-		"id" : "process_potentialstarteruser",
-		"type" : "String",
-		"title" : "潜在的启动用户",
-		"value" : "",
-		"description" : "哪个用户可以启动流程？",
-		"popular" : true
-		} ]
+      "id" : "process_potentialstarteruser",
+      "type" : "String",
+      "title" : "潜在的启动用户",
+      "value" : "",
+      "description" : "哪个用户可以启动流程？",
+      "popular" : true
+    } ]
   }, {
 	"name" : "process_potentialstartergrouppackage",
 	"properties" : [ {
-		"id" : "process_potentialstartergroup",
-		"type" : "String",
-		"title" : "潜在的启动用户组",
-		"value" : "",
-		"description" : "哪个用户组可以启动流程？",
-		"popular" : true
+      "id" : "process_potentialstartergroup",
+      "type" : "String",
+      "title" : "潜在的启动用户组",
+      "value" : "",
+      "description" : "哪个用户组可以启动流程？",
+      "popular" : true
 	} ]
   }, {
-      "name" : "process_namespacepackage",
-      "properties" : [ {
-        "id" : "process_namespace",
-        "type" : "Complex",
-        "title" : "表单引用",
-        "value" : "",
-        "description" : "引用一个表单",
-        "popular" : true
-      } ]
+    "name" : "process_namespacepackage",
+    "properties" : [ {
+      "id" : "process_namespace",
+      "type" : "Complex",
+      "title" : "表单引用",
+      "value" : "",
+      "description" : "引用一个表单",
+      "popular" : true
+    } ]
   }, {
     "name" : "asynchronousdefinitionpackage",
     "properties" : [ {
@@ -119,7 +119,7 @@
     "properties" : [ {
       "id" : "executionlisteners",
       "type" : "multiplecomplex",
-     "title" : "执行监听器",
+      "title" : "执行监听器",
       "value" : "",
       "description" : "活动，过程，顺序流，开始和结束事件的监听器.",
       "popular" : true
@@ -199,7 +199,7 @@
     "properties" : [ {
       "id" : "duedatedefinition",
       "type" : "Complex",
-       "title" : "到期时间",
+      "title" : "到期时间",
       "value" : "",
       "description" : "用户任务到期时间.",
       "popular" : true
@@ -249,7 +249,7 @@
     "properties" : [ {
       "id" : "servicetaskresultvariable",
       "type" : "String",
-       "title" : "结果变量名称",
+      "title" : "结果变量名称",
       "value" : "",
       "description" : "用来存储服务任务结果的变量名.",
       "popular" : true
@@ -279,7 +279,7 @@
     "properties" : [ {
       "id" : "ruletask_rules",
       "type" : "String",
-       "title" : "规则",
+      "title" : "规则",
       "value" : "",
       "description" : "规则任务的规则.",
       "popular" : true
@@ -289,7 +289,7 @@
     "properties" : [ {
       "id" : "ruletask_variables_input",
       "type" : "String",
-       "title" : "输入变量",
+      "title" : "输入变量",
       "value" : "",
       "description" : "规则任务的输入变量.",
       "popular" : true
@@ -339,7 +339,7 @@
     "properties" : [ {
       "id" : "mailtasksubject",
       "type" : "Text",
-       "title" : "主题",
+      "title" : "主题",
       "value" : "",
       "description" : "邮件主题.",
       "popular" : true
@@ -359,7 +359,7 @@
     "properties" : [ {
       "id" : "mailtaskbcc",
       "type" : "Text",
-        "title" : "密件抄送",
+      "title" : "密件抄送",
       "value" : "",
       "description" : "密件抄送收件人地址. 如果是多个收件人，请以逗号分隔",
       "popular" : true
@@ -379,7 +379,7 @@
     "properties" : [ {
       "id" : "mailtaskhtml",
       "type" : "Text",
-     "title" : "Html",
+      "title" : "Html",
       "value" : "",
       "description" : "一段HTML的邮件的内容.",
       "popular" : true
@@ -389,7 +389,7 @@
     "properties" : [ {
       "id" : "mailtaskcharset",
       "type" : "String",
-       "title" : "字符集",
+      "title" : "字符集",
       "value" : "",
       "description" : "修改邮件字符集，是许多除英语之外的语言所必须的. ",
       "popular" : true
@@ -489,7 +489,7 @@
     "properties" : [ {
       "id" : "defaultflow",
       "type" : "Boolean",
-        "title" : "默认流",
+      "title" : "默认流",
       "value" : "false",
       "description" : "定义作为默认顺序流",
       "popular" : true,
@@ -500,7 +500,7 @@
     "properties" : [ {
       "id" : "conditionalflow",
       "type" : "Boolean",
-        "title" : "条件流",
+      "title" : "条件流",
       "value" : "false",
       "description" : "定义顺序流的条件",
       "popular" : true
@@ -510,7 +510,7 @@
     "properties" : [ {
       "id" : "timercycledefinition",
       "type" : "String",
-       "title" : "时间周期（例如R3/PT10H）",
+      "title" : "时间周期（例如R3/PT10H）",
       "value" : "",
       "description" : "定义ISO-8601周期定时器.",
       "popular" : true
@@ -560,7 +560,7 @@
     "properties" : [ {
       "id" : "signalref",
       "type" : "String",
-       "title" : "信号引用",
+      "title" : "信号引用",
       "value" : "",
       "description" : "定义信号名称.",
       "popular" : true
@@ -580,7 +580,7 @@
     "properties" : [ {
       "id" : "cancelactivity",
       "type" : "Boolean",
-       "title" : "取消 活动(activity)",
+      "title" : "取消 活动(activity)",
       "value" : "true",
       "description" : "是否取消活动",
       "popular" : true,
@@ -591,7 +591,7 @@
     "properties" : [ {
       "id" : "initiator",
       "type" : "String",
-     "title" : "发起者",
+      "title" : "发起者",
       "value" : "",
       "description" : "流程的发起者.",
       "popular" : true
@@ -601,7 +601,7 @@
     "properties" : [ {
       "id" : "text",
       "type" : "String",
-     "title" : "内容",
+      "title" : "内容",
       "value" : "",
       "description" : "文本的文字注释.",
       "popular" : true,
@@ -623,7 +623,7 @@
     "properties" : [ {
       "id" : "multiinstance_cardinality",
       "type" : "String",
-       "title" : "实例数量（多实例）",
+      "title" : "实例数量（多实例）",
       "value" : "",
       "description" : "定义多实例的数量.",
       "popular" : true
@@ -652,8 +652,8 @@
     "name" : "multiinstance_conditionpackage",
     "properties" : [ {
       "id" : "multiinstance_condition",
-      "type" : "condition-multiinstance",
-     "title" : "完成条件（多实例）",
+      "type" : "String",
+      "title" : "完成条件（多实例）",
       "value" : "",
       "description" : "定义多实例的完成条件.",
       "popular" : true
@@ -674,7 +674,7 @@
     "properties" : [ {
       "id" : "sequencefloworder",
       "type" : "Complex",
-       "title" : "流顺序",
+      "title" : "流顺序",
       "value" : "",
       "description" : "流开始的顺序.",
       "popular" : true
@@ -894,31 +894,6 @@
     "propertyPackages" : [ "overrideidpackage", "namepackage", "documentationpackage", "asynchronousdefinitionpackage", "exclusivedefinitionpackage", "sequencefloworderpackage" ],
     "hiddenPropertyPackages" : [ ],
     "roles" : [ "sequence_start", "GatewaysMorph", "sequence_end", "all" ]
-  }, {
-    "type" : "node",
-    "id" : "Pool",
-    "title" : "池",
-    "description" : "流程定义池",
-    "view" : "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<svg\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns:oryx=\"http://www.b3mn.org/oryx\"\n   xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n   width=\"600\"\n   height=\"250\"\n   version=\"1.0\">\n  <defs></defs>\n  <oryx:magnets>\n  \t<oryx:magnet oryx:cx=\"0\" oryx:cy=\"124\" oryx:anchors=\"left\" />\n  \t<oryx:magnet oryx:cx=\"299\" oryx:cy=\"249\" oryx:anchors=\"bottom\" />\n  \t<oryx:magnet oryx:cx=\"599\" oryx:cy=\"124\" oryx:anchors=\"right\" />\n  \t<oryx:magnet oryx:cx=\"299\" oryx:cy=\"0\" oryx:anchors=\"top\" />\n  \t<oryx:magnet oryx:cx=\"299\" oryx:cy=\"124\" oryx:default=\"yes\" />\n  </oryx:magnets>\n  <g pointer-events=\"none\" >\n    <defs>\n\t\t<radialGradient id=\"background\" cx=\"0%\" cy=\"10%\" r=\"100%\" fx=\"20%\" fy=\"10%\">\n\t\t\t<stop offset=\"0%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>\n\t\t\t<stop id=\"fill_el\" offset=\"100%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>\n\t\t</radialGradient>\n\t</defs>\n\t  \t\n  \t<rect\n  \t\tid=\"border\"\n  \t\tclass=\"stripable-element-force\"\n  \t\toryx:resize=\"vertical horizontal\"\n  \t\tx=\"0\"\n  \t\ty=\"0\"\n  \t\twidth=\"600\"\n  \t\theight=\"250\"\n  \t\tfill=\"none\"\n  \t\tstroke-width=\"9\"\n  \t\tstroke=\"none\"\n  \t\tvisibility=\"visible\"\n  \t\tpointer-events=\"stroke\"\n  \t/>\n    <rect\n    \tid=\"c\"\n    \toryx:resize=\"vertical horizontal\"\n    \tx=\"0\"\n    \ty=\"0\"\n    \twidth=\"600\" \n    \theight=\"250\" \n    \tstroke=\"black\" \n    \tfill=\"url(#background) white\"\n    \tfill-opacity=\"0.3\" \n    />\n    \n\t<rect \n\t\tid=\"caption\"\n\t\toryx:anchors=\"left top bottom\"\n\t\tx=\"0\"\n\t\ty=\"0\"\n\t\twidth=\"30\"\n\t\theight=\"250\"\n\t\tstroke=\"black\"\n\t\tstroke-width=\"1\"\n\t\tfill=\"url(#background) white\"\n\t\tpointer-events=\"all\"\n\t/>\n\t\n\t<rect \n\t\tid=\"captionDisableAntialiasing\"\n\t\toryx:anchors=\"left top bottom\"\n\t\tx=\"0\"\n\t\ty=\"0\"\n\t\twidth=\"30\"\n\t\theight=\"250\"\n\t\tstroke=\"black\"\n\t\tstroke-width=\"1\"\n\t\tfill=\"url(#background) white\"\n\t\tpointer-events=\"all\"\n\t/>\n\t\n    <text x=\"13\" y=\"125\" font-size=\"12\" id=\"text_name\" oryx:fittoelem=\"caption\" oryx:align=\"middle center\" oryx:anchors=\"left\" oryx:rotate=\"270\" fill=\"black\" stroke=\"black\"></text>\n    \n  </g>\n</svg>",
-    "icon" : "swimlane/pool.png",
-    "groups" : [ "常用组件" ],
-    "layout" : [ {
-      "type" : "layout.bpmn2_0.pool"
-    } ],
-    "propertyPackages" : [ "overrideidpackage", "namepackage", "documentationpackage", "process_idpackage" ],
-    "hiddenPropertyPackages" : [ ],
-    "roles" : [ "canContainArtifacts", "all" ]
-  }, {
-    "type" : "node",
-    "id" : "Lane",
-    "title" : "道",
-    "description" : "流程定义泳道",
-    "view" : "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<svg\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns:oryx=\"http://www.b3mn.org/oryx\"\n   xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n   width=\"600\"\n   height=\"250\"\n   version=\"1.0\">\n  <defs></defs>\n  <g pointer-events=\"none\" >\n  \n     <defs>\n\t\t<radialGradient id=\"background\" cx=\"0%\" cy=\"10%\" r=\"200%\" fx=\"20%\" fy=\"10%\">\n\t\t\t<stop offset=\"0%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>\n\t\t\t<stop id=\"fill_el\" offset=\"100%\" stop-color=\"#ffffff\" stop-opacity=\"0\"/>\n\t\t</radialGradient>\n\t</defs>\n\t\n  \t<rect id=\"border_invisible\" class=\"stripable-element-force\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"600\" height=\"250\" fill=\"none\" stroke-width=\"10\" stroke=\"white\" visibility=\"hidden\" pointer-events=\"stroke\"/>\t\t\n\t<rect id=\"border\" oryx:resize=\"vertical horizontal\" x=\"0\" y=\"0\" width=\"600\" height=\"250\" stroke=\"black\" stroke-width=\"1\" fill=\"url(#background) white\" pointer-events=\"none\" />\n\t\n\t\n\t<rect \n\t\tid=\"caption\"\n\t\toryx:anchors=\"left top bottom\"\n\t\tx=\"0\"\n\t\ty=\"1\"\n\t\twidth=\"30\"\n\t\theight=\"248\"\n\t\tstroke=\"black\"\n\t\tstroke-width=\"0\"\n\t\tfill=\"white\"\n\t\tvisibility=\"hidden\"\n\t\tclass=\"stripable-element-force\"\n\t\tpointer-events=\"all\"\n\t/>\n\t\n\t<path\n\t\tstroke=\"black\"\n\t\tstroke-width=\"1\"\n\t\tfill=\"none\"\n\t\td=\"M 0,0 L 0,250\"\n        oryx:anchors=\"left top bottom\"\n        id=\"captionDisableAntialiasing\"\n    />\n\t\n\t<!--rect \n\t\tid=\"captionDisableAntialiasing\"\n\t\toryx:anchors=\"left top bottom\"\n\t\tx=\"0\"\n\t\ty=\"0\"\n\t\twidth=\"30\"\n\t\theight=\"250\"\n\t\tstroke=\"black\"\n\t\tstroke-width=\"1\"\n\t\tfill=\"url(#background) white\"\n\t/-->\n\t\n    <text \n\t\tx=\"13\"\n\t\ty=\"125\"\n\t\toryx:rotate=\"270\" \n\t\tfont-size=\"12\" \n\t\tid=\"text_name\" \n\t\toryx:align=\"middle center\" \n\t\toryx:anchors=\"left\"\n\t\toryx:fittoelem=\"caption\"\n\t\tfill=\"black\" \n\t\tstroke=\"black\">\n\t</text>\n  </g>\n</svg>",
-    "icon" : "swimlane/lane.png",
-    "groups" : [ "常用组件" ],
-    "propertyPackages" : [ "overrideidpackage", "namepackage", "documentationpackage" ],
-    "hiddenPropertyPackages" : [ ],
-    "roles" : [ "PoolChild", "canContainArtifacts", "all" ]
   }, {
     "type" : "edge",
     "id" : "SequenceFlow",
