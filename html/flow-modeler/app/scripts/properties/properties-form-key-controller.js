@@ -11,33 +11,21 @@
  * limitations under the License.
  */
 
-angular.module('flowableModeler').controller('FlowableFormReferenceDisplayCtrl',
+angular.module('flowableModeler').controller('FlowableFormKeyDisplayCtrl',
   ['$scope', '$modal', '$http', 'editorManager', function ($scope, $modal, $http, editorManager) {
 
-    if ($scope.property && $scope.property.value && $scope.property.value.id) {
-       $http({
-        method: 'GET',
-        headers: {
-          'Token': editorManager.getToken()
-        },
-        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions/' + $scope.property.value.id
-      }).success(
-          function (response) {
-            $scope.form = {
-              id: response.id,
-              name: response.name
-            };
-          });
+    if ($scope.property && $scope.property.value) {
+      $scope.form={'name':$scope.property.value};
     }
 
   }]);
 
-angular.module('flowableModeler').controller('FlowableFormReferenceCtrl',
+angular.module('flowableModeler').controller('FlowableFormKeyCtrl',
   ['$scope', '$modal', '$http', function ($scope, $modal, $http) {
 
     // Config for the modal window
     var opts = {
-      template: 'views/properties/form-reference-popup.html',
+      template: 'views/properties/form-key-popup.html',
       scope: $scope
     };
 
@@ -45,7 +33,7 @@ angular.module('flowableModeler').controller('FlowableFormReferenceCtrl',
     _internalCreateModal(opts, $modal, $scope);
   }]);
 
-angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
+angular.module('flowableModeler').controller('FlowableFormKeyPopupCtrl',
   ['$rootScope', '$scope', '$http', '$location', 'editorManager', function ($rootScope, $scope, $http, $location, editorManager) {
 
     $scope.state = {'loadingForms': true, 'formError': false};
@@ -60,11 +48,17 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
       $scope.$hide();
     };
 
+    $scope.findProcessFormKey = function (selectedShape) {
+      if (selectedShape.parent) {
+        return $scope.findProcessFormKey(selectedShape.parent);
+      }
+      return selectedShape.properties._object["oryx-process_namespace"]
+    }
+
     // Selecting/deselecting a subprocess
     $scope.selectForm = function (form, $event) {
       $event.stopPropagation();
-      if ($scope.selectedForm && $scope.selectedForm.id && form.id == $scope.selectedForm.id) {
-        // un-select the current selection
+      if ($scope.selectedForm && $scope.selectedForm.id && form.key == $scope.selectedForm.key) {
         $scope.selectedForm = null;
       } else {
         $scope.selectedForm = form;
@@ -74,15 +68,11 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
     // Saving the selected value
     $scope.save = function () {
       if ($scope.selectedForm) {
-        $scope.property.value = {
-          'id': $scope.selectedForm.id,
-          'name': $scope.selectedForm.name,
-          'key': $scope.selectedForm.key
-        };
-
+        $scope.property.value = $scope.selectedForm.key;
       } else {
         $scope.property.value = null;
       }
+      console.info($scope.property.value)
       $scope.updatePropertyInModel($scope.property);
       $scope.close();
     };
@@ -150,28 +140,29 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
       }
     };
 
-    $scope.newForm = function () {
-    };
-
-    $scope.createForm = function () {
-    };
-
     $scope.cancel = function () {
       $scope.close();
     };
 
     $scope.loadForms = function () {
+      $scope.processFormKey = $scope.findProcessFormKey($scope.selectedShape);
+      if ($scope.processFormKey == null) {
+        $scope.state.loadingForms = false;
+        return;
+      }
+
       $http({
         method: 'GET',
         headers: {
           'Token': editorManager.getToken()
         },
-        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions/latest'
+        url: FLOWABLE.CONFIG.formContextRoot + '/form-definitions/' + $scope.processFormKey + '/metadata'
       }).success(
         function (response) {
           $scope.state.loadingForms = false;
           $scope.state.formError = false;
-          $scope.forms = response;
+          $scope.forms = response.layouts;
+          $scope.convertForm();
         })
         .error(
           function () {
@@ -180,9 +171,16 @@ angular.module('flowableModeler').controller('FlowableFormReferencePopupCtrl',
           });
     };
 
-    if ($scope.property && $scope.property.value && $scope.property.value.id) {
-      $scope.selectedForm = $scope.property.value;
-    }
+    $scope.convertForm = function () {
+      if ($scope.property && $scope.property.value) {
+        angular.forEach($scope.forms, function (item) {
+          if (item.key == $scope.property.value) {
+            $scope.selectedForm = item;
+          }
+        })
+      }
+    };
+
 
     $scope.loadForms();
   }]);

@@ -76,9 +76,9 @@ FLOWABLE.PROPERTY_CONFIG =
       "readModeTemplateUrl": "views/properties/subprocess-reference-display-template.html",
       "writeModeTemplateUrl": "views/properties/subprocess-reference-write-template.html"
     },
-    "oryx-formreference-complex": {
-      "readModeTemplateUrl": "views/properties/form-reference-display-template.html",
-      "writeModeTemplateUrl": "views/properties/form-reference-write-template.html"
+    "oryx-formkeydefinition-complex": {
+      "readModeTemplateUrl": "views/properties/form-key-display-template.html",
+      "writeModeTemplateUrl": "views/properties/form-key-write-template.html"
     },
     "oryx-process_namespace-complex": {
       "readModeTemplateUrl": "views/properties/process_namespace-display-template.html",
