@@ -24,6 +24,6 @@ public interface ErrorConstant {
 
     String GROUP_NOT_FOUND = "23001";
     String GROUP_HAVE_CHILDREN = "23002";
-    String Group_ALREADY_USER_USE = "23003";
+    String GROUP_ALREADY_USER_USE = "23003";
 
 }

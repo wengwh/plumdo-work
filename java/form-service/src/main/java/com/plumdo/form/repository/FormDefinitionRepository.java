@@ -16,7 +16,6 @@ import java.util.List;
 public interface FormDefinitionRepository extends BaseRepository<FormDefinition, Integer> {
 
 
-
     @Query("select f from FormDefinition f where  version = (select max(version) from FormDefinition where key = f.key)")
     List<FormDefinition> findLatestFormDefinitions();
 

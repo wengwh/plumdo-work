@@ -1,11 +1,10 @@
 package com.plumdo.form.repository;
 
-import java.util.List;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import com.plumdo.common.repository.BaseRepository;
 import com.plumdo.form.domain.FormLayout;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 表单布局数据类
@@ -38,6 +37,6 @@ public interface FormLayoutRepository extends BaseRepository<FormLayout, Integer
      * @param tableId
      * @return
      */
-    @Transactional
-    int deleteByTableId(int tableId);
+    @Transactional(rollbackFor = Exception.class)
+    void deleteByTableId(int tableId);
 }

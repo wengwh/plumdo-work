@@ -1,8 +1,8 @@
 package com.plumdo.form.domain;
 
-import javax.persistence.*;
-
 import com.plumdo.common.domain.BaseEntity;
+
+import javax.persistence.*;
 
 
 /**

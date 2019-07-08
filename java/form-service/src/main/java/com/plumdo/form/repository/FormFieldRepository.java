@@ -1,11 +1,10 @@
 package com.plumdo.form.repository;
 
-import java.util.List;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import com.plumdo.common.repository.BaseRepository;
 import com.plumdo.form.domain.FormField;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 表单字段数据类
@@ -29,6 +28,6 @@ public interface FormFieldRepository extends BaseRepository<FormField, Integer> 
      * @param tableId
      * @return
      */
-    @Transactional
-    int deleteByTableId(int tableId);
+    @Transactional(rollbackFor = Exception.class)
+    void deleteByTableId(int tableId);
 }

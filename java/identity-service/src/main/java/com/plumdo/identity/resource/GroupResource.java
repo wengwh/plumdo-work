@@ -130,7 +130,7 @@ public class GroupResource extends BaseResource {
         } else {
             List<User> users = userRepository.findByGroupId(group.getId());
             if (ObjectUtils.isNotEmpty(users)) {
-                exceptionFactory.throwForbidden(ErrorConstant.Group_ALREADY_USER_USE, users.get(0).getName());
+                exceptionFactory.throwForbidden(ErrorConstant.GROUP_ALREADY_USER_USE, users.get(0).getName());
             }
         }
         groupRepository.delete(group);

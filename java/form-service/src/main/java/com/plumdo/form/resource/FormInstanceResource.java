@@ -1,6 +1,5 @@
 package com.plumdo.form.resource;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.plumdo.common.client.jdbc.JdbcClient;
 import com.plumdo.common.jpa.Criteria;
 import com.plumdo.common.jpa.Restrictions;

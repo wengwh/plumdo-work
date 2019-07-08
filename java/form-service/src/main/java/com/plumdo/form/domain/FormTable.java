@@ -1,8 +1,11 @@
 package com.plumdo.form.domain;
 
-import javax.persistence.*;
-
 import com.plumdo.common.domain.BaseEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the pw_fo_table database table.

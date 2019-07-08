@@ -1,12 +1,11 @@
 package com.plumdo.identity.repository;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
-
 import com.plumdo.common.repository.BaseRepository;
 import com.plumdo.identity.constant.TableConstant;
 import com.plumdo.identity.domain.Group;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * 用户群组数据类
