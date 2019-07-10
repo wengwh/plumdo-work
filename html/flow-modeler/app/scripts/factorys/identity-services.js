@@ -12,8 +12,8 @@
  */
 'use strict';
 
-angular.module('flowableModeler').service('UserService', ['$http', '$q',
-    function ($http, $q) {
+angular.module('flowableModeler').service('UserService', ['$http', '$q','editorManager',
+    function ($http, $q, editorManager) {
 
         var httpAsPromise = function(options) {
             var deferred = $q.defer();
@@ -41,15 +41,18 @@ angular.module('flowableModeler').service('UserService', ['$http', '$q',
 
             return httpAsPromise({
                 method: 'GET',
-                url: FLOWABLE.CONFIG.contextRoot + '/app/rest/editor-users',
+                url: FLOWABLE.CONFIG.identityContextRoot + '/users',
+                headers: {
+                  'Token': editorManager.getToken()
+                },
                 params: params
             });
         };
 
     }]);
 
-angular.module('flowableModeler').service('GroupService', ['$http', '$q',
-    function ($http, $q) {
+angular.module('flowableModeler').service('GroupService', ['$http', '$q','editorManager',
+    function ($http, $q, editorManager) {
 
         var httpAsPromise = function(options) {
             var deferred = $q.defer();
@@ -74,7 +77,10 @@ angular.module('flowableModeler').service('GroupService', ['$http', '$q',
 
             return httpAsPromise({
                 method: 'GET',
-                url: FLOWABLE.CONFIG.contextRoot + '/app/rest/editor-groups',
+                url: FLOWABLE.CONFIG.identityContextRoot + '/groups',
+                headers: {
+                    'Token': editorManager.getToken()
+                },
                 params: params
             });
         };

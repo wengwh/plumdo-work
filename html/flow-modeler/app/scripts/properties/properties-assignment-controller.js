@@ -133,7 +133,9 @@ angular.module('flowableModeler').controller('FlowableAssignmentPopupCtrl',
     });
 
     $scope.updateFilter = function() {
+        console.info(111)
         if ($scope.popup.oldFilter == undefined || $scope.popup.oldFilter != $scope.popup.filter) {
+          console.info('updateFilter')
             if (!$scope.popup.filter) {
                 $scope.popup.oldFilter = '';
             } else {
@@ -172,6 +174,7 @@ angular.module('flowableModeler').controller('FlowableAssignmentPopupCtrl',
 
     $scope.updateGroupFilter = function() {
         if ($scope.popup.oldGroupFilter == undefined || $scope.popup.oldGroupFilter != $scope.popup.groupFilter) {
+            console.info('updateGroupFilter')
             if (!$scope.popup.groupFilter) {
                 $scope.popup.oldGroupFilter = '';
             } else {
