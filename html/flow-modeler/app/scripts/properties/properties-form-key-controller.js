@@ -34,7 +34,7 @@ angular.module('flowableModeler').controller('FlowableFormKeyCtrl',
   }]);
 
 angular.module('flowableModeler').controller('FlowableFormKeyPopupCtrl',
-  ['$rootScope', '$scope', '$http', '$location', 'editorManager', function ($rootScope, $scope, $http, $location, editorManager) {
+  ['$rootScope', '$scope', '$http', '$location','$window', 'editorManager', function ($rootScope, $scope, $http, $location,$window, editorManager) {
 
     $scope.state = {'loadingForms': true, 'formError': false};
 
@@ -80,63 +80,7 @@ angular.module('flowableModeler').controller('FlowableFormKeyPopupCtrl',
     // Open the selected value
     $scope.open = function () {
       if ($scope.selectedForm) {
-        $scope.property.value = {
-          'id': $scope.selectedForm.id,
-          'name': $scope.selectedForm.name,
-          'key': $scope.selectedForm.key
-        };
-
-        $scope.updatePropertyInModel($scope.property);
-
-        var modelMetaData = editorManager.getBaseModelData();
-        var json = editorManager.getModel();
-        json = JSON.stringify(json);
-
-        var params = {
-          modeltype: modelMetaData.model.modelType,
-          json_xml: json,
-          name: modelMetaData.name,
-          key: modelMetaData.key,
-          description: modelMetaData.description,
-          newversion: false,
-          lastUpdated: modelMetaData.lastUpdated
-        };
-
-        // Update
-        $http({
-          method: 'POST',
-          data: params,
-          ignoreErrors: true,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-          transformRequest: function (obj) {
-            var str = [];
-            for (var p in obj) {
-              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-            }
-            return str.join("&");
-          },
-          url: FLOWABLE.URL.putModel(modelMetaData.modelId)
-        })
-
-          .success(function (data, status, headers, config) {
-            editorManager.handleEvents({
-              type: ORYX.CONFIG.EVENT_SAVED
-            });
-
-            var allSteps = EDITOR.UTIL.collectSortedElementsFromPrecedingElements($scope.selectedShape);
-
-            $rootScope.addHistoryItem($scope.selectedShape.resourceId);
-            $location.path('form-editor/' + $scope.selectedForm.id);
-
-          })
-          .error(function (data, status, headers, config) {
-
-          });
-
-        $scope.close();
+        $window.open(FLOWABLE.CONFIG.formWatch + '?formDefinitionId='+$scope.processFormKey+'&formLayoutKey='+$scope.selectedForm.key+'&token='+editorManager.getToken());
       }
     };
 

@@ -208,7 +208,7 @@
         {name: '创建时间', index: 'createTime', sortable: true, width: '12%'},
         {name: '修改时间', index: 'lastUpdateTime', sortable: true, width: '12%'},
         {
-          name: '操作', index: '', width: '15%',
+          name: '操作', index: '', width: '25%',
           formatter: function () {
             return '<div class="th-btn-group">' +
               '<button type="button" class="btn btn-success btn-xs" ng-click=watchFormLayout(row.id)>' +
