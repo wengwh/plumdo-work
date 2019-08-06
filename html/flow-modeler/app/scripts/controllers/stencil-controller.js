@@ -285,6 +285,7 @@ angular.module('flowableModeler')
                             }
                         }
 
+
                         if (propertyConfig === undefined || propertyConfig === null) {
                             console.log('WARNING: no property configuration defined for ' + key + ' of type ' + property.type());
                         } else {
@@ -293,7 +294,7 @@ angular.module('flowableModeler')
                                 selectedShape.properties.set(key, true);
                             }
 
-                            if (FLOWABLE.UI_CONFIG.showRemovedProperties == false && property.isHidden())
+                            if (FLOWABLE.UI_CONFIG.showRemovedProperties == false && (property.isHidden() || !property.visible()))
                             {
                               continue;
                             }

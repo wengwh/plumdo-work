@@ -23,10 +23,10 @@
         $scope.service.put({
           urlPath : '/' + $scope.id,
           data : $scope.formData
-        }, function() {
+        }, function(result) {
           $uibModalInstance.close();
           $scope.showSuccessMsg($scope.modalTitle + '成功');
-          $scope.complete();
+          $scope.complete(result);
         });
       };
 
@@ -35,10 +35,10 @@
       $scope.ok = function() {
         $scope.service.post({
           data : $scope.formData
-        }, function() {
+        }, function(result) {
           $uibModalInstance.close();
           $scope.showSuccessMsg($scope.modalTitle + '成功');
-          $scope.complete();
+          $scope.complete(result);
         });
       };
     }

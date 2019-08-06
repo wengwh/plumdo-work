@@ -102,7 +102,7 @@ angular.module('flowableModeler').controller('BpmnEditorDueDatePopupCtrl',
     };
 
     $scope.allSteps = EDITOR.UTIL.collectSortedElementsFromPrecedingElements($scope.selectedShape);
-
+    console.info($scope.allSteps)
     $scope.save = function () {
         $scope.property.value = {};
         if ($scope.popup.duedate) {

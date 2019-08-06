@@ -21,46 +21,44 @@
  * Condition expression
  */
 
-var KisBpmConditionMultiinstanceCtrl = [ '$scope', '$modal', function($scope, $modal) {
+angular.module('flowableModeler').controller('FlowableConditionMultiinstanceCtrl', ['$scope', '$modal', function ($scope, $modal) {
 
-    // Config for the modal window
-    var opts = {
-        template:  'editor-app/configuration/properties/condition-multiinstance-popup.html?version=' + Date.now(),
-        backdrop:'static',
-        scope: $scope
-    };
+  var opts = {
+    template: 'views/properties/condition-multiinstance-popup.html',
+    scope: $scope
+  };
 
-    // Open the dialog
-    $modal(opts);
-}];
+  // Open the dialog
+  _internalCreateModal(opts, $modal, $scope);
+}]);
 
-var KisBpmConditionMultiinstancePopupCtrl = [ '$scope', '$translate', '$http', function($scope, $translate, $http) {
+angular.module('flowableModeler').controller('FlowableConditionMultiinstancePopupCtrl', ['$scope', '$translate', '$http', function ($scope, $translate, $http) {
 
-	// Put json representing condition on scope
-    if ($scope.property.value !== undefined && $scope.property.value !== null) {
+  // Put json representing condition on scope
+  if ($scope.property.value !== undefined && $scope.property.value !== null) {
 
-        $scope.conditionExpression = {value: $scope.property.value};
-        
-    } else {
-        $scope.conditionExpression = {value: ''};
+    $scope.conditionExpression = {value: $scope.property.value};
+
+  } else {
+    $scope.conditionExpression = {value: ''};
+  }
+  $scope.changeExpression = function () {
+    if ($scope.conditionExpression.radio == 'all') {
+      $scope.conditionExpression.value = '${nrOfCompletedInstances/nrOfInstances>=1}'
+    } else if ($scope.conditionExpression.radio == 'half') {
+      $scope.conditionExpression.value = '${nrOfCompletedInstances/nrOfInstances>=0.5}'
+    } else if ($scope.conditionExpression.radio == 'custom') {
     }
-    $scope.changeExpression = function() {
-    	if($scope.conditionExpression.radio=='all'){
-    		$scope.conditionExpression.value = '${nrOfCompletedInstances/nrOfInstances>=1}'
-    	}else if($scope.conditionExpression.radio=='half'){
-    		$scope.conditionExpression.value = '${nrOfCompletedInstances/nrOfInstances>=0.5}'
-    	}else if($scope.conditionExpression.radio=='custom'){
-    	}
-    };
-    $scope.save = function() {
-        $scope.property.value = $scope.conditionExpression.value;
-        $scope.updatePropertyInModel($scope.property);
-        $scope.close();
-    };
+  };
+  $scope.save = function () {
+    $scope.property.value = $scope.conditionExpression.value;
+    $scope.updatePropertyInModel($scope.property);
+    $scope.close();
+  };
 
-    // Close button handler
-    $scope.close = function() {
-    	$scope.property.mode = 'read';
-    	$scope.$hide();
-    };
-}];
+  // Close button handler
+  $scope.close = function () {
+    $scope.property.mode = 'read';
+    $scope.$hide();
+  };
+}]);

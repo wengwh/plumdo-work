@@ -50,7 +50,7 @@ body pre {
 .simple-list {
     list-style: none inside;
     padding: 0;
-    margin: 5px 0;
+    margin: -5px 0 10px 0;
 }
 
 .simple-list.pack {
@@ -1708,4 +1708,14 @@ h3+div > .dropzone {
 }
 .clickable {
   cursor: pointer;
+}
+
+.col-xs-12.underline {
+    border-top: 1px solid #eeeeee;
+    margin: 20px 0 0 0;
+    padding-top: 10px;
+}
+
+.modal.modal-medium .modal-dialog {
+    width: 700px;
 }

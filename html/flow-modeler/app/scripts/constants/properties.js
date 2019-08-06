@@ -19,6 +19,10 @@ FLOWABLE.PROPERTY_CONFIG =
       "readModeTemplateUrl": "views/properties/default-value-display-template.html",
       "writeModeTemplateUrl": "views/properties/string-property-write-mode-template.html"
     },
+    "number": {
+      "readModeTemplateUrl": "views/properties/default-value-display-template.html",
+      "writeModeTemplateUrl": "views/properties/number-property-write-mode-template.html"
+    },
     "string-readonly": {
       "templateUrl": "views/properties/default-value-display-template.html",
     },
@@ -33,8 +37,11 @@ FLOWABLE.PROPERTY_CONFIG =
       "templateUrl": "views/properties/default-value-display-template.html",
     },
     "flowable-multiinstance": {
+      "templateUrl": "views/properties/multiinstance-property-write-template.html"
+    },
+    "condition-multiinstance" : {
       "readModeTemplateUrl": "views/properties/default-value-display-template.html",
-      "writeModeTemplateUrl": "views/properties/multiinstance-property-write-template.html"
+      "writeModeTemplateUrl": "views/properties/condition-multiinstance-write-template.html"
     },
     "flowable-ordering": {
       "readModeTemplateUrl": "views/properties/default-value-display-template.html",
@@ -83,6 +90,14 @@ FLOWABLE.PROPERTY_CONFIG =
     "oryx-process_namespace-complex": {
       "readModeTemplateUrl": "views/properties/process_namespace-display-template.html",
       "writeModeTemplateUrl": "views/properties/process_namespace-write-template.html"
+    },
+    "oryx-process_potentialstarteruser-complex": {
+      "readModeTemplateUrl": "views/properties/user-display-template.html",
+      "writeModeTemplateUrl": "views/properties/user-write-template.html"
+    },
+    "oryx-process_potentialstartergroup-complex": {
+      "readModeTemplateUrl": "views/properties/group-display-template.html",
+      "writeModeTemplateUrl": "views/properties/group-write-template.html"
     },
     "oryx-sequencefloworder-complex": {
       "readModeTemplateUrl": "views/properties/sequenceflow-order-display-template.html",

@@ -29,31 +29,102 @@ angular.module('flowableModeler').controller('FlowableConditionExpressionCtrl', 
 
 angular.module('flowableModeler').controller('FlowableConditionExpressionPopupCtrl',
     [ '$rootScope', '$scope', '$translate', function($rootScope, $scope, $translate) {
-    	
-    // Put json representing assignment on scope
-    if ($scope.property.value !== undefined && $scope.property.value !== null
-        && $scope.property.value.expression !== undefined
-        && $scope.property.value.expression !== null) {
 
-        $scope.expression = $scope.property.value.expression;
 
-    } else if ($scope.property.value !== undefined && $scope.property.value !== null) {
-        $scope.expression = {type: 'static', staticValue: $scope.property.value};
-        
-    } else {
-        $scope.expression = {};
-    }
+      // Put json representing condition on scope
+      if ($scope.property.value !== undefined && $scope.property.value !== null) {
 
-    $scope.save = function() {
-        $scope.property.value = {expression: $scope.expression};
+        $scope.conditionExpression = {value: $scope.property.value};
+
+      } else {
+        $scope.conditionExpression = {value: ''};
+      }
+
+      $scope.conditionExpression.type1 = 'variable';
+      $scope.conditionExpression.type2 = 'static';
+      $scope.conditionExpression.param1 = '';
+      $scope.conditionExpression.param2 = '';
+      $scope.conditionExpression.expression = 'equals';
+      $scope.conditionExpression.link = 'empty';
+
+      $scope.reset = function() {
+        $scope.conditionExpression.type1 = 'variable';
+        $scope.conditionExpression.type2 = 'static';
+        $scope.conditionExpression.param1 = '';
+        $scope.conditionExpression.param2 = '';
+        $scope.conditionExpression.expression = 'equals';
+        $scope.conditionExpression.link = 'empty';
+      };
+
+
+      $scope.add = function() {
+        var expressionValue = null;
+        var param1 = null;
+        var param2 = null;
+        var link = null;
+        if($scope.conditionExpression.type1 == 'variable'){
+          param1 = $scope.conditionExpression.param1;
+        }else{
+          param1 = "'" + $scope.conditionExpression.param1 + "'";
+        }
+
+        if($scope.conditionExpression.type2 == 'variable'){
+          param2 = $scope.conditionExpression.param2;
+        }else{
+          param2 = "'" + $scope.conditionExpression.param2 + "'";
+        }
+
+        if($scope.conditionExpression.link == 'and'){
+          link = "&&";
+        }else if($scope.conditionExpression.link == 'or'){
+          link = "||";
+        }else{
+          link = "";
+        }
+
+        if($scope.conditionExpression.expression == 'equals'){
+          expressionValue = param1 + " == " + param2;
+        }else if($scope.conditionExpression.expression == 'notEquals'){
+          expressionValue = param1 + " != " + param2;
+        }else if($scope.conditionExpression.expression == 'less'){
+          expressionValue = param1 + " < " + param2;
+        }else if($scope.conditionExpression.expression == 'greater'){
+          expressionValue = param1 + " > " + param2;
+        }else if($scope.conditionExpression.expression == 'lessEquals'){
+          expressionValue = param1 + " <= " + param2;
+        }else if($scope.conditionExpression.expression == 'greaterEquals'){
+          expressionValue = param1 + " >= " + param2;
+        }else if($scope.conditionExpression.expression == 'contains'){
+          expressionValue = "uel.contains("+param1+","+param2+")";
+        }else if($scope.conditionExpression.expression == 'notContains'){
+          expressionValue = "uel.notContains("+param1+","+param2+")";
+        }else if($scope.conditionExpression.expression == 'startsWith'){
+          expressionValue = "uel.startsWith("+param1+","+param2+")";
+        }else if($scope.conditionExpression.expression == 'endsWith'){
+          expressionValue = "uel.endsWith("+param1+","+param2+")";
+        }
+
+        $scope.conditionExpression.value = $scope.conditionExpression.value.replace(/(\s*$)/g,"")
+
+        if($scope.conditionExpression.value == ''){
+          $scope.conditionExpression.value = "${"+expressionValue+"}";
+        }else if($scope.conditionExpression.value.indexOf("}")==$scope.conditionExpression.value.length-1){
+          $scope.conditionExpression.value = $scope.conditionExpression.value.substr(0,$scope.conditionExpression.value.length-1)
+            + " " + link + " "+ expressionValue+"}";
+        }else{
+          $scope.conditionExpression.value = $scope.conditionExpression.value + " " + link + " "+ expressionValue;
+        }
+      };
+
+      $scope.save = function() {
+        $scope.property.value = $scope.conditionExpression.value;
         $scope.updatePropertyInModel($scope.property);
         $scope.close();
-    };
+      };
 
-    // Close button handler
-    $scope.close = function() {
-    	$scope.property.mode = 'read';
-    	$scope.$hide();
-    };
-
+      // Close button handler
+      $scope.close = function() {
+        $scope.property.mode = 'read';
+        $scope.$hide();
+      };
 }]);

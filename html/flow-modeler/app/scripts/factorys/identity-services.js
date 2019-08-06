@@ -12,76 +12,72 @@
  */
 'use strict';
 
-angular.module('flowableModeler').service('UserService', ['$http', '$q','editorManager',
-    function ($http, $q, editorManager) {
+angular.module('flowableModeler').service('UserService', ['$http', '$q', 'editorManager',
+  function ($http, $q, editorManager) {
 
-        var httpAsPromise = function(options) {
-            var deferred = $q.defer();
-            $http(options).
-                success(function (response, status, headers, config) {
-                    deferred.resolve(response);
-                })
-                .error(function (response, status, headers, config) {
-                    deferred.reject(response);
-                });
-            return deferred.promise;
-        };
+    var httpAsPromise = function (options) {
+      var deferred = $q.defer();
+      $http(options).success(function (response, status, headers, config) {
+        deferred.resolve(response);
+      })
+        .error(function (response, status, headers, config) {
+          deferred.reject(response);
+        });
+      return deferred.promise;
+    };
 
-        /*
-         * Filter users based on a filter text.
-         */
-        this.getFilteredUsers = function (filterText, taskId, processInstanceId) {
-            var params = {filter: filterText};
-            if(taskId) {
-                params.excludeTaskId = taskId;
-            }
-            if (processInstanceId) {
-                params.exclusdeProcessId = processInstanceId;
-            }
+    /*
+     * Filter users based on a filter text.
+     */
+    this.getFilteredUsers = function (filterText, taskId, processInstanceId) {
+      var params = {filter: filterText};
+      if (taskId) {
+        params.excludeTaskId = taskId;
+      }
+      if (processInstanceId) {
+        params.exclusdeProcessId = processInstanceId;
+      }
 
-            return httpAsPromise({
-                method: 'GET',
-                url: FLOWABLE.CONFIG.identityContextRoot + '/users',
-                headers: {
-                  'Token': editorManager.getToken()
-                },
-                params: params
-            });
-        };
+      return httpAsPromise({
+        method: 'GET',
+        url: FLOWABLE.CONFIG.identityContextRoot + '/users/match',
+        headers: {
+          'Token': editorManager.getToken()
+        },
+        params: params
+      });
+    };
 
-    }]);
+  }]);
 
-angular.module('flowableModeler').service('GroupService', ['$http', '$q','editorManager',
-    function ($http, $q, editorManager) {
+angular.module('flowableModeler').service('GroupService', ['$http', '$q', 'editorManager',
+  function ($http, $q, editorManager) {
 
-        var httpAsPromise = function(options) {
-            var deferred = $q.defer();
-            $http(options).
-                success(function (response, status, headers, config) {
-                    deferred.resolve(response);
-                })
-                .error(function (response, status, headers, config) {
-                    deferred.reject(response);
-                });
-            return deferred.promise;
-        };
+    var httpAsPromise = function (options) {
+      var deferred = $q.defer();
+      $http(options).success(function (response, status, headers, config) {
+        deferred.resolve(response);
+      })
+        .error(function (response, status, headers, config) {
+          deferred.reject(response);
+        });
+      return deferred.promise;
+    };
 
-        /*
-         * Filter functional groups based on a filter text.
-         */
-        this.getFilteredGroups = function (filterText) {
-            var params;
-            if(filterText) {
-                params = {filter: filterText};
-            }
+    /*
+     * Filter functional groups based on a filter text.
+     */
+    this.getFilteredGroups = function (filterText) {
+      var params = {filter: filterText};
 
-            return httpAsPromise({
-                method: 'GET',
-                url: FLOWABLE.CONFIG.identityContextRoot + '/groups',
-                headers: {
-                    'Token': editorManager.getToken()
-                },
-                params: params
-            });
-        };
-    }]);
+
+      return httpAsPromise({
+        method: 'GET',
+        url: FLOWABLE.CONFIG.identityContextRoot + '/groups/match',
+        headers: {
+          'Token': editorManager.getToken()
+        },
+        params: params
+      });
+    };
+  }]);

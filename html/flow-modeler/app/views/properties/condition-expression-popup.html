@@ -1,26 +1,89 @@
 <div class="modal" ng-controller="FlowableConditionExpressionPopupCtrl">
-<div class="modal-dialog modal-wide">
-<div class="modal-content">
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
-    <h2 translate>PROPERTY.SEQUENCEFLOW.CONDITION.TITLE</h2>
-</div>
-<div class="modal-body">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
+                <h2 translate>PROPERTY.SEQUENCEFLOW.CONDITION.TITLE</h2>
+            </div>
+            <div class="modal-body">
 
-    <div class="detail-group clearfix">
-        
-        <div class="col-xs-12">
-            <label class="col-xs-3">{{'PROPERTY.SEQUENCEFLOW.CONDITION.STATIC' | translate}}</label>
-            <div class="col-xs-9">
-                <textarea class="form-control" ng-model="expression.staticValue" style="width:70%; height:100%; max-width: 100%; max-height: 100%; min-height: 50px"/>
+                <div class="detail-group clearfix">
+
+                    <div class="form-group clearfix">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label for="type1">{{'PROPERTY.SEQUENCEFLOW.CONDITION.TYPE.TITLE' | translate}}：</label>
+                                <select id="type1" class="condition-input" ng-model="conditionExpression.type1">
+                                    <option value="variable">{{'PROPERTY.SEQUENCEFLOW.CONDITION.TYPE.VARIABLE' | translate}}</option>
+                                    <option value="static">{{'PROPERTY.SEQUENCEFLOW.CONDITION.TYPE.STATIC' | translate}}</option>
+                                </select>
+
+                                <input type="text" class="condition-input" ng-model="conditionExpression.param1"  />
+
+                                <label for="expression">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION' | translate}}：</label>
+                                <select id="expression" class="condition-input condition-expression-input" ng-model="conditionExpression.expression">
+                                    <option value="equals">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.EQUALS' | translate}}</option>
+                                    <option value="notEquals">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.NOTEQUALS' | translate}}</option>
+                                    <option value="less">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.LESSTHAN' | translate}}</option>
+                                    <option value="greater">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.GREATERTHAN' | translate}}</option>
+                                    <option value="lessEquals">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.LESSEQUALS' | translate}}</option>
+                                    <option value="greaterEquals">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.GREATEREQUALS' | translate}}</option>
+                                    <option value="contains">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.CONTAINS' | translate}}</option>
+                                    <option value="notContains">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.NOTCONTAINS' | translate}}</option>
+                                    <option value="startsWith">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.STARTSWITH' | translate}}</option>
+                                    <option value="endsWith">{{'PROPERTY.SEQUENCEFLOW.CONDITION.EXPRESSION.ENDSWITH' | translate}}</option>
+                                </select>
+
+                                <label for="type2">{{'PROPERTY.SEQUENCEFLOW.CONDITION.TYPE.TITLE' | translate}}：</label>
+                                <select id="type2" class="condition-input" ng-model="conditionExpression.type2">
+                                    <option value="variable">{{'PROPERTY.SEQUENCEFLOW.CONDITION.TYPE.VARIABLE' | translate}}</option>
+                                    <option value="static">{{'PROPERTY.SEQUENCEFLOW.CONDITION.TYPE.STATIC' | translate}}</option>
+                                </select>
+
+                                <input type="text" class="condition-input" ng-model="conditionExpression.param2"/>
+
+                                <label for="link">{{'PROPERTY.SEQUENCEFLOW.CONDITION.LINK' | translate}}：</label>
+                                <select id="link" class="condition-input condition-link-input" ng-model="conditionExpression.link">
+                                    <option value="empty">{{'PROPERTY.SEQUENCEFLOW.CONDITION.LINK.EMPTY' | translate}}</option>
+                                    <option value="and">{{'PROPERTY.SEQUENCEFLOW.CONDITION.LINK.AND' | translate}}</option>
+                                    <option value="or">{{'PROPERTY.SEQUENCEFLOW.CONDITION.LINK.OR' | translate}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="row property-header">
+                            <div class="col-xs-4">
+                                <button ng-click="add()" class="btn btn-xs btn-primary" translate>PROPERTY.SEQUENCEFLOW.CONDITION.BUTTON.ADD</button>
+                                <button ng-click="reset()" class="btn btn-xs btn-primary" translate>PROPERTY.SEQUENCEFLOW.CONDITION.BUTTON.RESET</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 ">
+                                <div>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" class="property" ng-model="conditionExpression.custom">{{'PROPERTY.SEQUENCEFLOW.CONDITION.STATIC.CUSTOM' | translate}}</input>
+                                    </label>
+                                </div>
+
+                                <div class="space-12"></div>
+
+                                <label>
+                                    {{'PROPERTY.SEQUENCEFLOW.CONDITION.STATIC' | translate}}
+                                </label>
+                            </div>
+
+                            <div class="col-xs-8">
+                                <textarea class="form-control item-textarea" ng-model="conditionExpression.value" ng-disabled="!conditionExpression.custom"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="close()" class="btn btn-primary" translate>ACTION.CANCEL</button>
+                    <button ng-click="save()" class="btn btn-primary" translate>ACTION.SAVE</button>
+                </div>
             </div>
         </div>
-
     </div>
-    <div class="modal-footer">
-        <button ng-click="close()" class="btn btn-primary" translate>ACTION.CANCEL</button>
-        <button ng-click="save()" class="btn btn-primary" translate>ACTION.SAVE</button>
-    </div>
-</div>
-</div>
 </div>

@@ -1,8 +1,8 @@
 
 <div ng-controller="FlowableMultiInstanceCtrl">
     <select ng-model="property.value" ng-change="multiInstanceChanged()">
-    	<option>None</option>
-    	<option>Parallel</option>
-    	<option>Sequential</option>
+			<option value="None">{{'PROPERTY.MULTIINSTANCE.TYPE.NONE' | translate}}</option>
+			<option value="Parallel">{{'PROPERTY.MULTIINSTANCE.TYPE.PARALLEL' | translate}}</option>
+			<option value="Sequential">{{'PROPERTY.MULTIINSTANCE.TYPE.SEQUENTIAL' | translate}}</option>
     </select>
 </div>

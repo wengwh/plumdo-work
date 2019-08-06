@@ -82,6 +82,34 @@ angular.module('flowableModeler').controller('FlowableBooleanPropertyCtrl', ['$s
 
 }]);
 
+
+angular.module('flowableModeler').controller('FlowableNumberPropertyCtrl', [ '$scope', function ($scope) {
+
+  $scope.shapeId = $scope.selectedShape.id;
+  $scope.valueFlushed = false;
+  /** Handler called when input field is blurred */
+  $scope.inputBlurred = function() {
+    $scope.valueFlushed = true;
+    $scope.updatePropertyInModel($scope.property);
+  };
+
+  $scope.enterPressed = function(keyEvent) {
+    // if enter is pressed
+    if (keyEvent && keyEvent.which === 13) {
+      keyEvent.preventDefault();
+      $scope.inputBlurred(); // we want to do the same as if the user would blur the input field
+    }
+    // else; do nothing
+  };
+
+  $scope.$on('$destroy', function controllerDestroyed() {
+    if(!$scope.valueFlushed) {
+      $scope.updatePropertyInModel($scope.property, $scope.shapeId);
+    }
+  });
+
+}]);
+
 /*
  * Text controller
  */
