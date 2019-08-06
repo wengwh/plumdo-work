@@ -219,11 +219,11 @@ gulp.task('client:build', ['views', 'styles'], function () {
 
 gulp.task('images', function () {
   return gulp.src(yeoman.app + '/images/**/*')
-    .pipe($.cache($.imagemin({
+    /*.pipe($.cache($.imagemin({
         optimizationLevel: 5,
         progressive: true,
         interlaced: true
-    })))
+    })))*/
     .pipe(gulp.dest(yeoman.dist + '/images'));
 });
 
