@@ -1,20 +1,5 @@
 package com.plumdo.identity.resource;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.plumdo.common.jpa.Criteria;
 import com.plumdo.common.jpa.Restrictions;
 import com.plumdo.common.resource.BaseResource;
@@ -27,6 +12,12 @@ import com.plumdo.identity.domain.User;
 import com.plumdo.identity.repository.GroupRepository;
 import com.plumdo.identity.repository.UserGroupRepository;
 import com.plumdo.identity.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 群组资源控制类
@@ -66,6 +57,17 @@ public class GroupResource extends BaseResource {
         criteria.add(Restrictions.like("name", requestParams.get("name")));
         criteria.add(Restrictions.like("tenantId", requestParams.get("tenantId")));
         return createPageResponse(groupRepository.findAll(criteria, getPageable(requestParams)));
+    }
+
+    @GetMapping(value = "/groups/match")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<Group> matchGroups(@RequestParam(required = false) String filter) {
+        Criteria<Group> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq("type", TableConstant.GROUP_TYPE_CHILD));
+        if (ObjectUtils.isNotEmpty(filter)) {
+            criteria.add(Restrictions.like("name", filter));
+        }
+        return groupRepository.findAll(criteria);
     }
 
     @GetMapping(value = "/groups/{id}")

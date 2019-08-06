@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.plumdo.common.model.Authentication;
 import org.flowable.engine.common.api.query.QueryProperty;
 import org.flowable.engine.impl.ModelQueryProperty;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ModelQuery;
+import org.flowable.idm.api.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -142,6 +144,8 @@ public class ModelResource extends BaseModelResource {
         ObjectNode propertiesNode = objectMapper.createObjectNode();
         propertiesNode.put("process_id", model.getKey());
         propertiesNode.put("name", model.getName());
+        propertiesNode.put("process_version", "v1.0");
+        propertiesNode.put("process_author", getUserName(Authentication.getUserId()));
         editorNode.set("properties", propertiesNode);
 
         ArrayNode childShapeArray = objectMapper.createArrayNode();
@@ -195,5 +199,13 @@ public class ModelResource extends BaseModelResource {
         for (Model deleteModel : models) {
             repositoryService.deleteModel(deleteModel.getId());
         }
+    }
+
+    private String getUserName(String userId){
+        User user = identityService.createUserQuery().userId(userId).singleResult();
+        if (user != null) {
+            return user.getFirstName();
+        }
+        return null;
     }
 }

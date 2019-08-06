@@ -80,6 +80,18 @@ public class UserResource extends BaseResource {
         return createPageResponse(userRepository.findAll(criteria, getPageable(requestParams)));
     }
 
+    @GetMapping(value = "/users/match")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<User> matchUsers(@RequestParam(required = false) String filter) {
+        if (filter == null || filter.isEmpty()) {
+            return userRepository.findAll();
+        }
+
+        Criteria<User> criteria = new Criteria<>();
+        criteria.add(Restrictions.or(Restrictions.like("name", filter), Restrictions.like("phone", filter)));
+        return userRepository.findAll(criteria);
+    }
+
     @GetMapping(value = "/users/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public User getUser(@PathVariable Integer id) {
