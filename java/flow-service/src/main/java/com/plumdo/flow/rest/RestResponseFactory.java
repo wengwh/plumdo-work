@@ -203,6 +203,10 @@ public class RestResponseFactory {
     }
 
     public ProcessDefinitionResponse createProcessDefinitionResponse(ProcessDefinition processDefinition) {
+        return createProcessDefinitionResponse(processDefinition,null);
+    }
+
+    public ProcessDefinitionResponse createProcessDefinitionResponse(ProcessDefinition processDefinition,String formKey) {
         ProcessDefinitionResponse response = new ProcessDefinitionResponse();
         response.setId(processDefinition.getId());
         response.setKey(processDefinition.getKey());
@@ -213,6 +217,7 @@ public class RestResponseFactory {
         response.setSuspended(processDefinition.isSuspended());
         response.setGraphicalNotationDefined(processDefinition.hasGraphicalNotation());
         response.setTenantId(processDefinition.getTenantId());
+        response.setFormKey(formKey);
         return response;
     }
 
@@ -240,7 +245,7 @@ public class RestResponseFactory {
         return result;
     }
 
-    public List<HistoricProcessInstanceResponse> createHistoricProcessInstancResponseList(List<HistoricProcessInstance> processInstances) {
+    public List<HistoricProcessInstanceResponse> createHistoricProcessInstanceResponseList(List<HistoricProcessInstance> processInstances) {
         List<HistoricProcessInstanceResponse> responseList = new ArrayList<>();
         for (HistoricProcessInstance instance : processInstances) {
             responseList.add(createHistoricProcessInstanceResponse(instance));

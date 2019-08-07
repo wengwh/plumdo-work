@@ -22,6 +22,6 @@ public class ProcessInstancePaginateList extends AbstractPaginateList {
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected List processList(List list) {
-        return restResponseFactory.createHistoricProcessInstancResponseList(list);
+        return restResponseFactory.createHistoricProcessInstanceResponseList(list);
     }
 }

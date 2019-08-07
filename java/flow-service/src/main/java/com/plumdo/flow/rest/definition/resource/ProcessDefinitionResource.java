@@ -90,7 +90,9 @@ public class ProcessDefinitionResource extends BaseProcessDefinitionResource {
     @GetMapping(value = "/process-definitions/{processDefinitionId}", name = "根据ID获取流程定义")
     public ProcessDefinitionResponse getProcessDefinition(@PathVariable String processDefinitionId) {
         ProcessDefinition processDefinition = getProcessDefinitionFromRequest(processDefinitionId);
-        return restResponseFactory.createProcessDefinitionResponse(processDefinition);
+        String formKey = formService.getStartFormKey(processDefinitionId);
+        
+        return restResponseFactory.createProcessDefinitionResponse(processDefinition, formKey);
     }
 
     @DeleteMapping(value = "/process-definitions/{processDefinitionId}", name = "流程定义删除")

@@ -1,0 +1,70 @@
+<div class="container-fluid" ng-show="detailId==0">
+  <div class="card card-query">
+    <div class="content">
+      <div class="row">
+        <div class="col-md-4">
+          <h4 class="title">流程标识</h4>
+          <div class="form-group">
+            <input type="text" ng-model="queryParams.key" class="form-control" placeholder="输入标识">
+          </div>
+        </div>
+        <div class="col-md-8">
+          <h4 class="title">流程名称</h4>
+          <div class="input-group">
+            <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入名称">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-info" ng-click="queryDefinition()">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div ng-pagination ng-model="queryResult.total" changed="queryDefinition" param="queryParams"></div>
+    </div>
+  </div>
+
+  <ul class="image-thumbnails">
+    <li ng-repeat="item in queryResult.data">
+      <a href="{{getImageUrl(item.id)}}" title="{{item.name}}" data-rel="colorbox" colorbox>
+        <img ng-src="{{getImageUrl(item.id)}}" />
+        <div class="tags tags-top">
+        <span class="label-holder">
+          <span class="badge">v{{item.version}}</span>
+        </span>
+        </div>
+        <div class="tags">
+        <span class="label-holder">
+          <span class="label label-info"><i class="fa fa-sitemap"></i> {{item.name}} - {{item.key}}</span>
+        </span>
+        </div>
+      </a>
+      <div class="tools tools-top">
+        <a href="" ng-click="gotoDetail(item.id)">
+          <i class="fa fa-edit">发起申请</i>
+        </a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="container-fluid" ng-if="detailId!=0">
+  <div class="card card-detail">
+    <div class="header">
+      <h4 class="title">
+        <span class="text-info right-split">v{{selectedItem.version}}</span>{{selectedItem.name}}
+        <button type="button" class="btn btn-warning pull-right" ng-click="gotoList()">返回列表</button>
+      </h4>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="label label-success pull-left">流程图</span>
+          <img ng-src="{{getImageUrl(selectedItem.id)}}" />
+        </div>
+        <div class="col-md-12 underline">
+          <span class="label label-success pull-left">流程表单</span>
+          <iframe ng-src="{{getFormUrl(selectedItem.id)}}" width="100%" height="600" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

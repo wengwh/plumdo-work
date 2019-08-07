@@ -1,11 +1,14 @@
 package com.plumdo.flow.rest.definition;
 
+import lombok.Data;
+
 /**
  * 流程定义结果类
  *
  * @author wengwh
  * @date 2018/12/6
  */
+@Data
 public class ProcessDefinitionResponse {
     private String id;
     private String key;
@@ -14,79 +17,8 @@ public class ProcessDefinitionResponse {
     private String description;
     private String tenantId;
     private String category;
+    private String formKey;
     private boolean graphicalNotationDefined = false;
     private boolean suspended = false;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setGraphicalNotationDefined(boolean graphicalNotationDefined) {
-        this.graphicalNotationDefined = graphicalNotationDefined;
-    }
-
-    public boolean isGraphicalNotationDefined() {
-        return graphicalNotationDefined;
-    }
-
-    public void setSuspended(boolean suspended) {
-        this.suspended = suspended;
-    }
-
-    public boolean isSuspended() {
-        return suspended;
-    }
 
 }
