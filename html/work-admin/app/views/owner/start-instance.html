@@ -1,0 +1,223 @@
+<div class="container-fluid" ng-show="detailId=='0'">
+  <div class="card card-query">
+    <div class="content">
+      <div class="row">
+        <div class="col-md-2">
+          <h4 class="title">只显示最新版本</h4>
+          <div class="form-group">
+            <select class="form-control" ng-model="queryParams.latestVersion" ng-init="queryParams.latestVersion=queryParams.latestVersion||'true'">
+              <option value="true">是</option>
+              <option value="false">否</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <h4 class="title">状态</h4>
+          <div class="form-group">
+            <select class="form-control" ng-model="queryParams.suspended">
+              <option value="">全部</option>
+              <option value="false">激活</option>
+              <option value="true">挂起</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <h4 class="title">标识</h4>
+          <div class="form-group">
+            <input type="text" ng-model="queryParams.key" class="form-control" placeholder="输入定义标识">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h4 class="title">名称</h4>
+          <div class="input-group form-group">
+            <input type="text" ng-model="queryParams.name" class="form-control" placeholder="输入定义名称">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-info" ng-click="queryDefinition()">搜索</button>
+              <button type="button" class="btn btn-info" ng-click="importDefinition()">导入</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <div class="card">
+    <div class="content">
+      <table ng-table="tableOptions" class="table table-striped ng-table">
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" ng-if="detailId!='0'">
+  <div class="card card-detail">
+    <div class="header">
+      <h4 class="title">
+        <span class="text-info right-split">v{{selectedItem.version}}</span>{{selectedItem.name}}
+        <button type="button" class="btn btn-warning pull-right" ng-click="gotoList()">返回列表</button>
+      </h4>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-10">
+           <span class="property"><label>ID:</label>{{selectedItem.id}}</span>
+           <span class="property"><label>版本:</label>{{selectedItem.version}}</span>
+           <span class="property"><label>名称:</label>{{selectedItem.name}}</span>
+           <span class="property"><label>标识:</label>{{selectedItem.key}}</span>
+           <span class="property"><label>状态:</label>{{selectedItem.suspended?'挂起':'激活'}}</span>
+           <span class="property"><label>分类:</label>{{selectedItem.category}}</span>
+           <span class="property"><label>描述:</label>{{selectedItem.description}}</span>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-info btn-block" ng-click="createInstance(selectedItem)">启动</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,false)" ng-show="!selectedItem.suspended">挂起</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="switchStaus(selectedItem,true)" ng-show="selectedItem.suspended">激活</button>
+          <button type="button" class="btn btn-danger btn-block" ng-click="deleteDefinition(selectedItem)">删除</button>
+          <button type="button" class="btn btn-info btn-block" ng-click="exportDefinition(selectedItem)">导出</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card card-detail">
+    <div class="content">
+      <div class="nav-tabs-navigation">
+        <div class="nav-tabs-wrapper">
+          <ul uib-tabset active="active" type="tabs">
+              <uib-tab index="0" heading="流程图"></uib-tab>
+              <uib-tab index="1" heading="授权信息（启动）" select="queryIdentity(selectedItem.id)"></uib-tab>
+              <uib-tab index="2" heading="定时任务" select="queryJob(selectedItem.id)"></uib-tab>
+              <uib-tab index="3" heading="流程实例（运行）" select="queryProcess(selectedItem.id)"></uib-tab>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-content">
+          <div class="tab-pane text-center" ng-class="{'active':active==0}">
+            <img ng-src="{{getImageUrl(selectedItem.id)}}" />
+          </div>
+          <div class="tab-pane" ng-class="{'active':active==1}">
+            <table ng-table="identityTableOptions" class="table table-striped ng-table">
+            </table>
+            <br/>
+            <button type="button" class="btn btn-info btn-block" ng-click="createIdentity(selectedItem.id)">添加授权</button>
+          </div>
+          <div class="tab-pane" ng-class="{'active':active==2}">
+            <table ng-table="jobTableOptions" class="table table-striped ng-table">
+            </table>
+          </div>
+           <div class="tab-pane" ng-class="{'active':active==3}">
+            <table ng-table="processTableOptions" class="table table-striped ng-table">
+            </table>
+            <br/>
+            <button type="button" class="btn btn-info btn-block" ng-click="gotoProcessList(selectedItem.id)">查看全部流程实例</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="definition-status-edit.html">
+  <div class="form-group">
+    <label class="control-label">流程名称</label> 
+  	<input type="text" class="form-control" ng-model="formData.name" readonly></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">包括流程实例</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.includeProcessInstances" ng-value="true" ng-checked="true" /> 是
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.includeProcessInstances" ng-value="false" /> 否
+		</label>
+	</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">执行时间(不填立刻执行)</label> 
+    <input type="text" datetime-picker class="form-control" ng-model="formData.date"></input>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="definition-delete.html">
+  <div class="form-group">
+    <label class="control-label">流程定义</label> 
+  	<input type="text" class="form-control" ng-model="formData.name" readonly></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">包括流程实例</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.cascade" ng-value="true" /> 是
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.cascade" ng-value="false" ng-checked="true" /> 否
+		</label>
+	</div>
+  </div>
+</script>
+
+<script type="text/ng-template" id="definition-start.html">
+  <div class="form-group">
+    <label class="control-label">流程定义</label> 
+  	<input type="text" class="form-control" ng-model="formData.name" readonly></input>
+  </div>
+  <div class="form-group">
+  	<label class="control-label">自动提交任务</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.autoCommitTask" ng-value="true" /> 是
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.autoCommitTask" ng-value="false" ng-checked="true" /> 否
+		</label>
+	</div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">业务标识</label> 
+  	<input type="text" class="form-control" ng-model="formData.businessKey"></input>
+  </div>
+</script>
+
+<script type="text/ng-template" id="definition-identity-create.html">
+  <div class="form-group" ng-init="formData.type='user'">
+  	<label class="control-label">类型</label> 
+	<div>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.type" value="user" /> 人员
+		</label>
+		<label class="radio-inline"> 
+			<input ng-icheck type="radio" ng-model="formData.type" value="group" /> 群组
+		</label>
+	</div>
+  </div>
+  <div class="form-group" ng-show="formData.type=='user'">
+    <label class="control-label">人员</label>  <br/>
+	<isteven-multi-select    
+        input-model="formData.users"    
+        output-model="formData.user"
+        button-label="name"
+        item-label="name"
+        tick-property="selected"
+        orientation="horizontal"
+    	selection-mode="single"
+        translation="multiSelectLang">
+   </isteven-multi-select>
+  </div>
+  
+  <div class="form-group" ng-show="formData.type=='group'">
+    <label class="control-label">群组</label>  <br/>
+    <isteven-multi-select    
+        input-model="formData.groups"    
+        output-model="formData.group"
+        button-label="name"
+        item-label="name"
+        tick-property="selected"
+        group-property="group"
+    	selection-mode="single"
+        translation="multiSelectLang">
+   </isteven-multi-select>
+  </div>
+</script>
+
+<script type="text/ng-template" id="definition-import.html">
+  <input type="file" class="form-control" multiple file-input="fileOptions" ng-model="formData.file" >
+</script>
