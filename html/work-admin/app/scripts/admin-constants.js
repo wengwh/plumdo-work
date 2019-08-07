@@ -25,6 +25,7 @@
       flowModels: '/models',
       flowDefinitions: '/process-definitions',
       flowInstances: '/process-instances',
+      flowForms: '/process-forms',
       flowTasks: '/tasks',
       idmAuths: '/auths',
       idmUsers: '/users',

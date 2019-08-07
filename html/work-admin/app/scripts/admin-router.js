@@ -25,6 +25,18 @@
       }).state('main.home', {
         url: '/home',
         template: '<h1 class="text-center"> 页面不存在 </h1>'
+      }).state('main.owner', {
+        url: '/owner',
+        abstract: true,
+        template: '<div ui-view></div>'
+      }).state('main.owner.start', {
+        url: '/start?:id',
+        controller: 'OwnerStartInstanceController',
+        templateUrl: 'views/owner/start-instance.html'
+      }).state('main.owner.query', {
+        url: '/query?:id',
+        controller: 'OwnerQueryInstanceController',
+        templateUrl: 'views/owner/query-instance.html'
       }).state('main.modeler', {
         url: '/modeler',
         abstract: true,

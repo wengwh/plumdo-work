@@ -1,15 +1,15 @@
 
-
-.sidebar .sidebar-wrapper  .nav li > a,
-.off-canvas-sidebar .sidebar-wrapper  .nav li > a {
+.sidebar .sidebar-wrapper .nav li > a,
+.off-canvas-sidebar .sidebar-wrapper .nav li > a {
   margin: 10px 0px 0px;
   padding-left: 25px;
   padding-right: 25px;
   opacity: .7;
   white-space: nowrap;
 }
-.sidebar .sidebar-wrapper  .nav p,
-.off-canvas-sidebar .sidebar-wrapper  .nav p {
+
+.sidebar .sidebar-wrapper .nav p,
+.off-canvas-sidebar .sidebar-wrapper .nav p {
   margin: 0;
   line-height: 30px;
   font-size: 13px;
@@ -26,13 +26,15 @@
   height: auto;
   white-space: nowrap;
 }
+
 .sidebar-wrapper .nav .caret {
   margin-top: 12px;
   position: absolute;
   right: 1px;
 }
-.sidebar .sidebar-wrapper  .nav [data-toggle="collapse"] ~ div > ul > li > a,
-.off-canvas-sidebar .sidebar-wrapper  .nav [data-toggle="collapse"] ~ div > ul > li > a {
+
+.sidebar .sidebar-wrapper .nav [data-toggle="collapse"] ~ div > ul > li > a,
+.off-canvas-sidebar .sidebar-wrapper .nav [data-toggle="collapse"] ~ div > ul > li > a {
   margin: 0;
 }
 
@@ -51,10 +53,10 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
   display: none;
 }
 
-.sidebar .nav.child{
-	margin-top: 0px;
-    margin-bottom: 0px;
-	margin-left: 20px;
+.sidebar .nav.child {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 20px;
 }
 
 .sidebar .scroller {
@@ -62,29 +64,36 @@ a.dropdown-toggle[aria-expanded="true"] .caret {
 }
 
 .right-split {
-	padding-right: 5px;
-	border-right: 1px solid #a4acb9;
-	margin-right: 5px;
+  padding-right: 5px;
+  border-right: 1px solid #a4acb9;
+  margin-right: 5px;
 }
 
-
-.input-daterange{
-	width:100%;
-}
-.input-daterange input:first-child{
-	border-radius:3px 0 0 3px;
-}
-.input-daterange input:last-child{
-	border-radius:0 3px 3px 0;
-}
-.input-daterange .input-group-addon{
-	width:auto;
-	min-width:16px;
-	padding:4px 5px;
-	line-height:1.42857143;
-	text-shadow:0 1px 0 #fff;
-	border-width:1px 0;
-	margin-left:-5px;
-	margin-right:-5px;
+.input-daterange {
+  width: 100%;
 }
 
+.input-daterange input:first-child {
+  border-radius: 3px 0 0 3px;
+}
+
+.input-daterange input:last-child {
+  border-radius: 0 3px 3px 0;
+}
+
+.input-daterange .input-group-addon {
+  width: auto;
+  min-width: 16px;
+  padding: 4px 5px;
+  line-height: 1.42857143;
+  text-shadow: 0 1px 0 #fff;
+  border-width: 1px 0;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.underline {
+  border-top: 1px solid #F1EAE0;
+  margin: 30px 0 0 0;
+  padding-top: 15px;
+}
