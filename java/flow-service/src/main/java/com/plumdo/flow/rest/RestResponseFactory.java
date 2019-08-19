@@ -59,16 +59,16 @@ import com.plumdo.flow.rest.model.ModelResponse;
  */
 @Component
 public class RestResponseFactory {
-
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private IdentityService identityService;
+    private final ObjectMapper objectMapper;
+    private final IdentityService identityService;
 
     private List<RestVariableConverter> variableConverters = new ArrayList<>();
 
-    public RestResponseFactory() {
+    @Autowired
+    public RestResponseFactory(ObjectMapper objectMapper, IdentityService identityService) {
         initializeVariableConverters();
+        this.objectMapper = objectMapper;
+        this.identityService = identityService;
     }
 
     private void initializeVariableConverters() {
@@ -203,10 +203,10 @@ public class RestResponseFactory {
     }
 
     public ProcessDefinitionResponse createProcessDefinitionResponse(ProcessDefinition processDefinition) {
-        return createProcessDefinitionResponse(processDefinition,null);
+        return createProcessDefinitionResponse(processDefinition, null);
     }
 
-    public ProcessDefinitionResponse createProcessDefinitionResponse(ProcessDefinition processDefinition,String formKey) {
+    public ProcessDefinitionResponse createProcessDefinitionResponse(ProcessDefinition processDefinition, String formKey) {
         ProcessDefinitionResponse response = new ProcessDefinitionResponse();
         response.setId(processDefinition.getId());
         response.setKey(processDefinition.getKey());
@@ -229,7 +229,7 @@ public class RestResponseFactory {
         return responseList;
     }
 
-    public ProcessInstanceResponse createProcessInstanceResponse(ProcessInstance processInstance) {
+    private ProcessInstanceResponse createProcessInstanceResponse(ProcessInstance processInstance) {
         ProcessInstanceResponse result = new ProcessInstanceResponse();
         result.setId(processInstance.getId());
         result.setSuspended(processInstance.isSuspended());
@@ -253,7 +253,7 @@ public class RestResponseFactory {
         return responseList;
     }
 
-    public HistoricProcessInstanceResponse createHistoricProcessInstanceResponse(HistoricProcessInstance processInstance) {
+    private HistoricProcessInstanceResponse createHistoricProcessInstanceResponse(HistoricProcessInstance processInstance) {
         HistoricProcessInstanceResponse result = new HistoricProcessInstanceResponse();
         createHistoricProcessInstanceResponse(result, processInstance);
         return result;
@@ -263,6 +263,7 @@ public class RestResponseFactory {
         ProcessInstanceDetailResponse result = new ProcessInstanceDetailResponse();
         createHistoricProcessInstanceResponse(result, hisProcessInstance);
         result.setStartUserName(getUserName(hisProcessInstance.getStartUserId()));
+        result.setDeleteReason(hisProcessInstance.getDeleteReason());
         if (processInstance != null) {
             result.setSuspended(processInstance.isSuspended());
         }
@@ -294,7 +295,7 @@ public class RestResponseFactory {
         result.setTenantId(processInstance.getTenantId());
         List<Map<String, String>> taskInfo = new ArrayList<>();
         for (Task task : tasks) {
-            Map<String, String> taskMap = new HashMap<String, String>();
+            Map<String, String> taskMap = new HashMap<>(4);
             taskMap.put("taskId", task.getId());
             taskMap.put("taskName", task.getName());
             taskMap.put("taskDefinitionKey", task.getTaskDefinitionKey());
@@ -312,7 +313,7 @@ public class RestResponseFactory {
         return responseList;
     }
 
-    public TaskDetailResponse createTaskDetailResponse(HistoricTaskInstance historicTaskInstance, Task taskInstance) {
+    public TaskDetailResponse createTaskDetailResponse(HistoricTaskInstance historicTaskInstance, Task taskInstance, String formKey) {
         TaskDetailResponse result = new TaskDetailResponse();
         createHistoricTaskResponse(result, historicTaskInstance);
         result.setAssigneeName(getUserName(historicTaskInstance.getAssignee()));
@@ -321,6 +322,7 @@ public class RestResponseFactory {
             result.setDelegationState(taskInstance.getDelegationState());
             result.setSuspended(taskInstance.isSuspended());
         }
+        result.setFormKey(formKey);
         return result;
     }
 

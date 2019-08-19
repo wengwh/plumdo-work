@@ -1,0 +1,146 @@
+<div class="container-fluid" ng-show="detailId=='0'">
+  <div class="card card-query">
+    <div class="content">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="title">开始时间</h4>
+          <div class="input-daterange input-group form-group">
+            <input type="text" class="form-control" ng-model="queryParams.taskCreatedAfter" datetime-picker/>
+            <span class="input-group-addon">
+              <i class="fa fa-exchange"></i>
+            </span>
+            <input type="text" class="form-control" ng-model="queryParams.taskCreatedBefore" datetime-picker/>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h4 class="title">状态</h4>
+          <div class="form-group">
+            <select class="form-control" ng-model="queryParams.suspended">
+              <option value="">全部</option>
+              <option value="false">激活</option>
+              <option value="true">挂起</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="title">到期时间</h4>
+          <div class="input-daterange input-group form-group">
+            <input type="text" class="form-control" ng-model="queryParams.dueDateAfter" datetime-picker/>
+            <span class="input-group-addon">
+              <i class="fa fa-exchange"></i>
+            </span>
+            <input type="text" class="form-control" ng-model="queryParams.dueDateBefore" datetime-picker/>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h4 class="title">流程定义</h4>
+          <div class="input-group form-group">
+            <select class="form-control" chosen ng-model="queryParams.processDefinitionId"
+                    placeholder-text-single="'选择流程定义'" no-results-text="'没有结果匹配'">
+              <option value="">全部</option>
+              <option ng-repeat="option in definitions" value="{{option.id}}">{{option.name+' (v'+option.version+')'}}
+              </option>
+            </select>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-info" ng-click="queryTask()">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <table ng-table="tableOptions" class="table table-striped ng-table">
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" ng-if="detailId!='0'">
+  <div class="card card-detail">
+    <div class="header">
+      <h4 class="title">
+        <span class="text-info right-split">{{selectedItem.name}}</span>{{selectedItem.id}}
+        <button type="button" class="btn btn-warning pull-right" ng-click="gotoList()">返回列表</button>
+      </h4>
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-10">
+          <span class="property"><label>ID:</label>{{selectedItem.id}}</span>
+          <span class="property"><label>状态:</label>{{selectedItem.suspended?'挂起':'激活'}}</span>
+          <span class="property"><label>名称:</label>{{selectedItem.name}}</span>
+          <span class="property"><label>描述:</label>{{selectedItem.description}}</span>
+          <span class="property"><label>任务标识:</label>{{selectedItem.taskDefinitionKey}}</span>
+          <span class="property"><label>表单标识:</label>{{selectedItem.formKey}}</span>
+          <span class="property"><label>优先级:</label>{{selectedItem.priority}}</span>
+          <span class="property"><label>委托:</label>{{selectedItem.delegationState=='pending'?'委托中':'已处理'}}</span>
+          <span class="property"><label>类别:</label>{{selectedItem.category}}</span>
+          <span class="property"><label>父任务:</label>{{selectedItem.parentTaskId}}</span>
+          <hr>
+          <span class="property"><label>负责人:</label>{{selectedItem.assigneeName}}</span>
+          <span class="property"><label>所有人:</label>{{selectedItem.ownerName}}</span>
+          <span class="property"><label>开始时间:</label>{{selectedItem.startTime}}</span>
+          <span class="property"><label>到期时间:</label>{{selectedItem.dueDate}}</span>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-info btn-block" ng-click="claimTask(selectedItem)"
+                  ng-if="selectedItem.assignee == null" ng-disabled="selectedItem.suspended">认领
+          </button>
+          <button type="button" class="btn btn-info btn-block" ng-click="unclaimTask(selectedItem)"
+                  ng-if="selectedItem.assignee != null" ng-disabled="selectedItem.suspended">取消认领
+          </button>
+          <button type="button" class="btn btn-info btn-block" ng-click="assignTask(selectedItem)"
+                  ng-show="selectedItem.assignee != null" ng-disabled="selectedItem.suspended">转派
+          </button>
+          <button type="button" class="btn btn-info btn-block" ng-click="delegateTask(selectedItem)"
+                  ng-show="selectedItem.assignee != null" ng-disabled="selectedItem.suspended">委托
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card card-detail">
+    <div class="header">
+      <h4 class="title">流程图</h4>
+    </div>
+    <div class="content">
+      <img ng-src="{{getImageUrl(selectedItem.processInstanceId)}}"/>
+    </div>
+  </div>
+
+  <div class="card card-detail">
+    <div class="header">
+      <h4 class="title">流程表单</h4>
+    </div>
+    <div class="content">
+      <iframe ng-src="{{getFormUrl(selectedItem.definition,selectedItem.instance)}}" width="100%" height="600"
+              frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+
+      <hr>
+      <div class="footer text-center">
+        <button type="button" class="btn btn-default" ng-click="gotoList()">取消</button>
+        <button type="button" class="btn btn-success" ng-click="saveFormData(selectedItem)" ng-disabled="selectedItem.assignee == null">提交</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script type="text/ng-template" id="task-user-edit.html">
+  <div class="form-group">
+    <label class="control-label">任务名称</label>
+    <input type="text" class="form-control" ng-model="formData.name" readonly/>
+  </div>
+  <div class="form-group">
+    <label class="control-label">转派/委托用户</label>
+    <select class="form-control" chosen ng-model="formData.userId" placeholder-text-single="'选择用户'"
+            no-results-text="'没有结果匹配'" ng-options="user.id as user.name for user in formData.users">
+    </select>
+  </div>
+</script>

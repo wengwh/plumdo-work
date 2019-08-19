@@ -1,5 +1,6 @@
 package com.plumdo.flow.rest.task.resource;
 
+import org.flowable.engine.FormService;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.TaskService;
 import org.flowable.task.api.Task;
@@ -23,6 +24,8 @@ public class BaseTaskResource extends BaseResource {
     protected TaskService taskService;
     @Autowired
     protected HistoryService historyService;
+    @Autowired
+    protected FormService formService;
 
     Task getTaskFromRequest(String taskId) {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();

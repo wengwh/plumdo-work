@@ -1,6 +1,5 @@
 package com.plumdo.flow.rest.task.resource;
 
-import com.plumdo.common.model.Authentication;
 import org.flowable.task.api.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,18 +8,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 任务认领接口
+ * 任务取消认领接口
  *
  * @author wengwh
  * @date 2018年4月23日
  */
 @RestController
-public class TaskClaimResource extends BaseTaskResource {
+public class TaskUnclaimResource extends BaseTaskResource {
 
-    @PutMapping(value = "/tasks/{taskId}/claim", name = "任务认领")
+    @PutMapping(value = "/tasks/{taskId}/unclaim", name = "任务取消认领")
     @ResponseStatus(value = HttpStatus.OK)
     public void claimTask(@PathVariable("taskId") String taskId) {
         Task task = getTaskFromRequest(taskId);
-        taskService.claim(task.getId(), Authentication.getUserId());
+        taskService.unclaim(task.getId());
     }
 }

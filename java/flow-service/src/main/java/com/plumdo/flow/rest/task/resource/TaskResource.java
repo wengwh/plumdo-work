@@ -1,9 +1,6 @@
 package com.plumdo.flow.rest.task.resource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.flowable.engine.common.api.query.QueryProperty;
 import org.flowable.task.api.Task;
@@ -154,23 +151,23 @@ public class TaskResource extends BaseTaskResource {
         }
         if (ObjectUtils.isNotEmpty(requestParams.get("taskCandidateGroups"))) {
             String[] candidateGroups = requestParams.get("taskCandidateGroups").split(",");
-            List<String> groups = new ArrayList<String>(candidateGroups.length);
-            for (String candidateGroup : candidateGroups) {
-                groups.add(candidateGroup);
-            }
-            query.taskCandidateGroupIn(groups);
+            query.taskCandidateGroupIn(Arrays.asList(candidateGroups));
         }
         return new TaskPaginateList(restResponseFactory).paginateList(getPageable(requestParams), query, allowedSortProperties);
     }
 
     @GetMapping(value = "/tasks/{taskId}", name = "根据ID任务查询")
     public TaskDetailResponse getTaskById(@PathVariable("taskId") String taskId) {
-        Task task = null;
         HistoricTaskInstance historicTaskInstance = getHistoricTaskFromRequest(taskId);
+
+        Task task = null;
         if (historicTaskInstance.getEndTime() == null) {
             task = getTaskFromRequest(taskId);
         }
-        return restResponseFactory.createTaskDetailResponse(historicTaskInstance, task);
+
+        String formKey = formService.getTaskFormKey(historicTaskInstance.getProcessDefinitionId(), historicTaskInstance.getTaskDefinitionKey());
+
+        return restResponseFactory.createTaskDetailResponse(historicTaskInstance, task, formKey);
     }
 
     @PutMapping(value = "/tasks/{taskId}", name = "任务修改")
