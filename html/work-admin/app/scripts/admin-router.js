@@ -113,7 +113,7 @@
         templateUrl: 'views/form/instance.html'
       });
 
-      $urlRouterProvider.otherwise('/modeler/flow/');
+      $urlRouterProvider.otherwise('/owner/start');
     });
 
 })();
