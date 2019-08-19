@@ -24,6 +24,9 @@
     <logger name="com.plumdo" level="debug" additivity="true">
     </logger>
 
+    <logger name="org.flowable.task" level="debug" additivity="true">
+    </logger>
+
     <!-- 开发环境 -->
     <springProfile name="dev">
         <appender name="rollFile" class="ch.qos.logback.core.rolling.RollingFileAppender">

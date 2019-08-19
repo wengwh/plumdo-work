@@ -25,7 +25,23 @@ BEGIN
 		
 		INSERT INTO `pw_id_user_role` (`user_id_`,`role_id_`,`rev_`,`create_time_`,`last_update_time_`) 
 		VALUES(user_id_, role_id_,0,now(),now()); 
-		
+
+    INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
+		VALUES('个人工作台', 'fa-vk', '0', '0', 0 , 'main.owner', 0, now(),now());
+		SELECT LAST_INSERT_ID() into menu_id_;
+
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
+		VALUES('流程单申请', 'fa-futbol-o', '1', menu_id_ , 1 , 'main.owner.start', 0, now(),now());
+
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
+		VALUES('我的流程单', 'fa-address-book', '1', menu_id_ , 2 , 'main.owner.query', 0, now(),now());
+
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
+		VALUES('我的待办', 'fa-calculator', '1', menu_id_ , 3 , 'main.owner.todo', 0, now(),now());
+
+		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
+		VALUES('我的已办', 'fa-check', '1', menu_id_ , 4 , 'main.owner.done', 0, now(),now());
+
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`) 
 		VALUES('人员权限管理', 'fa-slideshare', '0', '0', 1 , 'main.idm', 0, now(),now()); 
 		SELECT LAST_INSERT_ID() into menu_id_;
@@ -75,7 +91,6 @@ BEGIN
 		INSERT INTO `pw_id_menu` (`name_`,`icon_`,`type_`,`parent_id_`,`order_`,`route_`,`rev_`,`create_time_`,`last_update_time_`)
 		VALUES('实例管理', 'fa-crop', '1', menu_id_ , 1 , 'main.form.instance', 0, now(),now());
 
-		
 		OPEN menu_cur;  
 		read_loop: LOOP
 		FETCH menu_cur INTO menu_id_;  
