@@ -35,7 +35,7 @@
       data: {pageTitle: ['表单明细查看']},
       templateUrl: 'views/fb-watch.html'
     }).state('work', {
-      url: '/work?formDefinitionId&formLayoutKey&formInstanceId&token',
+      url: '/work?formDefinitionId&formLayoutKey&formInstanceId&disable&token',
       data: {pageTitle: ['表单录入']},
       templateUrl: 'views/fb-work.html'
     })

@@ -4,6 +4,7 @@
   angular.module('builder.controller', []).controller('fbWorkController', ['$scope', '$injector', '$stateParams', '$timeout', 'FormRestService', function ($scope, $injector, $stateParams, $timeout, FormRestService) {
     $scope.workForms = $injector.get('$builder').forms;
     $scope.formData = {};
+    $scope.workForms.disable = false;
 
     FormRestService.getDefinitionJson().success(function (data) {
       angular.forEach(data.fields, function (field) {
@@ -15,35 +16,47 @@
       }, 10);
     });
 
+    if($stateParams.disable){
+      $scope.workForms.disable = true;
+    }
+
     if ($stateParams.formInstanceId != null) {
       FormRestService.getInstance().success(function (data) {
         $scope.formData = data;
       });
 
-      $scope.saveFormData = function () {
+      $scope.saveFormData = function (complete) {
         FormRestService.updateInstance($scope.formData).success(function (data) {
           $scope.showSuccessMsg("保存表单成功")
+          complete(data);
         });
       };
 
     } else {
-      $scope.saveFormData = function () {
+      $scope.saveFormData = function (complete) {
         let postData = {
           'formDefinitionId': $stateParams.formDefinitionId,
           'formData': $scope.formData
         };
 
         FormRestService.createInstance(postData).success(function (data) {
-
+          complete(data);
         });
 
       };
     }
 
+    window.saveFormData = function (complete) {
+      $scope.$apply(function () {
+        $scope.saveFormData(complete);
+      });
+    };
+
+
   }]).controller('fbWatchController', ['$scope', '$injector', '$timeout', '$stateParams', 'FormRestService', function ($scope, $injector, $timeout, $stateParams, FormRestService) {
     $scope.previewForms = $injector.get('$builder').forms;
 
-    if (angular.isDefined($stateParams.modelId)){
+    if (angular.isDefined($stateParams.modelId)) {
       FormRestService.getModelJson().success(function (data) {
         $scope.dealDate(data);
       });
@@ -61,6 +74,23 @@
       $timeout(function () {
         $scope.previewForms.components = $scope.filterGetComponents(angular.fromJson(data.json));
       }, 10);
+    };
+
+    $scope.saveFormData = function () {
+      let postData = {
+        'formDefinitionId': $stateParams.formDefinitionId,
+        'formData': $scope.formData
+      };
+
+      FormRestService.createInstance(postData).success(function (data) {
+
+      });
+    };
+
+    window.saveFormData = function () {
+      $scope.$apply(function () {
+        $scope.saveFormData();
+      });
     };
 
   }]).controller('fbDesignController', ['$scope', '$injector', '$timeout', 'FormRestService', function ($scope, $injector, $timeout, FormRestService) {

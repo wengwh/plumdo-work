@@ -19,7 +19,7 @@
         data: '=ngModel',
         forms: '=fbForm'
       },
-      template: '<div ng-repeat="component in forms.components"><div fb-form-object="component"></div></div>'
+      template: '<fieldset ng-disabled="forms.disable"><div ng-repeat="component in forms.components"><div fb-form-object="component"></div></div></div>'
     };
   }]).directive('fbFormObject', ['$compile', function ($compile) {
     return {
