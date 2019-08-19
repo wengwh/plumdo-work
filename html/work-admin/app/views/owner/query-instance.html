@@ -68,13 +68,12 @@
     </div>
     <div class="content">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
           <span class="property"><label>ID:</label>{{selectedItem.id}}</span>
-          <span class="property"><label>业务标识:</label>{{selectedItem.businessKey}}</span>
           <span class="property"><label>名称:</label>{{selectedItem.processDefinitionName}}</span>
-          <span class="property"><label>开始时间:</label>{{selectedItem.startTime}}</span>
           <span class="property"><label>启动人:</label>{{selectedItem.startUserName}}</span>
           <span class="property"><label>启动节点:</label>{{selectedItem.startActivityId}}</span>
+          <span class="property"><label>开始时间:</label>{{selectedItem.startTime}}</span>
           <div ng-if="selectedItem.endTime != null">
             <span class="property"><label>结束时间:</label>{{selectedItem.endTime}}</span>
             <span class="property"><label>状态:</label>结束</span>
@@ -83,6 +82,9 @@
             <span class="property"><label>状态:</label>{{selectedItem.suspended?'挂起':'激活'}}</span>
           </div>
           <span class="property"><label>删除理由:</label>{{selectedItem.deleteReason}}</span>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-danger btn-block" ng-show="selectedItem.endTime == null" ng-click="deleteInstance(selectedItem)">删除</button>
         </div>
       </div>
     </div>
@@ -101,10 +103,10 @@
       </div>
       <div class="tab-content">
         <div class="tab-pane text-center" ng-class="{'active':active==0}">
-          <iframe ng-src="{{getFormUrl(detailId)}}" width="100%" height="600" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
+          <iframe ng-src="{{getFormUrl(selectedItem.definition.id)}}" width="100%" height="600" frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
         </div>
         <div class="tab-pane text-center" ng-class="{'active':active==1}">
-          <img ng-src="{{getImageUrl(detailId)}}" />
+          <img ng-src="{{getImageUrl(selectedItem.id)}}" />
         </div>
         <div class="tab-pane" ng-class="{'active':active==2}">
           <table ng-table="taskTableOptions" class="table table-striped ng-table">
@@ -127,43 +129,7 @@
     <input type="text" class="form-control" ng-model="formData.name" readonly></input>
   </div>
   <div class="form-group">
-    <label class="control-label">包括历史数据</label>
-    <div>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.cascade" ng-value="true" /> 是
-      </label>
-      <label class="radio-inline">
-        <input ng-icheck type="radio" ng-model="formData.cascade" ng-value="false" ng-checked="true" /> 否
-      </label>
-    </div>
-  </div>
-  <div class="form-group">
     <label class="control-label">删除理由</label>
     <textarea class="form-control" ng-model="formData.deleteReason" rows="3"></textarea>
-  </div>
-</script>
-
-
-<script type="text/ng-template" id="variable-create.html">
-  <div class="form-group">
-    <label class="control-label">变量名称</label>
-    <input type="text" class="form-control" ng-model="formData.name"></input>
-  </div>
-  <div class="form-group">
-    <label class="control-label">变量类型</label>
-    <select class="form-control" ng-model="formData.type" ng-init="formData.type='string'">
-      <option value="string">string</option>
-      <option value="boolean">boolean</option>
-      <option value="date">date</option>
-      <option value="double">double</option>
-      <option value="long">long</option>
-      <option value="integer">integer</option>
-      <option value="short">short</option>
-      <option value="list">list</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label class="control-label">变量值</label>
-    <input type="text" class="form-control" ng-model="formData.value"></input>
   </div>
 </script>

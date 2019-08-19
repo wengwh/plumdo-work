@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp').controller('OwnerQueryTaskController', function ($scope, $stateParams, $q, $sce, $window) {
+  angular.module('adminApp').controller('OwnerTodoTaskController', function ($scope, $stateParams, $q, $sce, $window) {
     $scope.taskService = $scope.FlowService($scope.restUrl.flowTasks);
     $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
@@ -31,7 +31,6 @@
         $scope.getFormKey(response);
       });
     };
-
 
     $scope.getFormKey = function (response) {
       $scope.definitionService.get({

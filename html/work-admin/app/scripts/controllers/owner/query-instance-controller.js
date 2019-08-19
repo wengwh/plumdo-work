@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp').controller('OwnerQueryInstanceController', function ($scope, $stateParams) {
+  angular.module('adminApp').controller('OwnerQueryInstanceController', function ($scope, $stateParams, $sce) {
     $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
     $scope.taskService = $scope.FlowService($scope.restUrl.flowTasks);
@@ -51,7 +51,7 @@
       }, function (response) {
         $scope.selectedItem.definition = response;
       });
-    }
+    };
 
     $scope.getImageUrl = function (id) {
       if (angular.isDefined(id)) {
@@ -62,10 +62,30 @@
 
     $scope.getFormUrl = function (id) {
       if (angular.isDefined(id)) {
-        return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionPreview($scope.selectedItem.definition.category, $scope.selectedItem.definition.formKey, $scope.loginUser.token))
+        return $sce.trustAsResourceUrl($scope.restUrl.formInstancePreview($scope.selectedItem.definition.category, $scope.selectedItem.definition.formKey, $scope.selectedItem.businessKey, $scope.loginUser.token))
       }
       return null;
     };
+
+    $scope.deleteInstance = function (item) {
+      $scope.editConfirmModal({
+        formUrl: 'instance-delete.html',
+        title: '删除流程申请单',
+        formData: {name: item.processDefinitionName},
+        confirm: function (formData, modalInstance) {
+          $scope.instanceService.delete({
+            urlPath: '/' + item.id,
+            params: {deleteReason: formData.deleteReason}
+          }, function () {
+            modalInstance.close();
+            $scope.showSuccessMsg('删除流程申请单成功');
+            $scope.gotoList();
+          });
+
+        }
+      });
+    };
+
 
     $scope.tableOptions = {
       id: 'instance',
@@ -76,7 +96,6 @@
         {name: '流程标识', index: 'processDefinitionId', sortable: true, width: '10%'},
         {name: '开始时间', index: 'startTime', sortable: true, width: '10%'},
         {name: '结束时间', index: 'endTime', sortable: true, width: '10%'},
-        {name: '业务标识', index: 'businessKey', sortable: true, width: '10%'},
         {
           name: '操作', index: '', width: '10%',
           formatter: function () {
@@ -90,17 +109,12 @@
       sortOrder: 'desc'
     };
 
-
     $scope.queryTask = function (id) {
       $scope.taskService.get({
-        params: {processInstanceId: id}
+        params: {processInstanceId: id, sortName: 'startTime', pageNum: 1}
       }, function (response) {
         $scope.queryTaskResult = response.data;
       });
-    };
-
-    $scope.gotoTaskDetail = function (id) {
-      $scope.$state.go('main.flow.task', {id: id});
     };
 
     $scope.taskTableOptions = {
@@ -110,67 +124,10 @@
       colModels: [
         {name: '任务ID', index: 'id'},
         {name: '任务名称', index: 'name'},
+        {name: '任务标识', index: 'taskDefinitionKey'},
         {name: '负责人', index: 'assignee'},
-        {name: '所有人', index: 'owner'},
         {name: '开始时间', index: 'startTime'},
-        {name: '结束时间', index: 'endTime'},
-        {
-          name: '操作', index: '',
-          formatter: function () {
-            return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoTaskDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
-          }
-        }
-      ]
-    };
-
-    $scope.queryVariable = function (id) {
-      $scope.instanceService.get({
-        urlPath: '/' + id + '/variables'
-      }, function (response) {
-        $scope.queryVariableResult = response;
-      });
-    };
-
-    $scope.createVariable = function (id) {
-      $scope.editConfirmModal({
-        formUrl: 'variable-create.html',
-        title: '添加流程变量',
-        confirm: function (formData, modalInstance) {
-          $scope.instanceService.post({
-            urlPath: '/' + id + '/variables',
-            data: formData
-          }, function () {
-            $scope.showSuccessMsg('添加流程变量成功');
-            $scope.queryVariable(id);
-            modalInstance.close();
-          });
-        }
-      });
-    };
-
-    $scope.deleteVariable = function (id, name) {
-      $scope.instanceService.delete({
-        urlPath: '/' + id + '/variables/' + name
-      }, function () {
-        $scope.showSuccessMsg('删除流程变量成功');
-        $scope.queryVariable(id);
-      });
-    };
-
-    $scope.variableTableOptions = {
-      id: 'instanceVariable',
-      data: 'queryVariableResult',
-      isPage: false,
-      colModels: [
-        {name: '变量名称', index: 'name'},
-        {name: '类型', index: 'type'},
-        {name: '变量值', index: 'value'},
-        {
-          name: '操作', index: '',
-          formatter: function () {
-            return '<button type="button" class="btn btn-danger btn-xs" ng-click=deleteVariable(selectedItem.id,row.name) ng-disabled="selectedItem.endTime != null"><i class="fa fa-trash-o"></i>&nbsp;删除</button>';
-          }
-        }
+        {name: '结束时间', index: 'endTime'}
       ]
     };
 
@@ -192,13 +149,7 @@
         {name: '流程标识', index: 'processDefinitionId'},
         {name: '开始时间', index: 'startTime'},
         {name: '结束时间', index: 'endTime'},
-        {name: '业务标识', index: 'businessKey'},
-        {
-          name: '操作', index: '',
-          formatter: function () {
-            return '<button type="button" class="btn btn-info btn-xs" ng-click=gotoDetail(row.id)><i class="fa fa-eye"></i>&nbsp;明细</button>';
-          }
-        }
+        {name: '业务标识', index: 'businessKey'}
       ]
     };
 

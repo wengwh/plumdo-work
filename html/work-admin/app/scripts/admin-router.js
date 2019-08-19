@@ -37,6 +37,14 @@
         url: '/query?:id',
         controller: 'OwnerQueryInstanceController',
         templateUrl: 'views/owner/query-instance.html'
+      }).state('main.owner.todo', {
+        url: '/todo?:id',
+        controller: 'OwnerTodoTaskController',
+        templateUrl: 'views/owner/todo-task.html'
+      }).state('main.owner.done', {
+        url: '/done?:id',
+        controller: 'OwnerDoneTaskController',
+        templateUrl: 'views/owner/done-task.html'
       }).state('main.modeler', {
         url: '/modeler',
         abstract: true,

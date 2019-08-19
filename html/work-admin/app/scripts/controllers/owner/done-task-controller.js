@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp').controller('OwnerQueryTaskController', function ($scope, $stateParams, $q, $sce, $window) {
+  angular.module('adminApp').controller('OwnerDoneTaskController', function ($scope, $stateParams, $q, $sce, $window) {
     $scope.taskService = $scope.FlowService($scope.restUrl.flowTasks);
     $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
@@ -32,7 +32,6 @@
       });
     };
 
-
     $scope.getFormKey = function (response) {
       $scope.definitionService.get({
         urlPath: '/' + response.processDefinitionId
@@ -49,99 +48,16 @@
 
     $scope.queryTask = function () {
       $scope.taskService.get({
-        urlPath: '/todo',
+        urlPath: '/done',
         params: $scope.queryParams
       }, function (response) {
         $scope.queryResult = response;
       });
     };
 
-    $scope.claimTask = function (item) {
-      $scope.confirmModal({
-        title: '确认认领任务',
-        confirm: function () {
-          $scope.taskService.put({
-            urlPath: '/' + item.id + '/claim'
-          }, function () {
-            $scope.showSuccessMsg('认领任务成功');
-            $scope.queryDetail(item.id);
-          });
-        }
-      });
-    };
-
-    $scope.unclaimTask = function (item) {
-      $scope.confirmModal({
-        title: '确认取消认领任务',
-        confirm: function () {
-          $scope.taskService.put({
-            urlPath: '/' + item.id + '/unclaim'
-          }, function () {
-            $scope.showSuccessMsg('取消认领任务成功');
-            $scope.queryDetail(item.id);
-          });
-        }
-      });
-    };
-
-    $scope.assignTask = function (item) {
-      $scope.editTaskUser(item, '转派任务', 'assign');
-    };
-
-    $scope.delegateTask = function (item) {
-      $scope.editTaskUser(item, '委托任务', 'delegate');
-    };
-
-    $scope.editTaskUser = function (item, title, action) {
-      var users = [];
-      var usersPromise = $scope.userService.get({
-        params: {status: 0}
-      }, function (response) {
-        users = response.data;
-      });
-
-      $q.all([usersPromise]).then(function () {
-        console.info(users)
-        $scope.editConfirmModal({
-          formUrl: 'task-user-edit.html',
-          title: title,
-          formData: {name: item.name, users: users},
-          confirm: function (formData, modalInstance) {
-            $scope.taskService.put({
-              urlPath: '/' + item.id + '/' + action + '/' + formData.userId,
-            }, function () {
-              $scope.showSuccessMsg(title + '成功');
-              $scope.queryDetail(item.id);
-              modalInstance.close();
-            });
-          }
-        });
-      });
-    };
-
-    $scope.completeTask = function (item) {
-      $scope.taskService.put({
-        urlPath: '/' + item.id + '/complete'
-      }, function () {
-        $scope.showSuccessMsg('完成任务成功');
-        $scope.gotoList();
-      });
-    };
-
-    $scope.saveFormData = function (item) {
-      $scope.confirmModal({
-        title: '确认提交任务',
-        confirm: function () {
-          $window.frames[0].frameElement.contentWindow.saveFormData(function () {
-            $scope.completeTask(item)
-          });
-        }
-      });
-    }
-
     $scope.getFormUrl = function (definition, instance) {
       if (angular.isDefined(definition) && angular.isDefined(instance)) {
-        return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionWork(definition.category, $scope.selectedItem.formKey, instance.businessKey, $scope.loginUser.token))
+        return $sce.trustAsResourceUrl($scope.restUrl.formInstancePreview(definition.category, $scope.selectedItem.formKey, instance.businessKey, $scope.loginUser.token))
       }
       return null;
     };
@@ -160,15 +76,8 @@
         {name: '任务ID', index: 'id', width: '7%'},
         {name: '任务名称', index: 'name', width: '8%'},
         {name: '流程标识', index: 'processDefinitionId', sortable: true, width: '8%'},
-        {
-          name: '状态', index: 'suspended', width: '11%',
-          formatter: function () {
-            return '<span class="pull-left" ng-if="!row.suspended"><i class="fa fa-circle text-info"></i> 激活</span>' +
-              '<span class="pull-left" ng-if="row.suspended"><i class="fa fa-circle text-danger"></i> 挂起</span>'
-          }
-        },
-        {name: '开始时间', index: 'createTime', sortable: true, width: '10%'},
-        {name: '到期时间', index: 'dueDate', sortable: true, width: '10%'},
+        {name: '开始时间', index: 'startTime', sortable: true, width: '10%'},
+        {name: '完成时间', index: 'endTime', sortable: true, width: '10%'},
         {name: '优先级', index: 'priority', width: '8%'},
         {
           name: '操作', index: '', width: '7%',
@@ -179,7 +88,7 @@
       ],
       loadFunction: $scope.queryTask,
       queryParams: $scope.queryParams,
-      sortName: 'createTime',
+      sortName: 'endTime',
       sortOrder: 'desc'
     };
 

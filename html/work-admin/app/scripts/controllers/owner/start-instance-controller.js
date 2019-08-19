@@ -7,8 +7,9 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp').controller('OwnerStartInstanceController', function ($scope, $stateParams, $sce) {
+  angular.module('adminApp').controller('OwnerStartInstanceController', function ($scope, $stateParams, $sce, $window) {
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
+    $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.detailId = $stateParams.id || '0';
 
     $scope.queryParams = $scope.detailId === '0' ? $scope.getCacheParams() : {};
@@ -44,10 +45,26 @@
 
     $scope.getFormUrl = function (id) {
       if (angular.isDefined(id)) {
-          return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionPreview($scope.selectedItem.category, $scope.selectedItem.formKey, $scope.loginUser.token))
+        return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionWork($scope.selectedItem.category, $scope.selectedItem.formKey, null, $scope.loginUser.token))
       }
       return null;
     };
+
+    $scope.createInstance = function (businessKey) {
+      $scope.instanceService.post({
+        data: {businessKey: businessKey, processDefinitionId: $scope.selectedItem.id}
+      }, function () {
+        $scope.showSuccessMsg('流程单申请成功');
+        $scope.gotoList();
+      });
+    };
+
+    $scope.saveFormData = function () {
+      $window.frames[0].frameElement.contentWindow.saveFormData(function (data) {
+        $scope.createInstance(data.id)
+      });
+    }
+
 
     if ($scope.detailId !== '0') {
       $scope.queryDetail($scope.detailId);
