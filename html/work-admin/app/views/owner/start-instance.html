@@ -22,28 +22,32 @@
     </div>
   </div>
 
-  <ul class="image-thumbnails">
-    <li ng-repeat="item in queryResult.data">
-      <a href="{{getImageUrl(item.id)}}" title="{{item.name}}" data-rel="colorbox" colorbox>
-        <img ng-src="{{getImageUrl(item.id)}}"/>
-        <div class="tags tags-top">
-        <span class="label-holder">
-          <span class="badge">v{{item.version}}</span>
-        </span>
-        </div>
-        <div class="tags">
-        <span class="label-holder">
-          <span class="label label-info"><i class="fa fa-sitemap"></i> {{item.name}} - {{item.key}}</span>
-        </span>
-        </div>
-      </a>
-      <div class="tools tools-top">
-        <a href="" ng-click="gotoDetail(item.id)">
-          <i class="fa fa-edit">发起申请</i>
-        </a>
-      </div>
-    </li>
-  </ul>
+  <div class="row">
+    <div class="col-lg-3 col-sm-6" ng-repeat="item in queryResult.data">
+      <ul class="image-thumbnails">
+        <li class="card card-image">
+          <a href="{{getImageUrl(item.id)}}" title="{{item.name}}" data-rel="colorbox" colorbox>
+            <img class="img-responsive" ng-src="{{getImageUrl(item.id)}}"/>
+            <div class="tags tags-top">
+              <span class="label-holder">
+                <span class="badge">v{{item.version}}</span>
+              </span>
+            </div>
+            <div class="tags">
+              <span class="label-holder">
+                <span class="label label-info"><i class="fa fa-sitemap"></i> {{item.name}} - {{item.key}}</span>
+              </span>
+            </div>
+          </a>
+          <div class="tools tools-top">
+            <a href="" ng-click="gotoDetail(item.id)">
+              发起申请
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <div class="container-fluid" ng-if="detailId!=0">

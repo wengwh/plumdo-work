@@ -8,9 +8,6 @@
     display: block;
     position: relative;
     overflow: hidden;
-    margin-right: 20px;
-    margin-bottom: 10px;
-    border: 1px solid #999;
     background-color: #ffffff;
     > :first-child {
       display: block;
@@ -20,7 +17,7 @@
       outline: none;
     }
     img {
-      width: 341px;
+      width: 100%;
       height: 150px;
     }
     .tags {
