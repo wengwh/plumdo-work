@@ -50,6 +50,10 @@
       return null;
     };
 
+    angular.element($window.frames[0]).bind('load', function() {
+      console.info('1');
+    });
+
     $scope.createInstance = function (businessKey) {
       $scope.instanceService.post({
         data: {businessKey: businessKey, processDefinitionId: $scope.selectedItem.id}

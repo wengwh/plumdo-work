@@ -118,18 +118,14 @@
       <h4 class="title">流程表单</h4>
     </div>
     <div class="content">
-      <iframe ng-src="{{getFormUrl(selectedItem.definition,selectedItem.instance)}}" width="100%" height="600"
-              frameborder="no" border="0" marginwidth="0" marginheight="0"></iframe>
-
+      <iframe ng-src="{{getFormUrl(selectedItem.definition,selectedItem.instance)}}" iframe-onload></iframe>
       <hr>
       <div class="footer text-center">
         <button type="button" class="btn btn-default" ng-click="gotoList()">取消</button>
         <button type="button" class="btn btn-success" ng-click="saveFormData(selectedItem)" ng-disabled="selectedItem.assignee == null">提交</button>
       </div>
     </div>
-
   </div>
-
 </div>
 
 <script type="text/ng-template" id="task-user-edit.html">
