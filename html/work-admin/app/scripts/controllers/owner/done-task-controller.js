@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  angular.module('adminApp').controller('OwnerDoneTaskController', function ($scope, $stateParams, $q, $sce, $window) {
+  angular.module('adminApp').controller('OwnerDoneTaskController', function ($scope, $stateParams, $q, $sce) {
     $scope.taskService = $scope.FlowService($scope.restUrl.flowTasks);
     $scope.instanceService = $scope.FlowService($scope.restUrl.flowInstances);
     $scope.definitionService = $scope.FlowService($scope.restUrl.flowDefinitions);
@@ -57,7 +57,7 @@
 
     $scope.getFormUrl = function (definition, instance) {
       if (angular.isDefined(definition) && angular.isDefined(instance)) {
-        return $sce.trustAsResourceUrl($scope.restUrl.formInstancePreview(definition.category, $scope.selectedItem.formKey, instance.businessKey, $scope.loginUser.token))
+        return $sce.trustAsResourceUrl($scope.restUrl.formInstancePreview(definition.category, $scope.selectedItem.formKey, instance.businessKey, $scope.loginUser.token));
       }
       return null;
     };

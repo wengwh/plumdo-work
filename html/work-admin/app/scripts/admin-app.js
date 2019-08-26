@@ -129,7 +129,7 @@
           if ($scope.fileOptions && !$scope.fileOptions.fileuploaded) {
             $scope.fileOptions.fileuploaded = function (query, result) {
               args.confirm(result.response, $uibModalInstance);
-            }
+            };
           }
         }
       });
@@ -175,13 +175,13 @@
       }, 1000);
     };
 
-
+    /*jslint bitwise: true */
     $rootScope.guid = function () {
       var d = new Date().getTime();
       var uuid = 'xxxx-xxxx-4xxx-yxxx-xxxx'.replace(/[xy]/g, function (c) {
         var r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d / 16);
-        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
       return uuid;
     };

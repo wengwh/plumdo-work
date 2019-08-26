@@ -49,7 +49,7 @@
         // return 'http://localhost:9001/form/#/work?disable=true&formDefinitionId=' + formDefinitionId + '&formLayoutKey=' + formLayoutKey + '&token=' + token + '&formInstanceId=' + formInstanceId;
       },
       formDefinitionWork: function (formDefinitionId, formLayoutKey, formInstanceId, token) {
-        if (formInstanceId != null) {
+        if (formInstanceId !== null) {
           return 'http://work.plumdo.com/form-modeler/#/work?formDefinitionId=' + formDefinitionId + '&formLayoutKey=' + formLayoutKey + '&token=' + token + '&formInstanceId=' + formInstanceId;
         } else {
           return 'http://work.plumdo.com/form-modeler/#/work?formDefinitionId=' + formDefinitionId + '&formLayoutKey=' + formLayoutKey + '&token=' + token;

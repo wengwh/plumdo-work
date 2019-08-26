@@ -45,14 +45,10 @@
 
     $scope.getFormUrl = function (id) {
       if (angular.isDefined(id)) {
-        return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionWork($scope.selectedItem.category, $scope.selectedItem.formKey, null, $scope.loginUser.token))
+        return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionWork($scope.selectedItem.category, $scope.selectedItem.formKey, null, $scope.loginUser.token));
       }
       return null;
     };
-
-    angular.element($window.frames[0]).bind('load', function() {
-      console.info('1');
-    });
 
     $scope.createInstance = function (businessKey) {
       $scope.instanceService.post({
@@ -65,10 +61,9 @@
 
     $scope.saveFormData = function () {
       $window.frames[0].frameElement.contentWindow.saveFormData(function (data) {
-        $scope.createInstance(data.id)
+        $scope.createInstance(data.id);
       });
-    }
-
+    };
 
     if ($scope.detailId !== '0') {
       $scope.queryDetail($scope.detailId);

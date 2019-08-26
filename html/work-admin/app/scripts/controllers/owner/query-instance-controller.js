@@ -62,7 +62,7 @@
 
     $scope.getFormUrl = function (id) {
       if (angular.isDefined(id)) {
-        return $sce.trustAsResourceUrl($scope.restUrl.formInstancePreview($scope.selectedItem.definition.category, $scope.selectedItem.definition.formKey, $scope.selectedItem.businessKey, $scope.loginUser.token))
+        return $sce.trustAsResourceUrl($scope.restUrl.formInstancePreview($scope.selectedItem.definition.category, $scope.selectedItem.definition.formKey, $scope.selectedItem.businessKey, $scope.loginUser.token));
       }
       return null;
     };

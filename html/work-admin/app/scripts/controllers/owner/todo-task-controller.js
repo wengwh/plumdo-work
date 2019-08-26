@@ -100,7 +100,6 @@
       });
 
       $q.all([usersPromise]).then(function () {
-        console.info(users)
         $scope.editConfirmModal({
           formUrl: 'task-user-edit.html',
           title: title,
@@ -132,15 +131,15 @@
         title: '确认提交任务',
         confirm: function () {
           $window.frames[0].frameElement.contentWindow.saveFormData(function () {
-            $scope.completeTask(item)
+            $scope.completeTask(item);
           });
         }
       });
-    }
+    };
 
     $scope.getFormUrl = function (definition, instance) {
       if (angular.isDefined(definition) && angular.isDefined(instance)) {
-        return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionWork(definition.category, $scope.selectedItem.formKey, instance.businessKey, $scope.loginUser.token))
+        return $sce.trustAsResourceUrl($scope.restUrl.formDefinitionWork(definition.category, $scope.selectedItem.formKey, instance.businessKey, $scope.loginUser.token));
       }
       return null;
     };
@@ -163,7 +162,7 @@
           name: '状态', index: 'suspended', width: '11%',
           formatter: function () {
             return '<span class="pull-left" ng-if="!row.suspended"><i class="fa fa-circle text-info"></i> 激活</span>' +
-              '<span class="pull-left" ng-if="row.suspended"><i class="fa fa-circle text-danger"></i> 挂起</span>'
+              '<span class="pull-left" ng-if="row.suspended"><i class="fa fa-circle text-danger"></i> 挂起</span>';
           }
         },
         {name: '开始时间', index: 'createTime', sortable: true, width: '10%'},
