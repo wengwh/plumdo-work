@@ -13,6 +13,7 @@
 
     <properties>
         <jsonwebtoken.version>0.5.1</jsonwebtoken.version>
+        <guava.version>[24.1.1,)</guava.version>
     </properties>
 
     <dependencies>
@@ -41,7 +42,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>18.0</version>
+            <version>${guava.version}</version>
         </dependency>
 
 
